@@ -10,3 +10,42 @@ sources in this repository; see `_site.yml` for the site configuration.
 
 Rendered files are written to `docs/`. GitHub Pages should be configured to
 deploy from the `master` branch and `/docs` folder.
+
+## Prerequisites
+
+Rendering the full site requires R plus the packages used by the website and
+exercise pages:
+
+```r
+install.packages(c(
+  "rmarkdown",
+  "knitr",
+  "dplyr",
+  "stringr",
+  "htmltools",
+  "lattice",
+  "vioplot",
+  "scales"
+))
+```
+
+The `exercises.Rmd` build also renders PDF versions of the exercises, so a LaTeX
+installation is required. If LaTeX is not already installed, the smallest usual
+setup from R is:
+
+```r
+install.packages("tinytex")
+tinytex::install_tinytex()
+```
+
+The optional ggplot solution page uses additional packages:
+
+```r
+install.packages(c("ggplot2", "gridExtra", "GGally"))
+```
+
+Build the site from the repository root with:
+
+```r
+rmarkdown::render_site()
+```

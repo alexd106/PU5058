@@ -8,3 +8,5 @@ The site hosts the practical exercises, exercise solutions, data files and how-t
 videos for the course. It is built with `rmarkdown::render_site()` from the `.Rmd`
 sources in this repository; see `_site.yml` for the site configuration.
 
+Rendered files are written to `docs/`. GitHub Pages should be configured to
+deploy from the `master` branch and `/docs` folder.

@@ -1,5 +1,5 @@
 name: "PU5058"
-output_dir: "."
+output_dir: "docs"
 navbar:
   title: "PU5058"
   icon: fa-home
@@ -60,4 +60,5 @@ output:
     #  - https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css
     #  - styles.css
 
-exclude: ["LICENSE", "README.md", "*.Rproj", "*.key", "*.psd"]
+include: [".nojekyll", "data/*", "exercises/*.pdf", "exercise_solutions/*.R"]
+exclude: ["LICENSE", "README.md", "*.Rproj", "*.key", "*.psd", "rmd_archive"]

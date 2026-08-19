@@ -47,9 +47,7 @@ ex_text <- c(": Getting to know R and RStudio", ": Basic R operations",
              ": Visualising data using base R and lattice graphics",
              ": Basic programming in R (optional)")
 
-file_name <- list.files('.') %>%
-  sort %>% 
-  grep("exercise_[0-9].html", . , value=TRUE)
+file_name <- paste0("exercise_", 1:5, ".html")
 
 link_name <- file_name %>%
   gsub("\\.html", "", .) %>%
@@ -81,4 +79,3 @@ rmarkdown::render("graphical_data_exploration_exercise.Rmd", output_format = "pd
 \  
 
 [pdf version of exercises](exercise_pdf.html)
-

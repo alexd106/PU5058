@@ -1,0 +1,17 @@
+# R project, history, etc.
+.Rproj.user
+.Rhistory
+.RData
+.Rprofile
+# knitr caches and files.
+*_cache/
+# OSX Stuff
+.gitconfig.local
+.DS_Store*
+.Trashes
+.DS_Store
+# R markdown stuff
+*.log
+course_end_message
+course_welcome_message
+Intro_and_questions

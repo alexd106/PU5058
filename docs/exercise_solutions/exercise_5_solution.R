@@ -30,8 +30,6 @@ table(cardiac$Fsmoking, cardiac$Fsex)
 # ex-smokers, most of the women have never smoked. The smallest cell has 15
 # patients, which is small but not unusable.
 
-xtabs(~ Fsmoking + Fsex, data = cardiac)
-
 # and don't forget the 7 patients with no smoking status recorded
 table(cardiac$Fsmoking, cardiac$Fsex, useNA = "ifany")
 

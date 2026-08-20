@@ -40,9 +40,7 @@ cardiac$sex <- factor(cardiac$sex, levels = c(1, 2), labels = c("Female", "Male"
 1\. In addition to extracting rows and columns from your dataframe by position you can also use conditional statements to select particular rows based on some logical criteria. This is very useful but takes a bit of practice to get used to (see [Section 3.4.2](https://intro2r.com/wrangling-data-frames.html#logical-indexes) for an introduction). Extract rows from your dataframe (all columns by default) based on the following criteria (note: you will need to assign the results of these statements to appropriately named variables, I'll leave it up to you to use informative names!). Remember that `smoking` is coded 1 for current smokers, 2 for ex-smokers and 3 for those who have never smoked:  
 
 - systolic blood pressure greater than 160 mmHg
-- diastolic blood pressure greater than 90 mmHg
 - patients who have never smoked
-- female patients who are current smokers
 - male patients who have never smoked and whose diastolic pressure is greater than the median diastolic pressure (76 mmHg)
 - all patients with a bmi between 25 and 30 and a triglyceride between 1 and 2 mmol/l
 - all patients who are not ex-smokers
@@ -50,11 +48,7 @@ cardiac$sex <- factor(cardiac$sex, levels = c(1, 2), labels = c("Female", "Male"
 ```{r Q1, echo=SOLUTIONS, tidy = TRUE}
 cardiac.sys160 <- cardiac[cardiac$systolic > 160, ]
 
-cardiac.dia90 <- cardiac[cardiac$diastolic > 90, ]
-
 cardiac.never <- cardiac[cardiac$smoking == 3, ]
-
-cardiac.f.current <- cardiac[cardiac$smoking == 1 & cardiac$sex == "Female", ]
 
 cardiac.subset <- cardiac[cardiac$sex == "Male" & cardiac$smoking == 3 & cardiac$diastolic > 76, ]
 
@@ -185,20 +179,17 @@ tapply(cardiac$tchol, list(cardiac$smoking, cardiac$sex), median, na.rm = TRUE)
 
 \  
 
-9\. Another useful function for summarising dataframes is `aggregate()`. Search in the R book for the function aggregate to see how to use this function (or see `?aggregate`). Use the `aggregate()` function to calculate the mean age, systolic pressure, diastolic pressure and total cholesterol for each smoking category (don't forget about those sneaky NA values). Next calculate the same means for each smoking category and each sex. (Optional): For an extra bonus point see if you can figure out how to modify your previous code to display the mean values to 2 decimal places rather than the default of 3 decimal places.
+9\. Another useful function for summarising dataframes is `aggregate()`. Search in the R book for the function aggregate to see how to use this function (or see `?aggregate`). Use the `aggregate()` function to calculate the mean age, systolic pressure, diastolic pressure and total cholesterol for each smoking category (don't forget about those sneaky NA values). Next calculate the same means for each smoking category and each sex.
 
 ```{r Q9, echo=SOLUTIONS, tidy = TRUE}
 aggregate(cardiac[, c(2, 4, 5, 6)], by = list(smoking = cardiac$smoking), mean, na.rm = TRUE)
 
 aggregate(cardiac[, c(2, 4, 5, 6)], by = list(smoking = cardiac$smoking, sex = cardiac$sex), mean, na.rm = TRUE)
-
-# optional question. Need to specify a function 'on the fly' using function(x){}
-aggregate(cardiac[, c(2, 4, 5, 6)], by = list(smoking = cardiac$smoking, sex = cardiac$sex), function(x){round(mean(x, na.rm = TRUE), digits = 2)})
 ```
 
 \  
 
-10\. Knowing how many observations are present for each category (or combinations of categories) is useful to determine whether you have an adequate sample size (for subsequent modelling for example). Use the `table()` function to determine the number of patients in each smoking category (see [Section 3.5](https://intro2r.com/summarising-data-frames.html#summarising-data-frames) again for more information). Next use the same function to display the number of patients for each combination of smoking category and sex. Does `table()` tell you about the patients whose smoking status is missing? (Optional): The `xtabs()` function is very flexible for creating tables of counts for factor combinations (aka contingency tables). Take a look at the Introduction to R book, the help file or Google to figure out how to use the `xtabs()` function to replicate your use of the `table()` function.       
+10\. Knowing how many observations are present for each category (or combinations of categories) is useful to determine whether you have an adequate sample size (for subsequent modelling for example). Use the `table()` function to determine the number of patients in each smoking category (see [Section 3.5](https://intro2r.com/summarising-data-frames.html#summarising-data-frames) again for more information). Next use the same function to display the number of patients for each combination of smoking category and sex. Does `table()` tell you about the patients whose smoking status is missing?
 
 ```{r Q10, echo=SOLUTIONS}
 # using table
@@ -208,10 +199,6 @@ table(cardiac$smoking, cardiac$sex)
 # by default table() silently drops the missing values - 50 + 52 + 54 = 156,
 # not 163. Ask for them explicitly:
 table(cardiac$smoking, useNA = "ifany")
-
-# using xtabs
-xtabs(~ smoking, data = cardiac)
-xtabs(~ sex + smoking, data = cardiac)
 ```
 
 \  

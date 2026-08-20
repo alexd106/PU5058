@@ -10,11 +10,7 @@ cardiac$sex <- factor(cardiac$sex, levels = c(1, 2), labels = c("Female", "Male"
 ## ----Q1, echo=SOLUTIONS, tidy = TRUE------------------------------------------
 cardiac.sys160 <- cardiac[cardiac$systolic > 160, ]
 
-cardiac.dia90 <- cardiac[cardiac$diastolic > 90, ]
-
 cardiac.never <- cardiac[cardiac$smoking == 3, ]
-
-cardiac.f.current <- cardiac[cardiac$smoking == 1 & cardiac$sex == "Female", ]
 
 cardiac.subset <- cardiac[cardiac$sex == "Male" & cardiac$smoking == 3 & cardiac$diastolic > 76, ]
 
@@ -114,9 +110,6 @@ aggregate(cardiac[, c(2, 4, 5, 6)], by = list(smoking = cardiac$smoking), mean, 
 
 aggregate(cardiac[, c(2, 4, 5, 6)], by = list(smoking = cardiac$smoking, sex = cardiac$sex), mean, na.rm = TRUE)
 
-# optional question. Need to specify a function 'on the fly' using function(x){}
-aggregate(cardiac[, c(2, 4, 5, 6)], by = list(smoking = cardiac$smoking, sex = cardiac$sex), function(x){round(mean(x, na.rm = TRUE), digits = 2)})
-
 
 ## ----Q10, echo=SOLUTIONS------------------------------------------------------
 # using table
@@ -126,10 +119,6 @@ table(cardiac$smoking, cardiac$sex)
 # by default table() silently drops the missing values - 50 + 52 + 54 = 156,
 # not 163. Ask for them explicitly:
 table(cardiac$smoking, useNA = "ifany")
-
-# using xtabs
-xtabs(~ smoking, data = cardiac)
-xtabs(~ sex + smoking, data = cardiac)
 
 
 ## ----Q11, echo=SOLUTIONS, tidy = TRUE-----------------------------------------

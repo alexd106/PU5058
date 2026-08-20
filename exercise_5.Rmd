@@ -58,7 +58,7 @@ str(cardiac)
 
 \  
 
-5\. How many patients are there in each combination of smoking status and sex (hint: remember the `table()` or `xtabs()` functions?)? Don't forget to use the factor recoded versions of these variables. Is the split between the smoking categories similar for women and men? Are any of the combinations small enough to worry about if you wanted to compare them?
+5\. How many patients are there in each combination of smoking status and sex (hint: remember the `table()` function?)? Don't forget to use the factor recoded versions of these variables. Is the split between the smoking categories similar for women and men? Are any of the combinations small enough to worry about if you wanted to compare them?
 
 ```{r Q5, echo=SOLUTIONS}
 table(cardiac$Fsmoking, cardiac$Fsex)
@@ -71,8 +71,6 @@ table(cardiac$Fsmoking, cardiac$Fsex)
 # the pattern is almost reversed between the sexes: most of the men are
 # ex-smokers, most of the women have never smoked. The smallest cell has 15
 # patients, which is small but not unusable.
-
-xtabs(~ Fsmoking + Fsex, data = cardiac)
 
 # and don't forget the 7 patients with no smoking status recorded
 table(cardiac$Fsmoking, cardiac$Fsex, useNA = "ifany")

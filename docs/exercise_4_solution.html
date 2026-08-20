@@ -513,9 +513,7 @@ that <code>smoking</code> is coded 1 for current smokers, 2 for
 ex-smokers and 3 for those who have never smoked:</p>
 <ul>
 <li>systolic blood pressure greater than 160 mmHg</li>
-<li>diastolic blood pressure greater than 90 mmHg</li>
 <li>patients who have never smoked</li>
-<li>female patients who are current smokers</li>
 <li>male patients who have never smoked and whose diastolic pressure is
 greater than the median diastolic pressure (76 mmHg)</li>
 <li>all patients with a bmi between 25 and 30 and a triglyceride between
@@ -524,19 +522,15 @@ greater than the median diastolic pressure (76 mmHg)</li>
 </ul>
 <div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" tabindex="-1"></a>cardiac.sys160 <span class="ot">&lt;-</span> cardiac[cardiac<span class="sc">$</span>systolic <span class="sc">&gt;</span> <span class="dv">160</span>, ]</span>
 <span id="cb2-2"><a href="#cb2-2" tabindex="-1"></a></span>
-<span id="cb2-3"><a href="#cb2-3" tabindex="-1"></a>cardiac.dia90 <span class="ot">&lt;-</span> cardiac[cardiac<span class="sc">$</span>diastolic <span class="sc">&gt;</span> <span class="dv">90</span>, ]</span>
+<span id="cb2-3"><a href="#cb2-3" tabindex="-1"></a>cardiac.never <span class="ot">&lt;-</span> cardiac[cardiac<span class="sc">$</span>smoking <span class="sc">==</span> <span class="dv">3</span>, ]</span>
 <span id="cb2-4"><a href="#cb2-4" tabindex="-1"></a></span>
-<span id="cb2-5"><a href="#cb2-5" tabindex="-1"></a>cardiac.never <span class="ot">&lt;-</span> cardiac[cardiac<span class="sc">$</span>smoking <span class="sc">==</span> <span class="dv">3</span>, ]</span>
-<span id="cb2-6"><a href="#cb2-6" tabindex="-1"></a></span>
-<span id="cb2-7"><a href="#cb2-7" tabindex="-1"></a>cardiac.f.current <span class="ot">&lt;-</span> cardiac[cardiac<span class="sc">$</span>smoking <span class="sc">==</span> <span class="dv">1</span> <span class="sc">&amp;</span> cardiac<span class="sc">$</span>sex <span class="sc">==</span> <span class="st">&quot;Female&quot;</span>, ]</span>
-<span id="cb2-8"><a href="#cb2-8" tabindex="-1"></a></span>
-<span id="cb2-9"><a href="#cb2-9" tabindex="-1"></a>cardiac.subset <span class="ot">&lt;-</span> cardiac[cardiac<span class="sc">$</span>sex <span class="sc">==</span> <span class="st">&quot;Male&quot;</span> <span class="sc">&amp;</span> cardiac<span class="sc">$</span>smoking <span class="sc">==</span> <span class="dv">3</span> <span class="sc">&amp;</span> cardiac<span class="sc">$</span>diastolic <span class="sc">&gt;</span></span>
-<span id="cb2-10"><a href="#cb2-10" tabindex="-1"></a>    <span class="dv">76</span>, ]</span>
-<span id="cb2-11"><a href="#cb2-11" tabindex="-1"></a></span>
-<span id="cb2-12"><a href="#cb2-12" tabindex="-1"></a>cardiac.bmi.trig <span class="ot">&lt;-</span> cardiac[cardiac<span class="sc">$</span>bmi <span class="sc">&gt;</span> <span class="dv">25</span> <span class="sc">&amp;</span> cardiac<span class="sc">$</span>bmi <span class="sc">&lt;</span> <span class="dv">30</span> <span class="sc">&amp;</span> cardiac<span class="sc">$</span>triglyceride <span class="sc">&gt;</span></span>
-<span id="cb2-13"><a href="#cb2-13" tabindex="-1"></a>    <span class="dv">1</span> <span class="sc">&amp;</span> cardiac<span class="sc">$</span>triglyceride <span class="sc">&lt;</span> <span class="dv">2</span>, ]</span>
-<span id="cb2-14"><a href="#cb2-14" tabindex="-1"></a></span>
-<span id="cb2-15"><a href="#cb2-15" tabindex="-1"></a>cardiac.notex <span class="ot">&lt;-</span> cardiac[cardiac<span class="sc">$</span>smoking <span class="sc">!=</span> <span class="dv">2</span>, ]</span></code></pre></div>
+<span id="cb2-5"><a href="#cb2-5" tabindex="-1"></a>cardiac.subset <span class="ot">&lt;-</span> cardiac[cardiac<span class="sc">$</span>sex <span class="sc">==</span> <span class="st">&quot;Male&quot;</span> <span class="sc">&amp;</span> cardiac<span class="sc">$</span>smoking <span class="sc">==</span> <span class="dv">3</span> <span class="sc">&amp;</span> cardiac<span class="sc">$</span>diastolic <span class="sc">&gt;</span></span>
+<span id="cb2-6"><a href="#cb2-6" tabindex="-1"></a>    <span class="dv">76</span>, ]</span>
+<span id="cb2-7"><a href="#cb2-7" tabindex="-1"></a></span>
+<span id="cb2-8"><a href="#cb2-8" tabindex="-1"></a>cardiac.bmi.trig <span class="ot">&lt;-</span> cardiac[cardiac<span class="sc">$</span>bmi <span class="sc">&gt;</span> <span class="dv">25</span> <span class="sc">&amp;</span> cardiac<span class="sc">$</span>bmi <span class="sc">&lt;</span> <span class="dv">30</span> <span class="sc">&amp;</span> cardiac<span class="sc">$</span>triglyceride <span class="sc">&gt;</span></span>
+<span id="cb2-9"><a href="#cb2-9" tabindex="-1"></a>    <span class="dv">1</span> <span class="sc">&amp;</span> cardiac<span class="sc">$</span>triglyceride <span class="sc">&lt;</span> <span class="dv">2</span>, ]</span>
+<span id="cb2-10"><a href="#cb2-10" tabindex="-1"></a></span>
+<span id="cb2-11"><a href="#cb2-11" tabindex="-1"></a>cardiac.notex <span class="ot">&lt;-</span> cardiac[cardiac<span class="sc">$</span>smoking <span class="sc">!=</span> <span class="dv">2</span>, ]</span></code></pre></div>
 <p> </p>
 <p>2. A really neat feature of extracting rows based on conditional
 statements is that you can include R functions within the statement
@@ -689,20 +683,11 @@ aggregate to see how to use this function (or see
 calculate the mean age, systolic pressure, diastolic pressure and total
 cholesterol for each smoking category (don’t forget about those sneaky
 NA values). Next calculate the same means for each smoking category and
-each sex. (Optional): For an extra bonus point see if you can figure out
-how to modify your previous code to display the mean values to 2 decimal
-places rather than the default of 3 decimal places.</p>
+each sex.</p>
 <div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" tabindex="-1"></a><span class="fu">aggregate</span>(cardiac[, <span class="fu">c</span>(<span class="dv">2</span>, <span class="dv">4</span>, <span class="dv">5</span>, <span class="dv">6</span>)], <span class="at">by =</span> <span class="fu">list</span>(<span class="at">smoking =</span> cardiac<span class="sc">$</span>smoking), mean, <span class="at">na.rm =</span> <span class="cn">TRUE</span>)</span>
 <span id="cb11-2"><a href="#cb11-2" tabindex="-1"></a></span>
 <span id="cb11-3"><a href="#cb11-3" tabindex="-1"></a><span class="fu">aggregate</span>(cardiac[, <span class="fu">c</span>(<span class="dv">2</span>, <span class="dv">4</span>, <span class="dv">5</span>, <span class="dv">6</span>)], <span class="at">by =</span> <span class="fu">list</span>(<span class="at">smoking =</span> cardiac<span class="sc">$</span>smoking, <span class="at">sex =</span> cardiac<span class="sc">$</span>sex),</span>
-<span id="cb11-4"><a href="#cb11-4" tabindex="-1"></a>    mean, <span class="at">na.rm =</span> <span class="cn">TRUE</span>)</span>
-<span id="cb11-5"><a href="#cb11-5" tabindex="-1"></a></span>
-<span id="cb11-6"><a href="#cb11-6" tabindex="-1"></a><span class="co"># optional question. Need to specify a function &#39;on the fly&#39; using</span></span>
-<span id="cb11-7"><a href="#cb11-7" tabindex="-1"></a><span class="co"># function(x){}</span></span>
-<span id="cb11-8"><a href="#cb11-8" tabindex="-1"></a><span class="fu">aggregate</span>(cardiac[, <span class="fu">c</span>(<span class="dv">2</span>, <span class="dv">4</span>, <span class="dv">5</span>, <span class="dv">6</span>)], <span class="at">by =</span> <span class="fu">list</span>(<span class="at">smoking =</span> cardiac<span class="sc">$</span>smoking, <span class="at">sex =</span> cardiac<span class="sc">$</span>sex),</span>
-<span id="cb11-9"><a href="#cb11-9" tabindex="-1"></a>    <span class="cf">function</span>(x) {</span>
-<span id="cb11-10"><a href="#cb11-10" tabindex="-1"></a>        <span class="fu">round</span>(<span class="fu">mean</span>(x, <span class="at">na.rm =</span> <span class="cn">TRUE</span>), <span class="at">digits =</span> <span class="dv">2</span>)</span>
-<span id="cb11-11"><a href="#cb11-11" tabindex="-1"></a>    })</span></code></pre></div>
+<span id="cb11-4"><a href="#cb11-4" tabindex="-1"></a>    mean, <span class="at">na.rm =</span> <span class="cn">TRUE</span>)</span></code></pre></div>
 <p> </p>
 <p>10. Knowing how many observations are present for each category (or
 combinations of categories) is useful to determine whether you have an
@@ -713,22 +698,14 @@ href="https://intro2r.com/summarising-data-frames.html#summarising-data-frames">
 3.5</a> again for more information). Next use the same function to
 display the number of patients for each combination of smoking category
 and sex. Does <code>table()</code> tell you about the patients whose
-smoking status is missing? (Optional): The <code>xtabs()</code> function
-is very flexible for creating tables of counts for factor combinations
-(aka contingency tables). Take a look at the Introduction to R book, the
-help file or Google to figure out how to use the <code>xtabs()</code>
-function to replicate your use of the <code>table()</code> function.</p>
+smoking status is missing?</p>
 <div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" tabindex="-1"></a><span class="co"># using table</span></span>
 <span id="cb12-2"><a href="#cb12-2" tabindex="-1"></a><span class="fu">table</span>(cardiac<span class="sc">$</span>smoking)</span>
 <span id="cb12-3"><a href="#cb12-3" tabindex="-1"></a><span class="fu">table</span>(cardiac<span class="sc">$</span>smoking, cardiac<span class="sc">$</span>sex)</span>
 <span id="cb12-4"><a href="#cb12-4" tabindex="-1"></a></span>
 <span id="cb12-5"><a href="#cb12-5" tabindex="-1"></a><span class="co"># by default table() silently drops the missing values - 50 + 52 + 54 = 156,</span></span>
 <span id="cb12-6"><a href="#cb12-6" tabindex="-1"></a><span class="co"># not 163. Ask for them explicitly:</span></span>
-<span id="cb12-7"><a href="#cb12-7" tabindex="-1"></a><span class="fu">table</span>(cardiac<span class="sc">$</span>smoking, <span class="at">useNA =</span> <span class="st">&quot;ifany&quot;</span>)</span>
-<span id="cb12-8"><a href="#cb12-8" tabindex="-1"></a></span>
-<span id="cb12-9"><a href="#cb12-9" tabindex="-1"></a><span class="co"># using xtabs</span></span>
-<span id="cb12-10"><a href="#cb12-10" tabindex="-1"></a><span class="fu">xtabs</span>(<span class="sc">~</span> smoking, <span class="at">data =</span> cardiac)</span>
-<span id="cb12-11"><a href="#cb12-11" tabindex="-1"></a><span class="fu">xtabs</span>(<span class="sc">~</span> sex <span class="sc">+</span> smoking, <span class="at">data =</span> cardiac)</span></code></pre></div>
+<span id="cb12-7"><a href="#cb12-7" tabindex="-1"></a><span class="fu">table</span>(cardiac<span class="sc">$</span>smoking, <span class="at">useNA =</span> <span class="st">&quot;ifany&quot;</span>)</span></code></pre></div>
 <p> </p>
 <p>11. Real analyses almost never involve a single file. The
 measurements you want are usually spread across several tables and you

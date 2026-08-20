@@ -542,11 +542,11 @@ your boxplots will come out as nonsense.</p>
 <span id="cb1-17"><a href="#cb1-17" tabindex="-1"></a><span class="co">#  $ Fsmoking: Factor w/ 3 levels &quot;Current&quot;,&quot;Ex&quot;,..: NA NA NA NA NA NA NA 1 1 1 ...</span></span></code></pre></div>
 <p> </p>
 <p>5. How many patients are there in each combination of smoking status
-and sex (hint: remember the <code>table()</code> or <code>xtabs()</code>
-functions?)? Don’t forget to use the factor recoded versions of these
-variables. Is the split between the smoking categories similar for women
-and men? Are any of the combinations small enough to worry about if you
-wanted to compare them?</p>
+and sex (hint: remember the <code>table()</code> function?)? Don’t
+forget to use the factor recoded versions of these variables. Is the
+split between the smoking categories similar for women and men? Are any
+of the combinations small enough to worry about if you wanted to compare
+them?</p>
 <div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" tabindex="-1"></a><span class="fu">table</span>(cardiac<span class="sc">$</span>Fsmoking, cardiac<span class="sc">$</span>Fsex)</span>
 <span id="cb2-2"><a href="#cb2-2" tabindex="-1"></a></span>
 <span id="cb2-3"><a href="#cb2-3" tabindex="-1"></a>  <span class="co">#           Female Male</span></span>
@@ -558,10 +558,8 @@ wanted to compare them?</p>
 <span id="cb2-9"><a href="#cb2-9" tabindex="-1"></a><span class="co"># ex-smokers, most of the women have never smoked. The smallest cell has 15</span></span>
 <span id="cb2-10"><a href="#cb2-10" tabindex="-1"></a><span class="co"># patients, which is small but not unusable.</span></span>
 <span id="cb2-11"><a href="#cb2-11" tabindex="-1"></a></span>
-<span id="cb2-12"><a href="#cb2-12" tabindex="-1"></a><span class="fu">xtabs</span>(<span class="sc">~</span> Fsmoking <span class="sc">+</span> Fsex, <span class="at">data =</span> cardiac)</span>
-<span id="cb2-13"><a href="#cb2-13" tabindex="-1"></a></span>
-<span id="cb2-14"><a href="#cb2-14" tabindex="-1"></a><span class="co"># and don&#39;t forget the 7 patients with no smoking status recorded</span></span>
-<span id="cb2-15"><a href="#cb2-15" tabindex="-1"></a><span class="fu">table</span>(cardiac<span class="sc">$</span>Fsmoking, cardiac<span class="sc">$</span>Fsex, <span class="at">useNA =</span> <span class="st">&quot;ifany&quot;</span>)</span></code></pre></div>
+<span id="cb2-12"><a href="#cb2-12" tabindex="-1"></a><span class="co"># and don&#39;t forget the 7 patients with no smoking status recorded</span></span>
+<span id="cb2-13"><a href="#cb2-13" tabindex="-1"></a><span class="fu">table</span>(cardiac<span class="sc">$</span>Fsmoking, cardiac<span class="sc">$</span>Fsex, <span class="at">useNA =</span> <span class="st">&quot;ifany&quot;</span>)</span></code></pre></div>
 <p> </p>
 <p>6. The humble cleveland dotplot is a great way of identifying if you
 have potential outliers in continuous variables (see <a

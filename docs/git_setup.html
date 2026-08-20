@@ -1,0 +1,816 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+
+
+
+<title>Setting up Git and GitHub</title>
+
+<script src="site_libs/header-attrs-2.30/header-attrs.js"></script>
+<script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/flatly.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<style>h1 {font-size: 34px;}
+       h1.title {font-size: 38px;}
+       h2 {font-size: 30px;}
+       h3 {font-size: 24px;}
+       h4 {font-size: 18px;}
+       h5 {font-size: 16px;}
+       h6 {font-size: 12px;}
+       code {color: inherit; background-color: rgba(0, 0, 0, 0.04);}
+       pre:not([class]) { background-color: white }</style>
+<script src="site_libs/jqueryui-1.13.2/jquery-ui.min.js"></script>
+<link href="site_libs/tocify-1.9.1/jquery.tocify.css" rel="stylesheet" />
+<script src="site_libs/tocify-1.9.1/jquery.tocify.js"></script>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<link href="site_libs/font-awesome-6.5.2/css/all.min.css" rel="stylesheet" />
+<link href="site_libs/font-awesome-6.5.2/css/v4-shims.min.css" rel="stylesheet" />
+
+<style type="text/css">
+  code{white-space: pre-wrap;}
+  span.smallcaps{font-variant: small-caps;}
+  span.underline{text-decoration: underline;}
+  div.column{display: inline-block; vertical-align: top; width: 50%;}
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+  ul.task-list{list-style: none;}
+    </style>
+
+
+
+<style type="text/css">
+  code {
+    white-space: pre;
+  }
+  .sourceCode {
+    overflow: visible;
+  }
+</style>
+<style type="text/css" data-origin="pandoc">
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {  background-color: #f8f8f8; }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ef2929; } /* Alert */
+code span.an { color: #8f5902; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #204a87; } /* Attribute */
+code span.bn { color: #0000cf; } /* BaseN */
+code span.cf { color: #204a87; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4e9a06; } /* Char */
+code span.cn { color: #8f5902; } /* Constant */
+code span.co { color: #8f5902; font-style: italic; } /* Comment */
+code span.cv { color: #8f5902; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #8f5902; font-weight: bold; font-style: italic; } /* Documentation */
+code span.dt { color: #204a87; } /* DataType */
+code span.dv { color: #0000cf; } /* DecVal */
+code span.er { color: #a40000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #0000cf; } /* Float */
+code span.fu { color: #204a87; font-weight: bold; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #8f5902; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #204a87; font-weight: bold; } /* Keyword */
+code span.op { color: #ce5c00; font-weight: bold; } /* Operator */
+code span.ot { color: #8f5902; } /* Other */
+code span.pp { color: #8f5902; font-style: italic; } /* Preprocessor */
+code span.sc { color: #ce5c00; font-weight: bold; } /* SpecialChar */
+code span.ss { color: #4e9a06; } /* SpecialString */
+code span.st { color: #4e9a06; } /* String */
+code span.va { color: #000000; } /* Variable */
+code span.vs { color: #4e9a06; } /* VerbatimString */
+code span.wa { color: #8f5902; font-weight: bold; font-style: italic; } /* Warning */
+
+</style>
+<script>
+// apply pandoc div.sourceCode style to pre.sourceCode instead
+(function() {
+  var sheets = document.styleSheets;
+  for (var i = 0; i < sheets.length; i++) {
+    if (sheets[i].ownerNode.dataset["origin"] !== "pandoc") continue;
+    try { var rules = sheets[i].cssRules; } catch (e) { continue; }
+    var j = 0;
+    while (j < rules.length) {
+      var rule = rules[j];
+      // check if there is a div.sourceCode rule
+      if (rule.type !== rule.STYLE_RULE || rule.selectorText !== "div.sourceCode") {
+        j++;
+        continue;
+      }
+      var style = rule.style.cssText;
+      // check if color or background-color is set
+      if (rule.style.color === '' && rule.style.backgroundColor === '') {
+        j++;
+        continue;
+      }
+      // replace div.sourceCode by a pre.sourceCode rule
+      sheets[i].deleteRule(j);
+      sheets[i].insertRule('pre.sourceCode{' + style + '}', j);
+    }
+  }
+})();
+</script>
+
+
+
+
+
+
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+img {
+  max-width:100%;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+.html-widget {
+  margin-bottom: 20px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+summary {
+  display: list-item;
+}
+details > summary > p:only-child {
+  display: inline;
+}
+pre code {
+  padding: 0;
+}
+</style>
+
+
+<style type="text/css">
+.dropdown-submenu {
+  position: relative;
+}
+.dropdown-submenu>.dropdown-menu {
+  top: 0;
+  left: 100%;
+  margin-top: -6px;
+  margin-left: -1px;
+  border-radius: 0 6px 6px 6px;
+}
+.dropdown-submenu:hover>.dropdown-menu {
+  display: block;
+}
+.dropdown-submenu>a:after {
+  display: block;
+  content: " ";
+  float: right;
+  width: 0;
+  height: 0;
+  border-color: transparent;
+  border-style: solid;
+  border-width: 5px 0 5px 5px;
+  border-left-color: #cccccc;
+  margin-top: 5px;
+  margin-right: -10px;
+}
+.dropdown-submenu:hover>a:after {
+  border-left-color: #adb5bd;
+}
+.dropdown-submenu.pull-left {
+  float: none;
+}
+.dropdown-submenu.pull-left>.dropdown-menu {
+  left: -100%;
+  margin-left: 10px;
+  border-radius: 6px 0 6px 6px;
+}
+</style>
+
+<script type="text/javascript">
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark the anchor link active (and if it's in a dropdown, also mark that active)
+  var dropdown = menuAnchor.closest('li.dropdown');
+  if (window.bootstrap) { // Bootstrap 4+
+    menuAnchor.addClass('active');
+    dropdown.find('> .dropdown-toggle').addClass('active');
+  } else { // Bootstrap 3
+    menuAnchor.parent().addClass('active');
+    dropdown.addClass('active');
+  }
+
+  // Navbar adjustments
+  var navHeight = $(".navbar").first().height() + 15;
+  var style = document.createElement('style');
+  var pt = "padding-top: " + navHeight + "px; ";
+  var mt = "margin-top: -" + navHeight + "px; ";
+  var css = "";
+  // offset scroll position for anchor links (for fixed navbar)
+  for (var i = 1; i <= 6; i++) {
+    css += ".section h" + i + "{ " + pt + mt + "}\n";
+  }
+  style.innerHTML = "body {" + pt + "padding-bottom: 40px; }\n" + css;
+  document.head.appendChild(style);
+});
+</script>
+
+<!-- tabsets -->
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before, .tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "\e259";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "\e258";
+  font-family: 'Glyphicons Halflings';
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+  background-color: transparent;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
+
+<!-- code folding -->
+
+
+
+<style type="text/css">
+
+#TOC {
+  margin: 25px 0px 20px 0px;
+}
+@media (max-width: 768px) {
+#TOC {
+  position: relative;
+  width: 100%;
+}
+}
+
+@media print {
+.toc-content {
+  /* see https://github.com/w3c/csswg-drafts/issues/4434 */
+  float: right;
+}
+}
+
+.toc-content {
+  padding-left: 30px;
+  padding-right: 40px;
+}
+
+div.main-container {
+  max-width: 1200px;
+}
+
+div.tocify {
+  width: 20%;
+  max-width: 260px;
+  max-height: 85%;
+}
+
+@media (min-width: 768px) and (max-width: 991px) {
+  div.tocify {
+    width: 25%;
+  }
+}
+
+@media (max-width: 767px) {
+  div.tocify {
+    width: 100%;
+    max-width: none;
+  }
+}
+
+.tocify ul, .tocify li {
+  line-height: 20px;
+}
+
+.tocify-subheader .tocify-item {
+  font-size: 0.90em;
+}
+
+.tocify .list-group-item {
+  border-radius: 0px;
+}
+
+.tocify-subheader {
+  display: inline;
+}
+.tocify-subheader .tocify-item {
+  font-size: 0.95em;
+}
+
+</style>
+
+
+
+</head>
+
+<body>
+
+
+<div class="container-fluid main-container">
+
+
+<!-- setup 3col/9col grid for toc_float and main content  -->
+<div class="row">
+<div class="col-xs-12 col-sm-4 col-md-3">
+<div id="TOC" class="tocify">
+</div>
+</div>
+
+<div class="toc-content col-xs-12 col-sm-8 col-md-9">
+
+
+
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-bs-toggle="collapse" data-target="#navbar" data-bs-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html">PU5058</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li>
+  <a href="index.html">
+    <span class="fa fa-home"></span>
+     
+    Home
+  </a>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    <span class="fa fa-cog"></span>
+     
+    Setup
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="setup.html">
+        <span class="fa fa-cog"></span>
+         
+        R and RStudio
+      </a>
+    </li>
+    <li class="divider"></li>
+    <li>
+      <a href="git_setup.html">
+        <span class="fa fa-github"></span>
+         
+        Git and GitHub (for Exercise 8)
+      </a>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    <span class="fa fa-desktop"></span>
+     
+    Learn
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="howto.html">
+        <span class="fa fa-tv"></span>
+         
+        How-to
+      </a>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    <span class="fa fa-book"></span>
+     
+    R Book
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="https://intro2r.com">
+        <span class="fa fa-firefox"></span>
+         
+        Web book
+      </a>
+    </li>
+    <li class="divider"></li>
+    <li>
+      <a href="https://github.com/alexd106/Rbook/raw/master/docs/Rbook.pdf">
+        <span class="fa fa-file-pdf"></span>
+         
+        PDF book
+      </a>
+    </li>
+  </ul>
+</li>
+<li>
+  <a href="exercises.html">
+    <span class="fa fa-book"></span>
+     
+    Exercises
+  </a>
+</li>
+<li>
+  <a href="exercise_solutions.html">
+    <span class="fa fa-book"></span>
+     
+    Exercise Solutions
+  </a>
+</li>
+<li>
+  <a href="data.html">
+    <span class="fa fa-download"></span>
+     
+    Data
+  </a>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    <span class="fa fa-question-circle"></span>
+     
+    Info
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="resources.html">
+        <span class="fa fa-book"></span>
+         
+        Resources
+      </a>
+    </li>
+    <li>
+      <a href="https://github.com/alexd106/PU5058">
+        <span class="fa fa-github fa-lg"></span>
+         
+        Source code
+      </a>
+    </li>
+  </ul>
+</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<div id="header">
+
+
+
+<h1 class="title toc-ignore">Setting up Git and GitHub</h1>
+
+</div>
+
+
+<p> </p>
+<div id="before-you-start" class="section level2">
+<h2>Before you start</h2>
+<p><strong>You do not need this at the start of the course.</strong> It
+is needed for Exercise 8, and there is no advantage in doing it earlier;
+the access token you create in Step 5 has a limited life, so setting it
+up months in advance only means renewing it sooner.</p>
+<p> </p>
+<p>This page gets your computer talking to GitHub. It takes about half
+an hour and it is fiddly the first time, which is why we ask you to do
+it <strong>before</strong> the Exercise 8 practical rather than during
+it.</p>
+<p>Please work through it beforehand. If you hit a real problem, bring
+it to the start of the session and we will help you, but we cannot get
+everybody set up and still have time to teach anything, so do try
+first.</p>
+<p>You only ever do this once per computer.</p>
+<p> </p>
+</div>
+<div id="step-1-install-git" class="section level2">
+<h2>Step 1: Install Git</h2>
+<p>Git is a separate program from R and RStudio, and you need it
+installed before RStudio can use it. There is a fuller version of these
+instructions in <a href="https://intro2r.com/install-git.html">Appendix
+B</a> of the Introduction to R book.</p>
+<p><strong>Windows.</strong> Download <a
+href="https://gitforwindows.org/">Git for Windows</a> and run the
+installer. There are a lot of screens and you can accept every default
+on all of them. The installer also adds a program called Git Bash, which
+we will not use on this course but which does no harm.</p>
+<p><strong>macOS.</strong> The simplest route is to let your Mac install
+it for you. Open the Terminal application (press Cmd+Space, type
+<code>Terminal</code>, press Enter), type <code>git --version</code> and
+press Enter. If Git is not installed, macOS will offer to install the
+command line developer tools; accept, and wait for it to finish. This is
+the only time on this course you will need the Terminal. If you would
+rather use an installer, there is one at <a
+href="https://git-scm.com/download/mac">git-scm.com</a>.</p>
+<p><strong>Linux.</strong> Git is often installed already. Check with
+<code>git --version</code>. If not, use your package manager:
+<code>sudo apt install git</code> on Debian or Ubuntu,
+<code>sudo dnf install git</code> on Fedora.</p>
+<p> </p>
+</div>
+<div id="step-2-create-a-github-account" class="section level2">
+<h2>Step 2: Create a GitHub account</h2>
+<p>Git runs on your computer. GitHub is a website that stores copies of
+your work and is what makes it a backup rather than just a filing
+system.</p>
+<p>Sign up for a free account at <a
+href="https://github.com/join">github.com/join</a>. You need a username,
+an email address and a strong password. Choose a username you would be
+happy for a future employer to see: quite a lot of people put their
+GitHub profile on a CV.</p>
+<p>Two-factor authentication is a good idea and takes about five minutes
+to set up with an authenticator app on your phone. It is
+<strong>not</strong> required for what we are doing, so do not let it
+hold you up now. You can add it later from your GitHub account
+settings.</p>
+<p> </p>
+</div>
+<div id="step-3-tell-rstudio-where-git-is" class="section level2">
+<h2>Step 3: Tell RStudio where Git is</h2>
+<p>Open RStudio and go to <code>Tools</code> -&gt;
+<code>Global Options</code> -&gt; <code>Git/SVN</code>.</p>
+<p>Check that <strong>‘Enable version control interface for RStudio
+projects’</strong> is ticked, and that the <strong>‘Git
+executable’</strong> box has a sensible path in it. On Windows this
+usually ends in <code>git.exe</code>, on macOS and Linux in
+<code>git</code>.</p>
+<p>If the box is empty, click <code>Browse...</code> and find the
+program you installed in Step 1. Restart RStudio afterwards.</p>
+<p> </p>
+</div>
+<div id="step-4-tell-git-who-you-are" class="section level2">
+<h2>Step 4: Tell Git who you are</h2>
+<p>Git labels every change you make with a name and an email address, so
+you need to give it those once.</p>
+<p>You may have seen this done in a terminal. We will use the
+<code>usethis</code> package instead, so that everything happens in the
+R console you already know. Install it first if you have not
+already:</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" tabindex="-1"></a><span class="fu">install.packages</span>(<span class="st">&quot;usethis&quot;</span>)</span></code></pre></div>
+<p>Then:</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" tabindex="-1"></a><span class="fu">library</span>(usethis)</span>
+<span id="cb2-2"><a href="#cb2-2" tabindex="-1"></a></span>
+<span id="cb2-3"><a href="#cb2-3" tabindex="-1"></a><span class="fu">use_git_config</span>(<span class="at">user.name =</span> <span class="st">&quot;Your Name&quot;</span>, <span class="at">user.email =</span> <span class="st">&quot;you@example.com&quot;</span>)</span></code></pre></div>
+<p>Use the same email address you signed up to GitHub with. The name is
+what will appear against your changes, so use your real one.</p>
+<p>While you are here, set the default name for the main line of work in
+new projects:</p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" tabindex="-1"></a><span class="fu">use_git_config</span>(<span class="at">init.defaultBranch =</span> <span class="st">&quot;main&quot;</span>)</span></code></pre></div>
+<p>GitHub has called this <code>main</code> since 2020. Git itself still
+uses the older name <code>master</code> unless you tell it otherwise,
+and the mismatch causes confusing errors later. You will meet both names
+in the wild.</p>
+<p> </p>
+</div>
+<div id="step-5-create-a-personal-access-token" class="section level2">
+<h2>Step 5: Create a personal access token</h2>
+<p>This is the step people get stuck on, so read it carefully. <a
+href="https://intro2r.com/setup_git.html#github-auth">Section 9.4.5</a>
+of the Introduction to R book covers the same ground.</p>
+<p>When you send your work to GitHub, it needs to know it is really you.
+GitHub <strong>stopped accepting your account password for this in
+2021</strong>. Instead you use a <em>personal access token</em>, which
+is a long string of characters that works like a password for one
+computer, and which you can cancel without changing anything else about
+your account.</p>
+<p>Run:</p>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" tabindex="-1"></a><span class="fu">create_github_token</span>()</span></code></pre></div>
+<p>This opens GitHub in your web browser with a form already filled in
+with the right permissions. Before you click the green <strong>Generate
+token</strong> button at the bottom, change two things:</p>
+<ol style="list-style-type: decimal">
+<li><p><strong>Note</strong>: replace whatever is there with something
+that will still mean something to you in six months, such as
+<code>PU5058 laptop</code>.</p></li>
+<li><p><strong>Expiration</strong>: click the dropdown and choose
+<code>Custom</code>, then pick a date about six months from now. GitHub
+suggests 30 days by default. Thirty days is better security practice,
+but it means your token stops working part way through this course,
+probably during the assessment. We are deliberately trading a little
+security for not being locked out at the worst moment. When you finish
+this course, go back to shorter-lived tokens.</p></li>
+</ol>
+<p>Now click <strong>Generate token</strong>. GitHub shows you the token
+exactly once, on a green background. Copy it now. If you navigate away
+without copying it, you cannot get it back and will have to make another
+one, which is annoying but harmless.</p>
+<p> </p>
+</div>
+<div id="step-6-store-the-token" class="section level2">
+<h2>Step 6: Store the token</h2>
+<p>Give the token to your computer’s password store so you never have to
+type it again:</p>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" tabindex="-1"></a>gitcreds<span class="sc">::</span><span class="fu">gitcreds_set</span>()</span></code></pre></div>
+<p>Paste the token when prompted and press Enter. (You already have
+<code>gitcreds</code> installed: <code>usethis</code> depends on
+it.)</p>
+<p> </p>
+</div>
+<div id="step-7-check-it-all-worked" class="section level2">
+<h2>Step 7: Check it all worked</h2>
+<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" tabindex="-1"></a><span class="fu">git_sitrep</span>()</span></code></pre></div>
+<p><code>git_sitrep()</code> is short for ‘Git situation report’. It
+prints everything about your setup in one go: which Git you have, the
+name and email you set in Step 4, and whether it can find and use your
+token.</p>
+<p>Read the output even though nothing has gone wrong. Knowing what it
+looks like when things are healthy is exactly what makes it useful when
+they are not. The lines to check are your name and email, and a line
+confirming a personal access token was found.</p>
+<p>If anything looks wrong, go back to the step that set it. If you
+cannot see what is wrong, bring the <code>git_sitrep()</code> output to
+the session and we will look at it together.</p>
+<p> </p>
+</div>
+<div id="when-your-token-expires" class="section level2">
+<h2>When your token expires</h2>
+<p>Your token will expire eventually. This is normal and nothing is lost
+when it happens.</p>
+<p>The symptom is that pushing or pulling, which worked perfectly well
+last week, suddenly fails with a message about authentication. The fix
+is to repeat Steps 5 and 6:</p>
+<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" tabindex="-1"></a><span class="fu">create_github_token</span>()      <span class="co"># generate a fresh one</span></span>
+<span id="cb7-2"><a href="#cb7-2" tabindex="-1"></a>gitcreds<span class="sc">::</span><span class="fu">gitcreds_set</span>()   <span class="co"># it will offer to replace the old one - say yes</span></span>
+<span id="cb7-3"><a href="#cb7-3" tabindex="-1"></a><span class="fu">git_sitrep</span>()               <span class="co"># check</span></span></code></pre></div>
+<p>Your work is on your computer and on GitHub throughout. An expired
+token is a five minute annoyance, not a disaster.</p>
+<p> </p>
+</div>
+<div id="where-to-go-if-you-are-stuck" class="section level2">
+<h2>Where to go if you are stuck</h2>
+<p>The standard reference for R users is <a
+href="https://happygitwithr.com">Happy Git and GitHub for the useR</a>,
+which covers everything on this page in far more detail, including what
+to do when the usual routes fail.</p>
+</div>
+
+
+
+</div>
+</div>
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.odd').parent('tbody').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- tabsets -->
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open');
+  });
+});
+</script>
+
+<!-- code folding -->
+
+<script>
+$(document).ready(function ()  {
+
+    // temporarily add toc-ignore selector to headers for the consistency with Pandoc
+    $('.unlisted.unnumbered').addClass('toc-ignore')
+
+    // move toc-ignore selectors from section div to header
+    $('div.section.toc-ignore')
+        .removeClass('toc-ignore')
+        .children('h1,h2,h3,h4,h5').addClass('toc-ignore');
+
+    // establish options
+    var options = {
+      selectors: "h1,h2",
+      theme: "bootstrap3",
+      context: '.toc-content',
+      hashGenerator: function (text) {
+        return text.replace(/[.\\/?&!#<>]/g, '').replace(/\s/g, '_');
+      },
+      ignoreSelector: ".toc-ignore",
+      scrollTo: 0
+    };
+    options.showAndHide = false;
+    options.smoothScroll = true;
+
+    // tocify
+    var toc = $("#TOC").tocify(options).data("toc-tocify");
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>

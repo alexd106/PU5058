@@ -2,6 +2,7 @@
 show_text12 <- TRUE    # ex 1 and 2
 show_text34 <- TRUE    # ex 3 and 4
 show_text56 <- TRUE    # ex 5 and 6
+show_text78 <- TRUE    # ex 7 and 8
 show_text_prog <- TRUE    # optional programming exercise
 
 # Change to TRUE to show lectures

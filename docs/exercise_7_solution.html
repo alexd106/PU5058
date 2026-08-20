@@ -1,0 +1,880 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+
+
+
+<title>Exercises</title>
+
+<script src="site_libs/header-attrs-2.30/header-attrs.js"></script>
+<script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/flatly.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<style>h1 {font-size: 34px;}
+       h1.title {font-size: 38px;}
+       h2 {font-size: 30px;}
+       h3 {font-size: 24px;}
+       h4 {font-size: 18px;}
+       h5 {font-size: 16px;}
+       h6 {font-size: 12px;}
+       code {color: inherit; background-color: rgba(0, 0, 0, 0.04);}
+       pre:not([class]) { background-color: white }</style>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<script src="site_libs/navigation-1.1/codefolding.js"></script>
+<link href="site_libs/font-awesome-6.5.2/css/all.min.css" rel="stylesheet" />
+<link href="site_libs/font-awesome-6.5.2/css/v4-shims.min.css" rel="stylesheet" />
+
+<style type="text/css">
+  code{white-space: pre-wrap;}
+  span.smallcaps{font-variant: small-caps;}
+  span.underline{text-decoration: underline;}
+  div.column{display: inline-block; vertical-align: top; width: 50%;}
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+  ul.task-list{list-style: none;}
+    </style>
+
+
+
+<style type="text/css">
+  code {
+    white-space: pre;
+  }
+  .sourceCode {
+    overflow: visible;
+  }
+</style>
+<style type="text/css" data-origin="pandoc">
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {  background-color: #f8f8f8; }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ef2929; } /* Alert */
+code span.an { color: #8f5902; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #204a87; } /* Attribute */
+code span.bn { color: #0000cf; } /* BaseN */
+code span.cf { color: #204a87; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4e9a06; } /* Char */
+code span.cn { color: #8f5902; } /* Constant */
+code span.co { color: #8f5902; font-style: italic; } /* Comment */
+code span.cv { color: #8f5902; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #8f5902; font-weight: bold; font-style: italic; } /* Documentation */
+code span.dt { color: #204a87; } /* DataType */
+code span.dv { color: #0000cf; } /* DecVal */
+code span.er { color: #a40000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #0000cf; } /* Float */
+code span.fu { color: #204a87; font-weight: bold; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #8f5902; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #204a87; font-weight: bold; } /* Keyword */
+code span.op { color: #ce5c00; font-weight: bold; } /* Operator */
+code span.ot { color: #8f5902; } /* Other */
+code span.pp { color: #8f5902; font-style: italic; } /* Preprocessor */
+code span.sc { color: #ce5c00; font-weight: bold; } /* SpecialChar */
+code span.ss { color: #4e9a06; } /* SpecialString */
+code span.st { color: #4e9a06; } /* String */
+code span.va { color: #000000; } /* Variable */
+code span.vs { color: #4e9a06; } /* VerbatimString */
+code span.wa { color: #8f5902; font-weight: bold; font-style: italic; } /* Warning */
+
+.sourceCode .row {
+  width: 100%;
+}
+.sourceCode {
+  overflow-x: auto;
+}
+.code-folding-btn {
+  margin-right: -30px;
+}
+</style>
+<script>
+// apply pandoc div.sourceCode style to pre.sourceCode instead
+(function() {
+  var sheets = document.styleSheets;
+  for (var i = 0; i < sheets.length; i++) {
+    if (sheets[i].ownerNode.dataset["origin"] !== "pandoc") continue;
+    try { var rules = sheets[i].cssRules; } catch (e) { continue; }
+    var j = 0;
+    while (j < rules.length) {
+      var rule = rules[j];
+      // check if there is a div.sourceCode rule
+      if (rule.type !== rule.STYLE_RULE || rule.selectorText !== "div.sourceCode") {
+        j++;
+        continue;
+      }
+      var style = rule.style.cssText;
+      // check if color or background-color is set
+      if (rule.style.color === '' && rule.style.backgroundColor === '') {
+        j++;
+        continue;
+      }
+      // replace div.sourceCode by a pre.sourceCode rule
+      sheets[i].deleteRule(j);
+      sheets[i].insertRule('pre.sourceCode{' + style + '}', j);
+    }
+  }
+})();
+</script>
+
+
+
+
+
+
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+img {
+  max-width:100%;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+.html-widget {
+  margin-bottom: 20px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+summary {
+  display: list-item;
+}
+details > summary > p:only-child {
+  display: inline;
+}
+pre code {
+  padding: 0;
+}
+</style>
+
+
+<style type="text/css">
+.dropdown-submenu {
+  position: relative;
+}
+.dropdown-submenu>.dropdown-menu {
+  top: 0;
+  left: 100%;
+  margin-top: -6px;
+  margin-left: -1px;
+  border-radius: 0 6px 6px 6px;
+}
+.dropdown-submenu:hover>.dropdown-menu {
+  display: block;
+}
+.dropdown-submenu>a:after {
+  display: block;
+  content: " ";
+  float: right;
+  width: 0;
+  height: 0;
+  border-color: transparent;
+  border-style: solid;
+  border-width: 5px 0 5px 5px;
+  border-left-color: #cccccc;
+  margin-top: 5px;
+  margin-right: -10px;
+}
+.dropdown-submenu:hover>a:after {
+  border-left-color: #adb5bd;
+}
+.dropdown-submenu.pull-left {
+  float: none;
+}
+.dropdown-submenu.pull-left>.dropdown-menu {
+  left: -100%;
+  margin-left: 10px;
+  border-radius: 6px 0 6px 6px;
+}
+</style>
+
+<script type="text/javascript">
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark the anchor link active (and if it's in a dropdown, also mark that active)
+  var dropdown = menuAnchor.closest('li.dropdown');
+  if (window.bootstrap) { // Bootstrap 4+
+    menuAnchor.addClass('active');
+    dropdown.find('> .dropdown-toggle').addClass('active');
+  } else { // Bootstrap 3
+    menuAnchor.parent().addClass('active');
+    dropdown.addClass('active');
+  }
+
+  // Navbar adjustments
+  var navHeight = $(".navbar").first().height() + 15;
+  var style = document.createElement('style');
+  var pt = "padding-top: " + navHeight + "px; ";
+  var mt = "margin-top: -" + navHeight + "px; ";
+  var css = "";
+  // offset scroll position for anchor links (for fixed navbar)
+  for (var i = 1; i <= 6; i++) {
+    css += ".section h" + i + "{ " + pt + mt + "}\n";
+  }
+  style.innerHTML = "body {" + pt + "padding-bottom: 40px; }\n" + css;
+  document.head.appendChild(style);
+});
+</script>
+
+<!-- tabsets -->
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before, .tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "\e259";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "\e258";
+  font-family: 'Glyphicons Halflings';
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+  background-color: transparent;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
+
+<!-- code folding -->
+<style type="text/css">
+.code-folding-btn { margin-bottom: 4px; }
+</style>
+
+
+
+
+</head>
+
+<body>
+
+
+<div class="container-fluid main-container">
+
+
+
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-bs-toggle="collapse" data-target="#navbar" data-bs-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html">PU5058</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li>
+  <a href="index.html">
+    <span class="fa fa-home"></span>
+     
+    Home
+  </a>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    <span class="fa fa-cog"></span>
+     
+    Setup
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="setup.html">
+        <span class="fa fa-cog"></span>
+         
+        R and RStudio
+      </a>
+    </li>
+    <li class="divider"></li>
+    <li>
+      <a href="git_setup.html">
+        <span class="fa fa-github"></span>
+         
+        Git and GitHub (for Exercise 8)
+      </a>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    <span class="fa fa-desktop"></span>
+     
+    Learn
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="howto.html">
+        <span class="fa fa-tv"></span>
+         
+        How-to
+      </a>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    <span class="fa fa-book"></span>
+     
+    R Book
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="https://intro2r.com">
+        <span class="fa fa-firefox"></span>
+         
+        Web book
+      </a>
+    </li>
+    <li class="divider"></li>
+    <li>
+      <a href="https://github.com/alexd106/Rbook/raw/master/docs/Rbook.pdf">
+        <span class="fa fa-file-pdf"></span>
+         
+        PDF book
+      </a>
+    </li>
+  </ul>
+</li>
+<li>
+  <a href="exercises.html">
+    <span class="fa fa-book"></span>
+     
+    Exercises
+  </a>
+</li>
+<li>
+  <a href="exercise_solutions.html">
+    <span class="fa fa-book"></span>
+     
+    Exercise Solutions
+  </a>
+</li>
+<li>
+  <a href="data.html">
+    <span class="fa fa-download"></span>
+     
+    Data
+  </a>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    <span class="fa fa-question-circle"></span>
+     
+    Info
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="resources.html">
+        <span class="fa fa-book"></span>
+         
+        Resources
+      </a>
+    </li>
+    <li>
+      <a href="https://github.com/alexd106/PU5058">
+        <span class="fa fa-github fa-lg"></span>
+         
+        Source code
+      </a>
+    </li>
+  </ul>
+</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<div id="header">
+
+<div class="btn-group pull-right float-right">
+<button type="button" class="btn btn-default btn-xs btn-secondary btn-sm dropdown-toggle" data-toggle="dropdown" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span>Code</span> <span class="caret"></span></button>
+<ul class="dropdown-menu dropdown-menu-right" style="min-width: 50px;">
+<li><a id="rmd-show-all-code" href="#">Show All Code</a></li>
+<li><a id="rmd-hide-all-code" href="#">Hide All Code</a></li>
+</ul>
+</div>
+
+
+
+<h1 class="title toc-ignore">Exercises</h1>
+
+</div>
+
+
+<p> </p>
+<div id="exercise-7-reproducible-reports-with-r-markdown"
+class="section level2">
+<h2>Exercise 7: Reproducible reports with R markdown</h2>
+<p> </p>
+<p>Read <a href="https://intro2r.com/rmarkdown_r.html">Chapter 8</a> to
+help you complete the questions in this exercise.</p>
+<p> </p>
+<p><strong>Before the session.</strong> You need the
+<code>rmarkdown</code> and <code>knitr</code> packages. Both normally
+come with RStudio, but please check before you arrive by running
+<code>library(rmarkdown)</code> and <code>library(knitr)</code> in the
+console. If either gives an error, install it with
+<code>install.packages("rmarkdown")</code>. See <a
+href="https://intro2r.com/install-rm.html">Appendix A</a> of the
+Introduction to R book if you need more detail. If you run into real
+problems we will help you at the start of the session, but please try
+beforehand so we do not lose teaching time to installing software.</p>
+<p> </p>
+<p>Everything you have produced so far has been code, and code is
+written for you. This exercise is about producing a <em>document</em>,
+written for somebody else, in which the code, the results and the
+writing all live in the same file and cannot drift apart. That is what
+‘reproducible’ means: change the data, press one button, and every
+number, figure and table in the document updates itself.</p>
+<p>You will build <strong>one document</strong> across the whole
+exercise, adding a layer at each question. Do not start a new file each
+time. By the end you will have a short report on the cardiac data and a
+template you can reuse. There is a lot of new vocabulary here, so take
+it slowly and knit often: knitting after every small change is the
+quickest way to see what each thing does, and the quickest way to find
+out which change broke something.</p>
+<p> </p>
+<p>1. Open the RStudio Project you have been using for this course.
+Create a new R markdown document by going to <code>File</code> -&gt;
+<code>New File</code> -&gt; <code>R Markdown...</code>.</p>
+<p>The first time you do this, RStudio may tell you it needs to install
+some packages. Let it, and wait for it to finish.</p>
+<p>In the dialogue box that appears, type
+<code>Cardiac study report</code> in the Title box, put your name in the
+Author box, make sure <strong>HTML</strong> is selected on the left, and
+click OK. RStudio opens a new document that is already full of example
+content about cars. That is normal; we will delete it in a moment.</p>
+<p>Before you change anything at all, save the file into your Project
+directory as <code>cardiac_report.Rmd</code> (<code>File</code> -&gt;
+<code>Save As...</code>), then click the <strong>Knit</strong> button at
+the top of the editor. You can also press Ctrl+Shift+K, or Cmd+Shift+K
+on a Mac.</p>
+<p>Do this before you understand any of it. If a document appears, your
+setup works, and anything that goes wrong later is something you did
+rather than something that was already broken.</p>
+<p> </p>
+<p>2. Look at the document that appeared alongside the file that
+produced it. An R markdown file has only three kinds of content, and
+everything else is a variation on them:</p>
+<ul>
+<li>the <strong>YAML header</strong> at the very top, between the two
+lines of <code>---</code>, which controls the document as a whole</li>
+<li><strong>text</strong>, written in a simple markup language called
+markdown</li>
+<li><strong>code chunks</strong>, which look like this:</li>
+</ul>
+<div class="sourceCode" id="cb1"><pre class="sourceCode md"><code class="sourceCode markdown"><span id="cb1-1"><a href="#cb1-1" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb1-2"><a href="#cb1-2" tabindex="-1"></a><span class="in">mean(cardiac$age)</span></span>
+<span id="cb1-3"><a href="#cb1-3" tabindex="-1"></a><span class="in">```</span></span></code></pre></div>
+<p>Find one of each in your file. Then delete everything below the first
+code chunk, the one called <code>setup</code>, leaving the YAML header
+and that chunk in place. Knit again to check you have an empty but
+working document. This is your starting point.</p>
+<p> </p>
+<p>3. Now take control of the YAML header. At the moment it has a title,
+an author and a date. Add the four <code>output</code> lines shown
+below.</p>
+<p>Two warnings, because this is where people lose ten minutes.
+Indentation in YAML matters, so copy the spacing exactly. And use
+spaces, never tabs.</p>
+<div class="sourceCode" id="cb2"><pre
+class="sourceCode yaml"><code class="sourceCode yaml"><span id="cb2-1"><a href="#cb2-1" tabindex="-1"></a><span class="pp">---</span></span>
+<span id="cb2-2"><a href="#cb2-2" tabindex="-1"></a><span class="fu">title</span><span class="kw">:</span><span class="at"> </span><span class="st">&quot;Cardiac study report&quot;</span></span>
+<span id="cb2-3"><a href="#cb2-3" tabindex="-1"></a><span class="fu">author</span><span class="kw">:</span><span class="at"> </span><span class="st">&quot;Your Name&quot;</span></span>
+<span id="cb2-4"><a href="#cb2-4" tabindex="-1"></a><span class="fu">date</span><span class="kw">:</span><span class="at"> </span><span class="st">&quot;20 August 2026&quot;</span></span>
+<span id="cb2-5"><a href="#cb2-5" tabindex="-1"></a><span class="fu">output</span><span class="kw">:</span></span>
+<span id="cb2-6"><a href="#cb2-6" tabindex="-1"></a><span class="at">  </span><span class="fu">html_document</span><span class="kw">:</span></span>
+<span id="cb2-7"><a href="#cb2-7" tabindex="-1"></a><span class="at">    </span><span class="fu">toc</span><span class="kw">:</span><span class="at"> </span><span class="ch">true</span></span>
+<span id="cb2-8"><a href="#cb2-8" tabindex="-1"></a><span class="at">    </span><span class="fu">toc_float</span><span class="kw">:</span><span class="at"> </span><span class="ch">true</span></span>
+<span id="cb2-9"><a href="#cb2-9" tabindex="-1"></a><span class="at">    </span><span class="fu">number_sections</span><span class="kw">:</span><span class="at"> </span><span class="ch">true</span></span>
+<span id="cb2-10"><a href="#cb2-10" tabindex="-1"></a><span class="pp">---</span></span></code></pre></div>
+<p>Add <code>toc: true</code> first and knit. Then add
+<code>toc_float: true</code> and knit again. Then
+<code>number_sections: true</code>. Adding them one at a time, and
+knitting after each, is how you see what each one actually does.</p>
+<p> </p>
+<p>4. Time to write something. Underneath the setup chunk, write a short
+introduction to the cardiac study using markdown formatting only, with
+no code yet. Include:</p>
+<ul>
+<li>a heading, written as <code># My heading</code></li>
+<li>a second, smaller heading below it, written as
+<code>## My smaller heading</code></li>
+<li>a sentence with a word in <strong>bold</strong>, written as
+<code>**bold**</code>, and a word in <em>italics</em>, written as
+<code>*italics*</code></li>
+<li>a bulleted list of four of the variables in the dataset, each line
+starting with a dash and a space</li>
+</ul>
+<p>That is enough to be going on with. If you want to add a link, a
+numbered list, a quotation or a table, <a
+href="https://intro2r.com/rmarkdown_r.html#formatted-text">Section
+8.5.2</a> of the book has the syntax for all of them, and there is a
+summary on the R markdown cheat sheet under <code>Help</code> -&gt;
+<code>Cheat Sheets</code>.</p>
+<p>Knit, and put your source file and the output side by side. Notice
+that the headings you wrote have appeared in the table of contents on
+their own, because of the <code>toc: true</code> you added in Q3.</p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode md"><code class="sourceCode markdown"><span id="cb3-1"><a href="#cb3-1" tabindex="-1"></a><span class="fu"># Cardiac study report</span></span>
+<span id="cb3-2"><a href="#cb3-2" tabindex="-1"></a></span>
+<span id="cb3-3"><a href="#cb3-3" tabindex="-1"></a><span class="fu">## Background</span></span>
+<span id="cb3-4"><a href="#cb3-4" tabindex="-1"></a></span>
+<span id="cb3-5"><a href="#cb3-5" tabindex="-1"></a>These data come from a **cohort study** of the risk factors for cardiovascular disease.</span>
+<span id="cb3-6"><a href="#cb3-6" tabindex="-1"></a>Each row is one patient, and each column is something that was *measured* at the start</span>
+<span id="cb3-7"><a href="#cb3-7" tabindex="-1"></a>of the study.</span>
+<span id="cb3-8"><a href="#cb3-8" tabindex="-1"></a></span>
+<span id="cb3-9"><a href="#cb3-9" tabindex="-1"></a>The variables we will look at are:</span>
+<span id="cb3-10"><a href="#cb3-10" tabindex="-1"></a></span>
+<span id="cb3-11"><a href="#cb3-11" tabindex="-1"></a><span class="ss">- </span>age, in years</span>
+<span id="cb3-12"><a href="#cb3-12" tabindex="-1"></a><span class="ss">- </span>systolic blood pressure, in mmHg</span>
+<span id="cb3-13"><a href="#cb3-13" tabindex="-1"></a><span class="ss">- </span>body mass index</span>
+<span id="cb3-14"><a href="#cb3-14" tabindex="-1"></a><span class="ss">- </span>smoking status</span></code></pre></div>
+<p> </p>
+<p>5. Now add some code. Insert a new code chunk using the
+<strong>Insert</strong> button at the top right of the editor and
+choosing R, or with the keyboard shortcut Ctrl+Alt+I (Cmd+Option+I on a
+Mac). An empty chunk appears.</p>
+<p>Give the chunk a name by typing it straight after the <code>r</code>,
+so the first line reads <code>```{r import}</code>. Naming chunks costs
+nothing and makes them far easier to find when something goes wrong.</p>
+<p>Inside the chunk, import <code>cardiacdata.txt</code> exactly as you
+did in <strong>Exercise 3, Q5</strong>: with the
+<code>read.table()</code> function, writing out the <code>header</code>,
+<code>sep</code>, <code>na.strings</code> and
+<code>stringsAsFactors</code> arguments, and assigning the result to
+<code>cardiac</code>.</p>
+<p>Then insert a second chunk, name it <code>structure</code>, and put
+<code>str(cardiac)</code> in it.</p>
+<p>Run each chunk in the editor with the small green arrow at its top
+right, then knit the whole document. Notice that knitting starts a
+completely fresh R session: anything you made earlier in the console
+does not exist when the document knits, which is exactly what makes the
+document reproducible. It also means the chunk that imports the data has
+to come before any chunk that uses it.</p>
+<div class="sourceCode" id="cb4"><pre class="sourceCode md"><code class="sourceCode markdown"><span id="cb4-1"><a href="#cb4-1" tabindex="-1"></a><span class="in">```{r import}</span></span>
+<span id="cb4-2"><a href="#cb4-2" tabindex="-1"></a><span class="in">cardiac &lt;- read.table(&#39;data/cardiacdata.txt&#39;, header = TRUE, sep = &quot;\t&quot;,</span></span>
+<span id="cb4-3"><a href="#cb4-3" tabindex="-1"></a><span class="in">                      na.strings = &quot;NA&quot;, stringsAsFactors = TRUE)</span></span>
+<span id="cb4-4"><a href="#cb4-4" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb4-5"><a href="#cb4-5" tabindex="-1"></a></span>
+<span id="cb4-6"><a href="#cb4-6" tabindex="-1"></a><span class="in">```{r structure}</span></span>
+<span id="cb4-7"><a href="#cb4-7" tabindex="-1"></a><span class="in">str(cardiac)</span></span>
+<span id="cb4-8"><a href="#cb4-8" tabindex="-1"></a><span class="in">```</span></span></code></pre></div>
+<p> </p>
+<p>6. Add a figure. Insert another chunk, name it
+<code>chol-plot</code>, and use it to redraw the boxplot of total
+cholesterol by smoking status from <strong>Exercise 5, Q10</strong>. You
+will need the factor version of the smoking variable first, which you
+made in <strong>Exercise 5, Q4</strong>, so include that line in the
+chunk too.</p>
+<p>Now give the figure a caption. Chunk options go inside the curly
+braces, after the chunk name, separated by commas. The first line of
+your chunk should read:</p>
+<div class="sourceCode" id="cb5"><pre class="sourceCode md"><code class="sourceCode markdown"><span id="cb5-1"><a href="#cb5-1" tabindex="-1"></a><span class="in">```{r chol-plot, fig.cap = &#39;Total cholesterol by smoking status.&#39;}</span></span>
+<span id="cb5-2"><a href="#cb5-2" tabindex="-1"></a><span class="in">```</span></span></code></pre></div>
+<p>Knit and find your caption underneath the plot. Then add
+<code>fig.width = 4</code> to the same line, knit again, and see what
+happens to the size of the text relative to the plot.</p>
+<p>There are a great many other chunk options for figures, controlling
+height, alignment, resolution and so on. You do not need them today. <a
+href="https://intro2r.com/rmarkdown_r.html">Chapter 8</a> of the book
+lists the ones worth knowing.</p>
+<div class="sourceCode" id="cb6"><pre class="sourceCode md"><code class="sourceCode markdown"><span id="cb6-1"><a href="#cb6-1" tabindex="-1"></a><span class="in">```{r chol-plot, fig.cap = &#39;Total cholesterol by smoking status.&#39;, fig.width = 4}</span></span>
+<span id="cb6-2"><a href="#cb6-2" tabindex="-1"></a><span class="in">cardiac$Fsmoking &lt;- factor(cardiac$smoking, levels = c(1, 2, 3),</span></span>
+<span id="cb6-3"><a href="#cb6-3" tabindex="-1"></a><span class="in">                           labels = c(&quot;Current&quot;, &quot;Ex&quot;, &quot;Never&quot;))</span></span>
+<span id="cb6-4"><a href="#cb6-4" tabindex="-1"></a></span>
+<span id="cb6-5"><a href="#cb6-5" tabindex="-1"></a><span class="in">boxplot(tchol ~ Fsmoking, data = cardiac,</span></span>
+<span id="cb6-6"><a href="#cb6-6" tabindex="-1"></a><span class="in">        xlab = &quot;Smoking status&quot;, ylab = &quot;Total cholesterol (mmol/l)&quot;)</span></span>
+<span id="cb6-7"><a href="#cb6-7" tabindex="-1"></a><span class="in">```</span></span></code></pre></div>
+<p> </p>
+<p>7. Here is the question that turns a set of notes into a report. Ask
+yourself who is going to read this document. A colleague checking your
+working wants to see your code. A supervisor, a manager or an examiner
+almost certainly does not: they want the results, and the code is
+clutter. R markdown lets you decide chunk by chunk with the
+<code>echo</code> option.</p>
+<ol style="list-style-type: lower-alpha">
+<li><p>Add <code>echo = FALSE</code> to your <code>chol-plot</code>
+chunk, alongside the caption you added in Q6, and knit. The plot is
+still there; the code that drew it is not.</p></li>
+<li><p>Now do the same for the whole document rather than one chunk at a
+time. Go to your <code>setup</code> chunk at the top and put this line
+inside it:</p></li>
+</ol>
+<div class="sourceCode" id="cb7"><pre class="sourceCode md"><code class="sourceCode markdown"><span id="cb7-1"><a href="#cb7-1" tabindex="-1"></a>knitr::opts_chunk$set(echo = FALSE)</span></code></pre></div>
+<p>Knit. Every chunk now hides its code, so you can delete the
+<code>echo = FALSE</code> you added in part (a) and it will still be
+hidden.</p>
+<ol start="3" style="list-style-type: lower-alpha">
+<li>Finally, make one exception. Add <code>echo = TRUE</code> to the
+first line of your <code>structure</code> chunk, and knit. That one
+chunk shows its code while the rest do not. Setting a default for the
+document and then overriding it for individual chunks is how nearly
+every real report is put together.</li>
+</ol>
+<p>The setup chunk, which sets the default for every chunk in the
+document:</p>
+<div class="sourceCode" id="cb8"><pre class="sourceCode md"><code class="sourceCode markdown"><span id="cb8-1"><a href="#cb8-1" tabindex="-1"></a><span class="in">```{r setup, include = FALSE}</span></span>
+<span id="cb8-2"><a href="#cb8-2" tabindex="-1"></a><span class="in">knitr::opts_chunk$set(echo = FALSE)</span></span>
+<span id="cb8-3"><a href="#cb8-3" tabindex="-1"></a><span class="in">```</span></span></code></pre></div>
+<p>And one chunk overriding that default:</p>
+<div class="sourceCode" id="cb9"><pre class="sourceCode md"><code class="sourceCode markdown"><span id="cb9-1"><a href="#cb9-1" tabindex="-1"></a><span class="in">```{r structure, echo = TRUE}</span></span>
+<span id="cb9-2"><a href="#cb9-2" tabindex="-1"></a><span class="in">str(cardiac)</span></span>
+<span id="cb9-3"><a href="#cb9-3" tabindex="-1"></a><span class="in">```</span></span></code></pre></div>
+<p>Note that the setup chunk itself uses <code>include = FALSE</code>,
+which is stronger than <code>echo = FALSE</code>: it hides the code
+<em>and</em> anything the chunk produces, so the chunk runs completely
+invisibly.</p>
+<p> </p>
+<p>8. So far every number in your document is inside a chunk. Numbers in
+your <em>writing</em> are the ones that go stale: you type ‘163
+patients’, the data changes, and now your report is wrong and nothing
+warns you.</p>
+<p>R markdown fixes this with <strong>inline code</strong>. In the
+middle of an ordinary sentence you write a backtick, then the letter
+<code>r</code>, then some R code, then a closing backtick, and when you
+knit, the answer appears instead. Like this:</p>
+<div class="sourceCode" id="cb10"><pre
+class="sourceCode md"><code class="sourceCode markdown"><span id="cb10-1"><a href="#cb10-1" tabindex="-1"></a>The study included <span class="in">`r nrow(cardiac)`</span> patients.</span></code></pre></div>
+<p>which comes out as “The study included 163 patients.”</p>
+<p>Write a sentence of your own in the report that gives the number of
+patients and their mean age, using inline code for both rather than
+typing the numbers. Use <code>round()</code> on the mean so you do not
+get six decimal places.</p>
+<p>Then test that it really works. Temporarily change your import chunk
+so it keeps only the first 100 patients, by adding this line at the end
+of the chunk:</p>
+<div class="sourceCode" id="cb11"><pre
+class="sourceCode md"><code class="sourceCode markdown"><span id="cb11-1"><a href="#cb11-1" tabindex="-1"></a>cardiac &lt;- head(cardiac, 100)</span></code></pre></div>
+<p>Knit, and watch your sentence update itself. Then delete that line
+and knit again.</p>
+<div class="sourceCode" id="cb12"><pre
+class="sourceCode md"><code class="sourceCode markdown"><span id="cb12-1"><a href="#cb12-1" tabindex="-1"></a>The study included <span class="in">`r nrow(cardiac)`</span> patients, with a mean age of</span>
+<span id="cb12-2"><a href="#cb12-2" tabindex="-1"></a><span class="in">`r round(mean(cardiac$age), 1)`</span> years.</span></code></pre></div>
+<p>Which knits to:</p>
+<blockquote>
+<p>The study included 163 patients, with a mean age of 65 years.</p>
+</blockquote>
+<p> </p>
+<p>9. Add a table. If you simply print a dataframe in a chunk you get
+the console output, monospaced and ugly. The <code>kable()</code>
+function from the <code>knitr</code> package formats it as a proper
+table instead.</p>
+<p>Insert a chunk, name it <code>summary-table</code>, and start by
+recreating the <code>aggregate()</code> summary from <strong>Exercise 4,
+Q9</strong>: the mean of <code>age</code>, <code>systolic</code> and
+<code>tchol</code> for each smoking category. Assign it to an object
+called <code>smoke_summary</code>.</p>
+<p>Knit and look at how ugly it is. Now put
+<code>knitr::kable(smoke_summary)</code> on the next line, knit again,
+and compare. Finally add <code>digits = 1</code> and a
+<code>caption</code> to the <code>kable()</code> call to tidy it up.</p>
+<div class="sourceCode" id="cb13"><pre
+class="sourceCode md"><code class="sourceCode markdown"><span id="cb13-1"><a href="#cb13-1" tabindex="-1"></a><span class="in">```{r summary-table}</span></span>
+<span id="cb13-2"><a href="#cb13-2" tabindex="-1"></a><span class="in">smoke_summary &lt;- aggregate(cardiac[, c(&quot;age&quot;, &quot;systolic&quot;, &quot;tchol&quot;)],</span></span>
+<span id="cb13-3"><a href="#cb13-3" tabindex="-1"></a><span class="in">                           by = list(Smoking = cardiac$Fsmoking),</span></span>
+<span id="cb13-4"><a href="#cb13-4" tabindex="-1"></a><span class="in">                           mean, na.rm = TRUE)</span></span>
+<span id="cb13-5"><a href="#cb13-5" tabindex="-1"></a></span>
+<span id="cb13-6"><a href="#cb13-6" tabindex="-1"></a><span class="in">knitr::kable(smoke_summary, digits = 1,</span></span>
+<span id="cb13-7"><a href="#cb13-7" tabindex="-1"></a><span class="in">             caption = &quot;Mean age, systolic blood pressure and total cholesterol by smoking status.&quot;)</span></span>
+<span id="cb13-8"><a href="#cb13-8" tabindex="-1"></a><span class="in">```</span></span></code></pre></div>
+<p> </p>
+<p>10. Not every figure in a report is one that R drew. You might need a
+diagram, a photograph, a map, or a figure somebody else made. Add the
+plot you exported in <strong>Exercise 6, Q9</strong>,
+<code>ex6_admissions.png</code>, to your report.</p>
+<p>The simplest way needs no chunk at all. Type this straight into your
+text, changing the path to wherever your file actually is:</p>
+<div class="sourceCode" id="cb14"><pre
+class="sourceCode md"><code class="sourceCode markdown"><span id="cb14-1"><a href="#cb14-1" tabindex="-1"></a><span class="al">![Alcohol-related hospital admissions by council area.](output/ex6_admissions.png)</span></span></code></pre></div>
+<p>An exclamation mark, then the caption in square brackets, then the
+file path in round brackets. Knit and check the figure appears.</p>
+<p>If you no longer have the file, <a
+href="images/ex6_admissions.png">download it here</a> and save it into
+your <code>output</code> directory, the one you created in
+<strong>Exercise 1, Q12</strong>.</p>
+<p>One thing that catches everybody out: the path is relative to where
+the <code>.Rmd</code> file is, not to your working directory. If the
+image does not appear, the path is almost always the reason.</p>
+<p>Typed straight into the text:</p>
+<div class="sourceCode" id="cb15"><pre
+class="sourceCode md"><code class="sourceCode markdown"><span id="cb15-1"><a href="#cb15-1" tabindex="-1"></a><span class="al">![Alcohol-related hospital admissions by council area.](output/ex6_admissions.png)</span></span></code></pre></div>
+<p>There is also an R way, inside a chunk, which gives you control over
+the size with <code>out.width</code>. You do not need it today, but it
+is there when you do:</p>
+<div class="sourceCode" id="cb16"><pre
+class="sourceCode md"><code class="sourceCode markdown"><span id="cb16-1"><a href="#cb16-1" tabindex="-1"></a><span class="in">```{r admissions-figure, out.width = &quot;80%&quot;, fig.cap = &#39;Alcohol-related hospital admissions by council area.&#39;}</span></span>
+<span id="cb16-2"><a href="#cb16-2" tabindex="-1"></a><span class="in">knitr::include_graphics(&quot;output/ex6_admissions.png&quot;)</span></span>
+<span id="cb16-3"><a href="#cb16-3" tabindex="-1"></a><span class="in">```</span></span></code></pre></div>
+<p> </p>
+<p>11. If you have time, click the small arrow next to the
+<strong>Knit</strong> button and choose to knit to a Word document. Open
+it and compare it with the HTML version. Which would you send to a
+supervisor, and which would you put on a website? Keep both.</p>
+<p> </p>
+<div id="two-things-worth-knowing-about-but-not-now"
+class="section level3">
+<h3>Two things worth knowing about, but not now</h3>
+<p> </p>
+<p><strong>The visual editor.</strong> RStudio can show an R markdown
+document formatted as you type, more like a word processor, hiding the
+markdown syntax. You turn it on with the small compass icon at the top
+right of the editor. It is genuinely useful, especially for tables and
+links. We have deliberately left it until the end so that you learn what
+the markup actually is first, because when something goes wrong it is
+the markup you have to fix.</p>
+<p><strong>Quarto.</strong> Quarto is the successor to R markdown. It
+does the same job, works with languages other than R, and its syntax is
+so close that nearly everything in this exercise transfers unchanged. If
+you carry on using R after this course you will meet it. Start at <a
+href="https://quarto.org">quarto.org</a>.</p>
+<p> </p>
+<p>End of Exercise 7</p>
+</div>
+</div>
+
+
+
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.odd').parent('tbody').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- tabsets -->
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open');
+  });
+});
+</script>
+
+<!-- code folding -->
+<script>
+$(document).ready(function () {
+  window.initializeCodeFolding("hide" === "show");
+});
+</script>
+
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>

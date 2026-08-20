@@ -240,12 +240,31 @@ $(document).ready(function () {
     Home
   </a>
 </li>
-<li>
-  <a href="setup.html">
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
     <span class="fa fa-cog"></span>
      
     Setup
+     
+    <span class="caret"></span>
   </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="setup.html">
+        <span class="fa fa-cog"></span>
+         
+        R and RStudio
+      </a>
+    </li>
+    <li class="divider"></li>
+    <li>
+      <a href="git_setup.html">
+        <span class="fa fa-github"></span>
+         
+        Git and GitHub (for Exercise 8)
+      </a>
+    </li>
+  </ul>
 </li>
 <li class="dropdown">
   <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
@@ -358,6 +377,13 @@ $(document).ready(function () {
 <p>During the course we will be using both R and RStudio. To get your
 computer ready for this course please follow the instructions under the
 <strong><em>Core Software</em></strong> heading.</p>
+<p> </p>
+<p>Later in the course, for Exercise 8, you will also need Git and a
+GitHub account. Those instructions are on a separate page, <strong><a
+href="git_setup.html">Git and GitHub</a></strong>, also under the Setup
+menu above. <strong>You do not need to do that yet</strong>, and it is a
+good deal more fiddly than installing R, so leave it until nearer the
+time.</p>
 <p> </p>
 <div id="core-software" class="section level2">
 <h2>Core Software</h2>

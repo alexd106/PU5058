@@ -1,0 +1,208 @@
+---
+title: 'Setting up Git and GitHub'
+output: 
+  html_document:
+    toc: true
+    toc_depth: 2
+    toc_float:
+      collapsed: false
+---
+
+\  
+
+## Before you start
+
+**You do not need this at the start of the course.** It is needed for Exercise 8, and there is no advantage in doing it earlier; the access token you create in Step 5 has a limited life, so setting it up months in advance only means renewing it sooner.
+
+\  
+
+This page gets your computer talking to GitHub. It takes about half an hour and it is
+fiddly the first time, which is why we ask you to do it **before** the Exercise 8
+practical rather than during it.
+
+Please work through it beforehand. If you hit a real problem, bring it to the start of the
+session and we will help you, but we cannot get everybody set up and still have time to
+teach anything, so do try first.
+
+You only ever do this once per computer.
+
+\  
+
+## Step 1: Install Git
+
+Git is a separate program from R and RStudio, and you need it installed before RStudio can
+use it. There is a fuller version of these instructions in [Appendix B](https://intro2r.com/install-git.html)
+of the Introduction to R book.
+
+**Windows.** Download [Git for Windows](https://gitforwindows.org/) and run the installer.
+There are a lot of screens and you can accept every default on all of them. The installer
+also adds a program called Git Bash, which we will not use on this course but which does no
+harm.
+
+**macOS.** The simplest route is to let your Mac install it for you. Open the Terminal
+application (press Cmd+Space, type `Terminal`, press Enter), type `git --version` and press
+Enter. If Git is not installed, macOS will offer to install the command line developer
+tools; accept, and wait for it to finish. This is the only time on this course you will need
+the Terminal. If you would rather use an installer, there is one at
+[git-scm.com](https://git-scm.com/download/mac).
+
+**Linux.** Git is often installed already. Check with `git --version`. If not, use your
+package manager: `sudo apt install git` on Debian or Ubuntu, `sudo dnf install git` on
+Fedora.
+
+\  
+
+## Step 2: Create a GitHub account
+
+Git runs on your computer. GitHub is a website that stores copies of your work and is what
+makes it a backup rather than just a filing system.
+
+Sign up for a free account at [github.com/join](https://github.com/join). You need a
+username, an email address and a strong password. Choose a username you would be happy for
+a future employer to see: quite a lot of people put their GitHub profile on a CV.
+
+Two-factor authentication is a good idea and takes about five minutes to set up with an
+authenticator app on your phone. It is **not** required for what we are doing, so do not
+let it hold you up now. You can add it later from your GitHub account settings.
+
+\  
+
+## Step 3: Tell RStudio where Git is
+
+Open RStudio and go to `Tools` -> `Global Options` -> `Git/SVN`.
+
+Check that **'Enable version control interface for RStudio projects'** is ticked, and that
+the **'Git executable'** box has a sensible path in it. On Windows this usually ends in
+`git.exe`, on macOS and Linux in `git`.
+
+If the box is empty, click `Browse...` and find the program you installed in Step 1. Restart
+RStudio afterwards.
+
+\  
+
+## Step 4: Tell Git who you are
+
+Git labels every change you make with a name and an email address, so you need to give it
+those once.
+
+You may have seen this done in a terminal. We will use the `usethis` package instead, so
+that everything happens in the R console you already know. Install it first if you have not
+already:
+
+```{r step4a, eval=FALSE}
+install.packages("usethis")
+```
+
+Then:
+
+```{r step4b, eval=FALSE}
+library(usethis)
+
+use_git_config(user.name = "Your Name", user.email = "you@example.com")
+```
+
+Use the same email address you signed up to GitHub with. The name is what will appear
+against your changes, so use your real one.
+
+While you are here, set the default name for the main line of work in new projects:
+
+```{r step4c, eval=FALSE}
+use_git_config(init.defaultBranch = "main")
+```
+
+GitHub has called this `main` since 2020. Git itself still uses the older name `master`
+unless you tell it otherwise, and the mismatch causes confusing errors later. You will meet
+both names in the wild.
+
+\  
+
+## Step 5: Create a personal access token
+
+This is the step people get stuck on, so read it carefully. [Section 9.4.5](https://intro2r.com/setup_git.html#github-auth)
+of the Introduction to R book covers the same ground.
+
+When you send your work to GitHub, it needs to know it is really you. GitHub **stopped
+accepting your account password for this in 2021**. Instead you use a *personal access
+token*, which is a long string of characters that works like a password for one computer,
+and which you can cancel without changing anything else about your account.
+
+Run:
+
+```{r step5, eval=FALSE}
+create_github_token()
+```
+
+This opens GitHub in your web browser with a form already filled in with the right
+permissions. Before you click the green **Generate token** button at the bottom, change two
+things:
+
+1. **Note**: replace whatever is there with something that will still mean something to you
+   in six months, such as `PU5058 laptop`.
+
+2. **Expiration**: click the dropdown and choose `Custom`, then pick a date about six months
+   from now. GitHub suggests 30 days by default. Thirty days is better security practice,
+   but it means your token stops working part way through this course, probably during the
+   assessment. We are deliberately trading a little security for not being locked out at the
+   worst moment. When you finish this course, go back to shorter-lived tokens.
+
+Now click **Generate token**. GitHub shows you the token exactly once, on a green
+background. Copy it now. If you navigate away without copying it, you cannot get it back and
+will have to make another one, which is annoying but harmless.
+
+\  
+
+## Step 6: Store the token
+
+Give the token to your computer's password store so you never have to type it again:
+
+```{r step6, eval=FALSE}
+gitcreds::gitcreds_set()
+```
+
+Paste the token when prompted and press Enter. (You already have `gitcreds` installed:
+`usethis` depends on it.)
+
+\  
+
+## Step 7: Check it all worked
+
+```{r step7, eval=FALSE}
+git_sitrep()
+```
+
+`git_sitrep()` is short for 'Git situation report'. It prints everything about your setup in
+one go: which Git you have, the name and email you set in Step 4, and whether it can find
+and use your token.
+
+Read the output even though nothing has gone wrong. Knowing what it looks like when things
+are healthy is exactly what makes it useful when they are not. The lines to check are your
+name and email, and a line confirming a personal access token was found.
+
+If anything looks wrong, go back to the step that set it. If you cannot see what is wrong,
+bring the `git_sitrep()` output to the session and we will look at it together.
+
+\  
+
+## When your token expires
+
+Your token will expire eventually. This is normal and nothing is lost when it happens.
+
+The symptom is that pushing or pulling, which worked perfectly well last week, suddenly
+fails with a message about authentication. The fix is to repeat Steps 5 and 6:
+
+```{r expired, eval=FALSE}
+create_github_token()      # generate a fresh one
+gitcreds::gitcreds_set()   # it will offer to replace the old one - say yes
+git_sitrep()               # check
+```
+
+Your work is on your computer and on GitHub throughout. An expired token is a five minute
+annoyance, not a disaster.
+
+\  
+
+## Where to go if you are stuck
+
+The standard reference for R users is [Happy Git and GitHub for the useR](https://happygitwithr.com),
+which covers everything on this page in far more detail, including what to do when the
+usual routes fail.

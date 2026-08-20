@@ -35,9 +35,11 @@ ex_text <- c(": Getting to know R and RStudio", ": Basic R operations",
              ": Importing and inspecting data", 
              ": Manipulating and summarising dataframes",
              ": Visualising data using base R",
-             ": Graphics for communication")
+             ": Graphics for communication",
+             ": Reproducible reports with R markdown",
+             ": Version control with Git and GitHub")
 
-file_name <- paste0("exercise_", 1:6, ".pdf")
+file_name <- paste0("exercise_", 1:8, ".pdf")
 
 link_name <- file_name %>%
               gsub("\\.pdf", "", .) %>%

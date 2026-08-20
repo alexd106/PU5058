@@ -12,6 +12,10 @@ During the course we will be using both R and RStudio. To get your computer read
 
 \  
 
+Later in the course, for Exercise 8, you will also need Git and a GitHub account. Those instructions are on a separate page, **[Git and GitHub](git_setup.html)**, also under the Setup menu above. **You do not need to do that yet**, and it is a good deal more fiddly than installing R, so leave it until nearer the time.
+
+\  
+
 ## Core Software
 **Install R.** You'll need R version **`r paste(R.Version()$major, ".", R.Version()$minor, sep="")`** or higher. Download and install R for [Windows](http://cran.r-project.org/bin/windows/base/){target="_blank"},  [Mac](http://cran.r-project.org/bin/macosx/){target="_blank"} (download the latest R-4.x.x.pkg file for your appropriate version of Mac OS) or [linux](https://cran.r-project.org/bin/linux){target="_blank"} (choose your flavour of linux).
 

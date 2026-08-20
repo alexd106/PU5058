@@ -9,7 +9,14 @@ navbar:
       href: index.html
     - text: "Setup"
       icon: fa-cog
-      href: setup.html
+      menu:
+        - text: "R and RStudio"
+          icon: fa-cog
+          href: setup.html
+        - text: "----"
+        - text: "Git and GitHub (for Exercise 8)"
+          icon: fa-github
+          href: git_setup.html
     - text: "Learn"
       icon: fa-desktop
       menu:
@@ -62,7 +69,8 @@ output:
 
 include: [".nojekyll", "data/*", "exercises/*.pdf", "exercise_solutions/*.R"]
 exclude: ["LICENSE", "README.md", "*.Rproj", "*.key", "*.psd", "rmd_archive",
-          "CLAUDE.md", "exercise_audit.md", "R_Factsheet_Unit_1.pdf", "_data_raw"]
+          "CLAUDE.md", "exercise_audit.md", "R_Factsheet_Unit_1.pdf", "_data_raw",
+          "plans"]
 # NOTE: `exclude` only stops files being copied as site resources. It does NOT stop
 # a root-level .md being rendered: render_site() renders everything matching
 # ^[^_].*\.[Rr]?md$ (README is the only special case). CLAUDE.md and exercise_audit.md

@@ -67,6 +67,19 @@ paste0("- [", link_name, "](", file_name, "){target='_blank'}") %>%
 cat(sep="\n\n")
 ```
 
+```{r sol78, results='asis', eval = isTRUE(show_text78)}
+file_name <- paste0("exercise_", 7:8, "_solution.html")
+
+link_name <- file_name %>%
+  gsub("\\.html", "", .) %>%
+  paste0(., "s") %>%
+  gsub("_", " ", .) %>%
+  str_to_sentence(.)
+
+paste0("- [", link_name, "](", file_name, "){target='_blank'}") %>%
+cat(sep="\n\n")
+```
+
 ```{r sol_prog, results='asis', eval = isTRUE(show_text_prog)}
 paste0("- [Exercise (optional): Basic programming in R solutions",
        "](exercise_programming_solution.html){target='_blank'}") %>%
@@ -87,7 +100,7 @@ cat(sep="\n\n")
 # and their setup chunks are purl = FALSE, so purl() cannot see SOLUTIONS unless we
 # define it here. Without this the purled scripts come out empty.
 SOLUTIONS <- TRUE
-for (i in 1:6) {
+for (i in 1:8) {
   knitr::purl(paste0('./exercise_', i, '_solution.Rmd'),
               output = paste0('./exercise_solutions/exercise_', i, '_solution.R'), quiet = TRUE)
 }

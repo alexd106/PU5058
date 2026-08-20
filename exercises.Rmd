@@ -18,7 +18,7 @@ source('reveal.R')
 
 ### Exercises
 
-These exercises will introduce you to using R. There are six of them, covering the material in the first four Chapters of the [Introduction to R book](https://intro2r.com). We will be covering these exercises during the first two weeks of the course. It’s entirely up to you how you progress through these exercises, everyone learns R at their own pace and in their own way. You can either work your way through each section of the book and then test your understanding of the material by completing the associated exercise. Alternatively, you can start with each exercise and refer back to the appropriate material in the book. Or find another way that works for you. Whichever approach you use, make sure that you write your R code in RStudio (or your favourite script editor), annotate it liberally and save it regularly. At the end of the course you will have many hundreds of lines of code that you can refer back to at a later date when you’ve forgotten most of it! There is also an additional optional exercise covering Chapter 7 of the book, Programming in R. This exercise is entirely optional and should only be completed after you have finished the six exercises above. 
+These exercises will introduce you to using R. There are eight of them. The first six cover the material in the first four Chapters of the [Introduction to R book](https://intro2r.com), and the last two cover Chapters 8 and 9, on writing reproducible reports and on keeping your work under version control. We will be covering these exercises during the first two weeks of the course. It’s entirely up to you how you progress through these exercises, everyone learns R at their own pace and in their own way. You can either work your way through each section of the book and then test your understanding of the material by completing the associated exercise. Alternatively, you can start with each exercise and refer back to the appropriate material in the book. Or find another way that works for you. Whichever approach you use, make sure that you write your R code in RStudio (or your favourite script editor), annotate it liberally and save it regularly. At the end of the course you will have many hundreds of lines of code that you can refer back to at a later date when you’ve forgotten most of it! There is also an additional optional exercise covering Chapter 7 of the book, Programming in R. This exercise is entirely optional and should only be completed after you have finished the eight exercises above. 
 
 The solutions and code for each of the exercises are available by following the [Exercise Solutions <i class="fa fa-book" aria-hidden="true"></i>](exercise_solutions.html){target="_blank"} link in the navbar above. If you prefer to download the exercises in pdf format you can [find them here](exercise_pdf.html){target="_blank"}. 
 
@@ -38,9 +38,11 @@ ex_text <- c(": Getting to know R and RStudio", ": Basic R operations",
              ": Importing and inspecting data", 
              ": Manipulating and summarising dataframes",
              ": Visualising data using base R",
-             ": Graphics for communication")
+             ": Graphics for communication",
+             ": Reproducible reports with R markdown",
+             ": Version control with Git and GitHub")
 
-file_name <- paste0("exercise_", 1:6, ".html")
+file_name <- paste0("exercise_", 1:8, ".html")
 
 link_name <- file_name %>%
   gsub("\\.html", "", .) %>%
@@ -53,13 +55,18 @@ cat(sep="\n\n")
 cat("\n\n")
 
 cat("- [Exercise (optional): Basic programming in R](exercise_programming.html){target='_blank'}")
+
+cat("\n\n")
+
+cat("Exercise 8 needs Git installed and a GitHub account. Please work through ",
+    "[Setting up Git and GitHub](git_setup.html){target='_blank'} before that session.")
 ```
 
 \  
 
 ```{r, pdf-out, include = FALSE}
 # TODO: generate list automagically
-for (i in 1:6) {
+for (i in 1:8) {
   rmarkdown::render(paste0("exercise_", i, ".Rmd"), output_format = "pdf_document",
                     output_file = paste0("./exercises/exercise_", i, ".pdf"), quiet = TRUE)
 }

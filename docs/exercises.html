@@ -239,12 +239,31 @@ $(document).ready(function () {
     Home
   </a>
 </li>
-<li>
-  <a href="setup.html">
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
     <span class="fa fa-cog"></span>
      
     Setup
+     
+    <span class="caret"></span>
   </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="setup.html">
+        <span class="fa fa-cog"></span>
+         
+        R and RStudio
+      </a>
+    </li>
+    <li class="divider"></li>
+    <li>
+      <a href="git_setup.html">
+        <span class="fa fa-github"></span>
+         
+        Git and GitHub (for Exercise 8)
+      </a>
+    </li>
+  </ul>
 </li>
 <li class="dropdown">
   <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
@@ -356,24 +375,25 @@ $(document).ready(function () {
 <p> </p>
 <div id="exercises" class="section level3">
 <h3>Exercises</h3>
-<p>These exercises will introduce you to using R. There are six of them,
-covering the material in the first four Chapters of the <a
-href="https://intro2r.com">Introduction to R book</a>. We will be
-covering these exercises during the first two weeks of the course. It’s
-entirely up to you how you progress through these exercises, everyone
-learns R at their own pace and in their own way. You can either work
-your way through each section of the book and then test your
-understanding of the material by completing the associated exercise.
-Alternatively, you can start with each exercise and refer back to the
-appropriate material in the book. Or find another way that works for
-you. Whichever approach you use, make sure that you write your R code in
-RStudio (or your favourite script editor), annotate it liberally and
-save it regularly. At the end of the course you will have many hundreds
-of lines of code that you can refer back to at a later date when you’ve
-forgotten most of it! There is also an additional optional exercise
-covering Chapter 7 of the book, Programming in R. This exercise is
-entirely optional and should only be completed after you have finished
-the six exercises above.</p>
+<p>These exercises will introduce you to using R. There are eight of
+them. The first six cover the material in the first four Chapters of the
+<a href="https://intro2r.com">Introduction to R book</a>, and the last
+two cover Chapters 8 and 9, on writing reproducible reports and on
+keeping your work under version control. We will be covering these
+exercises during the first two weeks of the course. It’s entirely up to
+you how you progress through these exercises, everyone learns R at their
+own pace and in their own way. You can either work your way through each
+section of the book and then test your understanding of the material by
+completing the associated exercise. Alternatively, you can start with
+each exercise and refer back to the appropriate material in the book. Or
+find another way that works for you. Whichever approach you use, make
+sure that you write your R code in RStudio (or your favourite script
+editor), annotate it liberally and save it regularly. At the end of the
+course you will have many hundreds of lines of code that you can refer
+back to at a later date when you’ve forgotten most of it! There is also
+an additional optional exercise covering Chapter 7 of the book,
+Programming in R. This exercise is entirely optional and should only be
+completed after you have finished the eight exercises above.</p>
 <p>The solutions and code for each of the exercises are available by
 following the <a href="exercise_solutions.html" target="_blank">Exercise
 Solutions <i class="fa fa-book" aria-hidden="true"></i></a> link in the
@@ -403,9 +423,16 @@ Manipulating and summarising dataframes</a></p></li>
 data using base R</a></p></li>
 <li><p><a href="exercise_6.html" target="_blank">Exercise 6: Graphics
 for communication</a></p></li>
+<li><p><a href="exercise_7.html" target="_blank">Exercise 7:
+Reproducible reports with R markdown</a></p></li>
+<li><p><a href="exercise_8.html" target="_blank">Exercise 8: Version
+control with Git and GitHub</a></p></li>
 <li><p><a href="exercise_programming.html" target="_blank">Exercise
 (optional): Basic programming in R</a></p></li>
 </ul>
+<p>Exercise 8 needs Git installed and a GitHub account. Please work
+through <a href="git_setup.html" target="_blank">Setting up Git and
+GitHub</a> before that session.</p>
 <p> </p>
 <p><a href="exercise_pdf.html">pdf version of exercises</a></p>
 </div>

@@ -28,3 +28,6 @@ R_Factsheet_Unit_1.pdf
 # Their rendered output must never be published from docs/.
 docs/CLAUDE.html
 docs/exercise_audit.html
+
+# Teaching plans and handoff notes, not for the public site
+plans/

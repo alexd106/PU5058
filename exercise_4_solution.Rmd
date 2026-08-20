@@ -46,15 +46,15 @@ cardiac$sex <- factor(cardiac$sex, levels = c(1, 2), labels = c("Female", "Male"
 - all patients who are not ex-smokers
 
 ```{r Q1, echo=SOLUTIONS, tidy = TRUE}
-cardiac.sys160 <- cardiac[cardiac$systolic > 160, ]
+cardiac_sys160 <- cardiac[cardiac$systolic > 160, ]
 
-cardiac.never <- cardiac[cardiac$smoking == 3, ]
+cardiac_never <- cardiac[cardiac$smoking == 3, ]
 
-cardiac.subset <- cardiac[cardiac$sex == "Male" & cardiac$smoking == 3 & cardiac$diastolic > 76, ]
+cardiac_subset <- cardiac[cardiac$sex == "Male" & cardiac$smoking == 3 & cardiac$diastolic > 76, ]
 
-cardiac.bmi.trig <- cardiac[cardiac$bmi > 25 & cardiac$bmi < 30 & cardiac$triglyceride > 1 & cardiac$triglyceride < 2, ]
+cardiac_bmi_trig <- cardiac[cardiac$bmi > 25 & cardiac$bmi < 30 & cardiac$triglyceride > 1 & cardiac$triglyceride < 2, ]
 
-cardiac.notex <- cardiac[cardiac$smoking != 2, ]
+cardiac_notex <- cardiac[cardiac$smoking != 2, ]
 ```
 
 \  
@@ -62,7 +62,7 @@ cardiac.notex <- cardiac[cardiac$smoking != 2, ]
 2\. A really neat feature of extracting rows based on conditional statements is that you can include R functions within the statement itself. To practice this, modify your answer to the diastolic question in Q1 to use the `median()` function rather than hard coding the value 76. Why is this a better idea? (hint: what happens to your code if someone adds another twenty patients to the study?)
 
 ```{r Q2, echo=SOLUTIONS, tidy = TRUE}
-cardiac.subset <- cardiac[cardiac$sex == "Male" & cardiac$smoking == 3 & cardiac$diastolic > median(cardiac$diastolic), ]
+cardiac_subset <- cardiac[cardiac$sex == "Male" & cardiac$smoking == 3 & cardiac$diastolic > median(cardiac$diastolic), ]
 ```
 
 \  
@@ -71,11 +71,11 @@ cardiac.subset <- cardiac[cardiac$sex == "Male" & cardiac$smoking == 3 & cardiac
 
 ```{r Q3, echo=SOLUTIONS, tidy = TRUE}
 # results in a dataframe filled with NAs. 
-cardiac.new <- cardiac[cardiac$systolic > 160 & cardiac$tchol > mean(cardiac$tchol), ]
+cardiac_new <- cardiac[cardiac$systolic > 160 & cardiac$tchol > mean(cardiac$tchol), ]
 
 # the variable tchol contains 2 NA values. By default the mean function will return an NA.
 # use the na.rm argument to ignore NAs
-cardiac.new <- cardiac[cardiac$systolic > 160 & cardiac$tchol > mean(cardiac$tchol, na.rm = TRUE), ]  
+cardiac_new <- cardiac[cardiac$systolic > 160 & cardiac$tchol > mean(cardiac$tchol, na.rm = TRUE), ]  
 ```
 
 \  
@@ -130,10 +130,10 @@ summary(cardiac)   # check: the minima and maximum are now sensible
 
 \  
 
-6\. Another useful way to manipulate your dataframes is to sort the rows based on the value of a variable (or combinations of variables). Rather counter-intuitively you should use the `order()` function to sort your dataframes, not the `sort()` function (see [Section 3.4.3](https://intro2r.com/wrangling-data-frames.html#ordering-data-frames) of the Introduction to R book for an explanation). Ordering dataframes uses the same logic you practised in Q12 in Exercise 2. Let's practice with a straight forward example. Use the `order()` function to sort all rows in the `cardiac` dataframe in ascending order of systolic blood pressure (lowest to highest). Store this sorted dataframe in a variable called `cardiac.sys.sort`.
+6\. Another useful way to manipulate your dataframes is to sort the rows based on the value of a variable (or combinations of variables). Rather counter-intuitively you should use the `order()` function to sort your dataframes, not the `sort()` function (see [Section 3.4.3](https://intro2r.com/wrangling-data-frames.html#ordering-data-frames) of the Introduction to R book for an explanation). Ordering dataframes uses the same logic you practised in Q12 in Exercise 2. Let's practice with a straight forward example. Use the `order()` function to sort all rows in the `cardiac` dataframe in ascending order of systolic blood pressure (lowest to highest). Store this sorted dataframe in a variable called `cardiac_sys_sort`.
 
 ```{r Q6, echo=SOLUTIONS}
-cardiac.sys.sort <- cardiac[order(cardiac$systolic), ]
+cardiac_sys_sort <- cardiac[order(cardiac$systolic), ]
 ```
 
 \  
@@ -142,10 +142,10 @@ cardiac.sys.sort <- cardiac[order(cardiac$systolic), ]
 
 ```{r Q7, echo=SOLUTIONS}
 # notice where the patients with a missing smoking status end up - and why
-cardiac.sorted <- cardiac[order(cardiac$smoking, cardiac$systolic), ]        
+cardiac_sorted <- cardiac[order(cardiac$smoking, cardiac$systolic), ]        
 
 # use '-' to reverse the order of systolic
-cardiac.rev.sorted <- cardiac[order(cardiac$smoking, -cardiac$systolic), ]   
+cardiac_rev_sorted <- cardiac[order(cardiac$smoking, -cardiac$systolic), ]   
 ```
 
 \    
@@ -203,7 +203,7 @@ table(cardiac$smoking, useNA = "ifany")
 
 \  
 
-11\. Real analyses almost never involve a single file. The measurements you want are usually spread across several tables and you have to put them together first. The patients in this study were followed up ten years after their first examination, and those follow-up measurements are in a separate file. Download *'cardiac_followup.txt'* from the **[<i class="fa fa-download"></i> Data](data.html)** link, save it to your `data` directory and import it with `read.table()` into a variable called `followup`. How many rows does it have, and how does that compare with `cardiac`? Now use the `merge()` function to join the two together on the patient number, and assign the result to `cardiac.fu`. How many rows does the joined dataframe have, and can you explain why?
+11\. Real analyses almost never involve a single file. The measurements you want are usually spread across several tables and you have to put them together first. The patients in this study were followed up ten years after their first examination, and those follow-up measurements are in a separate file. Download *'cardiac_followup.txt'* from the **[<i class="fa fa-download"></i> Data](data.html)** link, save it to your `data` directory and import it with `read.table()` into a variable called `followup`. How many rows does it have, and how does that compare with `cardiac`? Now use the `merge()` function to join the two together on the patient number, and assign the result to `cardiac_fu`. How many rows does the joined dataframe have, and can you explain why?
 
 ```{r Q11, echo=SOLUTIONS, tidy = TRUE}
 followup <- read.table('data/cardiac_followup.txt', header = TRUE, sep = "\t",
@@ -212,8 +212,8 @@ followup <- read.table('data/cardiac_followup.txt', header = TRUE, sep = "\t",
 nrow(cardiac)     # 163 patients at the start of the study
 nrow(followup)    # 108 patients with follow-up measurements
 
-cardiac.fu <- merge(cardiac, followup, by = "patno")
-nrow(cardiac.fu)  # 108
+cardiac_fu <- merge(cardiac, followup, by = "patno")
+nrow(cardiac_fu)  # 108
 
 # By default merge() keeps only the rows that appear in BOTH dataframes, which
 # is called an inner join. 55 of the original patients have no follow-up
@@ -223,13 +223,13 @@ nrow(cardiac.fu)  # 108
 
 \  
 
-12\. Losing 55 patients without being told is exactly the sort of thing that ruins an analysis, and it is why you check row counts every single time you join. Often what you actually want is to keep every patient from the first dataframe whether or not they have a match in the second. Look at the help file for `merge()` and find the argument that does this. Redo the join keeping all 163 patients, assign it to `cardiac.all`, and check how many of them have a missing follow-up systolic pressure. Finally, try running `merge(cardiac, followup)` without the `by` argument at all. It works. Why is relying on that a bad habit?
+12\. Losing 55 patients without being told is exactly the sort of thing that ruins an analysis, and it is why you check row counts every single time you join. Often what you actually want is to keep every patient from the first dataframe whether or not they have a match in the second. Look at the help file for `merge()` and find the argument that does this. Redo the join keeping all 163 patients, assign it to `cardiac_all`, and check how many of them have a missing follow-up systolic pressure. Finally, try running `merge(cardiac, followup)` without the `by` argument at all. It works. Why is relying on that a bad habit?
 
 ```{r Q12, echo=SOLUTIONS, tidy = TRUE}
-cardiac.all <- merge(cardiac, followup, by = "patno", all.x = TRUE)
-nrow(cardiac.all)                      # 163 - everybody is kept
+cardiac_all <- merge(cardiac, followup, by = "patno", all.x = TRUE)
+nrow(cardiac_all)                      # 163 - everybody is kept
 
-sum(is.na(cardiac.all$systolic10))     # 55 patients have no follow-up
+sum(is.na(cardiac_all$systolic10))     # 55 patients have no follow-up
 
 # all.x = TRUE keeps every row of x (the first dataframe) and fills the missing
 # columns with NA. This is a left join.
@@ -243,23 +243,23 @@ sum(is.na(cardiac.all$systolic10))     # 55 patients have no follow-up
 
 \  
 
-13\. There is one more join worth knowing, and it solves the `smoking` problem left over from Q0. Rather than typing the labels out by hand, you can keep the codes and their meanings in their own small file and join them on. Download *'smoking_lookup.txt'* from the **[<i class="fa fa-download"></i> Data](data.html)** link, save it to your `data` directory and import it into a variable called `smoke.codes`. Take a look at it. Notice that the column holding the code is called `code`, not `smoking`, so the two dataframes have no column name in common and `by` on its own will not work. Look at the help file for `merge()` again and find the two arguments that let you name a different key in each dataframe. Join the labels onto `cardiac.all`, keeping all patients, and then check with `table()` that every patient has ended up with the right label.
+13\. There is one more join worth knowing, and it solves the `smoking` problem left over from Q0. Rather than typing the labels out by hand, you can keep the codes and their meanings in their own small file and join them on. Download *'smoking_lookup.txt'* from the **[<i class="fa fa-download"></i> Data](data.html)** link, save it to your `data` directory and import it into a variable called `smoke_codes`. Take a look at it. Notice that the column holding the code is called `code`, not `smoking`, so the two dataframes have no column name in common and `by` on its own will not work. Look at the help file for `merge()` again and find the two arguments that let you name a different key in each dataframe. Join the labels onto `cardiac_all`, keeping all patients, and then check with `table()` that every patient has ended up with the right label.
 
 ```{r Q13, echo=SOLUTIONS, tidy = TRUE}
-smoke.codes <- read.table('data/smoking_lookup.txt', header = TRUE, sep = "\t",
+smoke_codes <- read.table('data/smoking_lookup.txt', header = TRUE, sep = "\t",
                           na.strings = "NA", stringsAsFactors = TRUE)
-smoke.codes
+smoke_codes
 
 #   code smoking_status
 # 1    1        Current
 # 2    2             Ex
 # 3    3          Never
 
-cardiac.all <- merge(cardiac.all, smoke.codes, by.x = "smoking", by.y = "code", all.x = TRUE)
+cardiac_all <- merge(cardiac_all, smoke_codes, by.x = "smoking", by.y = "code", all.x = TRUE)
 
-nrow(cardiac.all)    # still 163 - check every time!
+nrow(cardiac_all)    # still 163 - check every time!
 
-table(cardiac.all$smoking_status, useNA = "ifany")
+table(cardiac_all$smoking_status, useNA = "ifany")
 
 # Current      Ex   Never    <NA> 
 #      50      52      54       7 
@@ -273,10 +273,10 @@ table(cardiac.all$smoking_status, useNA = "ifany")
 
 \  
 
-14\. Ok, we have spent quite a bit of time (and energy) learning how to clean, check and join dataframes. The last thing we need to cover is how to export a dataframe from R to an external file (see [Section 3.6](https://intro2r.com/exporting-data.html#exporting-data) of the book for more details). Export your cleaned and joined dataframe `cardiac.all` to a file called 'cardiac_clean.txt' in the `output` directory you created in Exercise 1. To do this you will need to use the `write.table()` function. You want to include the variable names in the first row of the file, but you don't want to include the row names. Also, make sure the file is a tab delimited file. Once you have created your file, try to open it in Microsoft Excel (or open source equivalent). Finally, and this is the part people forget: add a comment block at the top of your R script listing every change you made to the data and why. Which three values did you set to `NA`, and which patients did they belong to? Someone reading your work in six months, including you, needs to be able to answer that without re-running anything.
+14\. Ok, we have spent quite a bit of time (and energy) learning how to clean, check and join dataframes. The last thing we need to cover is how to export a dataframe from R to an external file (see [Section 3.6](https://intro2r.com/exporting-data.html#exporting-data) of the book for more details). Export your cleaned and joined dataframe `cardiac_all` to a file called 'cardiac_clean.txt' in the `output` directory you created in Exercise 1. To do this you will need to use the `write.table()` function. You want to include the variable names in the first row of the file, but you don't want to include the row names. Also, make sure the file is a tab delimited file. Once you have created your file, try to open it in Microsoft Excel (or open source equivalent). Finally, and this is the part people forget: add a comment block at the top of your R script listing every change you made to the data and why. Which three values did you set to `NA`, and which patients did they belong to? Someone reading your work in six months, including you, needs to be able to answer that without re-running anything.
 
 ```{r Q14, echo=SOLUTIONS, tidy = TRUE}
-write.table(cardiac.all, "output/cardiac_clean.txt", col.names = TRUE, row.names = FALSE, sep = "\t")
+write.table(cardiac_all, "output/cardiac_clean.txt", col.names = TRUE, row.names = FALSE, sep = "\t")
 
 # Decision log - the sort of thing that belongs at the top of your script:
 #

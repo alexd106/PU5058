@@ -710,13 +710,13 @@ href="https://intro2r.com/export_plots.html#export_plots">Section
 <span id="cb6-9"><a href="#cb6-9" tabindex="-1"></a>     <span class="at">xlab =</span> <span class="st">&quot;HDL cholesterol (mmol/l)&quot;</span>, <span class="at">ylab =</span> <span class="st">&quot;triglyceride (mmol/l)&quot;</span>)</span>
 <span id="cb6-10"><a href="#cb6-10" tabindex="-1"></a></span>
 <span id="cb6-11"><a href="#cb6-11" tabindex="-1"></a><span class="co"># transforming alcohol</span></span>
-<span id="cb6-12"><a href="#cb6-12" tabindex="-1"></a>cardiac<span class="sc">$</span>alcohol.sqrt <span class="ot">&lt;-</span> <span class="fu">sqrt</span>(cardiac<span class="sc">$</span>alcohol)</span>
-<span id="cb6-13"><a href="#cb6-13" tabindex="-1"></a>cardiac<span class="sc">$</span>alcohol.log  <span class="ot">&lt;-</span> <span class="fu">log</span>(cardiac<span class="sc">$</span>alcohol)</span>
+<span id="cb6-12"><a href="#cb6-12" tabindex="-1"></a>cardiac<span class="sc">$</span>alcohol_sqrt <span class="ot">&lt;-</span> <span class="fu">sqrt</span>(cardiac<span class="sc">$</span>alcohol)</span>
+<span id="cb6-13"><a href="#cb6-13" tabindex="-1"></a>cardiac<span class="sc">$</span>alcohol_log  <span class="ot">&lt;-</span> <span class="fu">log</span>(cardiac<span class="sc">$</span>alcohol)</span>
 <span id="cb6-14"><a href="#cb6-14" tabindex="-1"></a></span>
 <span id="cb6-15"><a href="#cb6-15" tabindex="-1"></a><span class="fu">par</span>(<span class="at">mfrow =</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">3</span>))</span>
 <span id="cb6-16"><a href="#cb6-16" tabindex="-1"></a><span class="fu">hist</span>(cardiac<span class="sc">$</span>alcohol, <span class="at">main =</span> <span class="st">&quot;untransformed&quot;</span>, <span class="at">xlab =</span> <span class="st">&quot;alcohol&quot;</span>)</span>
-<span id="cb6-17"><a href="#cb6-17" tabindex="-1"></a><span class="fu">hist</span>(cardiac<span class="sc">$</span>alcohol.sqrt, <span class="at">main =</span> <span class="st">&quot;square root&quot;</span>, <span class="at">xlab =</span> <span class="st">&quot;sqrt(alcohol)&quot;</span>)</span>
-<span id="cb6-18"><a href="#cb6-18" tabindex="-1"></a><span class="fu">hist</span>(cardiac<span class="sc">$</span>alcohol.log, <span class="at">main =</span> <span class="st">&quot;natural log&quot;</span>, <span class="at">xlab =</span> <span class="st">&quot;log(alcohol)&quot;</span>)</span>
+<span id="cb6-17"><a href="#cb6-17" tabindex="-1"></a><span class="fu">hist</span>(cardiac<span class="sc">$</span>alcohol_sqrt, <span class="at">main =</span> <span class="st">&quot;square root&quot;</span>, <span class="at">xlab =</span> <span class="st">&quot;sqrt(alcohol)&quot;</span>)</span>
+<span id="cb6-18"><a href="#cb6-18" tabindex="-1"></a><span class="fu">hist</span>(cardiac<span class="sc">$</span>alcohol_log, <span class="at">main =</span> <span class="st">&quot;natural log&quot;</span>, <span class="at">xlab =</span> <span class="st">&quot;log(alcohol)&quot;</span>)</span>
 <span id="cb6-19"><a href="#cb6-19" tabindex="-1"></a></span>
 <span id="cb6-20"><a href="#cb6-20" tabindex="-1"></a><span class="co"># The log transformation fails. 58 of the 163 patients reported drinking no</span></span>
 <span id="cb6-21"><a href="#cb6-21" tabindex="-1"></a><span class="co"># alcohol at all, and log(0) is -Inf, not a number. R does not stop, it just</span></span>
@@ -724,13 +724,13 @@ href="https://intro2r.com/export_plots.html#export_plots">Section
 <span id="cb6-23"><a href="#cb6-23" tabindex="-1"></a><span class="co"># data gone, with nothing more than a warning about non-finite values.</span></span>
 <span id="cb6-24"><a href="#cb6-24" tabindex="-1"></a><span class="fu">min</span>(cardiac<span class="sc">$</span>alcohol)          <span class="co"># 0</span></span>
 <span id="cb6-25"><a href="#cb6-25" tabindex="-1"></a><span class="fu">log</span>(<span class="dv">0</span>)                        <span class="co"># -Inf</span></span>
-<span id="cb6-26"><a href="#cb6-26" tabindex="-1"></a><span class="fu">sum</span>(<span class="fu">is.infinite</span>(cardiac<span class="sc">$</span>alcohol.log))   <span class="co"># 58</span></span>
+<span id="cb6-26"><a href="#cb6-26" tabindex="-1"></a><span class="fu">sum</span>(<span class="fu">is.infinite</span>(cardiac<span class="sc">$</span>alcohol_log))   <span class="co"># 58</span></span>
 <span id="cb6-27"><a href="#cb6-27" tabindex="-1"></a></span>
 <span id="cb6-28"><a href="#cb6-28" tabindex="-1"></a><span class="co"># The square root works, because sqrt(0) is 0, and it pulls the long tail in</span></span>
 <span id="cb6-29"><a href="#cb6-29" tabindex="-1"></a><span class="co"># nicely. If you did need a log, the usual dodge is log(x + 1).</span></span>
 <span id="cb6-30"><a href="#cb6-30" tabindex="-1"></a></span>
 <span id="cb6-31"><a href="#cb6-31" tabindex="-1"></a><span class="fu">jpeg</span>(<span class="st">&#39;output/ex5_alcohol.jpeg&#39;</span>)</span>
-<span id="cb6-32"><a href="#cb6-32" tabindex="-1"></a><span class="fu">hist</span>(cardiac<span class="sc">$</span>alcohol.sqrt, <span class="at">main =</span> <span class="st">&quot;&quot;</span>, <span class="at">xlab =</span> <span class="st">&quot;sqrt(alcohol)&quot;</span>)</span>
+<span id="cb6-32"><a href="#cb6-32" tabindex="-1"></a><span class="fu">hist</span>(cardiac<span class="sc">$</span>alcohol_sqrt, <span class="at">main =</span> <span class="st">&quot;&quot;</span>, <span class="at">xlab =</span> <span class="st">&quot;sqrt(alcohol)&quot;</span>)</span>
 <span id="cb6-33"><a href="#cb6-33" tabindex="-1"></a><span class="fu">dev.off</span>()</span></code></pre></div>
 <p> </p>
 <p>10. When visualising differences in a continuous variable between
@@ -787,38 +787,41 @@ and which variable is related to almost nothing?</p>
 <span id="cb8-2"><a href="#cb8-2" tabindex="-1"></a><span class="fu">pairs</span>(cardiac[, <span class="fu">c</span>(<span class="st">&quot;age&quot;</span>, <span class="st">&quot;systolic&quot;</span>, <span class="st">&quot;diastolic&quot;</span>, <span class="st">&quot;tchol&quot;</span>, <span class="st">&quot;hdlchol&quot;</span>, <span class="st">&quot;triglyceride&quot;</span>,</span>
 <span id="cb8-3"><a href="#cb8-3" tabindex="-1"></a>    <span class="st">&quot;bmi&quot;</span>)])</span>
 <span id="cb8-4"><a href="#cb8-4" tabindex="-1"></a></span>
-<span id="cb8-5"><a href="#cb8-5" tabindex="-1"></a><span class="co"># customise the plot. You need to define the panel.hist and panel.cor functions</span></span>
-<span id="cb8-6"><a href="#cb8-6" tabindex="-1"></a><span class="co"># first - these are taken from the ?pairs help file</span></span>
-<span id="cb8-7"><a href="#cb8-7" tabindex="-1"></a>panel.hist <span class="ot">&lt;-</span> <span class="cf">function</span>(x, ...) {</span>
-<span id="cb8-8"><a href="#cb8-8" tabindex="-1"></a>    usr <span class="ot">&lt;-</span> <span class="fu">par</span>(<span class="st">&quot;usr&quot;</span>)</span>
-<span id="cb8-9"><a href="#cb8-9" tabindex="-1"></a>    <span class="fu">on.exit</span>(<span class="fu">par</span>(<span class="at">usr =</span> usr))</span>
-<span id="cb8-10"><a href="#cb8-10" tabindex="-1"></a>    <span class="fu">par</span>(<span class="at">usr =</span> <span class="fu">c</span>(usr[<span class="dv">1</span><span class="sc">:</span><span class="dv">2</span>], <span class="dv">0</span>, <span class="fl">1.5</span>))</span>
-<span id="cb8-11"><a href="#cb8-11" tabindex="-1"></a>    h <span class="ot">&lt;-</span> <span class="fu">hist</span>(x, <span class="at">plot =</span> <span class="cn">FALSE</span>)</span>
-<span id="cb8-12"><a href="#cb8-12" tabindex="-1"></a>    breaks <span class="ot">&lt;-</span> h<span class="sc">$</span>breaks</span>
-<span id="cb8-13"><a href="#cb8-13" tabindex="-1"></a>    nB <span class="ot">&lt;-</span> <span class="fu">length</span>(breaks)</span>
-<span id="cb8-14"><a href="#cb8-14" tabindex="-1"></a>    y <span class="ot">&lt;-</span> h<span class="sc">$</span>counts</span>
-<span id="cb8-15"><a href="#cb8-15" tabindex="-1"></a>    y <span class="ot">&lt;-</span> y<span class="sc">/</span><span class="fu">max</span>(y)</span>
-<span id="cb8-16"><a href="#cb8-16" tabindex="-1"></a>    <span class="fu">rect</span>(breaks[<span class="sc">-</span>nB], <span class="dv">0</span>, breaks[<span class="sc">-</span><span class="dv">1</span>], y, <span class="at">col =</span> <span class="st">&quot;grey85&quot;</span>, ...)</span>
-<span id="cb8-17"><a href="#cb8-17" tabindex="-1"></a>}</span>
-<span id="cb8-18"><a href="#cb8-18" tabindex="-1"></a></span>
-<span id="cb8-19"><a href="#cb8-19" tabindex="-1"></a>panel.cor <span class="ot">&lt;-</span> <span class="cf">function</span>(x, y, <span class="at">digits =</span> <span class="dv">2</span>, ...) {</span>
-<span id="cb8-20"><a href="#cb8-20" tabindex="-1"></a>    usr <span class="ot">&lt;-</span> <span class="fu">par</span>(<span class="st">&quot;usr&quot;</span>)</span>
-<span id="cb8-21"><a href="#cb8-21" tabindex="-1"></a>    <span class="fu">on.exit</span>(<span class="fu">par</span>(<span class="at">usr =</span> usr))</span>
-<span id="cb8-22"><a href="#cb8-22" tabindex="-1"></a>    <span class="fu">par</span>(<span class="at">usr =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">1</span>, <span class="dv">0</span>, <span class="dv">1</span>))</span>
-<span id="cb8-23"><a href="#cb8-23" tabindex="-1"></a>    r <span class="ot">&lt;-</span> <span class="fu">cor</span>(x, y, <span class="at">use =</span> <span class="st">&quot;pairwise.complete.obs&quot;</span>)</span>
-<span id="cb8-24"><a href="#cb8-24" tabindex="-1"></a>    txt <span class="ot">&lt;-</span> <span class="fu">format</span>(<span class="fu">c</span>(r, <span class="fl">0.123456789</span>), <span class="at">digits =</span> digits)[<span class="dv">1</span>]</span>
-<span id="cb8-25"><a href="#cb8-25" tabindex="-1"></a>    <span class="fu">text</span>(<span class="fl">0.5</span>, <span class="fl">0.5</span>, txt, <span class="at">cex =</span> <span class="fl">1.2</span>)</span>
-<span id="cb8-26"><a href="#cb8-26" tabindex="-1"></a>}</span>
-<span id="cb8-27"><a href="#cb8-27" tabindex="-1"></a></span>
-<span id="cb8-28"><a href="#cb8-28" tabindex="-1"></a><span class="fu">pairs</span>(cardiac[, <span class="fu">c</span>(<span class="st">&quot;age&quot;</span>, <span class="st">&quot;systolic&quot;</span>, <span class="st">&quot;diastolic&quot;</span>, <span class="st">&quot;tchol&quot;</span>, <span class="st">&quot;hdlchol&quot;</span>, <span class="st">&quot;triglyceride&quot;</span>,</span>
-<span id="cb8-29"><a href="#cb8-29" tabindex="-1"></a>    <span class="st">&quot;bmi&quot;</span>)], <span class="at">diag.panel =</span> panel.hist, <span class="at">upper.panel =</span> panel.cor, <span class="at">lower.panel =</span> panel.smooth)</span>
+<span id="cb8-5"><a href="#cb8-5" tabindex="-1"></a><span class="co"># customise the plot. You need to define the panel_hist and panel_cor functions</span></span>
+<span id="cb8-6"><a href="#cb8-6" tabindex="-1"></a><span class="co"># first. These are adapted from the ?pairs help file, renamed to use</span></span>
+<span id="cb8-7"><a href="#cb8-7" tabindex="-1"></a><span class="co"># underscores like every other object you have created. Note that panel.smooth,</span></span>
+<span id="cb8-8"><a href="#cb8-8" tabindex="-1"></a><span class="co"># on the last line, keeps its dot: it is a base R function, not something you</span></span>
+<span id="cb8-9"><a href="#cb8-9" tabindex="-1"></a><span class="co"># made.</span></span>
+<span id="cb8-10"><a href="#cb8-10" tabindex="-1"></a>panel_hist <span class="ot">&lt;-</span> <span class="cf">function</span>(x, ...) {</span>
+<span id="cb8-11"><a href="#cb8-11" tabindex="-1"></a>    usr <span class="ot">&lt;-</span> <span class="fu">par</span>(<span class="st">&quot;usr&quot;</span>)</span>
+<span id="cb8-12"><a href="#cb8-12" tabindex="-1"></a>    <span class="fu">on.exit</span>(<span class="fu">par</span>(<span class="at">usr =</span> usr))</span>
+<span id="cb8-13"><a href="#cb8-13" tabindex="-1"></a>    <span class="fu">par</span>(<span class="at">usr =</span> <span class="fu">c</span>(usr[<span class="dv">1</span><span class="sc">:</span><span class="dv">2</span>], <span class="dv">0</span>, <span class="fl">1.5</span>))</span>
+<span id="cb8-14"><a href="#cb8-14" tabindex="-1"></a>    h <span class="ot">&lt;-</span> <span class="fu">hist</span>(x, <span class="at">plot =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb8-15"><a href="#cb8-15" tabindex="-1"></a>    breaks <span class="ot">&lt;-</span> h<span class="sc">$</span>breaks</span>
+<span id="cb8-16"><a href="#cb8-16" tabindex="-1"></a>    nB <span class="ot">&lt;-</span> <span class="fu">length</span>(breaks)</span>
+<span id="cb8-17"><a href="#cb8-17" tabindex="-1"></a>    y <span class="ot">&lt;-</span> h<span class="sc">$</span>counts</span>
+<span id="cb8-18"><a href="#cb8-18" tabindex="-1"></a>    y <span class="ot">&lt;-</span> y<span class="sc">/</span><span class="fu">max</span>(y)</span>
+<span id="cb8-19"><a href="#cb8-19" tabindex="-1"></a>    <span class="fu">rect</span>(breaks[<span class="sc">-</span>nB], <span class="dv">0</span>, breaks[<span class="sc">-</span><span class="dv">1</span>], y, <span class="at">col =</span> <span class="st">&quot;grey85&quot;</span>, ...)</span>
+<span id="cb8-20"><a href="#cb8-20" tabindex="-1"></a>}</span>
+<span id="cb8-21"><a href="#cb8-21" tabindex="-1"></a></span>
+<span id="cb8-22"><a href="#cb8-22" tabindex="-1"></a>panel_cor <span class="ot">&lt;-</span> <span class="cf">function</span>(x, y, <span class="at">digits =</span> <span class="dv">2</span>, ...) {</span>
+<span id="cb8-23"><a href="#cb8-23" tabindex="-1"></a>    usr <span class="ot">&lt;-</span> <span class="fu">par</span>(<span class="st">&quot;usr&quot;</span>)</span>
+<span id="cb8-24"><a href="#cb8-24" tabindex="-1"></a>    <span class="fu">on.exit</span>(<span class="fu">par</span>(<span class="at">usr =</span> usr))</span>
+<span id="cb8-25"><a href="#cb8-25" tabindex="-1"></a>    <span class="fu">par</span>(<span class="at">usr =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">1</span>, <span class="dv">0</span>, <span class="dv">1</span>))</span>
+<span id="cb8-26"><a href="#cb8-26" tabindex="-1"></a>    r <span class="ot">&lt;-</span> <span class="fu">cor</span>(x, y, <span class="at">use =</span> <span class="st">&quot;pairwise.complete.obs&quot;</span>)</span>
+<span id="cb8-27"><a href="#cb8-27" tabindex="-1"></a>    txt <span class="ot">&lt;-</span> <span class="fu">format</span>(<span class="fu">c</span>(r, <span class="fl">0.123456789</span>), <span class="at">digits =</span> digits)[<span class="dv">1</span>]</span>
+<span id="cb8-28"><a href="#cb8-28" tabindex="-1"></a>    <span class="fu">text</span>(<span class="fl">0.5</span>, <span class="fl">0.5</span>, txt, <span class="at">cex =</span> <span class="fl">1.2</span>)</span>
+<span id="cb8-29"><a href="#cb8-29" tabindex="-1"></a>}</span>
 <span id="cb8-30"><a href="#cb8-30" tabindex="-1"></a></span>
-<span id="cb8-31"><a href="#cb8-31" tabindex="-1"></a><span class="co"># systolic and diastolic are the most strongly related pair (r = 0.56), which</span></span>
-<span id="cb8-32"><a href="#cb8-32" tabindex="-1"></a><span class="co"># is no surprise. hdlchol and triglyceride are the next strongest (r = -0.43)</span></span>
-<span id="cb8-33"><a href="#cb8-33" tabindex="-1"></a><span class="co"># and negative. age is related to almost nothing here, and that is worth</span></span>
-<span id="cb8-34"><a href="#cb8-34" tabindex="-1"></a><span class="co"># thinking about: everyone in this study is between 55 and 75, so there simply</span></span>
-<span id="cb8-35"><a href="#cb8-35" tabindex="-1"></a><span class="co"># is not enough spread in age for a relationship to show itself. A variable can</span></span>
-<span id="cb8-36"><a href="#cb8-36" tabindex="-1"></a><span class="co"># look unimportant purely because of who was recruited.</span></span></code></pre></div>
+<span id="cb8-31"><a href="#cb8-31" tabindex="-1"></a><span class="fu">pairs</span>(cardiac[, <span class="fu">c</span>(<span class="st">&quot;age&quot;</span>, <span class="st">&quot;systolic&quot;</span>, <span class="st">&quot;diastolic&quot;</span>, <span class="st">&quot;tchol&quot;</span>, <span class="st">&quot;hdlchol&quot;</span>, <span class="st">&quot;triglyceride&quot;</span>,</span>
+<span id="cb8-32"><a href="#cb8-32" tabindex="-1"></a>    <span class="st">&quot;bmi&quot;</span>)], <span class="at">diag.panel =</span> panel_hist, <span class="at">upper.panel =</span> panel_cor, <span class="at">lower.panel =</span> panel.smooth)</span>
+<span id="cb8-33"><a href="#cb8-33" tabindex="-1"></a></span>
+<span id="cb8-34"><a href="#cb8-34" tabindex="-1"></a><span class="co"># systolic and diastolic are the most strongly related pair (r = 0.56), which</span></span>
+<span id="cb8-35"><a href="#cb8-35" tabindex="-1"></a><span class="co"># is no surprise. hdlchol and triglyceride are the next strongest (r = -0.43)</span></span>
+<span id="cb8-36"><a href="#cb8-36" tabindex="-1"></a><span class="co"># and negative. age is related to almost nothing here, and that is worth</span></span>
+<span id="cb8-37"><a href="#cb8-37" tabindex="-1"></a><span class="co"># thinking about: everyone in this study is between 55 and 75, so there simply</span></span>
+<span id="cb8-38"><a href="#cb8-38" tabindex="-1"></a><span class="co"># is not enough spread in age for a relationship to show itself. A variable can</span></span>
+<span id="cb8-39"><a href="#cb8-39" tabindex="-1"></a><span class="co"># look unimportant purely because of who was recruited.</span></span></code></pre></div>
 <p> </p>
 <p>End of Exercise 5</p>
 </div>

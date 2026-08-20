@@ -581,159 +581,228 @@ stranger would not understand about it.</p>
 <span id="cb3-13"><a href="#cb3-13" tabindex="-1"></a><span class="co"># holding the dataset.</span></span></code></pre></div>
 <p> </p>
 <p>6. A single line rarely tells the whole story. Scotland’s average
-hides enormous variation between council areas. Add three council areas
-to your plot: “Glasgow City”, “Aberdeen City” and “Aberdeenshire”. You
-cannot do this with one <code>plot()</code> call. The usual approach is
-to set up an empty plot with the right axis limits using
-<code>type = "n"</code>, then add each area in turn with
-<code>lines()</code>. Give each area its own colour and add a legend so
-the reader knows which is which. Two things will catch you out. First,
-work out your y axis limits from all four areas, not just Scotland, or
-lines will run off the top. Second, if you subset a dataframe the factor
-keeps all of its original levels, which is why <code>droplevels()</code>
-exists.</p>
-<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" tabindex="-1"></a>areas <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;Scotland&quot;</span>, <span class="st">&quot;Glasgow City&quot;</span>, <span class="st">&quot;Aberdeen City&quot;</span>, <span class="st">&quot;Aberdeenshire&quot;</span>)</span>
-<span id="cb4-2"><a href="#cb4-2" tabindex="-1"></a>sub <span class="ot">&lt;-</span> scotpho[scotpho<span class="sc">$</span>area_name <span class="sc">%in%</span> areas, ]</span>
-<span id="cb4-3"><a href="#cb4-3" tabindex="-1"></a></span>
-<span id="cb4-4"><a href="#cb4-4" tabindex="-1"></a><span class="co"># the factor still thinks it has 33 levels, even though only 4 are left</span></span>
-<span id="cb4-5"><a href="#cb4-5" tabindex="-1"></a><span class="fu">levels</span>(sub<span class="sc">$</span>area_name)  <span class="co"># all 33</span></span>
-<span id="cb4-6"><a href="#cb4-6" tabindex="-1"></a>sub<span class="sc">$</span>area_name <span class="ot">&lt;-</span> <span class="fu">droplevels</span>(sub<span class="sc">$</span>area_name)</span>
-<span id="cb4-7"><a href="#cb4-7" tabindex="-1"></a><span class="fu">levels</span>(sub<span class="sc">$</span>area_name)  <span class="co"># now 4</span></span>
-<span id="cb4-8"><a href="#cb4-8" tabindex="-1"></a></span>
-<span id="cb4-9"><a href="#cb4-9" tabindex="-1"></a><span class="co"># set up an empty plot with limits that fit every area</span></span>
-<span id="cb4-10"><a href="#cb4-10" tabindex="-1"></a><span class="fu">plot</span>(<span class="fu">range</span>(sub<span class="sc">$</span>year), <span class="fu">range</span>(sub<span class="sc">$</span>measure), <span class="at">type =</span> <span class="st">&quot;n&quot;</span>, <span class="at">xlab =</span> <span class="st">&quot;Year&quot;</span>, <span class="at">ylab =</span> <span class="st">&quot;Admissions per 100,000&quot;</span>)</span>
-<span id="cb4-11"><a href="#cb4-11" tabindex="-1"></a></span>
-<span id="cb4-12"><a href="#cb4-12" tabindex="-1"></a>cols <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;black&quot;</span>, <span class="st">&quot;red&quot;</span>, <span class="st">&quot;blue&quot;</span>, <span class="st">&quot;darkgreen&quot;</span>)</span>
-<span id="cb4-13"><a href="#cb4-13" tabindex="-1"></a></span>
-<span id="cb4-14"><a href="#cb4-14" tabindex="-1"></a><span class="cf">for</span> (i <span class="cf">in</span> <span class="fu">seq_along</span>(areas)) {</span>
-<span id="cb4-15"><a href="#cb4-15" tabindex="-1"></a>    a <span class="ot">&lt;-</span> sub[sub<span class="sc">$</span>area_name <span class="sc">==</span> areas[i], ]</span>
-<span id="cb4-16"><a href="#cb4-16" tabindex="-1"></a>    a <span class="ot">&lt;-</span> a[<span class="fu">order</span>(a<span class="sc">$</span>year), ]  <span class="co"># never assume the rows are in order</span></span>
-<span id="cb4-17"><a href="#cb4-17" tabindex="-1"></a>    <span class="fu">lines</span>(a<span class="sc">$</span>year, a<span class="sc">$</span>measure, <span class="at">col =</span> cols[i], <span class="at">lwd =</span> <span class="dv">2</span>)</span>
-<span id="cb4-18"><a href="#cb4-18" tabindex="-1"></a>}</span>
-<span id="cb4-19"><a href="#cb4-19" tabindex="-1"></a></span>
-<span id="cb4-20"><a href="#cb4-20" tabindex="-1"></a><span class="fu">legend</span>(<span class="st">&quot;topright&quot;</span>, <span class="at">legend =</span> areas, <span class="at">col =</span> cols, <span class="at">lwd =</span> <span class="dv">2</span>)</span>
-<span id="cb4-21"><a href="#cb4-21" tabindex="-1"></a></span>
-<span id="cb4-22"><a href="#cb4-22" tabindex="-1"></a><span class="co"># Glasgow City is roughly twice the Scottish average and Aberdeenshire is</span></span>
-<span id="cb4-23"><a href="#cb4-23" tabindex="-1"></a><span class="co"># roughly half of it. The national line, on its own, describes almost nobody.</span></span></code></pre></div>
+hides enormous variation between council areas. Add two council areas to
+your plot: “Glasgow City”, which has the highest rate in Scotland, and
+“Aberdeenshire”, which has one of the lowest. Pull each area out into
+its own dataframe first, exactly as you did with Scotland. Then plot one
+of them with <code>plot()</code> and add the other two on top using the
+<code>lines()</code> function. Two things will catch you out. First,
+<code>plot()</code> sets the axis limits from whatever you plot first,
+so if you start with Scotland the Glasgow line will run off the top of
+the plot; use the <code>ylim</code> argument to set limits that fit all
+three. Second, give each area its own colour, and add a
+<code>legend()</code> so the reader knows which line is which.</p>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" tabindex="-1"></a><span class="co"># one dataframe per area</span></span>
+<span id="cb4-2"><a href="#cb4-2" tabindex="-1"></a>scotland <span class="ot">&lt;-</span> scotpho[scotpho<span class="sc">$</span>area_name <span class="sc">==</span> <span class="st">&quot;Scotland&quot;</span>, ]</span>
+<span id="cb4-3"><a href="#cb4-3" tabindex="-1"></a>glasgow <span class="ot">&lt;-</span> scotpho[scotpho<span class="sc">$</span>area_name <span class="sc">==</span> <span class="st">&quot;Glasgow City&quot;</span>, ]</span>
+<span id="cb4-4"><a href="#cb4-4" tabindex="-1"></a>aberdeenshire <span class="ot">&lt;-</span> scotpho[scotpho<span class="sc">$</span>area_name <span class="sc">==</span> <span class="st">&quot;Aberdeenshire&quot;</span>, ]</span>
+<span id="cb4-5"><a href="#cb4-5" tabindex="-1"></a></span>
+<span id="cb4-6"><a href="#cb4-6" tabindex="-1"></a><span class="co"># Glasgow reaches about 1500, so leave room for it</span></span>
+<span id="cb4-7"><a href="#cb4-7" tabindex="-1"></a><span class="fu">plot</span>(scotland<span class="sc">$</span>year, scotland<span class="sc">$</span>measure, <span class="at">type =</span> <span class="st">&quot;l&quot;</span>, <span class="at">lwd =</span> <span class="dv">2</span>, <span class="at">col =</span> <span class="st">&quot;black&quot;</span>, <span class="at">ylim =</span> <span class="fu">c</span>(<span class="dv">0</span>,</span>
+<span id="cb4-8"><a href="#cb4-8" tabindex="-1"></a>    <span class="dv">1600</span>), <span class="at">xlab =</span> <span class="st">&quot;Year&quot;</span>, <span class="at">ylab =</span> <span class="st">&quot;Admissions per 100,000&quot;</span>)</span>
+<span id="cb4-9"><a href="#cb4-9" tabindex="-1"></a></span>
+<span id="cb4-10"><a href="#cb4-10" tabindex="-1"></a><span class="fu">lines</span>(glasgow<span class="sc">$</span>year, glasgow<span class="sc">$</span>measure, <span class="at">lwd =</span> <span class="dv">2</span>, <span class="at">col =</span> <span class="st">&quot;red&quot;</span>)</span>
+<span id="cb4-11"><a href="#cb4-11" tabindex="-1"></a><span class="fu">lines</span>(aberdeenshire<span class="sc">$</span>year, aberdeenshire<span class="sc">$</span>measure, <span class="at">lwd =</span> <span class="dv">2</span>, <span class="at">col =</span> <span class="st">&quot;blue&quot;</span>)</span>
+<span id="cb4-12"><a href="#cb4-12" tabindex="-1"></a></span>
+<span id="cb4-13"><a href="#cb4-13" tabindex="-1"></a><span class="fu">legend</span>(<span class="st">&quot;topright&quot;</span>, <span class="at">legend =</span> <span class="fu">c</span>(<span class="st">&quot;Scotland&quot;</span>, <span class="st">&quot;Glasgow City&quot;</span>, <span class="st">&quot;Aberdeenshire&quot;</span>), <span class="at">col =</span> <span class="fu">c</span>(<span class="st">&quot;black&quot;</span>,</span>
+<span id="cb4-14"><a href="#cb4-14" tabindex="-1"></a>    <span class="st">&quot;red&quot;</span>, <span class="st">&quot;blue&quot;</span>), <span class="at">lwd =</span> <span class="dv">2</span>)</span>
+<span id="cb4-15"><a href="#cb4-15" tabindex="-1"></a></span>
+<span id="cb4-16"><a href="#cb4-16" tabindex="-1"></a><span class="co"># Glasgow City is roughly twice the Scottish average and Aberdeenshire is</span></span>
+<span id="cb4-17"><a href="#cb4-17" tabindex="-1"></a><span class="co"># roughly half of it. The national line, on its own, describes almost nobody.</span></span>
+<span id="cb4-18"><a href="#cb4-18" tabindex="-1"></a></span>
+<span id="cb4-19"><a href="#cb4-19" tabindex="-1"></a><span class="co"># Note: with only three areas it is perfectly reasonable to write out three</span></span>
+<span id="cb4-20"><a href="#cb4-20" tabindex="-1"></a><span class="co"># lines() calls. If you had all 32 council areas you would want a loop instead,</span></span>
+<span id="cb4-21"><a href="#cb4-21" tabindex="-1"></a><span class="co"># which you can meet in the optional programming exercise.</span></span></code></pre></div>
 <p> </p>
 <p>7. Now think about those colours. Roughly 1 in 12 men has some form
 of colour vision deficiency, most commonly difficulty distinguishing red
-from green - and you have just used red and green on the same plot.
-Posters also get photocopied, printed in black and white, and viewed on
+from green - and red and blue are not a safe pairing either. Posters
+also get photocopied, printed in black and white, and viewed on
 projectors that wash colour out. Redraw your plot using a colour-blind
 friendly palette: base R has one built in,
-<code>palette.colors(n, palette = "Okabe-Ito")</code>. Then test it.
-Convert your colours to their greyscale equivalents and redraw the plot
-in grey to see whether the lines are still tellable apart. If they are
-not, what could you change other than the colour?</p>
-<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" tabindex="-1"></a>cols <span class="ot">&lt;-</span> <span class="fu">palette.colors</span>(<span class="dv">4</span>, <span class="at">palette =</span> <span class="st">&quot;Okabe-Ito&quot;</span>)</span>
+<code>palette.colors(3, palette = "Okabe-Ito")</code>. Then test it.
+Redraw it a third time replacing those colours with their greyscale
+equivalents, which are <code>grey(c(0, 0.64, 0.62))</code>, and see
+whether the three lines are still tellable apart. If they are not, what
+could you change other than the colour?</p>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" tabindex="-1"></a>cols <span class="ot">&lt;-</span> <span class="fu">palette.colors</span>(<span class="dv">3</span>, <span class="at">palette =</span> <span class="st">&quot;Okabe-Ito&quot;</span>)</span>
 <span id="cb5-2"><a href="#cb5-2" tabindex="-1"></a>cols</span>
-<span id="cb5-3"><a href="#cb5-3" tabindex="-1"></a><span class="co"># &#39;#000000&#39; &#39;#E69F00&#39; &#39;#56B4E9&#39; &#39;#009E73&#39;</span></span>
+<span id="cb5-3"><a href="#cb5-3" tabindex="-1"></a><span class="co"># &#39;#000000&#39; &#39;#E69F00&#39; &#39;#56B4E9&#39; black, orange, sky blue</span></span>
 <span id="cb5-4"><a href="#cb5-4" tabindex="-1"></a></span>
-<span id="cb5-5"><a href="#cb5-5" tabindex="-1"></a><span class="co"># a greyscale test: convert each colour to the grey of the same luminance</span></span>
-<span id="cb5-6"><a href="#cb5-6" tabindex="-1"></a>grey.cols <span class="ot">&lt;-</span> <span class="fu">grey</span>(<span class="fu">apply</span>(<span class="fu">col2rgb</span>(cols), <span class="dv">2</span>, <span class="cf">function</span>(x) <span class="fu">sum</span>(x <span class="sc">*</span> <span class="fu">c</span>(<span class="fl">0.299</span>, <span class="fl">0.587</span>, <span class="fl">0.114</span>))<span class="sc">/</span><span class="dv">255</span>))</span>
-<span id="cb5-7"><a href="#cb5-7" tabindex="-1"></a></span>
-<span id="cb5-8"><a href="#cb5-8" tabindex="-1"></a><span class="co"># draw both versions side by side and compare</span></span>
-<span id="cb5-9"><a href="#cb5-9" tabindex="-1"></a><span class="fu">par</span>(<span class="at">mfrow =</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">2</span>))</span>
-<span id="cb5-10"><a href="#cb5-10" tabindex="-1"></a><span class="cf">for</span> (palette.in.use <span class="cf">in</span> <span class="fu">list</span>(cols, grey.cols)) {</span>
-<span id="cb5-11"><a href="#cb5-11" tabindex="-1"></a>    <span class="fu">plot</span>(<span class="fu">range</span>(sub<span class="sc">$</span>year), <span class="fu">range</span>(sub<span class="sc">$</span>measure), <span class="at">type =</span> <span class="st">&quot;n&quot;</span>, <span class="at">xlab =</span> <span class="st">&quot;Year&quot;</span>, <span class="at">ylab =</span> <span class="st">&quot;Admissions per 100,000&quot;</span>)</span>
-<span id="cb5-12"><a href="#cb5-12" tabindex="-1"></a>    <span class="cf">for</span> (i <span class="cf">in</span> <span class="fu">seq_along</span>(areas)) {</span>
-<span id="cb5-13"><a href="#cb5-13" tabindex="-1"></a>        a <span class="ot">&lt;-</span> sub[sub<span class="sc">$</span>area_name <span class="sc">==</span> areas[i], ]</span>
-<span id="cb5-14"><a href="#cb5-14" tabindex="-1"></a>        a <span class="ot">&lt;-</span> a[<span class="fu">order</span>(a<span class="sc">$</span>year), ]</span>
-<span id="cb5-15"><a href="#cb5-15" tabindex="-1"></a>        <span class="fu">lines</span>(a<span class="sc">$</span>year, a<span class="sc">$</span>measure, <span class="at">col =</span> palette.in.use[i], <span class="at">lwd =</span> <span class="dv">2</span>)</span>
-<span id="cb5-16"><a href="#cb5-16" tabindex="-1"></a>    }</span>
-<span id="cb5-17"><a href="#cb5-17" tabindex="-1"></a>    <span class="fu">legend</span>(<span class="st">&quot;topright&quot;</span>, <span class="at">legend =</span> areas, <span class="at">col =</span> palette.in.use, <span class="at">lwd =</span> <span class="dv">2</span>)</span>
-<span id="cb5-18"><a href="#cb5-18" tabindex="-1"></a>}</span>
-<span id="cb5-19"><a href="#cb5-19" tabindex="-1"></a></span>
-<span id="cb5-20"><a href="#cb5-20" tabindex="-1"></a><span class="co"># In grey, two of the four lines become hard to separate. Colour alone is never</span></span>
-<span id="cb5-21"><a href="#cb5-21" tabindex="-1"></a><span class="co"># enough. The fix is to give the reader a second, redundant cue - here, a</span></span>
-<span id="cb5-22"><a href="#cb5-22" tabindex="-1"></a><span class="co"># different line type for each area - so the plot still works with no colour at</span></span>
-<span id="cb5-23"><a href="#cb5-23" tabindex="-1"></a><span class="co"># all.</span></span>
-<span id="cb5-24"><a href="#cb5-24" tabindex="-1"></a><span class="fu">par</span>(<span class="at">mfrow =</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">1</span>))</span>
-<span id="cb5-25"><a href="#cb5-25" tabindex="-1"></a>ltys <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">3</span>, <span class="dv">4</span>)</span>
-<span id="cb5-26"><a href="#cb5-26" tabindex="-1"></a><span class="fu">plot</span>(<span class="fu">range</span>(sub<span class="sc">$</span>year), <span class="fu">range</span>(sub<span class="sc">$</span>measure), <span class="at">type =</span> <span class="st">&quot;n&quot;</span>, <span class="at">xlab =</span> <span class="st">&quot;Year&quot;</span>, <span class="at">ylab =</span> <span class="st">&quot;Admissions per 100,000&quot;</span>)</span>
-<span id="cb5-27"><a href="#cb5-27" tabindex="-1"></a><span class="cf">for</span> (i <span class="cf">in</span> <span class="fu">seq_along</span>(areas)) {</span>
-<span id="cb5-28"><a href="#cb5-28" tabindex="-1"></a>    a <span class="ot">&lt;-</span> sub[sub<span class="sc">$</span>area_name <span class="sc">==</span> areas[i], ]</span>
-<span id="cb5-29"><a href="#cb5-29" tabindex="-1"></a>    a <span class="ot">&lt;-</span> a[<span class="fu">order</span>(a<span class="sc">$</span>year), ]</span>
-<span id="cb5-30"><a href="#cb5-30" tabindex="-1"></a>    <span class="fu">lines</span>(a<span class="sc">$</span>year, a<span class="sc">$</span>measure, <span class="at">col =</span> cols[i], <span class="at">lwd =</span> <span class="dv">2</span>, <span class="at">lty =</span> ltys[i])</span>
-<span id="cb5-31"><a href="#cb5-31" tabindex="-1"></a>}</span>
-<span id="cb5-32"><a href="#cb5-32" tabindex="-1"></a><span class="fu">legend</span>(<span class="st">&quot;topright&quot;</span>, <span class="at">legend =</span> areas, <span class="at">col =</span> cols, <span class="at">lwd =</span> <span class="dv">2</span>, <span class="at">lty =</span> ltys)</span></code></pre></div>
+<span id="cb5-5"><a href="#cb5-5" tabindex="-1"></a><span class="fu">plot</span>(scotland<span class="sc">$</span>year, scotland<span class="sc">$</span>measure, <span class="at">type =</span> <span class="st">&quot;l&quot;</span>, <span class="at">lwd =</span> <span class="dv">2</span>, <span class="at">col =</span> cols[<span class="dv">1</span>], <span class="at">ylim =</span> <span class="fu">c</span>(<span class="dv">0</span>,</span>
+<span id="cb5-6"><a href="#cb5-6" tabindex="-1"></a>    <span class="dv">1600</span>), <span class="at">xlab =</span> <span class="st">&quot;Year&quot;</span>, <span class="at">ylab =</span> <span class="st">&quot;Admissions per 100,000&quot;</span>)</span>
+<span id="cb5-7"><a href="#cb5-7" tabindex="-1"></a><span class="fu">lines</span>(glasgow<span class="sc">$</span>year, glasgow<span class="sc">$</span>measure, <span class="at">lwd =</span> <span class="dv">2</span>, <span class="at">col =</span> cols[<span class="dv">2</span>])</span>
+<span id="cb5-8"><a href="#cb5-8" tabindex="-1"></a><span class="fu">lines</span>(aberdeenshire<span class="sc">$</span>year, aberdeenshire<span class="sc">$</span>measure, <span class="at">lwd =</span> <span class="dv">2</span>, <span class="at">col =</span> cols[<span class="dv">3</span>])</span>
+<span id="cb5-9"><a href="#cb5-9" tabindex="-1"></a><span class="fu">legend</span>(<span class="st">&quot;topright&quot;</span>, <span class="at">legend =</span> <span class="fu">c</span>(<span class="st">&quot;Scotland&quot;</span>, <span class="st">&quot;Glasgow City&quot;</span>, <span class="st">&quot;Aberdeenshire&quot;</span>), <span class="at">col =</span> cols,</span>
+<span id="cb5-10"><a href="#cb5-10" tabindex="-1"></a>    <span class="at">lwd =</span> <span class="dv">2</span>)</span>
+<span id="cb5-11"><a href="#cb5-11" tabindex="-1"></a></span>
+<span id="cb5-12"><a href="#cb5-12" tabindex="-1"></a><span class="co"># now the same plot in greyscale</span></span>
+<span id="cb5-13"><a href="#cb5-13" tabindex="-1"></a>greys <span class="ot">&lt;-</span> <span class="fu">grey</span>(<span class="fu">c</span>(<span class="dv">0</span>, <span class="fl">0.64</span>, <span class="fl">0.62</span>))</span>
+<span id="cb5-14"><a href="#cb5-14" tabindex="-1"></a></span>
+<span id="cb5-15"><a href="#cb5-15" tabindex="-1"></a><span class="fu">plot</span>(scotland<span class="sc">$</span>year, scotland<span class="sc">$</span>measure, <span class="at">type =</span> <span class="st">&quot;l&quot;</span>, <span class="at">lwd =</span> <span class="dv">2</span>, <span class="at">col =</span> greys[<span class="dv">1</span>], <span class="at">ylim =</span> <span class="fu">c</span>(<span class="dv">0</span>,</span>
+<span id="cb5-16"><a href="#cb5-16" tabindex="-1"></a>    <span class="dv">1600</span>), <span class="at">xlab =</span> <span class="st">&quot;Year&quot;</span>, <span class="at">ylab =</span> <span class="st">&quot;Admissions per 100,000&quot;</span>)</span>
+<span id="cb5-17"><a href="#cb5-17" tabindex="-1"></a><span class="fu">lines</span>(glasgow<span class="sc">$</span>year, glasgow<span class="sc">$</span>measure, <span class="at">lwd =</span> <span class="dv">2</span>, <span class="at">col =</span> greys[<span class="dv">2</span>])</span>
+<span id="cb5-18"><a href="#cb5-18" tabindex="-1"></a><span class="fu">lines</span>(aberdeenshire<span class="sc">$</span>year, aberdeenshire<span class="sc">$</span>measure, <span class="at">lwd =</span> <span class="dv">2</span>, <span class="at">col =</span> greys[<span class="dv">3</span>])</span>
+<span id="cb5-19"><a href="#cb5-19" tabindex="-1"></a><span class="fu">legend</span>(<span class="st">&quot;topright&quot;</span>, <span class="at">legend =</span> <span class="fu">c</span>(<span class="st">&quot;Scotland&quot;</span>, <span class="st">&quot;Glasgow City&quot;</span>, <span class="st">&quot;Aberdeenshire&quot;</span>), <span class="at">col =</span> greys,</span>
+<span id="cb5-20"><a href="#cb5-20" tabindex="-1"></a>    <span class="at">lwd =</span> <span class="dv">2</span>)</span>
+<span id="cb5-21"><a href="#cb5-21" tabindex="-1"></a></span>
+<span id="cb5-22"><a href="#cb5-22" tabindex="-1"></a><span class="co"># The orange and the sky blue are different enough on screen, but in grey they</span></span>
+<span id="cb5-23"><a href="#cb5-23" tabindex="-1"></a><span class="co"># come out at 0.64 and 0.62 - practically the same. Anyone printing your poster</span></span>
+<span id="cb5-24"><a href="#cb5-24" tabindex="-1"></a><span class="co"># in black and white cannot tell Glasgow from Aberdeenshire.</span></span>
+<span id="cb5-25"><a href="#cb5-25" tabindex="-1"></a></span>
+<span id="cb5-26"><a href="#cb5-26" tabindex="-1"></a><span class="co"># Colour alone is never enough. The fix is to give the reader a second,</span></span>
+<span id="cb5-27"><a href="#cb5-27" tabindex="-1"></a><span class="co"># redundant cue - here a different line type for each area, set with lty - so</span></span>
+<span id="cb5-28"><a href="#cb5-28" tabindex="-1"></a><span class="co"># the plot still works with no colour at all.</span></span>
+<span id="cb5-29"><a href="#cb5-29" tabindex="-1"></a><span class="fu">plot</span>(scotland<span class="sc">$</span>year, scotland<span class="sc">$</span>measure, <span class="at">type =</span> <span class="st">&quot;l&quot;</span>, <span class="at">lwd =</span> <span class="dv">2</span>, <span class="at">col =</span> cols[<span class="dv">1</span>], <span class="at">lty =</span> <span class="dv">1</span>,</span>
+<span id="cb5-30"><a href="#cb5-30" tabindex="-1"></a>    <span class="at">ylim =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">1600</span>), <span class="at">xlab =</span> <span class="st">&quot;Year&quot;</span>, <span class="at">ylab =</span> <span class="st">&quot;Admissions per 100,000&quot;</span>)</span>
+<span id="cb5-31"><a href="#cb5-31" tabindex="-1"></a><span class="fu">lines</span>(glasgow<span class="sc">$</span>year, glasgow<span class="sc">$</span>measure, <span class="at">lwd =</span> <span class="dv">2</span>, <span class="at">col =</span> cols[<span class="dv">2</span>], <span class="at">lty =</span> <span class="dv">2</span>)</span>
+<span id="cb5-32"><a href="#cb5-32" tabindex="-1"></a><span class="fu">lines</span>(aberdeenshire<span class="sc">$</span>year, aberdeenshire<span class="sc">$</span>measure, <span class="at">lwd =</span> <span class="dv">2</span>, <span class="at">col =</span> cols[<span class="dv">3</span>], <span class="at">lty =</span> <span class="dv">3</span>)</span>
+<span id="cb5-33"><a href="#cb5-33" tabindex="-1"></a><span class="fu">legend</span>(<span class="st">&quot;topright&quot;</span>, <span class="at">legend =</span> <span class="fu">c</span>(<span class="st">&quot;Scotland&quot;</span>, <span class="st">&quot;Glasgow City&quot;</span>, <span class="st">&quot;Aberdeenshire&quot;</span>), <span class="at">col =</span> cols,</span>
+<span id="cb5-34"><a href="#cb5-34" tabindex="-1"></a>    <span class="at">lwd =</span> <span class="dv">2</span>, <span class="at">lty =</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">3</span>))</span></code></pre></div>
 <p> </p>
 <p>8. Time to fix the words. Every plot that leaves your computer needs
 axis labels a non-specialist can read, including units; a title that
 says what the reader is looking at; and a note saying where the data
-came from and what period it covers. Write the labels for someone who
-has never heard the phrase ‘age-sex standardised’ - your reader is a
-public health colleague or a member of the public, not a statistician.
-Add the source as a small note underneath the plot using
-<code>mtext()</code>. Finally, think about the y axis. Should it start
-at zero? There is no single right answer, but you should be able to
-justify whichever you choose.</p>
-<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" tabindex="-1"></a><span class="fu">plot</span>(<span class="fu">range</span>(sub<span class="sc">$</span>year), <span class="fu">c</span>(<span class="dv">0</span>, <span class="fu">max</span>(sub<span class="sc">$</span>measure)), <span class="at">type =</span> <span class="st">&quot;n&quot;</span>, <span class="at">xlab =</span> <span class="st">&quot;Year&quot;</span>, <span class="at">ylab =</span> <span class="st">&quot;Hospital admissions per 100,000 people&quot;</span>,</span>
-<span id="cb6-2"><a href="#cb6-2" tabindex="-1"></a>    <span class="at">main =</span> <span class="st">&quot;Alcohol-related hospital admissions, 2010 to 2019&quot;</span>, <span class="at">las =</span> <span class="dv">1</span>)</span>
-<span id="cb6-3"><a href="#cb6-3" tabindex="-1"></a></span>
-<span id="cb6-4"><a href="#cb6-4" tabindex="-1"></a><span class="cf">for</span> (i <span class="cf">in</span> <span class="fu">seq_along</span>(areas)) {</span>
-<span id="cb6-5"><a href="#cb6-5" tabindex="-1"></a>    a <span class="ot">&lt;-</span> sub[sub<span class="sc">$</span>area_name <span class="sc">==</span> areas[i], ]</span>
-<span id="cb6-6"><a href="#cb6-6" tabindex="-1"></a>    a <span class="ot">&lt;-</span> a[<span class="fu">order</span>(a<span class="sc">$</span>year), ]</span>
-<span id="cb6-7"><a href="#cb6-7" tabindex="-1"></a>    <span class="fu">lines</span>(a<span class="sc">$</span>year, a<span class="sc">$</span>measure, <span class="at">col =</span> cols[i], <span class="at">lwd =</span> <span class="dv">2</span>, <span class="at">lty =</span> ltys[i])</span>
-<span id="cb6-8"><a href="#cb6-8" tabindex="-1"></a>}</span>
-<span id="cb6-9"><a href="#cb6-9" tabindex="-1"></a></span>
-<span id="cb6-10"><a href="#cb6-10" tabindex="-1"></a><span class="fu">legend</span>(<span class="st">&quot;bottomleft&quot;</span>, <span class="at">legend =</span> areas, <span class="at">col =</span> cols, <span class="at">lwd =</span> <span class="dv">2</span>, <span class="at">lty =</span> ltys, <span class="at">bty =</span> <span class="st">&quot;n&quot;</span>)</span>
-<span id="cb6-11"><a href="#cb6-11" tabindex="-1"></a></span>
-<span id="cb6-12"><a href="#cb6-12" tabindex="-1"></a><span class="fu">mtext</span>(<span class="st">&quot;Source: Scottish Public Health Observatory. Rates are age-sex standardised.&quot;</span>,</span>
-<span id="cb6-13"><a href="#cb6-13" tabindex="-1"></a>    <span class="at">side =</span> <span class="dv">1</span>, <span class="at">line =</span> <span class="dv">4</span>, <span class="at">cex =</span> <span class="fl">0.7</span>, <span class="at">adj =</span> <span class="dv">0</span>)</span>
-<span id="cb6-14"><a href="#cb6-14" tabindex="-1"></a></span>
-<span id="cb6-15"><a href="#cb6-15" tabindex="-1"></a><span class="co"># Should the y axis start at zero?  Starting at zero, as here, shows the true</span></span>
-<span id="cb6-16"><a href="#cb6-16" tabindex="-1"></a><span class="co"># relative size of the difference between areas: Glasgow really is about four</span></span>
-<span id="cb6-17"><a href="#cb6-17" tabindex="-1"></a><span class="co"># times Aberdeenshire. Starting at the minimum instead would fill the panel</span></span>
-<span id="cb6-18"><a href="#cb6-18" tabindex="-1"></a><span class="co"># with the year to year wiggles and make a modest national decline look</span></span>
-<span id="cb6-19"><a href="#cb6-19" tabindex="-1"></a><span class="co"># dramatic. For a rate like this, where zero is meaningful and the comparison</span></span>
-<span id="cb6-20"><a href="#cb6-20" tabindex="-1"></a><span class="co"># between areas is the point, starting at zero is the honest choice. For</span></span>
-<span id="cb6-21"><a href="#cb6-21" tabindex="-1"></a><span class="co"># something like average age, where zero is nowhere near the data, it would be</span></span>
-<span id="cb6-22"><a href="#cb6-22" tabindex="-1"></a><span class="co"># absurd. Decide, and be able to say why.</span></span></code></pre></div>
+came from. Write the labels for someone who has never heard the phrase
+‘age-sex standardised’ - your reader is a public health colleague or a
+member of the public, not a statistician. Add the source underneath the
+plot using <code>mtext()</code>. Finally, think about the y axis. Should
+it start at zero? There is no single right answer, but you should be
+able to justify whichever you choose. Keep this version of the code
+safe, because you will need it again in Q9.</p>
+<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" tabindex="-1"></a><span class="fu">plot</span>(scotland<span class="sc">$</span>year, scotland<span class="sc">$</span>measure, <span class="at">type =</span> <span class="st">&quot;l&quot;</span>, <span class="at">lwd =</span> <span class="dv">2</span>, <span class="at">col =</span> cols[<span class="dv">1</span>], <span class="at">lty =</span> <span class="dv">1</span>,</span>
+<span id="cb6-2"><a href="#cb6-2" tabindex="-1"></a>    <span class="at">ylim =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">1600</span>), <span class="at">las =</span> <span class="dv">1</span>, <span class="at">xlab =</span> <span class="st">&quot;Year&quot;</span>, <span class="at">ylab =</span> <span class="st">&quot;Hospital admissions per 100,000 people&quot;</span>,</span>
+<span id="cb6-3"><a href="#cb6-3" tabindex="-1"></a>    <span class="at">main =</span> <span class="st">&quot;Alcohol-related hospital admissions, 2010 to 2019&quot;</span>)</span>
+<span id="cb6-4"><a href="#cb6-4" tabindex="-1"></a></span>
+<span id="cb6-5"><a href="#cb6-5" tabindex="-1"></a><span class="fu">lines</span>(glasgow<span class="sc">$</span>year, glasgow<span class="sc">$</span>measure, <span class="at">lwd =</span> <span class="dv">2</span>, <span class="at">col =</span> cols[<span class="dv">2</span>], <span class="at">lty =</span> <span class="dv">2</span>)</span>
+<span id="cb6-6"><a href="#cb6-6" tabindex="-1"></a><span class="fu">lines</span>(aberdeenshire<span class="sc">$</span>year, aberdeenshire<span class="sc">$</span>measure, <span class="at">lwd =</span> <span class="dv">2</span>, <span class="at">col =</span> cols[<span class="dv">3</span>], <span class="at">lty =</span> <span class="dv">3</span>)</span>
+<span id="cb6-7"><a href="#cb6-7" tabindex="-1"></a></span>
+<span id="cb6-8"><a href="#cb6-8" tabindex="-1"></a><span class="fu">legend</span>(<span class="st">&quot;bottomleft&quot;</span>, <span class="at">legend =</span> <span class="fu">c</span>(<span class="st">&quot;Scotland&quot;</span>, <span class="st">&quot;Glasgow City&quot;</span>, <span class="st">&quot;Aberdeenshire&quot;</span>), <span class="at">col =</span> cols,</span>
+<span id="cb6-9"><a href="#cb6-9" tabindex="-1"></a>    <span class="at">lwd =</span> <span class="dv">2</span>, <span class="at">lty =</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">3</span>), <span class="at">bty =</span> <span class="st">&quot;n&quot;</span>)</span>
+<span id="cb6-10"><a href="#cb6-10" tabindex="-1"></a></span>
+<span id="cb6-11"><a href="#cb6-11" tabindex="-1"></a><span class="fu">mtext</span>(<span class="st">&quot;Source: Scottish Public Health Observatory. Rates are age-sex standardised.&quot;</span>,</span>
+<span id="cb6-12"><a href="#cb6-12" tabindex="-1"></a>    <span class="at">side =</span> <span class="dv">1</span>, <span class="at">line =</span> <span class="dv">4</span>, <span class="at">cex =</span> <span class="fl">0.7</span>, <span class="at">adj =</span> <span class="dv">0</span>)</span>
+<span id="cb6-13"><a href="#cb6-13" tabindex="-1"></a></span>
+<span id="cb6-14"><a href="#cb6-14" tabindex="-1"></a><span class="co"># Should the y axis start at zero?  Starting at zero, as here, shows the true</span></span>
+<span id="cb6-15"><a href="#cb6-15" tabindex="-1"></a><span class="co"># relative size of the difference between areas: Glasgow really is about four</span></span>
+<span id="cb6-16"><a href="#cb6-16" tabindex="-1"></a><span class="co"># times Aberdeenshire. Starting at the minimum instead would fill the panel</span></span>
+<span id="cb6-17"><a href="#cb6-17" tabindex="-1"></a><span class="co"># with the year to year wiggles and make a modest national decline look</span></span>
+<span id="cb6-18"><a href="#cb6-18" tabindex="-1"></a><span class="co"># dramatic. For a rate like this, where zero is meaningful and the comparison</span></span>
+<span id="cb6-19"><a href="#cb6-19" tabindex="-1"></a><span class="co"># between areas is the point, starting at zero is the honest choice. For</span></span>
+<span id="cb6-20"><a href="#cb6-20" tabindex="-1"></a><span class="co"># something like average age, where zero is nowhere near the data, it would be</span></span>
+<span id="cb6-21"><a href="#cb6-21" tabindex="-1"></a><span class="co"># absurd. Decide, and be able to say why.</span></span></code></pre></div>
 <p> </p>
 <p>9. Finally, get the plot out of R at a size and resolution fit for a
 poster. Screen defaults are no use here: a plot that looks fine in the
 RStudio plot pane will be a blurry mess when blown up to A1. Save your
-finished plot twice, once as a pdf and once as a png. Use a 16:9 shape,
-which is what most poster and slide templates expect. For the png, set
-the resolution explicitly - 300 dpi is the usual minimum for print.
-Watch what happens to your text: <code>pointsize</code> is in points, so
-as you make the canvas bigger the text gets relatively smaller. Open
-both files and check them at full size before you believe them.</p>
-<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" tabindex="-1"></a><span class="co"># a small function so you don&#39;t have to repeat the plotting code</span></span>
-<span id="cb7-2"><a href="#cb7-2" tabindex="-1"></a>plot.admissions <span class="ot">&lt;-</span> <span class="cf">function</span>() {</span>
-<span id="cb7-3"><a href="#cb7-3" tabindex="-1"></a>    <span class="fu">plot</span>(<span class="fu">range</span>(sub<span class="sc">$</span>year), <span class="fu">c</span>(<span class="dv">0</span>, <span class="fu">max</span>(sub<span class="sc">$</span>measure)), <span class="at">type =</span> <span class="st">&quot;n&quot;</span>, <span class="at">xlab =</span> <span class="st">&quot;Year&quot;</span>, <span class="at">ylab =</span> <span class="st">&quot;Hospital admissions per 100,000 people&quot;</span>,</span>
-<span id="cb7-4"><a href="#cb7-4" tabindex="-1"></a>        <span class="at">main =</span> <span class="st">&quot;Alcohol-related hospital admissions, 2010 to 2019&quot;</span>, <span class="at">las =</span> <span class="dv">1</span>)</span>
-<span id="cb7-5"><a href="#cb7-5" tabindex="-1"></a>    <span class="cf">for</span> (i <span class="cf">in</span> <span class="fu">seq_along</span>(areas)) {</span>
-<span id="cb7-6"><a href="#cb7-6" tabindex="-1"></a>        a <span class="ot">&lt;-</span> sub[sub<span class="sc">$</span>area_name <span class="sc">==</span> areas[i], ]</span>
-<span id="cb7-7"><a href="#cb7-7" tabindex="-1"></a>        a <span class="ot">&lt;-</span> a[<span class="fu">order</span>(a<span class="sc">$</span>year), ]</span>
-<span id="cb7-8"><a href="#cb7-8" tabindex="-1"></a>        <span class="fu">lines</span>(a<span class="sc">$</span>year, a<span class="sc">$</span>measure, <span class="at">col =</span> cols[i], <span class="at">lwd =</span> <span class="dv">2</span>, <span class="at">lty =</span> ltys[i])</span>
-<span id="cb7-9"><a href="#cb7-9" tabindex="-1"></a>    }</span>
-<span id="cb7-10"><a href="#cb7-10" tabindex="-1"></a>    <span class="fu">legend</span>(<span class="st">&quot;bottomleft&quot;</span>, <span class="at">legend =</span> areas, <span class="at">col =</span> cols, <span class="at">lwd =</span> <span class="dv">2</span>, <span class="at">lty =</span> ltys, <span class="at">bty =</span> <span class="st">&quot;n&quot;</span>)</span>
-<span id="cb7-11"><a href="#cb7-11" tabindex="-1"></a>    <span class="fu">mtext</span>(<span class="st">&quot;Source: Scottish Public Health Observatory. Rates are age-sex standardised.&quot;</span>,</span>
-<span id="cb7-12"><a href="#cb7-12" tabindex="-1"></a>        <span class="at">side =</span> <span class="dv">1</span>, <span class="at">line =</span> <span class="dv">4</span>, <span class="at">cex =</span> <span class="fl">0.7</span>, <span class="at">adj =</span> <span class="dv">0</span>)</span>
-<span id="cb7-13"><a href="#cb7-13" tabindex="-1"></a>}</span>
+finished plot twice, once as a pdf and once as a png, by putting the
+plotting code you wrote in Q8 between a <code>pdf()</code> or
+<code>png()</code> call and <code>dev.off()</code> (see <a
+href="https://intro2r.com/export_plots.html#export_plots">Section
+4.5</a>). Use a 16:9 shape, which is what most poster and slide
+templates expect. For the png, set the resolution explicitly - 300 dpi
+is the usual minimum for print. Open both files and check them at full
+size before you believe them.</p>
+<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" tabindex="-1"></a><span class="co"># pdf: vector, so it stays sharp at any size. width and height are in inches,</span></span>
+<span id="cb7-2"><a href="#cb7-2" tabindex="-1"></a><span class="co"># and 10 x 5.625 is 16:9</span></span>
+<span id="cb7-3"><a href="#cb7-3" tabindex="-1"></a><span class="fu">pdf</span>(<span class="st">&quot;output/ex6_admissions.pdf&quot;</span>, <span class="at">width =</span> <span class="dv">10</span>, <span class="at">height =</span> <span class="fl">5.625</span>, <span class="at">pointsize =</span> <span class="dv">12</span>)</span>
+<span id="cb7-4"><a href="#cb7-4" tabindex="-1"></a></span>
+<span id="cb7-5"><a href="#cb7-5" tabindex="-1"></a><span class="fu">plot</span>(scotland<span class="sc">$</span>year, scotland<span class="sc">$</span>measure, <span class="at">type =</span> <span class="st">&quot;l&quot;</span>, <span class="at">lwd =</span> <span class="dv">2</span>, <span class="at">col =</span> cols[<span class="dv">1</span>], <span class="at">lty =</span> <span class="dv">1</span>,</span>
+<span id="cb7-6"><a href="#cb7-6" tabindex="-1"></a>    <span class="at">ylim =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">1600</span>), <span class="at">las =</span> <span class="dv">1</span>, <span class="at">xlab =</span> <span class="st">&quot;Year&quot;</span>, <span class="at">ylab =</span> <span class="st">&quot;Hospital admissions per 100,000 people&quot;</span>,</span>
+<span id="cb7-7"><a href="#cb7-7" tabindex="-1"></a>    <span class="at">main =</span> <span class="st">&quot;Alcohol-related hospital admissions, 2010 to 2019&quot;</span>)</span>
+<span id="cb7-8"><a href="#cb7-8" tabindex="-1"></a><span class="fu">lines</span>(glasgow<span class="sc">$</span>year, glasgow<span class="sc">$</span>measure, <span class="at">lwd =</span> <span class="dv">2</span>, <span class="at">col =</span> cols[<span class="dv">2</span>], <span class="at">lty =</span> <span class="dv">2</span>)</span>
+<span id="cb7-9"><a href="#cb7-9" tabindex="-1"></a><span class="fu">lines</span>(aberdeenshire<span class="sc">$</span>year, aberdeenshire<span class="sc">$</span>measure, <span class="at">lwd =</span> <span class="dv">2</span>, <span class="at">col =</span> cols[<span class="dv">3</span>], <span class="at">lty =</span> <span class="dv">3</span>)</span>
+<span id="cb7-10"><a href="#cb7-10" tabindex="-1"></a><span class="fu">legend</span>(<span class="st">&quot;bottomleft&quot;</span>, <span class="at">legend =</span> <span class="fu">c</span>(<span class="st">&quot;Scotland&quot;</span>, <span class="st">&quot;Glasgow City&quot;</span>, <span class="st">&quot;Aberdeenshire&quot;</span>), <span class="at">col =</span> cols,</span>
+<span id="cb7-11"><a href="#cb7-11" tabindex="-1"></a>    <span class="at">lwd =</span> <span class="dv">2</span>, <span class="at">lty =</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">3</span>), <span class="at">bty =</span> <span class="st">&quot;n&quot;</span>)</span>
+<span id="cb7-12"><a href="#cb7-12" tabindex="-1"></a><span class="fu">mtext</span>(<span class="st">&quot;Source: Scottish Public Health Observatory. Rates are age-sex standardised.&quot;</span>,</span>
+<span id="cb7-13"><a href="#cb7-13" tabindex="-1"></a>    <span class="at">side =</span> <span class="dv">1</span>, <span class="at">line =</span> <span class="dv">4</span>, <span class="at">cex =</span> <span class="fl">0.7</span>, <span class="at">adj =</span> <span class="dv">0</span>)</span>
 <span id="cb7-14"><a href="#cb7-14" tabindex="-1"></a></span>
-<span id="cb7-15"><a href="#cb7-15" tabindex="-1"></a><span class="co"># pdf: vector, so it stays sharp at any size. width and height are in inches,</span></span>
-<span id="cb7-16"><a href="#cb7-16" tabindex="-1"></a><span class="co"># and 10 x 5.625 is 16:9</span></span>
-<span id="cb7-17"><a href="#cb7-17" tabindex="-1"></a><span class="fu">pdf</span>(<span class="st">&quot;output/ex6_admissions.pdf&quot;</span>, <span class="at">width =</span> <span class="dv">10</span>, <span class="at">height =</span> <span class="fl">5.625</span>, <span class="at">pointsize =</span> <span class="dv">12</span>)</span>
-<span id="cb7-18"><a href="#cb7-18" tabindex="-1"></a><span class="fu">plot.admissions</span>()</span>
-<span id="cb7-19"><a href="#cb7-19" tabindex="-1"></a><span class="fu">dev.off</span>()</span>
-<span id="cb7-20"><a href="#cb7-20" tabindex="-1"></a></span>
-<span id="cb7-21"><a href="#cb7-21" tabindex="-1"></a><span class="co"># png: pixels, so the resolution matters. units = &#39;in&#39; plus res = 300 gives you</span></span>
-<span id="cb7-22"><a href="#cb7-22" tabindex="-1"></a><span class="co"># a 3000 x 1688 pixel image that will print cleanly</span></span>
-<span id="cb7-23"><a href="#cb7-23" tabindex="-1"></a><span class="fu">png</span>(<span class="st">&quot;output/ex6_admissions.png&quot;</span>, <span class="at">width =</span> <span class="dv">10</span>, <span class="at">height =</span> <span class="fl">5.625</span>, <span class="at">units =</span> <span class="st">&quot;in&quot;</span>, <span class="at">res =</span> <span class="dv">300</span>,</span>
-<span id="cb7-24"><a href="#cb7-24" tabindex="-1"></a>    <span class="at">pointsize =</span> <span class="dv">12</span>)</span>
-<span id="cb7-25"><a href="#cb7-25" tabindex="-1"></a><span class="fu">plot.admissions</span>()</span>
-<span id="cb7-26"><a href="#cb7-26" tabindex="-1"></a><span class="fu">dev.off</span>()</span>
-<span id="cb7-27"><a href="#cb7-27" tabindex="-1"></a></span>
-<span id="cb7-28"><a href="#cb7-28" tabindex="-1"></a><span class="co"># Use the pdf for anything going to a printer, and the png for anything going</span></span>
-<span id="cb7-29"><a href="#cb7-29" tabindex="-1"></a><span class="co"># into PowerPoint or a web page. If your poster template asks for a specific</span></span>
-<span id="cb7-30"><a href="#cb7-30" tabindex="-1"></a><span class="co"># figure size, set width and height to that size here rather than resizing the</span></span>
-<span id="cb7-31"><a href="#cb7-31" tabindex="-1"></a><span class="co"># image afterwards, which is what makes text look squashed or fuzzy.</span></span></code></pre></div>
+<span id="cb7-15"><a href="#cb7-15" tabindex="-1"></a><span class="fu">dev.off</span>()</span>
+<span id="cb7-16"><a href="#cb7-16" tabindex="-1"></a></span>
+<span id="cb7-17"><a href="#cb7-17" tabindex="-1"></a><span class="co"># png: pixels, so the resolution matters. units = &#39;in&#39; plus res = 300 gives you</span></span>
+<span id="cb7-18"><a href="#cb7-18" tabindex="-1"></a><span class="co"># a 3000 x 1688 pixel image that will print cleanly. It is the same plotting</span></span>
+<span id="cb7-19"><a href="#cb7-19" tabindex="-1"></a><span class="co"># code again - copy and paste it, or better, keep it in your script once and</span></span>
+<span id="cb7-20"><a href="#cb7-20" tabindex="-1"></a><span class="co"># run it twice.</span></span>
+<span id="cb7-21"><a href="#cb7-21" tabindex="-1"></a><span class="fu">png</span>(<span class="st">&quot;output/ex6_admissions.png&quot;</span>, <span class="at">width =</span> <span class="dv">10</span>, <span class="at">height =</span> <span class="fl">5.625</span>, <span class="at">units =</span> <span class="st">&quot;in&quot;</span>, <span class="at">res =</span> <span class="dv">300</span>,</span>
+<span id="cb7-22"><a href="#cb7-22" tabindex="-1"></a>    <span class="at">pointsize =</span> <span class="dv">12</span>)</span>
+<span id="cb7-23"><a href="#cb7-23" tabindex="-1"></a></span>
+<span id="cb7-24"><a href="#cb7-24" tabindex="-1"></a><span class="fu">plot</span>(scotland<span class="sc">$</span>year, scotland<span class="sc">$</span>measure, <span class="at">type =</span> <span class="st">&quot;l&quot;</span>, <span class="at">lwd =</span> <span class="dv">2</span>, <span class="at">col =</span> cols[<span class="dv">1</span>], <span class="at">lty =</span> <span class="dv">1</span>,</span>
+<span id="cb7-25"><a href="#cb7-25" tabindex="-1"></a>    <span class="at">ylim =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">1600</span>), <span class="at">las =</span> <span class="dv">1</span>, <span class="at">xlab =</span> <span class="st">&quot;Year&quot;</span>, <span class="at">ylab =</span> <span class="st">&quot;Hospital admissions per 100,000 people&quot;</span>,</span>
+<span id="cb7-26"><a href="#cb7-26" tabindex="-1"></a>    <span class="at">main =</span> <span class="st">&quot;Alcohol-related hospital admissions, 2010 to 2019&quot;</span>)</span>
+<span id="cb7-27"><a href="#cb7-27" tabindex="-1"></a><span class="fu">lines</span>(glasgow<span class="sc">$</span>year, glasgow<span class="sc">$</span>measure, <span class="at">lwd =</span> <span class="dv">2</span>, <span class="at">col =</span> cols[<span class="dv">2</span>], <span class="at">lty =</span> <span class="dv">2</span>)</span>
+<span id="cb7-28"><a href="#cb7-28" tabindex="-1"></a><span class="fu">lines</span>(aberdeenshire<span class="sc">$</span>year, aberdeenshire<span class="sc">$</span>measure, <span class="at">lwd =</span> <span class="dv">2</span>, <span class="at">col =</span> cols[<span class="dv">3</span>], <span class="at">lty =</span> <span class="dv">3</span>)</span>
+<span id="cb7-29"><a href="#cb7-29" tabindex="-1"></a><span class="fu">legend</span>(<span class="st">&quot;bottomleft&quot;</span>, <span class="at">legend =</span> <span class="fu">c</span>(<span class="st">&quot;Scotland&quot;</span>, <span class="st">&quot;Glasgow City&quot;</span>, <span class="st">&quot;Aberdeenshire&quot;</span>), <span class="at">col =</span> cols,</span>
+<span id="cb7-30"><a href="#cb7-30" tabindex="-1"></a>    <span class="at">lwd =</span> <span class="dv">2</span>, <span class="at">lty =</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">3</span>), <span class="at">bty =</span> <span class="st">&quot;n&quot;</span>)</span>
+<span id="cb7-31"><a href="#cb7-31" tabindex="-1"></a><span class="fu">mtext</span>(<span class="st">&quot;Source: Scottish Public Health Observatory. Rates are age-sex standardised.&quot;</span>,</span>
+<span id="cb7-32"><a href="#cb7-32" tabindex="-1"></a>    <span class="at">side =</span> <span class="dv">1</span>, <span class="at">line =</span> <span class="dv">4</span>, <span class="at">cex =</span> <span class="fl">0.7</span>, <span class="at">adj =</span> <span class="dv">0</span>)</span>
+<span id="cb7-33"><a href="#cb7-33" tabindex="-1"></a></span>
+<span id="cb7-34"><a href="#cb7-34" tabindex="-1"></a><span class="fu">dev.off</span>()</span>
+<span id="cb7-35"><a href="#cb7-35" tabindex="-1"></a></span>
+<span id="cb7-36"><a href="#cb7-36" tabindex="-1"></a><span class="co"># Use the pdf for anything going to a printer, and the png for anything going</span></span>
+<span id="cb7-37"><a href="#cb7-37" tabindex="-1"></a><span class="co"># into PowerPoint or a web page. If your poster template asks for a specific</span></span>
+<span id="cb7-38"><a href="#cb7-38" tabindex="-1"></a><span class="co"># figure size, set width and height to that size here rather than resizing the</span></span>
+<span id="cb7-39"><a href="#cb7-39" tabindex="-1"></a><span class="co"># image afterwards, which is what makes text look squashed or fuzzy.</span></span></code></pre></div>
+<p> </p>
+<div id="optional-alternative-the-same-plot-using-ggplot2"
+class="section level3">
+<h3>Optional alternative: the same plot using ggplot2</h3>
+<p> </p>
+<p><strong>This section is entirely optional and is not
+assessed.</strong> Base R graphics are what this course teaches and what
+your assessment expects, and everything above is complete on its own. It
+is here because <code>ggplot2</code> is widely used and some of you will
+meet it elsewhere, so it is worth seeing the same figure built the other
+way.</p>
+<p>Notice that <code>ggplot2</code> saves you the repetition - one
+<code>geom_line()</code> handles all three areas because it splits them
+by <code>area_name</code> - but it does not make a single one of the
+decisions for you. The palette, the redundant line type, the labels, the
+source note and the zero on the y axis are all still yours.</p>
+<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span>
+<span id="cb8-2"><a href="#cb8-2" tabindex="-1"></a></span>
+<span id="cb8-3"><a href="#cb8-3" tabindex="-1"></a>areas <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;Scotland&quot;</span>, <span class="st">&quot;Glasgow City&quot;</span>, <span class="st">&quot;Aberdeenshire&quot;</span>)</span>
+<span id="cb8-4"><a href="#cb8-4" tabindex="-1"></a>sub <span class="ot">&lt;-</span> scotpho[scotpho<span class="sc">$</span>area_name <span class="sc">%in%</span> areas, ]</span>
+<span id="cb8-5"><a href="#cb8-5" tabindex="-1"></a></span>
+<span id="cb8-6"><a href="#cb8-6" tabindex="-1"></a><span class="co"># keep only the three areas as factor levels, in the order we want them</span></span>
+<span id="cb8-7"><a href="#cb8-7" tabindex="-1"></a>sub<span class="sc">$</span>area_name <span class="ot">&lt;-</span> <span class="fu">factor</span>(sub<span class="sc">$</span>area_name, <span class="at">levels =</span> areas)</span>
+<span id="cb8-8"><a href="#cb8-8" tabindex="-1"></a></span>
+<span id="cb8-9"><a href="#cb8-9" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data =</span> sub, <span class="fu">aes</span>(<span class="at">x =</span> year, <span class="at">y =</span> measure, <span class="at">colour =</span> area_name, <span class="at">linetype =</span> area_name)) <span class="sc">+</span></span>
+<span id="cb8-10"><a href="#cb8-10" tabindex="-1"></a>    <span class="fu">geom_line</span>(<span class="at">linewidth =</span> <span class="dv">1</span>) <span class="sc">+</span> <span class="fu">scale_colour_manual</span>(<span class="at">values =</span> <span class="fu">as.vector</span>(cols)) <span class="sc">+</span> <span class="fu">scale_y_continuous</span>(<span class="at">limits =</span> <span class="fu">c</span>(<span class="dv">0</span>,</span>
+<span id="cb8-11"><a href="#cb8-11" tabindex="-1"></a>    <span class="dv">1600</span>)) <span class="sc">+</span> <span class="co"># without this ggplot labels the axis 2010.0, 2012.5, 2015.0 - decimal years,  which is nonsense on a plot anyone else has to read 1600))</span></span>
+<span id="cb8-12"><a href="#cb8-12" tabindex="-1"></a>    <span class="dv">1600</span><span class="er">))</span> <span class="sc">+</span> <span class="co"># without this ggplot labels the axis 2010.0, 2012.5, 2015.0 - decimal years,  which is nonsense on a plot anyone else has to read +</span></span>
+<span id="cb8-13"><a href="#cb8-13" tabindex="-1"></a>    <span class="dv">1600</span><span class="er">))</span> <span class="sc">+</span> <span class="co"># without this ggplot labels the axis 2010.0, 2012.5, 2015.0 - decimal years,  which is nonsense on a plot anyone else has to read #</span></span>
+<span id="cb8-14"><a href="#cb8-14" tabindex="-1"></a>    <span class="dv">1600</span><span class="er">))</span> <span class="sc">+</span> <span class="co"># without this ggplot labels the axis 2010.0, 2012.5, 2015.0 - decimal years,  which is nonsense on a plot anyone else has to read without</span></span>
+<span id="cb8-15"><a href="#cb8-15" tabindex="-1"></a>    <span class="dv">1600</span><span class="er">))</span> <span class="sc">+</span> <span class="co"># without this ggplot labels the axis 2010.0, 2012.5, 2015.0 - decimal years,  which is nonsense on a plot anyone else has to read this</span></span>
+<span id="cb8-16"><a href="#cb8-16" tabindex="-1"></a>    <span class="dv">1600</span><span class="er">))</span> <span class="sc">+</span> <span class="co"># without this ggplot labels the axis 2010.0, 2012.5, 2015.0 - decimal years,  which is nonsense on a plot anyone else has to read ggplot</span></span>
+<span id="cb8-17"><a href="#cb8-17" tabindex="-1"></a>    <span class="dv">1600</span><span class="er">))</span> <span class="sc">+</span> <span class="co"># without this ggplot labels the axis 2010.0, 2012.5, 2015.0 - decimal years,  which is nonsense on a plot anyone else has to read labels</span></span>
+<span id="cb8-18"><a href="#cb8-18" tabindex="-1"></a>    <span class="dv">1600</span><span class="er">))</span> <span class="sc">+</span> <span class="co"># without this ggplot labels the axis 2010.0, 2012.5, 2015.0 - decimal years,  which is nonsense on a plot anyone else has to read the</span></span>
+<span id="cb8-19"><a href="#cb8-19" tabindex="-1"></a>    <span class="dv">1600</span><span class="er">))</span> <span class="sc">+</span> <span class="co"># without this ggplot labels the axis 2010.0, 2012.5, 2015.0 - decimal years,  which is nonsense on a plot anyone else has to read axis</span></span>
+<span id="cb8-20"><a href="#cb8-20" tabindex="-1"></a>    <span class="dv">1600</span><span class="er">))</span> <span class="sc">+</span> <span class="co"># without this ggplot labels the axis 2010.0, 2012.5, 2015.0 - decimal years,  which is nonsense on a plot anyone else has to read 2010.0,</span></span>
+<span id="cb8-21"><a href="#cb8-21" tabindex="-1"></a>    <span class="dv">1600</span><span class="er">))</span> <span class="sc">+</span> <span class="co"># without this ggplot labels the axis 2010.0, 2012.5, 2015.0 - decimal years,  which is nonsense on a plot anyone else has to read 2012.5,</span></span>
+<span id="cb8-22"><a href="#cb8-22" tabindex="-1"></a>    <span class="dv">1600</span><span class="er">))</span> <span class="sc">+</span> <span class="co"># without this ggplot labels the axis 2010.0, 2012.5, 2015.0 - decimal years,  which is nonsense on a plot anyone else has to read 2015.0</span></span>
+<span id="cb8-23"><a href="#cb8-23" tabindex="-1"></a>    <span class="dv">1600</span><span class="er">))</span> <span class="sc">+</span> <span class="co"># without this ggplot labels the axis 2010.0, 2012.5, 2015.0 - decimal years,  which is nonsense on a plot anyone else has to read -</span></span>
+<span id="cb8-24"><a href="#cb8-24" tabindex="-1"></a>    <span class="dv">1600</span><span class="er">))</span> <span class="sc">+</span> <span class="co"># without this ggplot labels the axis 2010.0, 2012.5, 2015.0 - decimal years,  which is nonsense on a plot anyone else has to read decimal</span></span>
+<span id="cb8-25"><a href="#cb8-25" tabindex="-1"></a>    <span class="dv">1600</span><span class="er">))</span> <span class="sc">+</span> <span class="co"># without this ggplot labels the axis 2010.0, 2012.5, 2015.0 - decimal years,  which is nonsense on a plot anyone else has to read years,</span></span>
+<span id="cb8-26"><a href="#cb8-26" tabindex="-1"></a>    <span class="dv">1600</span><span class="er">))</span> <span class="sc">+</span> <span class="co"># without this ggplot labels the axis 2010.0, 2012.5, 2015.0 - decimal years,  which is nonsense on a plot anyone else has to read which</span></span>
+<span id="cb8-27"><a href="#cb8-27" tabindex="-1"></a>    <span class="dv">1600</span><span class="er">))</span> <span class="sc">+</span> <span class="co"># without this ggplot labels the axis 2010.0, 2012.5, 2015.0 - decimal years,  which is nonsense on a plot anyone else has to read is</span></span>
+<span id="cb8-28"><a href="#cb8-28" tabindex="-1"></a>    <span class="dv">1600</span><span class="er">))</span> <span class="sc">+</span> <span class="co"># without this ggplot labels the axis 2010.0, 2012.5, 2015.0 - decimal years,  which is nonsense on a plot anyone else has to read nonsense</span></span>
+<span id="cb8-29"><a href="#cb8-29" tabindex="-1"></a>    <span class="dv">1600</span><span class="er">))</span> <span class="sc">+</span> <span class="co"># without this ggplot labels the axis 2010.0, 2012.5, 2015.0 - decimal years,  which is nonsense on a plot anyone else has to read on</span></span>
+<span id="cb8-30"><a href="#cb8-30" tabindex="-1"></a>    <span class="dv">1600</span><span class="er">))</span> <span class="sc">+</span> <span class="co"># without this ggplot labels the axis 2010.0, 2012.5, 2015.0 - decimal years,  which is nonsense on a plot anyone else has to read a</span></span>
+<span id="cb8-31"><a href="#cb8-31" tabindex="-1"></a>    <span class="dv">1600</span><span class="er">))</span> <span class="sc">+</span> <span class="co"># without this ggplot labels the axis 2010.0, 2012.5, 2015.0 - decimal years,  which is nonsense on a plot anyone else has to read plot</span></span>
+<span id="cb8-32"><a href="#cb8-32" tabindex="-1"></a>    <span class="dv">1600</span><span class="er">))</span> <span class="sc">+</span> <span class="co"># without this ggplot labels the axis 2010.0, 2012.5, 2015.0 - decimal years,  which is nonsense on a plot anyone else has to read anyone</span></span>
+<span id="cb8-33"><a href="#cb8-33" tabindex="-1"></a>    <span class="dv">1600</span><span class="er">))</span> <span class="sc">+</span> <span class="co"># without this ggplot labels the axis 2010.0, 2012.5, 2015.0 - decimal years,  which is nonsense on a plot anyone else has to read else</span></span>
+<span id="cb8-34"><a href="#cb8-34" tabindex="-1"></a>    <span class="dv">1600</span><span class="er">))</span> <span class="sc">+</span> <span class="co"># without this ggplot labels the axis 2010.0, 2012.5, 2015.0 - decimal years,  which is nonsense on a plot anyone else has to read has</span></span>
+<span id="cb8-35"><a href="#cb8-35" tabindex="-1"></a>    <span class="dv">1600</span><span class="er">))</span> <span class="sc">+</span> <span class="co"># without this ggplot labels the axis 2010.0, 2012.5, 2015.0 - decimal years,  which is nonsense on a plot anyone else has to read to</span></span>
+<span id="cb8-36"><a href="#cb8-36" tabindex="-1"></a>    <span class="dv">1600</span><span class="er">))</span> <span class="sc">+</span> <span class="co"># without this ggplot labels the axis 2010.0, 2012.5, 2015.0 - decimal years,  which is nonsense on a plot anyone else has to read read</span></span>
+<span id="cb8-37"><a href="#cb8-37" tabindex="-1"></a><span class="fu">scale_x_continuous</span>(<span class="at">breaks =</span> <span class="fu">seq</span>(<span class="dv">2010</span>, <span class="dv">2018</span>, <span class="at">by =</span> <span class="dv">2</span>)) <span class="sc">+</span> <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">&quot;Year&quot;</span>, <span class="at">y =</span> <span class="st">&quot;Hospital admissions per 100,000 people&quot;</span>,</span>
+<span id="cb8-38"><a href="#cb8-38" tabindex="-1"></a>    <span class="at">title =</span> <span class="st">&quot;Alcohol-related hospital admissions, 2010 to 2019&quot;</span>, <span class="at">caption =</span> <span class="st">&quot;Source: Scottish Public Health Observatory. Rates are age-sex standardised.&quot;</span>,</span>
+<span id="cb8-39"><a href="#cb8-39" tabindex="-1"></a>    <span class="at">colour =</span> <span class="cn">NULL</span>, <span class="at">linetype =</span> <span class="cn">NULL</span>) <span class="sc">+</span> <span class="fu">theme_minimal</span>() <span class="sc">+</span> <span class="fu">theme</span>(<span class="at">legend.position =</span> <span class="st">&quot;bottom&quot;</span>,</span>
+<span id="cb8-40"><a href="#cb8-40" tabindex="-1"></a>    <span class="at">plot.caption =</span> <span class="fu">element_text</span>(<span class="at">hjust =</span> <span class="dv">0</span>))</span>
+<span id="cb8-41"><a href="#cb8-41" tabindex="-1"></a></span>
+<span id="cb8-42"><a href="#cb8-42" tabindex="-1"></a><span class="fu">ggsave</span>(<span class="st">&quot;output/ex6_admissions_ggplot.png&quot;</span>, <span class="at">width =</span> <span class="dv">10</span>, <span class="at">height =</span> <span class="fl">5.625</span>, <span class="at">dpi =</span> <span class="dv">300</span>)</span></code></pre></div>
 <p> </p>
 <p>End of Exercise 6</p>
+</div>
 </div>
 
 

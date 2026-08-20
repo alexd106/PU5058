@@ -8,28 +8,28 @@ cardiac$sex <- factor(cardiac$sex, levels = c(1, 2), labels = c("Female", "Male"
 
 
 ## ----Q1, echo=SOLUTIONS, tidy = TRUE------------------------------------------
-cardiac.sys160 <- cardiac[cardiac$systolic > 160, ]
+cardiac_sys160 <- cardiac[cardiac$systolic > 160, ]
 
-cardiac.never <- cardiac[cardiac$smoking == 3, ]
+cardiac_never <- cardiac[cardiac$smoking == 3, ]
 
-cardiac.subset <- cardiac[cardiac$sex == "Male" & cardiac$smoking == 3 & cardiac$diastolic > 76, ]
+cardiac_subset <- cardiac[cardiac$sex == "Male" & cardiac$smoking == 3 & cardiac$diastolic > 76, ]
 
-cardiac.bmi.trig <- cardiac[cardiac$bmi > 25 & cardiac$bmi < 30 & cardiac$triglyceride > 1 & cardiac$triglyceride < 2, ]
+cardiac_bmi_trig <- cardiac[cardiac$bmi > 25 & cardiac$bmi < 30 & cardiac$triglyceride > 1 & cardiac$triglyceride < 2, ]
 
-cardiac.notex <- cardiac[cardiac$smoking != 2, ]
+cardiac_notex <- cardiac[cardiac$smoking != 2, ]
 
 
 ## ----Q2, echo=SOLUTIONS, tidy = TRUE------------------------------------------
-cardiac.subset <- cardiac[cardiac$sex == "Male" & cardiac$smoking == 3 & cardiac$diastolic > median(cardiac$diastolic), ]
+cardiac_subset <- cardiac[cardiac$sex == "Male" & cardiac$smoking == 3 & cardiac$diastolic > median(cardiac$diastolic), ]
 
 
 ## ----Q3, echo=SOLUTIONS, tidy = TRUE------------------------------------------
 # results in a dataframe filled with NAs. 
-cardiac.new <- cardiac[cardiac$systolic > 160 & cardiac$tchol > mean(cardiac$tchol), ]
+cardiac_new <- cardiac[cardiac$systolic > 160 & cardiac$tchol > mean(cardiac$tchol), ]
 
 # the variable tchol contains 2 NA values. By default the mean function will return an NA.
 # use the na.rm argument to ignore NAs
-cardiac.new <- cardiac[cardiac$systolic > 160 & cardiac$tchol > mean(cardiac$tchol, na.rm = TRUE), ]  
+cardiac_new <- cardiac[cardiac$systolic > 160 & cardiac$tchol > mean(cardiac$tchol, na.rm = TRUE), ]  
 
 
 ## ----Q4, echo=SOLUTIONS, tidy = TRUE------------------------------------------
@@ -75,15 +75,15 @@ summary(cardiac)   # check: the minima and maximum are now sensible
 
 
 ## ----Q6, echo=SOLUTIONS-------------------------------------------------------
-cardiac.sys.sort <- cardiac[order(cardiac$systolic), ]
+cardiac_sys_sort <- cardiac[order(cardiac$systolic), ]
 
 
 ## ----Q7, echo=SOLUTIONS-------------------------------------------------------
 # notice where the patients with a missing smoking status end up - and why
-cardiac.sorted <- cardiac[order(cardiac$smoking, cardiac$systolic), ]        
+cardiac_sorted <- cardiac[order(cardiac$smoking, cardiac$systolic), ]        
 
 # use '-' to reverse the order of systolic
-cardiac.rev.sorted <- cardiac[order(cardiac$smoking, -cardiac$systolic), ]   
+cardiac_rev_sorted <- cardiac[order(cardiac$smoking, -cardiac$systolic), ]   
 
 
 ## ----Q8a, echo=TRUE-----------------------------------------------------------
@@ -128,8 +128,8 @@ followup <- read.table('data/cardiac_followup.txt', header = TRUE, sep = "\t",
 nrow(cardiac)     # 163 patients at the start of the study
 nrow(followup)    # 108 patients with follow-up measurements
 
-cardiac.fu <- merge(cardiac, followup, by = "patno")
-nrow(cardiac.fu)  # 108
+cardiac_fu <- merge(cardiac, followup, by = "patno")
+nrow(cardiac_fu)  # 108
 
 # By default merge() keeps only the rows that appear in BOTH dataframes, which
 # is called an inner join. 55 of the original patients have no follow-up
@@ -138,10 +138,10 @@ nrow(cardiac.fu)  # 108
 
 
 ## ----Q12, echo=SOLUTIONS, tidy = TRUE-----------------------------------------
-cardiac.all <- merge(cardiac, followup, by = "patno", all.x = TRUE)
-nrow(cardiac.all)                      # 163 - everybody is kept
+cardiac_all <- merge(cardiac, followup, by = "patno", all.x = TRUE)
+nrow(cardiac_all)                      # 163 - everybody is kept
 
-sum(is.na(cardiac.all$systolic10))     # 55 patients have no follow-up
+sum(is.na(cardiac_all$systolic10))     # 55 patients have no follow-up
 
 # all.x = TRUE keeps every row of x (the first dataframe) and fills the missing
 # columns with NA. This is a left join.
@@ -154,20 +154,20 @@ sum(is.na(cardiac.all$systolic10))     # 55 patients have no follow-up
 
 
 ## ----Q13, echo=SOLUTIONS, tidy = TRUE-----------------------------------------
-smoke.codes <- read.table('data/smoking_lookup.txt', header = TRUE, sep = "\t",
+smoke_codes <- read.table('data/smoking_lookup.txt', header = TRUE, sep = "\t",
                           na.strings = "NA", stringsAsFactors = TRUE)
-smoke.codes
+smoke_codes
 
 #   code smoking_status
 # 1    1        Current
 # 2    2             Ex
 # 3    3          Never
 
-cardiac.all <- merge(cardiac.all, smoke.codes, by.x = "smoking", by.y = "code", all.x = TRUE)
+cardiac_all <- merge(cardiac_all, smoke_codes, by.x = "smoking", by.y = "code", all.x = TRUE)
 
-nrow(cardiac.all)    # still 163 - check every time!
+nrow(cardiac_all)    # still 163 - check every time!
 
-table(cardiac.all$smoking_status, useNA = "ifany")
+table(cardiac_all$smoking_status, useNA = "ifany")
 
 # Current      Ex   Never    <NA> 
 #      50      52      54       7 
@@ -180,7 +180,7 @@ table(cardiac.all$smoking_status, useNA = "ifany")
 
 
 ## ----Q14, echo=SOLUTIONS, tidy = TRUE-----------------------------------------
-write.table(cardiac.all, "output/cardiac_clean.txt", col.names = TRUE, row.names = FALSE, sep = "\t")
+write.table(cardiac_all, "output/cardiac_clean.txt", col.names = TRUE, row.names = FALSE, sep = "\t")
 
 # Decision log - the sort of thing that belongs at the top of your script:
 #

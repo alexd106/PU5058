@@ -141,12 +141,12 @@ ggplot(data = cardiac, aes(x = hdlchol, y = triglyceride)) +
   geom_point() +
   labs(x = "HDL cholesterol (mmol/l)", y = "triglyceride (mmol/l)")
 
-cardiac$alcohol.sqrt <- sqrt(cardiac$alcohol)
-cardiac$alcohol.log  <- log(cardiac$alcohol)
+cardiac$alcohol_sqrt <- sqrt(cardiac$alcohol)
+cardiac$alcohol_log  <- log(cardiac$alcohol)
 
 h1 <- ggplot(data = cardiac) + geom_histogram(aes(alcohol)) + ggtitle("untransformed")
-h2 <- ggplot(data = cardiac) + geom_histogram(aes(alcohol.sqrt)) + ggtitle("square root")
-h3 <- ggplot(data = cardiac) + geom_histogram(aes(alcohol.log)) + ggtitle("natural log")
+h2 <- ggplot(data = cardiac) + geom_histogram(aes(alcohol_sqrt)) + ggtitle("square root")
+h3 <- ggplot(data = cardiac) + geom_histogram(aes(alcohol_log)) + ggtitle("natural log")
 grid.arrange(h1, h2, h3, nrow = 1)
 
 # ggplot2 is more explicit than base R about the log problem: it prints
@@ -184,40 +184,7 @@ ggpairs(cardiac[, c("systolic", "diastolic", "tchol", "bmi", "Fsex")],
 
 \  
 
-### Exercise 6 in ggplot: the communication plot
-
-The multi-area time series from Exercise 6, built with `ggplot2`. Note how much of the work is the same: the colour palette, the redundant line type, the labels and the source note all still have to be decided by you.
-
-```{r Q12}
-scotpho <- read.table('data/scotpho_alcohol_admissions.txt', header = TRUE, sep = "\t",
-                      na.strings = "NA", stringsAsFactors = TRUE)
-
-areas <- c("Scotland", "Glasgow City", "Aberdeen City", "Aberdeenshire")
-sub <- scotpho[scotpho$area_name %in% areas, ]
-sub$area_name <- factor(sub$area_name, levels = areas)   # drops unused levels and sets the order
-
-cols <- palette.colors(4, palette = "Okabe-Ito")
-
-ggplot(data = sub, aes(x = year, y = measure,
-                       colour = area_name, linetype = area_name)) +
-  geom_line(linewidth = 1) +
-  scale_colour_manual(values = as.vector(cols)) +
-  scale_y_continuous(limits = c(0, NA)) +
-  # without this ggplot labels the axis 2010.0, 2012.5, 2015.0 - decimal years,
-  # which is nonsense on a plot anyone else has to read
-  scale_x_continuous(breaks = seq(2010, 2018, by = 2)) +
-  labs(x = "Year",
-       y = "Hospital admissions per 100,000 people",
-       title = "Alcohol-related hospital admissions, 2010 to 2019",
-       caption = "Source: Scottish Public Health Observatory. Rates are age-sex standardised.",
-       colour = NULL, linetype = NULL) +
-  theme_minimal() +
-  theme(legend.position = "bottom",
-        plot.caption = element_text(hjust = 0))
-
-ggsave('output/gg_admissions.pdf', width = 10, height = 5.625, device = 'pdf')
-ggsave('output/gg_admissions.png', width = 10, height = 5.625, dpi = 300, device = 'png')
-```
+The `ggplot2` version of the Exercise 6 communication plot is at the end of [Exercise 6](exercise_6.html){target="_blank"} itself.
 
 \  
 

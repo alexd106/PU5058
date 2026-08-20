@@ -90,94 +90,89 @@ plot(scot$year, scot$measure, type = "b")
 
 \  
 
-6\. A single line rarely tells the whole story. Scotland's average hides enormous variation between council areas. Add three council areas to your plot: "Glasgow City", "Aberdeen City" and "Aberdeenshire". You cannot do this with one `plot()` call. The usual approach is to set up an empty plot with the right axis limits using `type = "n"`, then add each area in turn with `lines()`. Give each area its own colour and add a legend so the reader knows which is which. Two things will catch you out. First, work out your y axis limits from all four areas, not just Scotland, or lines will run off the top. Second, if you subset a dataframe the factor keeps all of its original levels, which is why `droplevels()` exists.
+6\. A single line rarely tells the whole story. Scotland's average hides enormous variation between council areas. Add two council areas to your plot: "Glasgow City", which has the highest rate in Scotland, and "Aberdeenshire", which has one of the lowest. Pull each area out into its own dataframe first, exactly as you did with Scotland. Then plot one of them with `plot()` and add the other two on top using the `lines()` function. Two things will catch you out. First, `plot()` sets the axis limits from whatever you plot first, so if you start with Scotland the Glasgow line will run off the top of the plot; use the `ylim` argument to set limits that fit all three. Second, give each area its own colour, and add a `legend()` so the reader knows which line is which.
 
 ```{r Q6, echo=SOLUTIONS, tidy = TRUE}
-areas <- c("Scotland", "Glasgow City", "Aberdeen City", "Aberdeenshire")
-sub <- scotpho[scotpho$area_name %in% areas, ]
+# one dataframe per area
+scotland <- scotpho[scotpho$area_name == "Scotland", ]
+glasgow <- scotpho[scotpho$area_name == "Glasgow City", ]
+aberdeenshire <- scotpho[scotpho$area_name == "Aberdeenshire", ]
 
-# the factor still thinks it has 33 levels, even though only 4 are left
-levels(sub$area_name)          # all 33
-sub$area_name <- droplevels(sub$area_name)
-levels(sub$area_name)          # now 4
+# Glasgow reaches about 1500, so leave room for it
+plot(scotland$year, scotland$measure, type = "l", lwd = 2, col = "black",
+     ylim = c(0, 1600), xlab = "Year", ylab = "Admissions per 100,000")
 
-# set up an empty plot with limits that fit every area
-plot(range(sub$year), range(sub$measure), type = "n",
-     xlab = "Year", ylab = "Admissions per 100,000")
+lines(glasgow$year, glasgow$measure, lwd = 2, col = "red")
+lines(aberdeenshire$year, aberdeenshire$measure, lwd = 2, col = "blue")
 
-cols <- c("black", "red", "blue", "darkgreen")
-
-for (i in seq_along(areas)) {
-  a <- sub[sub$area_name == areas[i], ]
-  a <- a[order(a$year), ]        # never assume the rows are in order
-  lines(a$year, a$measure, col = cols[i], lwd = 2)
-}
-
-legend("topright", legend = areas, col = cols, lwd = 2)
+legend("topright", legend = c("Scotland", "Glasgow City", "Aberdeenshire"),
+       col = c("black", "red", "blue"), lwd = 2)
 
 # Glasgow City is roughly twice the Scottish average and Aberdeenshire is
 # roughly half of it. The national line, on its own, describes almost nobody.
+
+# Note: with only three areas it is perfectly reasonable to write out three
+# lines() calls. If you had all 32 council areas you would want a loop instead,
+# which you can meet in the optional programming exercise.
 ```
 
 \  
 
-7\. Now think about those colours. Roughly 1 in 12 men has some form of colour vision deficiency, most commonly difficulty distinguishing red from green - and you have just used red and green on the same plot. Posters also get photocopied, printed in black and white, and viewed on projectors that wash colour out. Redraw your plot using a colour-blind friendly palette: base R has one built in, `palette.colors(n, palette = "Okabe-Ito")`. Then test it. Convert your colours to their greyscale equivalents and redraw the plot in grey to see whether the lines are still tellable apart. If they are not, what could you change other than the colour?
+7\. Now think about those colours. Roughly 1 in 12 men has some form of colour vision deficiency, most commonly difficulty distinguishing red from green - and red and blue are not a safe pairing either. Posters also get photocopied, printed in black and white, and viewed on projectors that wash colour out. Redraw your plot using a colour-blind friendly palette: base R has one built in, `palette.colors(3, palette = "Okabe-Ito")`. Then test it. Redraw it a third time replacing those colours with their greyscale equivalents, which are `grey(c(0, 0.64, 0.62))`, and see whether the three lines are still tellable apart. If they are not, what could you change other than the colour?
 
 ```{r Q7, echo=SOLUTIONS, tidy = TRUE}
-cols <- palette.colors(4, palette = "Okabe-Ito")
+cols <- palette.colors(3, palette = "Okabe-Ito")
 cols
-# "#000000" "#E69F00" "#56B4E9" "#009E73"
+# "#000000" "#E69F00" "#56B4E9"   black, orange, sky blue
 
-# a greyscale test: convert each colour to the grey of the same luminance
-grey.cols <- grey(apply(col2rgb(cols), 2, function(x) sum(x * c(0.299, 0.587, 0.114)) / 255))
+plot(scotland$year, scotland$measure, type = "l", lwd = 2, col = cols[1],
+     ylim = c(0, 1600), xlab = "Year", ylab = "Admissions per 100,000")
+lines(glasgow$year, glasgow$measure, lwd = 2, col = cols[2])
+lines(aberdeenshire$year, aberdeenshire$measure, lwd = 2, col = cols[3])
+legend("topright", legend = c("Scotland", "Glasgow City", "Aberdeenshire"),
+       col = cols, lwd = 2)
 
-# draw both versions side by side and compare
-par(mfrow = c(1, 2))
-for (palette.in.use in list(cols, grey.cols)) {
-  plot(range(sub$year), range(sub$measure), type = "n",
-       xlab = "Year", ylab = "Admissions per 100,000")
-  for (i in seq_along(areas)) {
-    a <- sub[sub$area_name == areas[i], ]
-    a <- a[order(a$year), ]
-    lines(a$year, a$measure, col = palette.in.use[i], lwd = 2)
-  }
-  legend("topright", legend = areas, col = palette.in.use, lwd = 2)
-}
+# now the same plot in greyscale
+greys <- grey(c(0, 0.64, 0.62))
 
-# In grey, two of the four lines become hard to separate. Colour alone is never
-# enough. The fix is to give the reader a second, redundant cue - here, a
-# different line type for each area - so the plot still works with no colour
-# at all.
-par(mfrow = c(1, 1))
-ltys <- c(1, 2, 3, 4)
-plot(range(sub$year), range(sub$measure), type = "n",
-     xlab = "Year", ylab = "Admissions per 100,000")
-for (i in seq_along(areas)) {
-  a <- sub[sub$area_name == areas[i], ]
-  a <- a[order(a$year), ]
-  lines(a$year, a$measure, col = cols[i], lwd = 2, lty = ltys[i])
-}
-legend("topright", legend = areas, col = cols, lwd = 2, lty = ltys)
+plot(scotland$year, scotland$measure, type = "l", lwd = 2, col = greys[1],
+     ylim = c(0, 1600), xlab = "Year", ylab = "Admissions per 100,000")
+lines(glasgow$year, glasgow$measure, lwd = 2, col = greys[2])
+lines(aberdeenshire$year, aberdeenshire$measure, lwd = 2, col = greys[3])
+legend("topright", legend = c("Scotland", "Glasgow City", "Aberdeenshire"),
+       col = greys, lwd = 2)
+
+# The orange and the sky blue are different enough on screen, but in grey they
+# come out at 0.64 and 0.62 - practically the same. Anyone printing your poster
+# in black and white cannot tell Glasgow from Aberdeenshire.
+
+# Colour alone is never enough. The fix is to give the reader a second,
+# redundant cue - here a different line type for each area, set with lty - so
+# the plot still works with no colour at all.
+plot(scotland$year, scotland$measure, type = "l", lwd = 2, col = cols[1], lty = 1,
+     ylim = c(0, 1600), xlab = "Year", ylab = "Admissions per 100,000")
+lines(glasgow$year, glasgow$measure, lwd = 2, col = cols[2], lty = 2)
+lines(aberdeenshire$year, aberdeenshire$measure, lwd = 2, col = cols[3], lty = 3)
+legend("topright", legend = c("Scotland", "Glasgow City", "Aberdeenshire"),
+       col = cols, lwd = 2, lty = c(1, 2, 3))
 ```
 
 \  
 
-8\. Time to fix the words. Every plot that leaves your computer needs axis labels a non-specialist can read, including units; a title that says what the reader is looking at; and a note saying where the data came from and what period it covers. Write the labels for someone who has never heard the phrase 'age-sex standardised' - your reader is a public health colleague or a member of the public, not a statistician. Add the source as a small note underneath the plot using `mtext()`. Finally, think about the y axis. Should it start at zero? There is no single right answer, but you should be able to justify whichever you choose.
+8\. Time to fix the words. Every plot that leaves your computer needs axis labels a non-specialist can read, including units; a title that says what the reader is looking at; and a note saying where the data came from. Write the labels for someone who has never heard the phrase 'age-sex standardised' - your reader is a public health colleague or a member of the public, not a statistician. Add the source underneath the plot using `mtext()`. Finally, think about the y axis. Should it start at zero? There is no single right answer, but you should be able to justify whichever you choose. Keep this version of the code safe, because you will need it again in Q9.
 
 ```{r Q8, echo=SOLUTIONS, tidy = TRUE}
-plot(range(sub$year), c(0, max(sub$measure)), type = "n",
+plot(scotland$year, scotland$measure, type = "l", lwd = 2, col = cols[1], lty = 1,
+     ylim = c(0, 1600), las = 1,
      xlab = "Year",
      ylab = "Hospital admissions per 100,000 people",
-     main = "Alcohol-related hospital admissions, 2010 to 2019",
-     las = 1)
+     main = "Alcohol-related hospital admissions, 2010 to 2019")
 
-for (i in seq_along(areas)) {
-  a <- sub[sub$area_name == areas[i], ]
-  a <- a[order(a$year), ]
-  lines(a$year, a$measure, col = cols[i], lwd = 2, lty = ltys[i])
-}
+lines(glasgow$year, glasgow$measure, lwd = 2, col = cols[2], lty = 2)
+lines(aberdeenshire$year, aberdeenshire$measure, lwd = 2, col = cols[3], lty = 3)
 
-legend("bottomleft", legend = areas, col = cols, lwd = 2, lty = ltys, bty = "n")
+legend("bottomleft", legend = c("Scotland", "Glasgow City", "Aberdeenshire"),
+       col = cols, lwd = 2, lty = c(1, 2, 3), bty = "n")
 
 mtext("Source: Scottish Public Health Observatory. Rates are age-sex standardised.",
       side = 1, line = 4, cex = 0.7, adj = 0)
@@ -194,41 +189,88 @@ mtext("Source: Scottish Public Health Observatory. Rates are age-sex standardise
 
 \  
 
-9\. Finally, get the plot out of R at a size and resolution fit for a poster. Screen defaults are no use here: a plot that looks fine in the RStudio plot pane will be a blurry mess when blown up to A1. Save your finished plot twice, once as a pdf and once as a png. Use a 16:9 shape, which is what most poster and slide templates expect. For the png, set the resolution explicitly - 300 dpi is the usual minimum for print. Watch what happens to your text: `pointsize` is in points, so as you make the canvas bigger the text gets relatively smaller. Open both files and check them at full size before you believe them.
+9\. Finally, get the plot out of R at a size and resolution fit for a poster. Screen defaults are no use here: a plot that looks fine in the RStudio plot pane will be a blurry mess when blown up to A1. Save your finished plot twice, once as a pdf and once as a png, by putting the plotting code you wrote in Q8 between a `pdf()` or `png()` call and `dev.off()` (see [Section 4.5](https://intro2r.com/export_plots.html#export_plots)). Use a 16:9 shape, which is what most poster and slide templates expect. For the png, set the resolution explicitly - 300 dpi is the usual minimum for print. Open both files and check them at full size before you believe them.
 
 ```{r Q9, echo=SOLUTIONS, tidy = TRUE}
-# a small function so you don't have to repeat the plotting code
-plot.admissions <- function() {
-  plot(range(sub$year), c(0, max(sub$measure)), type = "n",
-       xlab = "Year", ylab = "Hospital admissions per 100,000 people",
-       main = "Alcohol-related hospital admissions, 2010 to 2019", las = 1)
-  for (i in seq_along(areas)) {
-    a <- sub[sub$area_name == areas[i], ]
-    a <- a[order(a$year), ]
-    lines(a$year, a$measure, col = cols[i], lwd = 2, lty = ltys[i])
-  }
-  legend("bottomleft", legend = areas, col = cols, lwd = 2, lty = ltys, bty = "n")
-  mtext("Source: Scottish Public Health Observatory. Rates are age-sex standardised.",
-        side = 1, line = 4, cex = 0.7, adj = 0)
-}
-
 # pdf: vector, so it stays sharp at any size. width and height are in inches,
 # and 10 x 5.625 is 16:9
 pdf('output/ex6_admissions.pdf', width = 10, height = 5.625, pointsize = 12)
-plot.admissions()
+
+plot(scotland$year, scotland$measure, type = "l", lwd = 2, col = cols[1], lty = 1,
+     ylim = c(0, 1600), las = 1, xlab = "Year",
+     ylab = "Hospital admissions per 100,000 people",
+     main = "Alcohol-related hospital admissions, 2010 to 2019")
+lines(glasgow$year, glasgow$measure, lwd = 2, col = cols[2], lty = 2)
+lines(aberdeenshire$year, aberdeenshire$measure, lwd = 2, col = cols[3], lty = 3)
+legend("bottomleft", legend = c("Scotland", "Glasgow City", "Aberdeenshire"),
+       col = cols, lwd = 2, lty = c(1, 2, 3), bty = "n")
+mtext("Source: Scottish Public Health Observatory. Rates are age-sex standardised.",
+      side = 1, line = 4, cex = 0.7, adj = 0)
+
 dev.off()
 
 # png: pixels, so the resolution matters. units = "in" plus res = 300 gives you
-# a 3000 x 1688 pixel image that will print cleanly
+# a 3000 x 1688 pixel image that will print cleanly. It is the same plotting
+# code again - copy and paste it, or better, keep it in your script once and
+# run it twice.
 png('output/ex6_admissions.png', width = 10, height = 5.625, units = "in",
     res = 300, pointsize = 12)
-plot.admissions()
+
+plot(scotland$year, scotland$measure, type = "l", lwd = 2, col = cols[1], lty = 1,
+     ylim = c(0, 1600), las = 1, xlab = "Year",
+     ylab = "Hospital admissions per 100,000 people",
+     main = "Alcohol-related hospital admissions, 2010 to 2019")
+lines(glasgow$year, glasgow$measure, lwd = 2, col = cols[2], lty = 2)
+lines(aberdeenshire$year, aberdeenshire$measure, lwd = 2, col = cols[3], lty = 3)
+legend("bottomleft", legend = c("Scotland", "Glasgow City", "Aberdeenshire"),
+       col = cols, lwd = 2, lty = c(1, 2, 3), bty = "n")
+mtext("Source: Scottish Public Health Observatory. Rates are age-sex standardised.",
+      side = 1, line = 4, cex = 0.7, adj = 0)
+
 dev.off()
 
 # Use the pdf for anything going to a printer, and the png for anything going
 # into PowerPoint or a web page. If your poster template asks for a specific
 # figure size, set width and height to that size here rather than resizing the
 # image afterwards, which is what makes text look squashed or fuzzy.
+```
+
+\  
+
+### Optional alternative: the same plot using ggplot2
+
+\  
+
+**This section is entirely optional and is not assessed.** Base R graphics are what this course teaches and what your assessment expects, and everything above is complete on its own. It is here because `ggplot2` is widely used and some of you will meet it elsewhere, so it is worth seeing the same figure built the other way.
+
+Notice that `ggplot2` saves you the repetition - one `geom_line()` handles all three areas because it splits them by `area_name` - but it does not make a single one of the decisions for you. The palette, the redundant line type, the labels, the source note and the zero on the y axis are all still yours.
+
+```{r Q10, echo=SOLUTIONS, tidy = TRUE}
+library(ggplot2)
+
+areas <- c("Scotland", "Glasgow City", "Aberdeenshire")
+sub <- scotpho[scotpho$area_name %in% areas, ]
+
+# keep only the three areas as factor levels, in the order we want them
+sub$area_name <- factor(sub$area_name, levels = areas)
+
+ggplot(data = sub, aes(x = year, y = measure,
+                       colour = area_name, linetype = area_name)) +
+  geom_line(linewidth = 1) +
+  scale_colour_manual(values = as.vector(cols)) +
+  scale_y_continuous(limits = c(0, 1600)) +
+  # without this ggplot labels the axis 2010.0, 2012.5, 2015.0 - decimal years,
+  # which is nonsense on a plot anyone else has to read
+  scale_x_continuous(breaks = seq(2010, 2018, by = 2)) +
+  labs(x = "Year",
+       y = "Hospital admissions per 100,000 people",
+       title = "Alcohol-related hospital admissions, 2010 to 2019",
+       caption = "Source: Scottish Public Health Observatory. Rates are age-sex standardised.",
+       colour = NULL, linetype = NULL) +
+  theme_minimal() +
+  theme(legend.position = "bottom", plot.caption = element_text(hjust = 0))
+
+ggsave('output/ex6_admissions_ggplot.png', width = 10, height = 5.625, dpi = 300)
 ```
 
 \  

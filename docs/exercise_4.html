@@ -574,7 +574,7 @@ practice with a straight forward example. Use the <code>order()</code>
 function to sort all rows in the <code>cardiac</code> dataframe in
 ascending order of systolic blood pressure (lowest to highest). Store
 this sorted dataframe in a variable called
-<code>cardiac.sys.sort</code>.</p>
+<code>cardiac_sys_sort</code>.</p>
 <p> </p>
 <p>7. Now for something a little more complicated. Sort all rows in the
 <code>cardiac</code> dataframe by ascending order of systolic pressure
@@ -635,7 +635,7 @@ save it to your <code>data</code> directory and import it with
 How many rows does it have, and how does that compare with
 <code>cardiac</code>? Now use the <code>merge()</code> function to join
 the two together on the patient number, and assign the result to
-<code>cardiac.fu</code>. How many rows does the joined dataframe have,
+<code>cardiac_fu</code>. How many rows does the joined dataframe have,
 and can you explain why?</p>
 <p> </p>
 <p>12. Losing 55 patients without being told is exactly the sort of
@@ -644,7 +644,7 @@ single time you join. Often what you actually want is to keep every
 patient from the first dataframe whether or not they have a match in the
 second. Look at the help file for <code>merge()</code> and find the
 argument that does this. Redo the join keeping all 163 patients, assign
-it to <code>cardiac.all</code>, and check how many of them have a
+it to <code>cardiac_all</code>, and check how many of them have a
 missing follow-up systolic pressure. Finally, try running
 <code>merge(cardiac, followup)</code> without the <code>by</code>
 argument at all. It works. Why is relying on that a bad habit?</p>
@@ -655,13 +655,13 @@ labels out by hand, you can keep the codes and their meanings in their
 own small file and join them on. Download <em>‘smoking_lookup.txt’</em>
 from the <strong><a href="data.html"><i class="fa fa-download"></i>
 Data</a></strong> link, save it to your <code>data</code> directory and
-import it into a variable called <code>smoke.codes</code>. Take a look
+import it into a variable called <code>smoke_codes</code>. Take a look
 at it. Notice that the column holding the code is called
 <code>code</code>, not <code>smoking</code>, so the two dataframes have
 no column name in common and <code>by</code> on its own will not work.
 Look at the help file for <code>merge()</code> again and find the two
 arguments that let you name a different key in each dataframe. Join the
-labels onto <code>cardiac.all</code>, keeping all patients, and then
+labels onto <code>cardiac_all</code>, keeping all patients, and then
 check with <code>table()</code> that every patient has ended up with the
 right label.</p>
 <p> </p>
@@ -670,7 +670,7 @@ to clean, check and join dataframes. The last thing we need to cover is
 how to export a dataframe from R to an external file (see <a
 href="https://intro2r.com/exporting-data.html#exporting-data">Section
 3.6</a> of the book for more details). Export your cleaned and joined
-dataframe <code>cardiac.all</code> to a file called ‘cardiac_clean.txt’
+dataframe <code>cardiac_all</code> to a file called ‘cardiac_clean.txt’
 in the <code>output</code> directory you created in Exercise 1. To do
 this you will need to use the <code>write.table()</code> function. You
 want to include the variable names in the first row of the file, but you

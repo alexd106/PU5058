@@ -437,51 +437,71 @@ Now look hard at what R has given you by default, and list everything a
 stranger would not understand about it.</p>
 <p> </p>
 <p>6. A single line rarely tells the whole story. Scotland’s average
-hides enormous variation between council areas. Add three council areas
-to your plot: “Glasgow City”, “Aberdeen City” and “Aberdeenshire”. You
-cannot do this with one <code>plot()</code> call. The usual approach is
-to set up an empty plot with the right axis limits using
-<code>type = "n"</code>, then add each area in turn with
-<code>lines()</code>. Give each area its own colour and add a legend so
-the reader knows which is which. Two things will catch you out. First,
-work out your y axis limits from all four areas, not just Scotland, or
-lines will run off the top. Second, if you subset a dataframe the factor
-keeps all of its original levels, which is why <code>droplevels()</code>
-exists.</p>
+hides enormous variation between council areas. Add two council areas to
+your plot: “Glasgow City”, which has the highest rate in Scotland, and
+“Aberdeenshire”, which has one of the lowest. Pull each area out into
+its own dataframe first, exactly as you did with Scotland. Then plot one
+of them with <code>plot()</code> and add the other two on top using the
+<code>lines()</code> function. Two things will catch you out. First,
+<code>plot()</code> sets the axis limits from whatever you plot first,
+so if you start with Scotland the Glasgow line will run off the top of
+the plot; use the <code>ylim</code> argument to set limits that fit all
+three. Second, give each area its own colour, and add a
+<code>legend()</code> so the reader knows which line is which.</p>
 <p> </p>
 <p>7. Now think about those colours. Roughly 1 in 12 men has some form
 of colour vision deficiency, most commonly difficulty distinguishing red
-from green - and you have just used red and green on the same plot.
-Posters also get photocopied, printed in black and white, and viewed on
+from green - and red and blue are not a safe pairing either. Posters
+also get photocopied, printed in black and white, and viewed on
 projectors that wash colour out. Redraw your plot using a colour-blind
 friendly palette: base R has one built in,
-<code>palette.colors(n, palette = "Okabe-Ito")</code>. Then test it.
-Convert your colours to their greyscale equivalents and redraw the plot
-in grey to see whether the lines are still tellable apart. If they are
-not, what could you change other than the colour?</p>
+<code>palette.colors(3, palette = "Okabe-Ito")</code>. Then test it.
+Redraw it a third time replacing those colours with their greyscale
+equivalents, which are <code>grey(c(0, 0.64, 0.62))</code>, and see
+whether the three lines are still tellable apart. If they are not, what
+could you change other than the colour?</p>
 <p> </p>
 <p>8. Time to fix the words. Every plot that leaves your computer needs
 axis labels a non-specialist can read, including units; a title that
 says what the reader is looking at; and a note saying where the data
-came from and what period it covers. Write the labels for someone who
-has never heard the phrase ‘age-sex standardised’ - your reader is a
-public health colleague or a member of the public, not a statistician.
-Add the source as a small note underneath the plot using
-<code>mtext()</code>. Finally, think about the y axis. Should it start
-at zero? There is no single right answer, but you should be able to
-justify whichever you choose.</p>
+came from. Write the labels for someone who has never heard the phrase
+‘age-sex standardised’ - your reader is a public health colleague or a
+member of the public, not a statistician. Add the source underneath the
+plot using <code>mtext()</code>. Finally, think about the y axis. Should
+it start at zero? There is no single right answer, but you should be
+able to justify whichever you choose. Keep this version of the code
+safe, because you will need it again in Q9.</p>
 <p> </p>
 <p>9. Finally, get the plot out of R at a size and resolution fit for a
 poster. Screen defaults are no use here: a plot that looks fine in the
 RStudio plot pane will be a blurry mess when blown up to A1. Save your
-finished plot twice, once as a pdf and once as a png. Use a 16:9 shape,
-which is what most poster and slide templates expect. For the png, set
-the resolution explicitly - 300 dpi is the usual minimum for print.
-Watch what happens to your text: <code>pointsize</code> is in points, so
-as you make the canvas bigger the text gets relatively smaller. Open
-both files and check them at full size before you believe them.</p>
+finished plot twice, once as a pdf and once as a png, by putting the
+plotting code you wrote in Q8 between a <code>pdf()</code> or
+<code>png()</code> call and <code>dev.off()</code> (see <a
+href="https://intro2r.com/export_plots.html#export_plots">Section
+4.5</a>). Use a 16:9 shape, which is what most poster and slide
+templates expect. For the png, set the resolution explicitly - 300 dpi
+is the usual minimum for print. Open both files and check them at full
+size before you believe them.</p>
+<p> </p>
+<div id="optional-alternative-the-same-plot-using-ggplot2"
+class="section level3">
+<h3>Optional alternative: the same plot using ggplot2</h3>
+<p> </p>
+<p><strong>This section is entirely optional and is not
+assessed.</strong> Base R graphics are what this course teaches and what
+your assessment expects, and everything above is complete on its own. It
+is here because <code>ggplot2</code> is widely used and some of you will
+meet it elsewhere, so it is worth seeing the same figure built the other
+way.</p>
+<p>Notice that <code>ggplot2</code> saves you the repetition - one
+<code>geom_line()</code> handles all three areas because it splits them
+by <code>area_name</code> - but it does not make a single one of the
+decisions for you. The palette, the redundant line type, the labels, the
+source note and the zero on the y axis are all still yours.</p>
 <p> </p>
 <p>End of Exercise 6</p>
+</div>
 </div>
 
 

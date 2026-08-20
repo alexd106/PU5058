@@ -183,13 +183,13 @@ plot(cardiac$hdlchol, cardiac$triglyceride,
      xlab = "HDL cholesterol (mmol/l)", ylab = "triglyceride (mmol/l)")
 
 # transforming alcohol
-cardiac$alcohol.sqrt <- sqrt(cardiac$alcohol)
-cardiac$alcohol.log  <- log(cardiac$alcohol)
+cardiac$alcohol_sqrt <- sqrt(cardiac$alcohol)
+cardiac$alcohol_log  <- log(cardiac$alcohol)
 
 par(mfrow = c(1, 3))
 hist(cardiac$alcohol, main = "untransformed", xlab = "alcohol")
-hist(cardiac$alcohol.sqrt, main = "square root", xlab = "sqrt(alcohol)")
-hist(cardiac$alcohol.log, main = "natural log", xlab = "log(alcohol)")
+hist(cardiac$alcohol_sqrt, main = "square root", xlab = "sqrt(alcohol)")
+hist(cardiac$alcohol_log, main = "natural log", xlab = "log(alcohol)")
 
 # The log transformation fails. 58 of the 163 patients reported drinking no
 # alcohol at all, and log(0) is -Inf, not a number. R does not stop, it just
@@ -197,13 +197,13 @@ hist(cardiac$alcohol.log, main = "natural log", xlab = "log(alcohol)")
 # data gone, with nothing more than a warning about non-finite values.
 min(cardiac$alcohol)          # 0
 log(0)                        # -Inf
-sum(is.infinite(cardiac$alcohol.log))   # 58
+sum(is.infinite(cardiac$alcohol_log))   # 58
 
 # The square root works, because sqrt(0) is 0, and it pulls the long tail in
 # nicely. If you did need a log, the usual dodge is log(x + 1).
 
 jpeg('output/ex5_alcohol.jpeg')
-hist(cardiac$alcohol.sqrt, main = "", xlab = "sqrt(alcohol)")
+hist(cardiac$alcohol_sqrt, main = "", xlab = "sqrt(alcohol)")
 dev.off()
 ```
 
@@ -233,9 +233,11 @@ vioplot(tchol ~ Fsmoking, data = cardiac, xlab = "smoking status", ylab = "total
 # vanilla pairs plot
 pairs(cardiac[, c("age", "systolic", "diastolic", "tchol", "hdlchol", "triglyceride", "bmi")])
 
-# customise the plot. You need to define the panel.hist and panel.cor functions
-# first - these are taken from the ?pairs help file
-panel.hist <- function(x, ...) {
+# customise the plot. You need to define the panel_hist and panel_cor functions
+# first. These are adapted from the ?pairs help file, renamed to use underscores
+# like every other object you have created. Note that panel.smooth, on the last
+# line, keeps its dot: it is a base R function, not something you made.
+panel_hist <- function(x, ...) {
   usr <- par("usr"); on.exit(par(usr = usr))
   par(usr = c(usr[1:2], 0, 1.5))
   h <- hist(x, plot = FALSE)
@@ -244,7 +246,7 @@ panel.hist <- function(x, ...) {
   rect(breaks[-nB], 0, breaks[-1], y, col = "grey85", ...)
 }
 
-panel.cor <- function(x, y, digits = 2, ...) {
+panel_cor <- function(x, y, digits = 2, ...) {
   usr <- par("usr"); on.exit(par(usr = usr))
   par(usr = c(0, 1, 0, 1))
   r <- cor(x, y, use = "pairwise.complete.obs")
@@ -253,7 +255,7 @@ panel.cor <- function(x, y, digits = 2, ...) {
 }
 
 pairs(cardiac[, c("age", "systolic", "diastolic", "tchol", "hdlchol", "triglyceride", "bmi")],
-      diag.panel = panel.hist, upper.panel = panel.cor, lower.panel = panel.smooth)
+      diag.panel = panel_hist, upper.panel = panel_cor, lower.panel = panel.smooth)
 
 # systolic and diastolic are the most strongly related pair (r = 0.56), which
 # is no surprise. hdlchol and triglyceride are the next strongest (r = -0.43)

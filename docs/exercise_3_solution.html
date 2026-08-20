@@ -656,13 +656,13 @@ practice.</p>
 <ol style="list-style-type: lower-alpha">
 <li><p>Extract all the elements of the first 10 rows and the first 4
 columns of the <code>cardiac</code> dataframe and assign to a new
-variable called <code>cardiac.sub</code>.</p></li>
+variable called <code>cardiac_sub</code>.</p></li>
 <li><p>Next, extract all observations (remember - rows) from the
 <code>cardiac</code> dataframe and the columns <code>patno</code>,
 <code>sex</code>, <code>smoking</code> and <code>tchol</code> and assign
-to a variable called <code>cardiac.risk</code>.</p></li>
+to a variable called <code>cardiac_risk</code>.</p></li>
 <li><p>Now, extract the first 50 rows and all columns from the original
-dataframe and assign to a variable <code>cardiac.50</code> (there’s a
+dataframe and assign to a variable <code>cardiac_50</code> (there’s a
 better way to select rows with conditional statements - you’ll meet it
 in Exercise 4).</p></li>
 <li><p>Finally, extract all rows except the first 10 rows and all
@@ -671,24 +671,24 @@ you can specify the columns you want either by position or by name.
 Practice both ways. Do you have a preference? If so why?</p></li>
 </ol>
 <div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" tabindex="-1"></a><span class="co"># first 10 rows and first 4 columns</span></span>
-<span id="cb4-2"><a href="#cb4-2" tabindex="-1"></a>cardiac.sub <span class="ot">&lt;-</span> cardiac[<span class="dv">1</span><span class="sc">:</span><span class="dv">10</span>, <span class="dv">1</span><span class="sc">:</span><span class="dv">4</span>]                                      </span>
+<span id="cb4-2"><a href="#cb4-2" tabindex="-1"></a>cardiac_sub <span class="ot">&lt;-</span> cardiac[<span class="dv">1</span><span class="sc">:</span><span class="dv">10</span>, <span class="dv">1</span><span class="sc">:</span><span class="dv">4</span>]                                      </span>
 <span id="cb4-3"><a href="#cb4-3" tabindex="-1"></a></span>
 <span id="cb4-4"><a href="#cb4-4" tabindex="-1"></a><span class="co"># all rows and the columns patno, sex, smoking and tchol</span></span>
-<span id="cb4-5"><a href="#cb4-5" tabindex="-1"></a>cardiac.risk <span class="ot">&lt;-</span> cardiac[, <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">3</span>, <span class="dv">11</span>, <span class="dv">6</span>)] </span>
+<span id="cb4-5"><a href="#cb4-5" tabindex="-1"></a>cardiac_risk <span class="ot">&lt;-</span> cardiac[, <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">3</span>, <span class="dv">11</span>, <span class="dv">6</span>)] </span>
 <span id="cb4-6"><a href="#cb4-6" tabindex="-1"></a><span class="co"># alternative way of indexing columns with named indexes - much easier to read,</span></span>
 <span id="cb4-7"><a href="#cb4-7" tabindex="-1"></a><span class="co"># and it still works if the column order changes</span></span>
-<span id="cb4-8"><a href="#cb4-8" tabindex="-1"></a>cardiac.risk <span class="ot">&lt;-</span> cardiac[, <span class="fu">c</span>(<span class="st">&quot;patno&quot;</span>, <span class="st">&quot;sex&quot;</span>, <span class="st">&quot;smoking&quot;</span>, <span class="st">&quot;tchol&quot;</span>)]    </span>
+<span id="cb4-8"><a href="#cb4-8" tabindex="-1"></a>cardiac_risk <span class="ot">&lt;-</span> cardiac[, <span class="fu">c</span>(<span class="st">&quot;patno&quot;</span>, <span class="st">&quot;sex&quot;</span>, <span class="st">&quot;smoking&quot;</span>, <span class="st">&quot;tchol&quot;</span>)]    </span>
 <span id="cb4-9"><a href="#cb4-9" tabindex="-1"></a></span>
 <span id="cb4-10"><a href="#cb4-10" tabindex="-1"></a><span class="co"># first 50 rows and all columns</span></span>
-<span id="cb4-11"><a href="#cb4-11" tabindex="-1"></a>cardiac<span class="fl">.50</span> <span class="ot">&lt;-</span> cardiac[<span class="dv">1</span><span class="sc">:</span><span class="dv">50</span>, ]  </span>
+<span id="cb4-11"><a href="#cb4-11" tabindex="-1"></a>cardiac_50 <span class="ot">&lt;-</span> cardiac[<span class="dv">1</span><span class="sc">:</span><span class="dv">50</span>, ]  </span>
 <span id="cb4-12"><a href="#cb4-12" tabindex="-1"></a></span>
 <span id="cb4-13"><a href="#cb4-13" tabindex="-1"></a><span class="co"># excluding first 10 rows and last column using negative indexing</span></span>
-<span id="cb4-14"><a href="#cb4-14" tabindex="-1"></a>cardiac.last <span class="ot">&lt;-</span> cardiac[<span class="sc">-</span><span class="fu">c</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">10</span>), <span class="sc">-</span><span class="dv">11</span>]  </span>
+<span id="cb4-14"><a href="#cb4-14" tabindex="-1"></a>cardiac_last <span class="ot">&lt;-</span> cardiac[<span class="sc">-</span><span class="fu">c</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">10</span>), <span class="sc">-</span><span class="dv">11</span>]  </span>
 <span id="cb4-15"><a href="#cb4-15" tabindex="-1"></a><span class="co"># more general way if you have lots of columns</span></span>
-<span id="cb4-16"><a href="#cb4-16" tabindex="-1"></a>cardiac.last <span class="ot">&lt;-</span> cardiac[<span class="sc">-</span><span class="fu">c</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">10</span>), <span class="sc">-</span><span class="fu">c</span>(<span class="fu">ncol</span>(cardiac))] </span>
+<span id="cb4-16"><a href="#cb4-16" tabindex="-1"></a>cardiac_last <span class="ot">&lt;-</span> cardiac[<span class="sc">-</span><span class="fu">c</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">10</span>), <span class="sc">-</span><span class="fu">c</span>(<span class="fu">ncol</span>(cardiac))] </span>
 <span id="cb4-17"><a href="#cb4-17" tabindex="-1"></a><span class="co"># </span><span class="al">NOTE</span><span class="co">: negative indexing does NOT work with column names. Uncomment the line</span></span>
 <span id="cb4-18"><a href="#cb4-18" tabindex="-1"></a><span class="co"># below and run it to see the error for yourself:</span></span>
-<span id="cb4-19"><a href="#cb4-19" tabindex="-1"></a><span class="co"># cardiac.last &lt;- cardiac[-c(1:10), -c(&quot;smoking&quot;)]</span></span></code></pre></div>
+<span id="cb4-19"><a href="#cb4-19" tabindex="-1"></a><span class="co"># cardiac_last &lt;- cardiac[-c(1:10), -c(&quot;smoking&quot;)]</span></span></code></pre></div>
 <p> </p>
 <p>End of Exercise 3</p>
 </div>

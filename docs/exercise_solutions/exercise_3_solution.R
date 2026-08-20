@@ -60,22 +60,22 @@ summary(cardiac)
 
 ## ----Q8, echo=SOLUTIONS-------------------------------------------------------
 # first 10 rows and first 4 columns
-cardiac.sub <- cardiac[1:10, 1:4]                                      
+cardiac_sub <- cardiac[1:10, 1:4]                                      
 
 # all rows and the columns patno, sex, smoking and tchol
-cardiac.risk <- cardiac[, c(1, 3, 11, 6)] 
+cardiac_risk <- cardiac[, c(1, 3, 11, 6)] 
 # alternative way of indexing columns with named indexes - much easier to read,
 # and it still works if the column order changes
-cardiac.risk <- cardiac[, c("patno", "sex", "smoking", "tchol")]    
+cardiac_risk <- cardiac[, c("patno", "sex", "smoking", "tchol")]    
 
 # first 50 rows and all columns
-cardiac.50 <- cardiac[1:50, ]  
+cardiac_50 <- cardiac[1:50, ]  
 
 # excluding first 10 rows and last column using negative indexing
-cardiac.last <- cardiac[-c(1:10), -11]  
+cardiac_last <- cardiac[-c(1:10), -11]  
 # more general way if you have lots of columns
-cardiac.last <- cardiac[-c(1:10), -c(ncol(cardiac))] 
+cardiac_last <- cardiac[-c(1:10), -c(ncol(cardiac))] 
 # NOTE: negative indexing does NOT work with column names. Uncomment the line
 # below and run it to see the error for yourself:
-# cardiac.last <- cardiac[-c(1:10), -c("smoking")]
+# cardiac_last <- cardiac[-c(1:10), -c("smoking")]
 

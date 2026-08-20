@@ -86,7 +86,7 @@ cardiac.sorted <- cardiac[order(cardiac$smoking, cardiac$systolic), ]
 cardiac.rev.sorted <- cardiac[order(cardiac$smoking, -cardiac$systolic), ]   
 
 
-## ----Q8a, echo=SOLUTIONS------------------------------------------------------
+## ----Q8a, echo=TRUE-----------------------------------------------------------
 mean(cardiac$age)          # mean age
 median(cardiac$systolic)   # median systolic blood pressure
 length(cardiac$tchol)      # number of observations

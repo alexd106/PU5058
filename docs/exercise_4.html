@@ -591,6 +591,9 @@ within each level of smoking status.</p>
 calculating a mean, median or counting the number of observations. To do
 this for a single variable it’s fairly straight forward :</p>
 <p> </p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" tabindex="-1"></a><span class="fu">mean</span>(cardiac<span class="sc">$</span>age)          <span class="co"># mean age</span></span>
+<span id="cb2-2"><a href="#cb2-2" tabindex="-1"></a><span class="fu">median</span>(cardiac<span class="sc">$</span>systolic)   <span class="co"># median systolic blood pressure</span></span>
+<span id="cb2-3"><a href="#cb2-3" tabindex="-1"></a><span class="fu">length</span>(cardiac<span class="sc">$</span>tchol)      <span class="co"># number of observations</span></span></code></pre></div>
 <p> </p>
 <p>8. (cont) Perhaps more interestingly, you might want to summarise one
 variable conditional on the level of another categorical variable. For

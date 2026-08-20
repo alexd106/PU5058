@@ -61,4 +61,10 @@ output:
     #  - styles.css
 
 include: [".nojekyll", "data/*", "exercises/*.pdf", "exercise_solutions/*.R"]
-exclude: ["LICENSE", "README.md", "*.Rproj", "*.key", "*.psd", "rmd_archive"]
+exclude: ["LICENSE", "README.md", "*.Rproj", "*.key", "*.psd", "rmd_archive",
+          "CLAUDE.md", "exercise_audit.md", "R_Factsheet_Unit_1.pdf", "_data_raw"]
+# NOTE: `exclude` only stops files being copied as site resources. It does NOT stop
+# a root-level .md being rendered: render_site() renders everything matching
+# ^[^_].*\.[Rr]?md$ (README is the only special case). CLAUDE.md and exercise_audit.md
+# are therefore still rendered to docs/CLAUDE.html and docs/exercise_audit.html, and
+# both of those outputs are gitignored so they can never reach GitHub Pages.

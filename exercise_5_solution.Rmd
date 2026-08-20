@@ -6,6 +6,7 @@ output:
     code_folding: hide
 ---
 
+
 ```{r setup, echo=FALSE, purl = FALSE}
 knitr::opts_chunk$set(echo=TRUE, message = FALSE, warning = FALSE, eval = FALSE, cache = FALSE)
 SOLUTIONS <- TRUE
@@ -13,150 +14,257 @@ SOLUTIONS <- TRUE
 
 \  
 
-## Exercise 5: Basic programming in R
+## Exercise 5: Visualising data using base R
 
 \  
 
-Read [Chapter 7](https://intro2r.com/prog_r.html) to help you complete the questions in this exercise.
+Read [Chapter 4](https://intro2r.com/graphics_r.html) to help you complete the questions in this exercise.
 
 \  
 
-1\. Create a function to calculate the area of a circle. Test the function by finding the area of a circle with a diameter of 3.4 cm. Can you use it on a vector of data?
-
-```{r Q1, echo=SOLUTIONS}
-
-# area of a circle
-# the equation to calculate the area of a circle is pi * radius^2
-
-circle.area <- function(d){ 
-	pi * (d/2)^2
-}
-
-# to use your new function
-
-circle.area(10)
-# [1] 78.53982
-
-# to test on a vector of diameters
-# first create a vector with diameters ranging from 0 to 50 in steps of 10
-
-cir.diam <- seq(from = 0, to = 50, by = 10)
-
-# test your function
-
-circle.area(cir.diam)
-# [1]    0.00000   78.53982  314.15927  706.85835 1256.63706 1963.49541
-```
+1\. As in previous exercises, either create a new R script or continue with your previous R script in your RStudio Project. Again, make sure you include any metadata you feel is appropriate (title, description of task, date of creation etc) and  don't forget to comment out your metadata with a `#` at the beginning of the line. 
 
 \  
 
-2\. Write a function to convert farenheit to centegrade (oC = (oF - 32) x 5/9). Get your function to print out your result in the following format: "Farenheit : *value of oF* is equivalent to *value oC* centigrade."
-
-```{r Q2, echo=SOLUTIONS, tidy = TRUE}
-
-far.cent <- function(a){
-	val <- (a-32)*5/9
-	print(paste("Fahrenheit: ", round(a, digits = 3), "oF",sep = " "), quote = FALSE)# round 3dp
-	print(paste("Centigrade: ", round(val, digits = 3), "oC", sep = " "), quote = FALSE)# round 3dp
-}
-
-# alternative Fahrenheit to centigrade using cat function
-
-far.cent2 <- function(a){
-	val <- (a - 32) * 5/9	#calculation
-	cat("Fahrenheit: ", round(a, digits = 3), "oF", "\n")   # use cat function
-	cat("Centigrade: ", round(val, digits = 3), "oC", "\n")   
-}
-```
+2\. You do not need to download anything for this exercise. You already have *'cardiacdata.txt'* in the `data` directory of your RStudio Project, from Exercise 3. If for some reason you haven't, go back to the **[<i class="fa fa-download"></i> Data](data.html)** link, download *'cardiacdata.xlsx'* and save it as a tab delimited file called *'cardiacdata.txt'* as you did before.
 
 \  
 
-3\. Create a vector of normally distributed data, of length 100, mean 35 and standard deviation of 15. Write a function to calculate the mean, median, and range of the vector, print these values out with appropriate labels. Also get the function to plot a histogram (as a proportion) of the values and add a density curve.
-
-```{r Q3, echo=SOLUTIONS}
-
-# Create a vector of normally distributed data
-# length 100, mean 35 and standard deviation of 29
-
-vals <- rnorm(100, 35, 15)	# create some norm dist data mean 35, sd = 15
-
-summary.fun <- function(dat){
-	mymean <- round(mean(dat), digits = 4)      	# calc mean
-	mymedian <- round(median(dat), digits = 4)    # calc median
-	mymin <- round(min(dat), digits = 4)          # calc min
-	mymax <- round(max(dat), digits = 4)          # calc max
-	print(paste("mean:", mymean, sep = " "), quote = FALSE)     # print mean
-	print(paste("median:", mymedian, sep = " "), quote = FALSE)     # print median
-	print(paste("range:", "from:", mymin, "to", mymax, sep = " "), quote = FALSE) 
-	dens <- density(dat)                          # estimate density curve
-	hist(dat, main = "",type = "l",freq = FALSE)  # plot histogram
-	lines(dens, lty = 1, col = "red")             # plot density curve
-}
-
-# use the function
-summary.fun(vals)
-```
+3\. A quick reminder of what these data are. They come from a cohort study of the risk factors for cardiovascular disease, in which 163 adults aged between 55 and 75 were examined and a range of measurements taken: age and sex, systolic and diastolic blood pressure (mmHg), body mass index (kg/m^2^), total cholesterol, HDL cholesterol and triglyceride (all mmol/l), units of alcohol drunk in the previous week, and smoking status. Note that you are importing the original file again, not the cleaned version you exported at the end of Exercise 4. Starting from the raw data every time, and doing your cleaning in a script, is what makes an analysis reproducible.
 
 \  
 
-4\. Write a function to calculate the median value of a vector of numbers (yes I know there's a ```median()``` function already but this is fun!). Be careful with vectors of an even sample size, as you will have to take the average of the two central numbers (hint: use modulo  %%2 to determine whether the vector is an odd or an even size). Test your function on vectors with both odd and even sample sizes. 
+4\. Import the *'cardiacdata.txt'* file into R using the `read.table()` function and assign it to a variable named `cardiac`. Use the `str()` function to display the structure of the dataset and the `summary()` function to summarise it. As you found in Exercise 3, the `sex` and `smoking` variables are coded as integers, but they are really categories. Create a new variable in the `cardiac` dataframe for each of them, recoded as a factor with meaningful labels (`sex` is 1 for Female and 2 for Male; `smoking` is 1 for Current, 2 for Ex and 3 for Never). Use the `str()` function again to check the coding of these new variables. Almost every plotting function in this exercise treats a factor differently from a number, so this step is not optional housekeeping - get it wrong and your boxplots will come out as nonsense.
 
 ```{r Q4, echo=SOLUTIONS}
+cardiac <- read.table('data/cardiacdata.txt', header = TRUE, sep = "\t",
+                      na.strings = "NA", stringsAsFactors = TRUE)
 
-# calculate a median
+str(cardiac)
+summary(cardiac)
 
-ourmedian <- function(x){
-	n <- length(x)
-	if (n %% 2 == 1)      # odd numbers
-	  sort(x)[(n + 1)/2]  # find the middle number by adding 1 to length and div 2
-	else {                # even numbers
-	  middletwo <- sort(x)[(n/2) + 0:1]   #find the two middle numbers
-	  mean(middletwo)
-	  }
-}
+# recode the two categorical variables as factors, keeping the originals
+cardiac$Fsex <- factor(cardiac$sex, levels = c(1, 2),
+                       labels = c("Female", "Male"))
 
-# use the function
-mydat <- sample(1:50, size = 10, replace = TRUE )
+cardiac$Fsmoking <- factor(cardiac$smoking, levels = c(1, 2, 3),
+                           labels = c("Current", "Ex", "Never"))
 
-# our function
-ourmedian(mydat)
+str(cardiac)
 
-# R median function
-median(mydat)
+#  $ Fsex    : Factor w/ 2 levels "Female","Male": 2 2 2 2 2 2 2 1 1 2 ...
+#  $ Fsmoking: Factor w/ 3 levels "Current","Ex",..: NA NA NA NA NA NA NA 1 1 1 ...
 ```
 
 \  
 
-5\. You are a population ecologist for the day and wish to investigate the properties of the [Ricker model](https://en.wikipedia.org/wiki/Ricker_model). The Ricker model is defined as:
+5\. How many patients are there in each combination of smoking status and sex (hint: remember the `table()` or `xtabs()` functions?)? Don't forget to use the factor recoded versions of these variables. Is the split between the smoking categories similar for women and men? Are any of the combinations small enough to worry about if you wanted to compare them?
 
-\  
+```{r Q5, echo=SOLUTIONS}
+table(cardiac$Fsmoking, cardiac$Fsex)
 
+  #           Female Male
+  # Current       26   24
+  # Ex            15   37
+  # Never         37   17
 
-$$ N_{t+1} = N_{t} exp\left[r\left(1- \frac{N_{t}}{K} \right) \right] $$
+# the pattern is almost reversed between the sexes: most of the men are
+# ex-smokers, most of the women have never smoked. The smallest cell has 15
+# patients, which is small but not unusable.
 
-\  
+xtabs(~ Fsmoking + Fsex, data = cardiac)
 
-5\. (cont) Where *N~t~* is the population size at time *t*, *r* is the population growth rate and *K* is the carrying capacity. Write a function to simulate this model so you can conveniently determine the effect of changing *r* and the initial population size N0. *K* is often set to 100 by default, but you want the option of being able to change this with your function. So, you will need a function with the following arguments; nzero which sets the initial population size, *r* which will determine the population growth rate, time which sets how long the simulation will run for and *K* which we will initially set to 100 by default.
-
-```{r Q5, echo=SOLUTIONS, tidy = TRUE}
-
-# function to simulate Ricker model
-
-Ricker.model <- function(nzero, r, time, K=1){     # sets initial parameters
-  N <- numeric(time + 1)    # creates a real vector of length time+1 to store values of Nt+1
-  N[1] <- nzero             # sets initial population size in first element of N
-  for (i in 1:time) {				# loops over time
-      N[i+1] <- N[i]*exp(r*(1 - N[i]/K))    
-  }
-  Time <- 0:time   					 # creates vector for x axis
-  plot(Time, N, type = "o", xlim = c(0, time), xlab = "Time", ylab = "Population size (N)", main = paste("r =", r, sep=" "))   # plots     output
-}
-
-# To run
-# play around with the different parameters, especially r
-Ricker.model(nzero=0.1,r=1,time=100)
+# and don't forget the 7 patients with no smoking status recorded
+table(cardiac$Fsmoking, cardiac$Fsex, useNA = "ifany")
 ```
 
 \  
 
-End of Exercise 6
+6\. The humble cleveland dotplot is a great way of identifying if you have potential outliers in continuous variables (see [Section 4.2.4](https://intro2r.com/simple-base-r-plots.html#dotcharts)). Create dotplots (using the `dotchart()` function) for the following variables; `bmi`, `systolic`, `tchol` and `alcohol`. Do these variables contain any unusually large or small observations? Don't forget, if you prefer to create a single figure with all 4 plots you can always split your plotting device into 2 rows and 2 columns (see [Section 4.4](https://intro2r.com/mult_graphs.html#mult_graphs) of the book). Use the `pdf()` function to save a pdf version of your plot(s) in the `output` directory you created in Exercise 1 (see [Section 4.5](https://intro2r.com/export_plots.html#export_plots) of the book to see how the `pdf()` function works).
+
+```{r Q6, echo=SOLUTIONS}
+pdf('output/ex5_dotplots.pdf')
+par(mfrow = c(2, 2))
+dotchart(cardiac$bmi, main = "bmi")
+dotchart(cardiac$systolic, main = "systolic")
+dotchart(cardiac$tchol, main = "total cholesterol")
+dotchart(cardiac$alcohol, main = "alcohol")
+dev.off()
+
+# the bmi plot is the striking one: a single point sits so far to the right
+# that every other patient is squashed into a narrow strip on the left. You
+# cannot see the shape of the bmi distribution at all, because one value is
+# setting the scale for all 163.
+```
+
+\  
+
+7\. You met that extreme `bmi` value in Exercise 4, when you checked the ranges with `summary()` and found a maximum of 514.60. A body mass index of 514 is not possible: it is 51.46 with the decimal point in the wrong place. What the dotplot adds is not the discovery, but the damage: one bad value has made the plot useless for looking at the other 162 patients. Use the `which()` function to identify which observation it is, confirm the value with the square bracket `[ ]` notation, set it to `NA` as you did in Exercise 4, and then redo the dotchart. Now look again at all four plots. Several points still sit well away from the rest. Which ones, and what should you do about them?
+
+```{r Q7, echo=SOLUTIONS}
+which(cardiac$bmi > 100)
+# [1] 161
+cardiac$bmi[161]
+# [1] 514.6
+cardiac$bmi[cardiac$bmi > 100] <- NA
+
+par(mfrow = c(2, 2))
+dotchart(cardiac$bmi, main = "bmi")
+dotchart(cardiac$systolic, main = "systolic")
+dotchart(cardiac$tchol, main = "total cholesterol")
+dotchart(cardiac$alcohol, main = "alcohol")
+
+# Now the bmi plot is readable, and you can see the distribution properly:
+# most patients between about 20 and 30, thinning out to a handful above 35,
+# with one patient at 51.46.
+
+# What else stands out? One patient with a bmi of 51.46, one with a systolic
+# pressure of 230 mmHg, and in the alcohol plot a handful of patients reporting
+# 41, 64 and 82 units in a week when the median is 2.
+
+# What should you do about them? NOTHING. Every one of those values is
+# perfectly possible. A BMI of 51 is severe obesity, a systolic pressure of 230
+# is a hypertensive crisis, and 82 units a week is a great deal of alcohol but
+# people really do drink that much. These are not errors, they are patients.
+# The difference between this question and the last one is the difference
+# between a value that CANNOT be right and a value you did not expect, and only
+# the first of those is yours to change. Deleting inconvenient data because it
+# looks untidy is scientific fraud.
+```
+
+\  
+ 
+8\. When exploring your data it is often useful to visualise the distribution of continuous variables. Take a look at [Section 4.2.2](https://intro2r.com/simple-base-r-plots.html#histograms) and then create histograms for the variables; `bmi`, `systolic`, `tchol` and `alcohol`. Again, it's up to you if you want to plot all 4 plots separately or in the same figure. Export your plot(s) as pdf file(s) to the `output` directory. One potential problem with histograms is that the distribution of data can look quite different depending on the number of 'breaks' used. The `hist()` function does its best to create appropriate 'breaks' for your plots (it uses the [Sturges algorithm](https://en.wikipedia.org/wiki/Histogram) for those that want to know) but experiment with changing the number of breaks for the `systolic` variable to see how the shape of the distribution changes (see [Section 4.2.2](https://intro2r.com/simple-base-r-plots.html#histograms) of the book for further details of how to change the breaks).   
+
+```{r Q8, echo=SOLUTIONS}
+pdf('output/ex5_hist.pdf')
+par(mfrow = c(2, 2))
+hist(cardiac$bmi, main = "", xlab = "bmi")
+hist(cardiac$systolic, main = "", xlab = "systolic")
+hist(cardiac$tchol, main = "", xlab = "total cholesterol")
+hist(cardiac$alcohol, main = "", xlab = "alcohol (units/week)")
+dev.off()
+
+# need the min and max of systolic to work out the limits for the breaks
+summary(cardiac$systolic)
+# Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
+#  104     127     140   142.9     156     230 
+
+# experimenting with different breaks
+par(mfrow = c(2, 2))
+brk1 <- seq(from = 100, to = 240, by = 20)
+hist(cardiac$systolic, xlab = "systolic", breaks = brk1, main = "brk: 20")
+
+brk2 <- seq(from = 100, to = 240, by = 10)
+hist(cardiac$systolic, xlab = "systolic", breaks = brk2, main = "brk: 10")
+
+brk3 <- seq(from = 100, to = 240, by = 5)
+hist(cardiac$systolic, xlab = "systolic", breaks = brk3, main = "brk: 5")
+
+brk4 <- seq(from = 100, to = 240, by = 2)
+hist(cardiac$systolic, xlab = "systolic", breaks = brk4, main = "brk: 2")
+
+# with 20 mmHg bins the distribution looks smooth and roughly symmetric; with
+# 2 mmHg bins it looks spiky and full of gaps, because blood pressure is
+# recorded in whole even numbers. The data have not changed, only the picture.
+```
+
+\  
+
+9\. Scatterplots are great for visualising relationships between two continuous variables ([Section 4.2.1](https://intro2r.com/simple-base-r-plots.html#scatterplot)). Plot the relationship between `systolic` on the x axis and `diastolic` on the y axis. How would you describe this relationship? Now plot `hdlchol` on the x axis against `triglyceride` on the y axis. Which way does that one go, and does that make clinical sense to you? Finally, take a look at `alcohol`. It is badly skewed, and skew is a nuisance in a plot because most of the points end up squashed into a corner. One approach is to apply a transformation. Create new variables in the `cardiac` dataframe holding the square root (`sqrt()`) and natural log (`log()`) of `alcohol` and plot histograms of each. One of the two transformations goes badly wrong. Which one, and why? (hint: what is the smallest value of `alcohol`, and what is the log of it?) Save your plots as a pdf file, or try jpeg or png format using the `jpeg()` or `png()` functions ([Section 4.5](https://intro2r.com/export_plots.html#export_plots)) if you feel the need for a change.
+
+```{r Q9, echo=SOLUTIONS}
+# a clear positive relationship, as you would expect: the two numbers are
+# measurements of the same thing at different points in the heartbeat
+plot(cardiac$systolic, cardiac$diastolic,
+     xlab = "systolic (mmHg)", ylab = "diastolic (mmHg)")
+
+# this one slopes the other way: patients with high HDL cholesterol tend to
+# have low triglyceride. That is a real and well known pattern
+plot(cardiac$hdlchol, cardiac$triglyceride,
+     xlab = "HDL cholesterol (mmol/l)", ylab = "triglyceride (mmol/l)")
+
+# transforming alcohol
+cardiac$alcohol.sqrt <- sqrt(cardiac$alcohol)
+cardiac$alcohol.log  <- log(cardiac$alcohol)
+
+par(mfrow = c(1, 3))
+hist(cardiac$alcohol, main = "untransformed", xlab = "alcohol")
+hist(cardiac$alcohol.sqrt, main = "square root", xlab = "sqrt(alcohol)")
+hist(cardiac$alcohol.log, main = "natural log", xlab = "log(alcohol)")
+
+# The log transformation fails. 58 of the 163 patients reported drinking no
+# alcohol at all, and log(0) is -Inf, not a number. R does not stop, it just
+# quietly drops those 58 patients from the plot - more than a third of your
+# data gone, with nothing more than a warning about non-finite values.
+min(cardiac$alcohol)          # 0
+log(0)                        # -Inf
+sum(is.infinite(cardiac$alcohol.log))   # 58
+
+# The square root works, because sqrt(0) is 0, and it pulls the long tail in
+# nicely. If you did need a log, the usual dodge is log(x + 1).
+
+jpeg('output/ex5_alcohol.jpeg')
+hist(cardiac$alcohol.sqrt, main = "", xlab = "sqrt(alcohol)")
+dev.off()
+```
+
+\  
+
+10\. When visualising differences in a continuous variable between levels of a factor (categorical variable) then a boxplot is your friend (avoid using bar plots - Google 'bar plots are evil' for more info). Create a boxplot to visualise the differences in total cholesterol at each level of smoking status (don't forget to use the recoded version of this variable you created in Q4). Include x and y axes labels in your plot. Make sure you understand the anatomy of a boxplot before moving on - please ask if you're not sure (also see [Section 4.2.3](https://intro2r.com/simple-base-r-plots.html#box-and-violin-plots) of the book). An alternative to the boxplot is the violin plot. A violin plot is a combination of a boxplot and a [kernel density plot](https://www.statmethods.net/graphs/density.html) and is great at visualising the distribution of a variable. To create a violin plot you will first need to install the `vioplot` package from CRAN and make it available using `library(vioplot)`. You can now use the `vioplot()` function in pretty much the same way as you created your boxplot (again [Section 4.2.3](https://intro2r.com/simple-base-r-plots.html#box-and-violin-plots) of the book walks you through this).
+
+```{r Q10, echo=SOLUTIONS, tidy = TRUE}
+# note: Fsmoking is the recoded smoking variable created in Q4
+boxplot(tchol ~ Fsmoking, data = cardiac, xlab = "smoking status", ylab = "total cholesterol (mmol/l)")
+
+# violin plot
+library(vioplot)
+vioplot(tchol ~ Fsmoking, data = cardiac, xlab = "smoking status", ylab = "total cholesterol (mmol/l)", col = "lightblue")
+
+# the three groups look remarkably similar. That is a perfectly good result:
+# a plot that shows you there is nothing much to see has still told you
+# something, and is a lot more honest than hunting for a variable that does
+# show a difference.
+```
+
+\  
+
+11\. To explore the relationships between multiple continuous variables it's hard to beat a pairs plot. Create a pairs plot for the variables; `age`, `systolic`, `diastolic`, `tchol`, `hdlchol`, `triglyceride` and `bmi` (see [Section 4.2.5](https://intro2r.com/simple-base-r-plots.html#pairs-plots) of the book for more details). If it looks a little cramped in RStudio then click on the 'zoom' button in the plot viewer to see a larger version. One of the great things about the `pairs()` function is that you can customise what goes into each panel. Modify your pairs plot to include a histogram of the variables on the diagonal panel and include a correlation coefficient for each relationship on the upper triangle panels. Also include a smoother (wiggly line) in the lower triangle panels to help visualise these relationships. Take a look at the Introduction to R book to see how to do all this (or `?pairs`). Which pair of variables is most strongly related, and which variable is related to almost nothing?
+
+```{r Q11, echo=SOLUTIONS, tidy = TRUE}
+# vanilla pairs plot
+pairs(cardiac[, c("age", "systolic", "diastolic", "tchol", "hdlchol", "triglyceride", "bmi")])
+
+# customise the plot. You need to define the panel.hist and panel.cor functions
+# first - these are taken from the ?pairs help file
+panel.hist <- function(x, ...) {
+  usr <- par("usr"); on.exit(par(usr = usr))
+  par(usr = c(usr[1:2], 0, 1.5))
+  h <- hist(x, plot = FALSE)
+  breaks <- h$breaks; nB <- length(breaks)
+  y <- h$counts; y <- y / max(y)
+  rect(breaks[-nB], 0, breaks[-1], y, col = "grey85", ...)
+}
+
+panel.cor <- function(x, y, digits = 2, ...) {
+  usr <- par("usr"); on.exit(par(usr = usr))
+  par(usr = c(0, 1, 0, 1))
+  r <- cor(x, y, use = "pairwise.complete.obs")
+  txt <- format(c(r, 0.123456789), digits = digits)[1]
+  text(0.5, 0.5, txt, cex = 1.2)
+}
+
+pairs(cardiac[, c("age", "systolic", "diastolic", "tchol", "hdlchol", "triglyceride", "bmi")],
+      diag.panel = panel.hist, upper.panel = panel.cor, lower.panel = panel.smooth)
+
+# systolic and diastolic are the most strongly related pair (r = 0.56), which
+# is no surprise. hdlchol and triglyceride are the next strongest (r = -0.43)
+# and negative. age is related to almost nothing here, and that is worth
+# thinking about: everyone in this study is between 55 and 75, so there simply
+# is not enough spread in age for a relationship to show itself. A variable can
+# look unimportant purely because of who was recruited.
+```
+
+\  
+
+End of Exercise 5

@@ -29,24 +29,22 @@ first_char <- "my second variable"
 first_char    # display the value 
 
 
-## ----Q11, echo=SOLUTIONS------------------------------------------------------
+## ----Q9, echo=SOLUTIONS-------------------------------------------------------
 apropos("plot")
 help('plot.design')
 
 
-## ----Q12, echo=SOLUTIONS------------------------------------------------------
+## ----Q10, echo=SOLUTIONS------------------------------------------------------
 help.search("plot")
 ??plot     # shortcut for help.search function
 
 help.search("plot", package = "nlme")
 
 
-## ----Q13, echo=SOLUTIONS------------------------------------------------------
+## ----Q11, echo=SOLUTIONS------------------------------------------------------
 getwd()    # displays the current working directory 
 
 
-## ----Q14, echo=SOLUTIONS------------------------------------------------------
-dir.create(path = 'output')
-dir.create(path = 'output/figures')
+## ----Q12, echo=SOLUTIONS------------------------------------------------------
 list.files(include.dirs = TRUE)
 

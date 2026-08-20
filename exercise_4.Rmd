@@ -14,310 +14,298 @@ SOLUTIONS <- FALSE
 
 \  
 
-## Exercise 4: Visualising data using base R and lattice graphics
+## Exercise 4: Cleaning, validation and joining
 
 \  
 
-Read [Chapter 4](https://intro2r.com/graphics_base_r.html) to help you complete the questions in this exercise.
+Read [Chapter 3](https://intro2r.com/data_r.html) to help you complete the questions in this exercise.
 
 \  
 
-1\. As in previous exercises, either create a new R script or continue with your previous R script in your RStudio Project. Again, make sure you include any metadata you feel is appropriate (title, description of task, date of creation etc) and  don't forget to comment out your metadata with a `#` at the beginning of the line. 
+This exercise picks up exactly where Exercise 3 left off and uses the same `cardiac` dataframe. If you are starting a fresh R session, either continue with the R script you wrote for Exercise 3 or import the data again before you go any further.
 
-\  
+In Exercise 3 you noticed that R had imported `sex` and `smoking` as integers, even though they are really categories. Let's fix `sex` now, by telling R what the codes 1 and 2 actually mean. You will deal with `smoking` differently, and rather more elegantly, in Q13.
 
-2\. If you haven't already download the data file *‘squid1.xlsx’* from the **[<i class="fa fa-download"></i> Data](data.html)** link and save it to the `data` directory you created during exercise 1. Open this file in Microsoft Excel (or even better use an open source equivalent - [LibreOffice](https://www.libreoffice.org/download/download/) is a good free alternative) and save it as a tab delimited file type. Name the file *‘squid1.txt'* and save it to the `data` directory.
+```{r Q0, echo=TRUE}
+cardiac <- read.table('data/cardiacdata.txt', header = TRUE, sep = "\t",
+                      na.strings = "NA", stringsAsFactors = TRUE)
 
-\  
-
-3\. These data were originally collected as part of a study published in Aquatic Living Resources^1^ in 2005. The aim of the study was to investigate the seasonal patterns of investment in somatic and reproductive tissues in the long finned squid *Loligo forbesi* caught in Scottish waters. Squid were caught monthly from December 1989 - July 1991 (`month` and `year` variables). After capture, each squid was given a unique `specimen` code, weighed (`weight`) and the sex determined (`sex` - only female squid are included here). The size of individuals was also measured as the dorsal mantle length (`DML`) and the mantle weight measured without internal organs (`eviscerate.weight`). The gonads were weighed (`ovary.weight`) along with the accessory reproductive organ (the nidamental gland, `nid.weight`, `nid.length`).  Each individual was also assigned a categorical measure of maturity (`maturity.stage`, ranging from 1 to 5 with 1 = immature, 5 = mature). The digestive gland weight (`dig.weight`) was also recorded to assess nutritional status of the individual. If you're not familiar with squid morphology and are interested in finding out more see [here](https://en.wikipedia.org/wiki/Cephalopod_size).  
-
-\  
-
-4\. Import the *'squid1.txt'* file into R using the `read.table()` function and assign it to a variable named `squid`. Use the `str()` function to display the structure of the dataset and the `summary()` function to summarise the dataset. How many observations are in this dataset? How many variables? The `year`, `month` and `maturity.stage` variables were coded as integers in the original dataset. Here we would like to code them as factors. Create a new variable for each of these variables in the `squid` dataframe and recode them as factors. Use the `str()` function again to check the coding of these new variables. 
-
-```{r Q4, echo=SOLUTIONS}
-squid <- read.table('data/squid1.txt', header =TRUE, 
-                     stringsAsFactors = TRUE)
-
-str(squid)
-# 'data.frame':	519 obs. of  13 variables:
-#  $ sample.no        : int  105128901 105128901 105128901 105128901 ...
-#  $ specimen         : int  1002 1003 1005 1007 1008 1009 1011 1013 ...
-#  $ year             : int  1989 1989 1989 1989 1989 1989 1989 1989 ...
-#  $ month            : int  12 12 12 12 12 12 12 12 12 12 ...
-#  $ weight           : num  152 106 138 141 126 ...
-#  $ sex              : int  2 2 2 2 2 2 2 2 2 2 ...
-#  $ maturity.stage   : int  3 1 2 2 3 1 2 3 3 4 ...
-#  $ DML              : int  174 153 169 175 169 116 135 192 170 205 ...
-#  $ eviscerate.weight: num  87.5 62.6 79.4 83.1 72.2 ...
-#  $ dig.weight       : num  4.648 3.138 0.307 4.123 3.605 ...
-#  $ nid.length       : num  39.4 24.1 39 41.4 39.8 20 14 55 44 53 ...
-#  $ nid.weight       : num  2.46 0.319 1.169 1.631 2.03 ...
-#  $ ovary.weight     : num  1.68 0.103 0.289 0.252 0.86 ...
-
-summary(squid)
-
-# convert variables to factors
-squid$Fmaturity <- factor(squid$maturity.stage)
-squid$Fmonth <- factor(squid$month) 
-squid$Fyear <- factor(squid$year)
-
-str(squid)
-# 'data.frame':	519 obs. of  16 variables:
-#  $ sample.no        : int  105128901 105128901 105128901 ...
-#  $ specimen         : int  1002 1003 1005 1007 1008 1009 ...
-#  $ year             : int  1989 1989 1989 1989 1989 1989 ...
-#  $ month            : int  12 12 12 12 12 12 12 12 12 12 ...
-#  $ weight           : num  152 106 138 141 126 ...
-#  $ sex              : int  2 2 2 2 2 2 2 2 2 2 ...
-#  $ maturity.stage   : int  3 1 2 2 3 1 2 3 3 4 ...
-#  $ DML              : int  174 153 169 175 169 116 135 ...
-#  $ eviscerate.weight: num  87.5 62.6 79.4 83.1 72.2 ...
-#  $ dig.weight       : num  4.648 3.138 0.307 4.123 3.605 ...
-#  $ nid.length       : num  39.4 24.1 39 41.4 39.8 20 14 ...
-#  $ nid.weight       : num  2.46 0.319 1.169 1.631 2.03 ...
-#  $ ovary.weight     : num  1.68 0.103 0.289 0.252 0.86 ...
-#  $ Fmaturity        : Factor w/ 5 levels "1","2","3","4" "5"...
-#  $ Fmonth           : Factor w/ 12 levels "1","2","3","4" ...
-#  $ Fyear            : Factor w/ 3 levels "1989","1990",..1 ...
- 
+# 1 = Female and 2 = Male. Writing the labels out means you never have to
+# remember the codes again, and your output reads properly.
+cardiac$sex <- factor(cardiac$sex, levels = c(1, 2), labels = c("Female", "Male"))
 ```
 
 \  
 
-5\. How many observations are there per month and year combination (hint: remember the `table()` or `xtabs()` functions?)? Don't forget to use the factor recoded versions of these variables. Do you have data for each month in each year? Which years have the most observations? (optional) Use a combination of the `xtabs()` and `ftable()` functions to create a flattened table of the number of observations for each year, maturity stage and  month (aka a contingency table).  
+1\. In addition to extracting rows and columns from your dataframe by position you can also use conditional statements to select particular rows based on some logical criteria. This is very useful but takes a bit of practice to get used to (see [Section 3.4.2](https://intro2r.com/wrangling-data-frames.html#logical-indexes) for an introduction). Extract rows from your dataframe (all columns by default) based on the following criteria (note: you will need to assign the results of these statements to appropriately named variables, I'll leave it up to you to use informative names!). Remember that `smoking` is coded 1 for current smokers, 2 for ex-smokers and 3 for those who have never smoked:  
 
-```{r Q5, echo=SOLUTIONS}
-table(squid$Fmonth, squid$Fyear)
+- systolic blood pressure greater than 160 mmHg
+- diastolic blood pressure greater than 90 mmHg
+- patients who have never smoked
+- female patients who are current smokers
+- male patients who have never smoked and whose diastolic pressure is greater than the median diastolic pressure (76 mmHg)
+- all patients with a bmi between 25 and 30 and a triglyceride between 1 and 2 mmol/l
+- all patients who are not ex-smokers
 
-  #   1989 1990 1991
-  # 1     0    3   37
-  # 2     0    0   30
-  # 3     0   40   29
-  # 4     0   10   33
-  # 5     0    1   30
-  # 6     0    0   14
-  # 7     0   42    1
-  # 8     0   29    0
-  # 9     0   82    0
-  # 10    0   19    0
-  # 11    0   76    0
-  # 12   12   31    0
-  
-ftable(xtabs(~ Fyear + Fmaturity + Fmonth, data = squid))
+```{r Q1, echo=SOLUTIONS, tidy = TRUE}
+cardiac.sys160 <- cardiac[cardiac$systolic > 160, ]
 
-#                 Fmonth  1  2  3  4  5  6  7  8  9 10 11 12
-# Fyear Fmaturity                                           
-# 1989  1                 0  0  0  0  0  0  0  0  0  0  0  2
-#       2                 0  0  0  0  0  0  0  0  0  0  0  3
-#       3                 0  0  0  0  0  0  0  0  0  0  0  5
-#       4                 0  0  0  0  0  0  0  0  0  0  0  2
-#       5                 0  0  0  0  0  0  0  0  0  0  0  0
-# 1990  1                 0  0  0  0  0  0  8  0  1  1  1  2
-#       2                 0  0  0  0  0  0 22 21 76 17 31  4
-#       3                 0  0  0  0  0  0  0  5  5  1 31  6
-#       4                 2  0 15  7  0  0  4  3  0  0 10 13
-#       5                 1  0 25  3  1  0  8  0  0  0  3  6
-# 1991  1                 0  0  0  2  0  4  0  0  0  0  0  0
-#       2                 1  1  0  1  0  6  0  0  0  0  0  0
-#       3                 2  0  0  1  1  0  0  0  0  0  0  0
-#       4                16  8  6 13  6  1  1  0  0  0  0  0
-#       5                18 21 23 16 23  3  0  0  0  0  0  0
-      
+cardiac.dia90 <- cardiac[cardiac$diastolic > 90, ]
 
+cardiac.never <- cardiac[cardiac$smoking == 3, ]
+
+cardiac.f.current <- cardiac[cardiac$smoking == 1 & cardiac$sex == "Female", ]
+
+cardiac.subset <- cardiac[cardiac$sex == "Male" & cardiac$smoking == 3 & cardiac$diastolic > 76, ]
+
+cardiac.bmi.trig <- cardiac[cardiac$bmi > 25 & cardiac$bmi < 30 & cardiac$triglyceride > 1 & cardiac$triglyceride < 2, ]
+
+cardiac.notex <- cardiac[cardiac$smoking != 2, ]
 ```
 
 \  
 
-6\. The humble cleveland dotplot is a great way of identifying if you have potential outliers in continuous variables (See [Section 4.2.4](https://intro2r.com/simple-base-r-plots.html#dotcharts). Create dotplots (using the `dotchart()` function) for the following variables; `DML`, `weight`, `nid.length` and `ovary.weight`. Do these variables contain any unusually large or small observations? Don't forget, if you prefer to create a single figure with all 4 plots you can always split your plotting device into 2 rows and 2 columns (see [Section 4.4](https://intro2r.com/mult_graphs.html#mult_graphs) of the book). Use the `pdf()` function to save a pdf version of your plot(s) in your `output` directory you created in Exercise 1 (see [Section 4.5](https://intro2r.com/export_plots.html#export_plots) of the book to see how the `pdf()` function works). I have also included some alternative code in the [solutions for this exercise](exercise_4_solution.html) using the `dotplot()` function from the `lattice` package.
+2\. A really neat feature of extracting rows based on conditional statements is that you can include R functions within the statement itself. To practice this, modify your answer to the diastolic question in Q1 to use the `median()` function rather than hard coding the value 76. Why is this a better idea? (hint: what happens to your code if someone adds another twenty patients to the study?)
+
+```{r Q2, echo=SOLUTIONS, tidy = TRUE}
+cardiac.subset <- cardiac[cardiac$sex == "Male" & cardiac$smoking == 3 & cardiac$diastolic > median(cardiac$diastolic), ]
+```
+
+\  
+
+3\. However, when using functions in conditional statements you need to be careful. For example, write some code to extract all rows from the dataframe `cardiac` with a systolic pressure greater than 160 mmHg and a total cholesterol greater than average (hint: use the `mean()` function in your conditional statement). Can you see a problem with the output? Discuss the cause of this problem with an instructor and explore possible solutions.
+
+```{r Q3, echo=SOLUTIONS, tidy = TRUE}
+# results in a dataframe filled with NAs. 
+cardiac.new <- cardiac[cardiac$systolic > 160 & cardiac$tchol > mean(cardiac$tchol), ]
+
+# the variable tchol contains 2 NA values. By default the mean function will return an NA.
+# use the na.rm argument to ignore NAs
+cardiac.new <- cardiac[cardiac$systolic > 160 & cardiac$tchol > mean(cardiac$tchol, na.rm = TRUE), ]  
+```
+
+\  
+
+4\. Although you have concentrated on using the square bracket `[ ]` notation to extract rows and columns from your dataframe, there are of course many other approaches. One such approach is to use the `subset()` function (see `?subset` or search for the `subset` function in the Introduction to R book to find more information). Use the `subset()` function to extract all female patients under 65 years of age with a systolic pressure greater than 140 mmHg. Also use `subset()` to extract all male patients with a bmi greater than 30 but only include the columns `patno`, `sex`, `bmi`, `systolic` and `tchol`.
+
+```{r Q4, echo=SOLUTIONS, tidy = TRUE}
+subset(cardiac, sex == "Female" & age < 65 & systolic > 140)
+
+subset(cardiac, sex == "Male" & bmi > 30, select = c("patno", "sex", "bmi", "systolic", "tchol"))
+```
+
+\  
+
+5\. Now that you can pick out rows that meet a condition, you can use that skill to check whether your data are believable. This matters more than it sounds: a value that is simply wrong will not stop your code running, will not produce a warning, and will quietly change every result you calculate from it. Run `summary()` on your dataframe again and look at the minimum and maximum of each numeric variable. Three of them contain values that are not merely unusual but impossible. Two are impossibly low and one is impossibly high. Find them, work out which patients they belong to, and then set those particular values to `NA` so they cannot contaminate anything you calculate later. Why is `NA` the right answer here, rather than deleting the whole patient record or guessing what the value should have been?
+
+```{r Q5, echo=SOLUTIONS, tidy = TRUE}
+summary(cardiac)
+
+# hdlchol has a minimum of 0.000, triglyceride has a minimum of 0.000, and
+# bmi has a maximum of 514.60. A blood concentration of zero is not a low
+# reading, it is impossible; you cannot have no cholesterol in your blood and
+# still be alive to take part in a study. And a body mass index of 514 is not
+# a very large person, it is a decimal point in the wrong place: 51.46 typed
+# as 514.6.
+
+# which patients are they?
+cardiac[cardiac$hdlchol == 0 & !is.na(cardiac$hdlchol), ]
+cardiac[cardiac$triglyceride == 0 & !is.na(cardiac$triglyceride), ]
+cardiac[cardiac$bmi > 100, ]
+
+# set the impossible values to NA
+cardiac$hdlchol[cardiac$hdlchol == 0] <- NA
+cardiac$triglyceride[cardiac$triglyceride == 0] <- NA
+cardiac$bmi[cardiac$bmi > 100] <- NA
+
+summary(cardiac)   # check: the minima and maximum are now sensible
+
+# Why NA and not something else? Deleting the whole record throws away all the
+# other measurements for that patient, which are perfectly good. Guessing the
+# value - even a very reasonable guess like 51.46 - means inventing data, and
+# nobody reading your results afterwards could tell which numbers you measured
+# and which you made up. NA says exactly what you know: there should be a value
+# here, and it isn't usable. Every R function that matters has an na.rm
+# argument to cope with it.
+
+# Note that you have changed the dataframe in your R session, not the file on
+# disk. data/cardiacdata.txt still contains the original values, which is
+# exactly as it should be: your raw data stays raw, and your script is the
+# record of what you changed.
+```
+
+\  
+
+6\. Another useful way to manipulate your dataframes is to sort the rows based on the value of a variable (or combinations of variables). Rather counter-intuitively you should use the `order()` function to sort your dataframes, not the `sort()` function (see [Section 3.4.3](https://intro2r.com/wrangling-data-frames.html#ordering-data-frames) of the Introduction to R book for an explanation). Ordering dataframes uses the same logic you practised in Q12 in Exercise 2. Let's practice with a straight forward example. Use the `order()` function to sort all rows in the `cardiac` dataframe in ascending order of systolic blood pressure (lowest to highest). Store this sorted dataframe in a variable called `cardiac.sys.sort`.
 
 ```{r Q6, echo=SOLUTIONS}
-pdf('output/ex4_dotplots.pdf')
-par(mfrow = c(2, 2))
-dotchart(squid$DML, main = "DML")
-dotchart(squid$weight, main = "weight")
-dotchart(squid$nid.length, main = "nid length")
-dotchart(squid$ovary.weight, main = "ovary weight")
-dev.off()
-
-# alternative code using dotplot function from lattice package
-library(lattice)
-dotplot(as.matrix(squid[,c("DML", "weight", "nid.length", "ovary.weight")]),
-      groups=FALSE,
-      strip = strip.custom(bg = 'white',
-            par.strip.text = list(cex = 0.8)),
-        scales = list(x = list(relation = "free"),
-                      y = list(relation = "free"),
-                      draw = FALSE),
-        col=1, cex  =0.5, pch = 16,
-        xlab = "Value of the variable",
-        ylab = "Order of the data from text file")
+cardiac.sys.sort <- cardiac[order(cardiac$systolic), ]
 ```
 
 \  
 
-7\. It looks like the variable `nid.length` contains an unusually large value. Actually, this value is biologically implausible and clearly an error. The researchers were asked to go back and check their field notebooks and sure enough they discover a typo. It looks like a tired researcher accidentally inserted a zero by mistake when transcribing these data (mistakes in data are very common and why we **always** explore, check and validate any data we are working on). We can clearly see this value is over 400 so we can use the `which()` function to identify which observation this is `which(squid$nid.length > 400)`. It looks like this is the 11^th^ observation of the `squid$nid.length` variable. Use your skill with the square brackets `[ ]` to first confirm the this is the correct value (you should get 430.2) and then change this value to 43.2. Now redo the dotchart to visualise your correction. Caution: You can only do this because you have confirmed that this is an transcribing error. You should **not** remove or change values in your data just because you feel like it or they look 'unusual'. This is scientific fraud! Also, the advantage of making this change in your R script rather than in Excel is that you now have a permanent record of the change you made and can state a clear reason for the change.    
+7\. Now for something a little more complicated. Sort all rows in the `cardiac` dataframe by ascending order of systolic pressure within each level of smoking status. The trick here is to remember that you can order by more than one variable when using the `order()` function (see [Section 3.4.3](https://intro2r.com/wrangling-data-frames.html#ordering-data-frames) again). Don't forget to assign your sorted dataframe to a new variable with a sensible name. Repeat the previous ordering but this time order by **descending** order of systolic pressure within each level of smoking status.  
 
 ```{r Q7, echo=SOLUTIONS}
-which(squid$nid.length > 400)
-# [1] 11
-squid$nid.length[11]
-# [1] 430.2
-squid$nid.length[11] <- 43.2
-squid$nid.length[11]
-# [1] 43.2
-dotchart(squid$nid.length, main = "nid length")
+# notice where the patients with a missing smoking status end up - and why
+cardiac.sorted <- cardiac[order(cardiac$smoking, cardiac$systolic), ]        
+
+# use '-' to reverse the order of systolic
+cardiac.rev.sorted <- cardiac[order(cardiac$smoking, -cardiac$systolic), ]   
 ```
 
+\    
+
+8\. Often, we would like to summarise variables by, for example, calculating a mean, median or counting the number of observations. To do this for a single variable it's fairly straight forward : 
+
 \  
- 
-8\. When exploring your data it is often useful to visualise the distribution of continuous variables. Take a look at [Section 4.2.2](https://intro2r.com/simple-base-r-plots.html#histograms) and then create histograms for the variables; `DML`, `weight`, `eviscerate.weight` and `ovary.weight`. Again, its up to you if you want to plot all 4 plots separately or in the same figure. Export your plot(s) as pdf file(s) to the `output` directory. One potential problem with histograms is that the distribution of data can look quite different depending on the number of 'breaks' used. The `hist()` function does it's best to create appropriate 'breaks' for your plots (it uses the [Sturges algorithm](https://en.wikipedia.org/wiki/Histogram) for those that want to know) but experiment with changing the number of breaks for the `DML` variable to see how the shape of the distribution changes (see [Section 4.2.2](https://intro2r.com/simple-base-r-plots.html#histograms) of the book for further details of how to change the breaks).   
 
-```{r Q8, echo=SOLUTIONS}
-pdf('output/ex4_hist.pdf')
-par(mfrow = c(2,2))
-hist(squid$DML, main="", xlab = "DML")
-hist(squid$weight, main="", xlab = "weight")
-hist(squid$eviscerate.weight, main="", xlab = "eviscerate weight")
-hist(squid$ovary.weight, main="", xlab = "ovary weight")
-dev.off()
-
-# need to get the min and max values for DML
-# to work out the limits for the breaks
-
-summary(squid$DML)
-# Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
-#   88     187     217     215     240     323 
- 
-# experimenting with different breaks
-par(mfrow = c(2,2))
-brk1 <- seq(from = 80, to = 340, by = 20)   
-hist(squid$DML, xlab = "DML", breaks = brk1, main = "brk: 20")
-
-brk2 <- seq(from = 80, to = 340, by = 10)   
-hist(squid$DML, xlab = "DML", breaks = brk2, main = "brk: 10")
-
-brk3 <- seq(from = 80, to = 340, by = 5)   
-hist(squid$DML, xlab = "DML", breaks = brk3, main = "brk: 5")
-
-brk4 <- seq(from = 80, to = 340, by = 2)   
-hist(squid$DML, xlab = "DML", breaks = brk4, main = "brk: 2")
+```{r Q8a, echo=SOLUTIONS}
+mean(cardiac$age)          # mean age
+median(cardiac$systolic)   # median systolic blood pressure
+length(cardiac$tchol)      # number of observations
 ```
 
 \  
 
-9\. Scatterplots are great for visualising relationships between two continuous variables ([Section 4.2.1](https://intro2r.com/simple-base-r-plots.html#scatterplot)). Plot the relationship between `DML` on the x axis and `weight` on the y axis. How would you describe this relationship? Is it linear? One approach to linearising relationships is to apply a transformation on one or both variables. Try transforming the `weight` variable with either a natural log (`log()`) or square root (`sqrt()`) transformation. I suggest you create new variables in the `squid` dataframe for your transformed variables and use these variables when creating your new plots (ask if you're not sure how to do this). Which transformation best linearises this relationship? Again, save your plots as a pdf file (or try saving in your `output` directory as jpeg or png format using the `jpeg()` or `png()` functions ([Section 4.5](https://intro2r.com/export_plots.html#export_plots)) if you feel the need for a change!). 
+8\. (cont) Perhaps more interestingly, you might want to summarise one variable conditional on the level of another categorical variable. For example, write some R code to calculate the mean total cholesterol for each of the three smoking categories (see [Section 3.5](https://intro2r.com/summarising-data-frames.html#summarising-data-frames) for a few hints). Next, calculate the median total cholesterol for each smoking category and for each sex.
 
-```{r Q9, echo=SOLUTIONS}
-# clearly not linear
-plot(squid$DML, squid$weight)
+```{r Q8b, echo=SOLUTIONS}
+tapply(cardiac$tchol, cardiac$smoking, mean)      # notice the NAs?
 
-# natural log and sqrt tranform weight
-squid$weight.sqrt <- sqrt(squid$weight)
-squid$weight.log <- log(squid$weight)
+# use the na.rm argument again
+tapply(cardiac$tchol, cardiac$smoking, mean, na.rm = TRUE)    
 
-par(mfrow = c(1,2))
-plot(squid$DML, squid$weight.sqrt)
-plot(squid$DML, squid$weight.log)
+# alternative method using the with() function. see ?with
+with(cardiac, tapply(tchol, smoking, mean, na.rm = TRUE))   
 
-# the square root transformation looks
-# most appropriate
-jpeg('output/ex4_transf_plot.jpeg')
-plot(squid$DML, squid$weight.sqrt)
-dev.off()
-
-png('output/ex4_transf_plot.png')
-plot(squid$DML, squid$weight.sqrt)
-dev.off()
+# when using multiple grouping variables these need to be supplied as a list
+tapply(cardiac$tchol, list(cardiac$smoking, cardiac$sex), median, na.rm = TRUE)
 ```
 
 \  
 
-10\. When visualising differences in a continuous variable between levels of a factor (categorical variable) then a boxplot is your friend (avoid using bar plots - Google 'bar plots are evil' for more info). Create a boxplot to visualise the differences in DML at each maturity stage (don't forget to use the recoded version of this variable you created in Q4) . Include x and y axes labels in your plot. Make sure you understand the anatomy of a boxplot before moving on - please ask if you're not sure (also see [Section 4.2.3](https://intro2r.com/simple-base-r-plots.html#box-and-violin-plots) of the book). An alternative to the boxplot is the violin plot. A violin plot is a combination of a boxplot and a [kernel density plot](https://www.statmethods.net/graphs/density.html) and is great at visualising the distribution of a variable. To create a violin plot you will first need to install the `vioplot` package from CRAN and make it available using `library(vioplot)`. You can now use the `vioplot()` function in pretty much the same way as you created your boxplot (again [Section 4.2.3](https://intro2r.com/simple-base-r-plots.html#box-and-violin-plots) of the book walks you through this).
+9\. Another useful function for summarising dataframes is `aggregate()`. Search in the R book for the function aggregate to see how to use this function (or see `?aggregate`). Use the `aggregate()` function to calculate the mean age, systolic pressure, diastolic pressure and total cholesterol for each smoking category (don't forget about those sneaky NA values). Next calculate the same means for each smoking category and each sex. (Optional): For an extra bonus point see if you can figure out how to modify your previous code to display the mean values to 2 decimal places rather than the default of 3 decimal places.
 
-```{r Q10, echo=SOLUTIONS, tidy = TRUE}
-# note: Fmaturity is the recoded maturity.stage variable cerated in Q4
-boxplot(DML ~ Fmaturity, data = squid, xlab = "maturity stage", ylab = "DML")
+```{r Q9, echo=SOLUTIONS, tidy = TRUE}
+aggregate(cardiac[, c(2, 4, 5, 6)], by = list(smoking = cardiac$smoking), mean, na.rm = TRUE)
 
-# violin plot
-library(vioplot)
-vioplot(DML ~ Fmaturity, data = squid, xlab = "maturity stage", ylab = "DML" , col = "lightblue")
+aggregate(cardiac[, c(2, 4, 5, 6)], by = list(smoking = cardiac$smoking, sex = cardiac$sex), mean, na.rm = TRUE)
+
+# optional question. Need to specify a function 'on the fly' using function(x){}
+aggregate(cardiac[, c(2, 4, 5, 6)], by = list(smoking = cardiac$smoking, sex = cardiac$sex), function(x){round(mean(x, na.rm = TRUE), digits = 2)})
 ```
 
 \  
 
-11\. To visualise the relationship between two continuous variables but for different levels of a factor variable you can create a conditional scatterplot. Use the `coplot()` function ([Section 4.2.6](https://intro2r.com/simple-base-r-plots.html#coplots)) to plot the relationship between DML on the x axis and square root transformed weight on the y axis (you created this variable in Q8) for each level of maturity stage. Does the relationship between DML and weight look different for each maturity stage (suggesting an interaction)? If you prefer, you can also create a similar plot using the `xyplot()` function ([Section 4.2.7](https://intro2r.com/simple-base-r-plots.html#lattice-plots)) from the `lattice` package (don't forget to make the function available by using `library(lattice)` first). 
+10\. Knowing how many observations are present for each category (or combinations of categories) is useful to determine whether you have an adequate sample size (for subsequent modelling for example). Use the `table()` function to determine the number of patients in each smoking category (see [Section 3.5](https://intro2r.com/summarising-data-frames.html#summarising-data-frames) again for more information). Next use the same function to display the number of patients for each combination of smoking category and sex. Does `table()` tell you about the patients whose smoking status is missing? (Optional): The `xtabs()` function is very flexible for creating tables of counts for factor combinations (aka contingency tables). Take a look at the Introduction to R book, the help file or Google to figure out how to use the `xtabs()` function to replicate your use of the `table()` function.       
 
-```{r Q11, echo=SOLUTIONS}
-coplot(weight.sqrt ~ DML | Fmaturity, data = squid)
+```{r Q10, echo=SOLUTIONS}
+# using table
+table(cardiac$smoking)
+table(cardiac$smoking, cardiac$sex)
 
-# using xyplot from the lattice package
-xyplot(weight.sqrt ~ DML | Fmaturity, data = squid)
+# by default table() silently drops the missing values - 50 + 52 + 54 = 156,
+# not 163. Ask for them explicitly:
+table(cardiac$smoking, useNA = "ifany")
 
+# using xtabs
+xtabs(~ smoking, data = cardiac)
+xtabs(~ sex + smoking, data = cardiac)
 ```
 
 \  
 
-12\. To explore the relationships between multiple continuous variables it's hard to beat a pairs plot. Create a pairs plot for the variables; `DML`, `weight`, `eviscerate.weight`, `ovary.weight`, `nid.length`,  and `nid.weight` (see [Section 4.2.5](https://intro2r.com/simple-base-r-plots.html#pairs-plots) of the book for more details). If it looks a little cramped in RStudio then click on the 'zoom' button in the plot viewer to see a larger version. One of the great things about the `pairs()` function is that you can customise what goes into each panel. Modify your pairs plot to include a histogram of the variables on the diagonal panel and include a correlation coefficient for each relationship on the upper triangle panels. Also include a smoother (wiggly line) in the lower triangle panels to help visualise these relationships. Take a look at the Introduction to R book to see how to do all this (or `?pairs`).
+11\. Real analyses almost never involve a single file. The measurements you want are usually spread across several tables and you have to put them together first. The patients in this study were followed up ten years after their first examination, and those follow-up measurements are in a separate file. Download *'cardiac_followup.txt'* from the **[<i class="fa fa-download"></i> Data](data.html)** link, save it to your `data` directory and import it with `read.table()` into a variable called `followup`. How many rows does it have, and how does that compare with `cardiac`? Now use the `merge()` function to join the two together on the patient number, and assign the result to `cardiac.fu`. How many rows does the joined dataframe have, and can you explain why?
+
+```{r Q11, echo=SOLUTIONS, tidy = TRUE}
+followup <- read.table('data/cardiac_followup.txt', header = TRUE, sep = "\t",
+                       na.strings = "NA", stringsAsFactors = TRUE)
+
+nrow(cardiac)     # 163 patients at the start of the study
+nrow(followup)    # 108 patients with follow-up measurements
+
+cardiac.fu <- merge(cardiac, followup, by = "patno")
+nrow(cardiac.fu)  # 108
+
+# By default merge() keeps only the rows that appear in BOTH dataframes, which
+# is called an inner join. 55 of the original patients have no follow-up
+# measurements, so they have quietly disappeared. Nothing warned you about this.
+# ALWAYS check the number of rows before and after a join.
+```
+
+\  
+
+12\. Losing 55 patients without being told is exactly the sort of thing that ruins an analysis, and it is why you check row counts every single time you join. Often what you actually want is to keep every patient from the first dataframe whether or not they have a match in the second. Look at the help file for `merge()` and find the argument that does this. Redo the join keeping all 163 patients, assign it to `cardiac.all`, and check how many of them have a missing follow-up systolic pressure. Finally, try running `merge(cardiac, followup)` without the `by` argument at all. It works. Why is relying on that a bad habit?
 
 ```{r Q12, echo=SOLUTIONS, tidy = TRUE}
-# vanilla pairs plot
-pairs(squid[,c(5, 8, 9, 11, 12, 13)])
+cardiac.all <- merge(cardiac, followup, by = "patno", all.x = TRUE)
+nrow(cardiac.all)                      # 163 - everybody is kept
 
-# customise the plot. You will need to define the
-# panel.hist and panel.cor functions first. see the
-# course manual or ?pairs help file
+sum(is.na(cardiac.all$systolic10))     # 55 patients have no follow-up
 
-pairs(squid[,c(5, 8, 9, 11, 12, 13)], diag.panel = panel.hist, upper.panel = panel.cor,
-			lower.panel = panel.smooth)
+# all.x = TRUE keeps every row of x (the first dataframe) and fills the missing
+# columns with NA. This is a left join.
+
+# Without 'by', merge() silently joins on every column name the two dataframes
+# happen to share. Here that is just patno, so you get the right answer by luck.
+# If both files also had a column called, say, 'systolic', merge() would try to
+# match on that too and you would get almost no rows back - with no error, no
+# warning, and no clue as to why. Always name your key.
 ```
 
 \  
 
-13\. Almost every aspect of the figures you create in R is customisable. Learning how to get your plot looking just right is not only rewarding but also means that you will never have to include a plot in your paper/thesis that you're not completely happy with. When you start learning how to use R it can sometimes seem to take a lot of work to customise your plots. Don't worry, it gets easier with experience (most of the time anyway) and you will always have your code if you want to create a similar plot in the future. Use the `plot()` function to produce a scatterplot of DML on the x axis and ovary weight on the y axis (you might need to apply a transformation on the variable `ovary.weight`). Use a different colour to highlight points for each level of maturity stage. Produce a legend explaining the different colours and place it in a suitable position on the plot. Format the graph further to make it suitable for inclusion into your paper/thesis (i.e. add axes labels, change the axes scales etc). See [Section 4.3](https://intro2r.com/custom_plot.html#custom_plot) for more details about customising plots. I have given you a few different solutions in the code below. give them a go!
+13\. There is one more join worth knowing, and it solves the `smoking` problem left over from Q0. Rather than typing the labels out by hand, you can keep the codes and their meanings in their own small file and join them on. Download *'smoking_lookup.txt'* from the **[<i class="fa fa-download"></i> Data](data.html)** link, save it to your `data` directory and import it into a variable called `smoke.codes`. Take a look at it. Notice that the column holding the code is called `code`, not `smoking`, so the two dataframes have no column name in common and `by` on its own will not work. Look at the help file for `merge()` again and find the two arguments that let you name a different key in each dataframe. Join the labels onto `cardiac.all`, keeping all patients, and then check with `table()` that every patient has ended up with the right label.
 
-```{r Q13a, echo=SOLUTIONS, tidy = TRUE}
-# quick and dirty way
-# need to transform ovary.weight first
-squid$ovary.weight.sqrt <- sqrt(squid$ovary.weight)
+```{r Q13, echo=SOLUTIONS, tidy = TRUE}
+smoke.codes <- read.table('data/smoking_lookup.txt', header = TRUE, sep = "\t",
+                          na.strings = "NA", stringsAsFactors = TRUE)
+smoke.codes
 
-# create the plot
-with(squid, plot(DML, ovary.weight.sqrt, xlab = "DML (mm)", ylab = "square root ovary weight (g)", col = as.numeric(Fmaturity), xlim =     c(60, 350), ylim = c(0, 8.5)))
+#   code smoking_status
+# 1    1        Current
+# 2    2             Ex
+# 3    3          Never
 
-# create the legend
-labs <- c("stage 1", "stage 2", "stage 3", "stage 4","stage 5")
-cols <- as.numeric(levels(squid$Fmaturity))
-legend("topleft", labs,col = cols, pch = 1)
-```
+cardiac.all <- merge(cardiac.all, smoke.codes, by.x = "smoking", by.y = "code", all.x = TRUE)
 
-```{r Q13b, echo=SOLUTIONS, tidy = TRUE}
-# longer but more control
+nrow(cardiac.all)    # still 163 - check every time!
 
-# need to scales package to set transparency of points
-# will the alpha function
-library(scales)
+table(cardiac.all$smoking_status, useNA = "ifany")
 
-#setup the axes but dont plot the points
-with(squid, plot(DML, ovary.weight.sqrt, xlab = "DML (mm)", ylab = "square root ovary weight (g)",
-					type = "n", xlim = c(60, 350), ylim = c(0, 8.5)))
+# Current      Ex   Never    <NA> 
+#      50      52      54       7 
 
-# plot the points with custom colours
-with(squid, points(DML[Fmaturity == "1"], ovary.weight.sqrt[Fmaturity == "1"], col = alpha("deepskyblue3", 0.7), pch = 16))
-with(squid, points(DML[Fmaturity == "2"], ovary.weight.sqrt[Fmaturity == "2"], col = alpha("darkolivegreen3", 0.7), pch = 16))
-with(squid, points(DML[Fmaturity == "3"], ovary.weight.sqrt[Fmaturity == "3"], col = alpha("coral3", 0.7), pch = 16))
-with(squid, points(DML[Fmaturity == "4"], ovary.weight.sqrt[Fmaturity == "4"], col = alpha("lemonchiffon3", 0.7), pch = 16))
-with(squid, points(DML[Fmaturity == "5"], ovary.weight.sqrt[Fmaturity == "5"], col = alpha("darkorchid3", 0.7), pch = 16))
-
-# include the legend
-labs <- c("stage 1", "stage 2", "stage 3", "stage 4","stage 5")
-cols <- c("deepskyblue3", "darkolivegreen3", "coral3", "lemonchiffon3", "darkorchid3")
-legend(55, 8.2, labs,col = alpha(cols, 0.7), pch = 16, bty = "n")
+# The 7 patients with a missing smoking code get a missing label, which is
+# right. This is how coded data is usually handled: the codes stay in the data,
+# the meanings live in a lookup file, and anyone can see how one maps to the
+# other. If a code is ever added or changed you edit one small file rather than
+# hunting through your scripts for hard coded labels.
 ```
 
 \  
 
-^1^ Smith JM et al (2005) Seasonal patterns of investment in reproductive and somatic tissues in the squid *Loligo forbesi*, Aquatic Living Resources. 18, 341–351.
+14\. Ok, we have spent quite a bit of time (and energy) learning how to clean, check and join dataframes. The last thing we need to cover is how to export a dataframe from R to an external file (see [Section 3.6](https://intro2r.com/exporting-data.html#exporting-data) of the book for more details). Export your cleaned and joined dataframe `cardiac.all` to a file called 'cardiac_clean.txt' in the `output` directory you created in Exercise 1. To do this you will need to use the `write.table()` function. You want to include the variable names in the first row of the file, but you don't want to include the row names. Also, make sure the file is a tab delimited file. Once you have created your file, try to open it in Microsoft Excel (or open source equivalent). Finally, and this is the part people forget: add a comment block at the top of your R script listing every change you made to the data and why. Which three values did you set to `NA`, and which patients did they belong to? Someone reading your work in six months, including you, needs to be able to answer that without re-running anything.
+
+```{r Q14, echo=SOLUTIONS, tidy = TRUE}
+write.table(cardiac.all, "output/cardiac_clean.txt", col.names = TRUE, row.names = FALSE, sep = "\t")
+
+# Decision log - the sort of thing that belongs at the top of your script:
+#
+# Data: data/cardiacdata.txt, 163 patients, imported unchanged.
+# 1. hdlchol of 0.00 set to NA (2 patients). A HDL cholesterol of zero is
+#    physiologically impossible and is almost certainly a missing value that
+#    was recorded as 0.
+# 2. triglyceride of 0.00 set to NA (1 patient). Same reasoning.
+# 3. bmi of 514.60 set to NA (1 patient). Almost certainly 51.46 with the
+#    decimal point misplaced, but as we cannot confirm that, NA rather than
+#    a correction.
+# 4. sex converted to a factor with labels Female (1) and Male (2).
+# 5. smoking labels joined on from data/smoking_lookup.txt.
+# 6. Ten year follow-up measurements joined on from data/cardiac_followup.txt,
+#    keeping all 163 patients; 55 have no follow-up data.
+```
 
 \  
 

@@ -1,242 +1,210 @@
-## ----Q4, echo=SOLUTIONS-------------------------------------------------------
-squid <- read.table('data/squid1.txt', header =TRUE, 
-                     stringsAsFactors = TRUE)
+## ----Q0, echo=TRUE------------------------------------------------------------
+cardiac <- read.table('data/cardiacdata.txt', header = TRUE, sep = "\t",
+                      na.strings = "NA", stringsAsFactors = TRUE)
 
-str(squid)
-# 'data.frame':	519 obs. of  13 variables:
-#  $ sample.no        : int  105128901 105128901 105128901 105128901 ...
-#  $ specimen         : int  1002 1003 1005 1007 1008 1009 1011 1013 ...
-#  $ year             : int  1989 1989 1989 1989 1989 1989 1989 1989 ...
-#  $ month            : int  12 12 12 12 12 12 12 12 12 12 ...
-#  $ weight           : num  152 106 138 141 126 ...
-#  $ sex              : int  2 2 2 2 2 2 2 2 2 2 ...
-#  $ maturity.stage   : int  3 1 2 2 3 1 2 3 3 4 ...
-#  $ DML              : int  174 153 169 175 169 116 135 192 170 205 ...
-#  $ eviscerate.weight: num  87.5 62.6 79.4 83.1 72.2 ...
-#  $ dig.weight       : num  4.648 3.138 0.307 4.123 3.605 ...
-#  $ nid.length       : num  39.4 24.1 39 41.4 39.8 20 14 55 44 53 ...
-#  $ nid.weight       : num  2.46 0.319 1.169 1.631 2.03 ...
-#  $ ovary.weight     : num  1.68 0.103 0.289 0.252 0.86 ...
-
-summary(squid)
-
-# convert variables to factors
-squid$Fmaturity <- factor(squid$maturity.stage)
-squid$Fmonth <- factor(squid$month) 
-squid$Fyear <- factor(squid$year)
-
-str(squid)
-# 'data.frame':	519 obs. of  16 variables:
-#  $ sample.no        : int  105128901 105128901 105128901 ...
-#  $ specimen         : int  1002 1003 1005 1007 1008 1009 ...
-#  $ year             : int  1989 1989 1989 1989 1989 1989 ...
-#  $ month            : int  12 12 12 12 12 12 12 12 12 12 ...
-#  $ weight           : num  152 106 138 141 126 ...
-#  $ sex              : int  2 2 2 2 2 2 2 2 2 2 ...
-#  $ maturity.stage   : int  3 1 2 2 3 1 2 3 3 4 ...
-#  $ DML              : int  174 153 169 175 169 116 135 ...
-#  $ eviscerate.weight: num  87.5 62.6 79.4 83.1 72.2 ...
-#  $ dig.weight       : num  4.648 3.138 0.307 4.123 3.605 ...
-#  $ nid.length       : num  39.4 24.1 39 41.4 39.8 20 14 ...
-#  $ nid.weight       : num  2.46 0.319 1.169 1.631 2.03 ...
-#  $ ovary.weight     : num  1.68 0.103 0.289 0.252 0.86 ...
-#  $ Fmaturity        : Factor w/ 5 levels "1","2","3","4" "5"...
-#  $ Fmonth           : Factor w/ 12 levels "1","2","3","4" ...
-#  $ Fyear            : Factor w/ 3 levels "1989","1990",..1 ...
- 
+# 1 = Female and 2 = Male. Writing the labels out means you never have to
+# remember the codes again, and your output reads properly.
+cardiac$sex <- factor(cardiac$sex, levels = c(1, 2), labels = c("Female", "Male"))
 
 
-## ----Q5, echo=SOLUTIONS-------------------------------------------------------
-table(squid$Fmonth, squid$Fyear)
+## ----Q1, echo=SOLUTIONS, tidy = TRUE------------------------------------------
+cardiac.sys160 <- cardiac[cardiac$systolic > 160, ]
 
-  #   1989 1990 1991
-  # 1     0    3   37
-  # 2     0    0   30
-  # 3     0   40   29
-  # 4     0   10   33
-  # 5     0    1   30
-  # 6     0    0   14
-  # 7     0   42    1
-  # 8     0   29    0
-  # 9     0   82    0
-  # 10    0   19    0
-  # 11    0   76    0
-  # 12   12   31    0
-  
-ftable(xtabs(~ Fyear + Fmaturity + Fmonth, data = squid))
+cardiac.dia90 <- cardiac[cardiac$diastolic > 90, ]
 
-#                 Fmonth  1  2  3  4  5  6  7  8  9 10 11 12
-# Fyear Fmaturity                                           
-# 1989  1                 0  0  0  0  0  0  0  0  0  0  0  2
-#       2                 0  0  0  0  0  0  0  0  0  0  0  3
-#       3                 0  0  0  0  0  0  0  0  0  0  0  5
-#       4                 0  0  0  0  0  0  0  0  0  0  0  2
-#       5                 0  0  0  0  0  0  0  0  0  0  0  0
-# 1990  1                 0  0  0  0  0  0  8  0  1  1  1  2
-#       2                 0  0  0  0  0  0 22 21 76 17 31  4
-#       3                 0  0  0  0  0  0  0  5  5  1 31  6
-#       4                 2  0 15  7  0  0  4  3  0  0 10 13
-#       5                 1  0 25  3  1  0  8  0  0  0  3  6
-# 1991  1                 0  0  0  2  0  4  0  0  0  0  0  0
-#       2                 1  1  0  1  0  6  0  0  0  0  0  0
-#       3                 2  0  0  1  1  0  0  0  0  0  0  0
-#       4                16  8  6 13  6  1  1  0  0  0  0  0
-#       5                18 21 23 16 23  3  0  0  0  0  0  0
-      
+cardiac.never <- cardiac[cardiac$smoking == 3, ]
 
+cardiac.f.current <- cardiac[cardiac$smoking == 1 & cardiac$sex == "Female", ]
+
+cardiac.subset <- cardiac[cardiac$sex == "Male" & cardiac$smoking == 3 & cardiac$diastolic > 76, ]
+
+cardiac.bmi.trig <- cardiac[cardiac$bmi > 25 & cardiac$bmi < 30 & cardiac$triglyceride > 1 & cardiac$triglyceride < 2, ]
+
+cardiac.notex <- cardiac[cardiac$smoking != 2, ]
+
+
+## ----Q2, echo=SOLUTIONS, tidy = TRUE------------------------------------------
+cardiac.subset <- cardiac[cardiac$sex == "Male" & cardiac$smoking == 3 & cardiac$diastolic > median(cardiac$diastolic), ]
+
+
+## ----Q3, echo=SOLUTIONS, tidy = TRUE------------------------------------------
+# results in a dataframe filled with NAs. 
+cardiac.new <- cardiac[cardiac$systolic > 160 & cardiac$tchol > mean(cardiac$tchol), ]
+
+# the variable tchol contains 2 NA values. By default the mean function will return an NA.
+# use the na.rm argument to ignore NAs
+cardiac.new <- cardiac[cardiac$systolic > 160 & cardiac$tchol > mean(cardiac$tchol, na.rm = TRUE), ]  
+
+
+## ----Q4, echo=SOLUTIONS, tidy = TRUE------------------------------------------
+subset(cardiac, sex == "Female" & age < 65 & systolic > 140)
+
+subset(cardiac, sex == "Male" & bmi > 30, select = c("patno", "sex", "bmi", "systolic", "tchol"))
+
+
+## ----Q5, echo=SOLUTIONS, tidy = TRUE------------------------------------------
+summary(cardiac)
+
+# hdlchol has a minimum of 0.000, triglyceride has a minimum of 0.000, and
+# bmi has a maximum of 514.60. A blood concentration of zero is not a low
+# reading, it is impossible; you cannot have no cholesterol in your blood and
+# still be alive to take part in a study. And a body mass index of 514 is not
+# a very large person, it is a decimal point in the wrong place: 51.46 typed
+# as 514.6.
+
+# which patients are they?
+cardiac[cardiac$hdlchol == 0 & !is.na(cardiac$hdlchol), ]
+cardiac[cardiac$triglyceride == 0 & !is.na(cardiac$triglyceride), ]
+cardiac[cardiac$bmi > 100, ]
+
+# set the impossible values to NA
+cardiac$hdlchol[cardiac$hdlchol == 0] <- NA
+cardiac$triglyceride[cardiac$triglyceride == 0] <- NA
+cardiac$bmi[cardiac$bmi > 100] <- NA
+
+summary(cardiac)   # check: the minima and maximum are now sensible
+
+# Why NA and not something else? Deleting the whole record throws away all the
+# other measurements for that patient, which are perfectly good. Guessing the
+# value - even a very reasonable guess like 51.46 - means inventing data, and
+# nobody reading your results afterwards could tell which numbers you measured
+# and which you made up. NA says exactly what you know: there should be a value
+# here, and it isn't usable. Every R function that matters has an na.rm
+# argument to cope with it.
+
+# Note that you have changed the dataframe in your R session, not the file on
+# disk. data/cardiacdata.txt still contains the original values, which is
+# exactly as it should be: your raw data stays raw, and your script is the
+# record of what you changed.
 
 
 ## ----Q6, echo=SOLUTIONS-------------------------------------------------------
-pdf('output/ex4_dotplots.pdf')
-par(mfrow = c(2, 2))
-dotchart(squid$DML, main = "DML")
-dotchart(squid$weight, main = "weight")
-dotchart(squid$nid.length, main = "nid length")
-dotchart(squid$ovary.weight, main = "ovary weight")
-dev.off()
-
-# alternative code using dotplot function from lattice package
-library(lattice)
-dotplot(as.matrix(squid[,c("DML", "weight", "nid.length", "ovary.weight")]),
-      groups=FALSE,
-      strip = strip.custom(bg = 'white',
-            par.strip.text = list(cex = 0.8)),
-        scales = list(x = list(relation = "free"),
-                      y = list(relation = "free"),
-                      draw = FALSE),
-        col=1, cex  =0.5, pch = 16,
-        xlab = "Value of the variable",
-        ylab = "Order of the data from text file")
+cardiac.sys.sort <- cardiac[order(cardiac$systolic), ]
 
 
 ## ----Q7, echo=SOLUTIONS-------------------------------------------------------
-which(squid$nid.length > 400)
-# [1] 11
-squid$nid.length[11]
-# [1] 430.2
-squid$nid.length[11] <- 43.2
-squid$nid.length[11]
-# [1] 43.2
-dotchart(squid$nid.length, main = "nid length")
+# notice where the patients with a missing smoking status end up - and why
+cardiac.sorted <- cardiac[order(cardiac$smoking, cardiac$systolic), ]        
+
+# use '-' to reverse the order of systolic
+cardiac.rev.sorted <- cardiac[order(cardiac$smoking, -cardiac$systolic), ]   
 
 
-## ----Q8, echo=SOLUTIONS-------------------------------------------------------
-pdf('output/ex4_hist.pdf')
-par(mfrow = c(2,2))
-hist(squid$DML, main="", xlab = "DML")
-hist(squid$weight, main="", xlab = "weight")
-hist(squid$eviscerate.weight, main="", xlab = "eviscerate weight")
-hist(squid$ovary.weight, main="", xlab = "ovary weight")
-dev.off()
-
-# need to get the min and max values for DML
-# to work out the limits for the breaks
-
-summary(squid$DML)
-# Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
-#   88     187     217     215     240     323 
- 
-# experimenting with different breaks
-par(mfrow = c(2,2))
-brk1 <- seq(from = 80, to = 340, by = 20)   
-hist(squid$DML, xlab = "DML", breaks = brk1, main = "brk: 20")
-
-brk2 <- seq(from = 80, to = 340, by = 10)   
-hist(squid$DML, xlab = "DML", breaks = brk2, main = "brk: 10")
-
-brk3 <- seq(from = 80, to = 340, by = 5)   
-hist(squid$DML, xlab = "DML", breaks = brk3, main = "brk: 5")
-
-brk4 <- seq(from = 80, to = 340, by = 2)   
-hist(squid$DML, xlab = "DML", breaks = brk4, main = "brk: 2")
+## ----Q8a, echo=SOLUTIONS------------------------------------------------------
+mean(cardiac$age)          # mean age
+median(cardiac$systolic)   # median systolic blood pressure
+length(cardiac$tchol)      # number of observations
 
 
-## ----Q9, echo=SOLUTIONS-------------------------------------------------------
-# clearly not linear
-plot(squid$DML, squid$weight)
+## ----Q8b, echo=SOLUTIONS------------------------------------------------------
+tapply(cardiac$tchol, cardiac$smoking, mean)      # notice the NAs?
 
-# natural log and sqrt tranform weight
-squid$weight.sqrt <- sqrt(squid$weight)
-squid$weight.log <- log(squid$weight)
+# use the na.rm argument again
+tapply(cardiac$tchol, cardiac$smoking, mean, na.rm = TRUE)    
 
-par(mfrow = c(1,2))
-plot(squid$DML, squid$weight.sqrt)
-plot(squid$DML, squid$weight.log)
+# alternative method using the with() function. see ?with
+with(cardiac, tapply(tchol, smoking, mean, na.rm = TRUE))   
 
-# the square root transformation looks
-# most appropriate
-jpeg('output/ex4_transf_plot.jpeg')
-plot(squid$DML, squid$weight.sqrt)
-dev.off()
-
-png('output/ex4_transf_plot.png')
-plot(squid$DML, squid$weight.sqrt)
-dev.off()
+# when using multiple grouping variables these need to be supplied as a list
+tapply(cardiac$tchol, list(cardiac$smoking, cardiac$sex), median, na.rm = TRUE)
 
 
-## ----Q10, echo=SOLUTIONS, tidy = TRUE-----------------------------------------
-# note: Fmaturity is the recoded maturity.stage variable cerated in Q4
-boxplot(DML ~ Fmaturity, data = squid, xlab = "maturity stage", ylab = "DML")
+## ----Q9, echo=SOLUTIONS, tidy = TRUE------------------------------------------
+aggregate(cardiac[, c(2, 4, 5, 6)], by = list(smoking = cardiac$smoking), mean, na.rm = TRUE)
 
-# violin plot
-library(vioplot)
-vioplot(DML ~ Fmaturity, data = squid, xlab = "maturity stage", ylab = "DML" , col = "lightblue")
+aggregate(cardiac[, c(2, 4, 5, 6)], by = list(smoking = cardiac$smoking, sex = cardiac$sex), mean, na.rm = TRUE)
+
+# optional question. Need to specify a function 'on the fly' using function(x){}
+aggregate(cardiac[, c(2, 4, 5, 6)], by = list(smoking = cardiac$smoking, sex = cardiac$sex), function(x){round(mean(x, na.rm = TRUE), digits = 2)})
 
 
-## ----Q11, echo=SOLUTIONS------------------------------------------------------
-coplot(weight.sqrt ~ DML | Fmaturity, data = squid)
+## ----Q10, echo=SOLUTIONS------------------------------------------------------
+# using table
+table(cardiac$smoking)
+table(cardiac$smoking, cardiac$sex)
 
-# using xyplot from the lattice package
-xyplot(weight.sqrt ~ DML | Fmaturity, data = squid)
+# by default table() silently drops the missing values - 50 + 52 + 54 = 156,
+# not 163. Ask for them explicitly:
+table(cardiac$smoking, useNA = "ifany")
 
+# using xtabs
+xtabs(~ smoking, data = cardiac)
+xtabs(~ sex + smoking, data = cardiac)
+
+
+## ----Q11, echo=SOLUTIONS, tidy = TRUE-----------------------------------------
+followup <- read.table('data/cardiac_followup.txt', header = TRUE, sep = "\t",
+                       na.strings = "NA", stringsAsFactors = TRUE)
+
+nrow(cardiac)     # 163 patients at the start of the study
+nrow(followup)    # 108 patients with follow-up measurements
+
+cardiac.fu <- merge(cardiac, followup, by = "patno")
+nrow(cardiac.fu)  # 108
+
+# By default merge() keeps only the rows that appear in BOTH dataframes, which
+# is called an inner join. 55 of the original patients have no follow-up
+# measurements, so they have quietly disappeared. Nothing warned you about this.
+# ALWAYS check the number of rows before and after a join.
 
 
 ## ----Q12, echo=SOLUTIONS, tidy = TRUE-----------------------------------------
-# vanilla pairs plot
-pairs(squid[,c(5, 8, 9, 11, 12, 13)])
+cardiac.all <- merge(cardiac, followup, by = "patno", all.x = TRUE)
+nrow(cardiac.all)                      # 163 - everybody is kept
 
-# customise the plot. You will need to define the
-# panel.hist and panel.cor functions first. see the
-# course manual or ?pairs help file
+sum(is.na(cardiac.all$systolic10))     # 55 patients have no follow-up
 
-pairs(squid[,c(5, 8, 9, 11, 12, 13)], diag.panel = panel.hist, upper.panel = panel.cor,
-			lower.panel = panel.smooth)
+# all.x = TRUE keeps every row of x (the first dataframe) and fills the missing
+# columns with NA. This is a left join.
 
-
-## ----Q13a, echo=SOLUTIONS, tidy = TRUE----------------------------------------
-# quick and dirty way
-# need to transform ovary.weight first
-squid$ovary.weight.sqrt <- sqrt(squid$ovary.weight)
-
-# create the plot
-with(squid, plot(DML, ovary.weight.sqrt, xlab = "DML (mm)", ylab = "square root ovary weight (g)", col = as.numeric(Fmaturity), xlim =     c(60, 350), ylim = c(0, 8.5)))
-
-# create the legend
-labs <- c("stage 1", "stage 2", "stage 3", "stage 4","stage 5")
-cols <- as.numeric(levels(squid$Fmaturity))
-legend("topleft", labs,col = cols, pch = 1)
+# Without 'by', merge() silently joins on every column name the two dataframes
+# happen to share. Here that is just patno, so you get the right answer by luck.
+# If both files also had a column called, say, 'systolic', merge() would try to
+# match on that too and you would get almost no rows back - with no error, no
+# warning, and no clue as to why. Always name your key.
 
 
-## ----Q13b, echo=SOLUTIONS, tidy = TRUE----------------------------------------
-# longer but more control
+## ----Q13, echo=SOLUTIONS, tidy = TRUE-----------------------------------------
+smoke.codes <- read.table('data/smoking_lookup.txt', header = TRUE, sep = "\t",
+                          na.strings = "NA", stringsAsFactors = TRUE)
+smoke.codes
 
-# need to scales package to set transparency of points
-# will the alpha function
-library(scales)
+#   code smoking_status
+# 1    1        Current
+# 2    2             Ex
+# 3    3          Never
 
-#setup the axes but dont plot the points
-with(squid, plot(DML, ovary.weight.sqrt, xlab = "DML (mm)", ylab = "square root ovary weight (g)",
-					type = "n", xlim = c(60, 350), ylim = c(0, 8.5)))
+cardiac.all <- merge(cardiac.all, smoke.codes, by.x = "smoking", by.y = "code", all.x = TRUE)
 
-# plot the points with custom colours
-with(squid, points(DML[Fmaturity == "1"], ovary.weight.sqrt[Fmaturity == "1"], col = alpha("deepskyblue3", 0.7), pch = 16))
-with(squid, points(DML[Fmaturity == "2"], ovary.weight.sqrt[Fmaturity == "2"], col = alpha("darkolivegreen3", 0.7), pch = 16))
-with(squid, points(DML[Fmaturity == "3"], ovary.weight.sqrt[Fmaturity == "3"], col = alpha("coral3", 0.7), pch = 16))
-with(squid, points(DML[Fmaturity == "4"], ovary.weight.sqrt[Fmaturity == "4"], col = alpha("lemonchiffon3", 0.7), pch = 16))
-with(squid, points(DML[Fmaturity == "5"], ovary.weight.sqrt[Fmaturity == "5"], col = alpha("darkorchid3", 0.7), pch = 16))
+nrow(cardiac.all)    # still 163 - check every time!
 
-# include the legend
-labs <- c("stage 1", "stage 2", "stage 3", "stage 4","stage 5")
-cols <- c("deepskyblue3", "darkolivegreen3", "coral3", "lemonchiffon3", "darkorchid3")
-legend(55, 8.2, labs,col = alpha(cols, 0.7), pch = 16, bty = "n")
+table(cardiac.all$smoking_status, useNA = "ifany")
+
+# Current      Ex   Never    <NA> 
+#      50      52      54       7 
+
+# The 7 patients with a missing smoking code get a missing label, which is
+# right. This is how coded data is usually handled: the codes stay in the data,
+# the meanings live in a lookup file, and anyone can see how one maps to the
+# other. If a code is ever added or changed you edit one small file rather than
+# hunting through your scripts for hard coded labels.
+
+
+## ----Q14, echo=SOLUTIONS, tidy = TRUE-----------------------------------------
+write.table(cardiac.all, "output/cardiac_clean.txt", col.names = TRUE, row.names = FALSE, sep = "\t")
+
+# Decision log - the sort of thing that belongs at the top of your script:
+#
+# Data: data/cardiacdata.txt, 163 patients, imported unchanged.
+# 1. hdlchol of 0.00 set to NA (2 patients). A HDL cholesterol of zero is
+#    physiologically impossible and is almost certainly a missing value that
+#    was recorded as 0.
+# 2. triglyceride of 0.00 set to NA (1 patient). Same reasoning.
+# 3. bmi of 514.60 set to NA (1 patient). Almost certainly 51.46 with the
+#    decimal point misplaced, but as we cannot confirm that, NA rather than
+#    a correction.
+# 4. sex converted to a factor with labels Female (1) and Male (2).
+# 5. smoking labels joined on from data/smoking_lookup.txt.
+# 6. Ten year follow-up measurements joined on from data/cardiac_followup.txt,
+#    keeping all 163 patients; 55 have no follow-up data.
 

@@ -30,8 +30,9 @@ dir <- "data/"
 list.files(dir) %>%
   sort %>% 
   # grep("\\.html$|*.zip", ., value = TRUE, invert = TRUE) %>% 
-  # grep("(\\.html$|loyn.txt)", ., value = TRUE, invert = TRUE) %>% 
-  grep("(loyn.xlsx|seeds.xlsx|species.txt|squid1.xlsx|whaledata.xlsx|problem_data.xlsx)", ., value = TRUE, invert = FALSE) %>% 
+  grep(paste("cardiacdata\\.xlsx", "cardiac_followup\\.txt", "smoking_lookup\\.txt",
+             "scotpho_alcohol_admissions\\.txt",
+             "flower\\.xlsx", "problem_data\\.xlsx", sep = "|"), ., value = TRUE, invert = FALSE) %>% 
   paste0("    + [", ., "](", paste0(dir, .), ")") %>% 
   cat(sep = "\n")
 ```

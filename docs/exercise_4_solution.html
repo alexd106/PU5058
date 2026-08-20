@@ -477,437 +477,377 @@ $(document).ready(function () {
 
 
 <p> </p>
-<div id="exercise-4-visualising-data-using-base-r-and-lattice-graphics"
+<div id="exercise-4-cleaning-validation-and-joining"
 class="section level2">
-<h2>Exercise 4: Visualising data using base R and lattice graphics</h2>
+<h2>Exercise 4: Cleaning, validation and joining</h2>
 <p> </p>
-<p>Read <a href="https://intro2r.com/graphics_base_r.html">Chapter 4</a>
-to help you complete the questions in this exercise.</p>
+<p>Read <a href="https://intro2r.com/data_r.html">Chapter 3</a> to help
+you complete the questions in this exercise.</p>
 <p> </p>
-<p>1. As in previous exercises, either create a new R script or continue
-with your previous R script in your RStudio Project. Again, make sure
-you include any metadata you feel is appropriate (title, description of
-task, date of creation etc) and don’t forget to comment out your
-metadata with a <code>#</code> at the beginning of the line.</p>
-<p> </p>
-<p>2. If you haven’t already download the data file
-<em>‘squid1.xlsx’</em> from the <strong><a
-href="data.html"><i class="fa fa-download"></i> Data</a></strong> link
-and save it to the <code>data</code> directory you created during
-exercise 1. Open this file in Microsoft Excel (or even better use an
-open source equivalent - <a
-href="https://www.libreoffice.org/download/download/">LibreOffice</a> is
-a good free alternative) and save it as a tab delimited file type. Name
-the file <em>‘squid1.txt’</em> and save it to the <code>data</code>
-directory.</p>
-<p> </p>
-<p>3. These data were originally collected as part of a study published
-in Aquatic Living Resources<sup>1</sup> in 2005. The aim of the study
-was to investigate the seasonal patterns of investment in somatic and
-reproductive tissues in the long finned squid <em>Loligo forbesi</em>
-caught in Scottish waters. Squid were caught monthly from December 1989
-- July 1991 (<code>month</code> and <code>year</code> variables). After
-capture, each squid was given a unique <code>specimen</code> code,
-weighed (<code>weight</code>) and the sex determined (<code>sex</code> -
-only female squid are included here). The size of individuals was also
-measured as the dorsal mantle length (<code>DML</code>) and the mantle
-weight measured without internal organs
-(<code>eviscerate.weight</code>). The gonads were weighed
-(<code>ovary.weight</code>) along with the accessory reproductive organ
-(the nidamental gland, <code>nid.weight</code>,
-<code>nid.length</code>). Each individual was also assigned a
-categorical measure of maturity (<code>maturity.stage</code>, ranging
-from 1 to 5 with 1 = immature, 5 = mature). The digestive gland weight
-(<code>dig.weight</code>) was also recorded to assess nutritional status
-of the individual. If you’re not familiar with squid morphology and are
-interested in finding out more see <a
-href="https://en.wikipedia.org/wiki/Cephalopod_size">here</a>.</p>
-<p> </p>
-<p>4. Import the <em>‘squid1.txt’</em> file into R using the
-<code>read.table()</code> function and assign it to a variable named
-<code>squid</code>. Use the <code>str()</code> function to display the
-structure of the dataset and the <code>summary()</code> function to
-summarise the dataset. How many observations are in this dataset? How
-many variables? The <code>year</code>, <code>month</code> and
-<code>maturity.stage</code> variables were coded as integers in the
-original dataset. Here we would like to code them as factors. Create a
-new variable for each of these variables in the <code>squid</code>
-dataframe and recode them as factors. Use the <code>str()</code>
-function again to check the coding of these new variables.</p>
-<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" tabindex="-1"></a>squid <span class="ot">&lt;-</span> <span class="fu">read.table</span>(<span class="st">&#39;data/squid1.txt&#39;</span>, <span class="at">header =</span><span class="cn">TRUE</span>, </span>
-<span id="cb1-2"><a href="#cb1-2" tabindex="-1"></a>                     <span class="at">stringsAsFactors =</span> <span class="cn">TRUE</span>)</span>
+<p>This exercise picks up exactly where Exercise 3 left off and uses the
+same <code>cardiac</code> dataframe. If you are starting a fresh R
+session, either continue with the R script you wrote for Exercise 3 or
+import the data again before you go any further.</p>
+<p>In Exercise 3 you noticed that R had imported <code>sex</code> and
+<code>smoking</code> as integers, even though they are really
+categories. Let’s fix <code>sex</code> now, by telling R what the codes
+1 and 2 actually mean. You will deal with <code>smoking</code>
+differently, and rather more elegantly, in Q13.</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" tabindex="-1"></a>cardiac <span class="ot">&lt;-</span> <span class="fu">read.table</span>(<span class="st">&#39;data/cardiacdata.txt&#39;</span>, <span class="at">header =</span> <span class="cn">TRUE</span>, <span class="at">sep =</span> <span class="st">&quot;</span><span class="sc">\t</span><span class="st">&quot;</span>,</span>
+<span id="cb1-2"><a href="#cb1-2" tabindex="-1"></a>                      <span class="at">na.strings =</span> <span class="st">&quot;NA&quot;</span>, <span class="at">stringsAsFactors =</span> <span class="cn">TRUE</span>)</span>
 <span id="cb1-3"><a href="#cb1-3" tabindex="-1"></a></span>
-<span id="cb1-4"><a href="#cb1-4" tabindex="-1"></a><span class="fu">str</span>(squid)</span>
-<span id="cb1-5"><a href="#cb1-5" tabindex="-1"></a><span class="co"># &#39;data.frame&#39;: 519 obs. of  13 variables:</span></span>
-<span id="cb1-6"><a href="#cb1-6" tabindex="-1"></a><span class="co">#  $ sample.no        : int  105128901 105128901 105128901 105128901 ...</span></span>
-<span id="cb1-7"><a href="#cb1-7" tabindex="-1"></a><span class="co">#  $ specimen         : int  1002 1003 1005 1007 1008 1009 1011 1013 ...</span></span>
-<span id="cb1-8"><a href="#cb1-8" tabindex="-1"></a><span class="co">#  $ year             : int  1989 1989 1989 1989 1989 1989 1989 1989 ...</span></span>
-<span id="cb1-9"><a href="#cb1-9" tabindex="-1"></a><span class="co">#  $ month            : int  12 12 12 12 12 12 12 12 12 12 ...</span></span>
-<span id="cb1-10"><a href="#cb1-10" tabindex="-1"></a><span class="co">#  $ weight           : num  152 106 138 141 126 ...</span></span>
-<span id="cb1-11"><a href="#cb1-11" tabindex="-1"></a><span class="co">#  $ sex              : int  2 2 2 2 2 2 2 2 2 2 ...</span></span>
-<span id="cb1-12"><a href="#cb1-12" tabindex="-1"></a><span class="co">#  $ maturity.stage   : int  3 1 2 2 3 1 2 3 3 4 ...</span></span>
-<span id="cb1-13"><a href="#cb1-13" tabindex="-1"></a><span class="co">#  $ DML              : int  174 153 169 175 169 116 135 192 170 205 ...</span></span>
-<span id="cb1-14"><a href="#cb1-14" tabindex="-1"></a><span class="co">#  $ eviscerate.weight: num  87.5 62.6 79.4 83.1 72.2 ...</span></span>
-<span id="cb1-15"><a href="#cb1-15" tabindex="-1"></a><span class="co">#  $ dig.weight       : num  4.648 3.138 0.307 4.123 3.605 ...</span></span>
-<span id="cb1-16"><a href="#cb1-16" tabindex="-1"></a><span class="co">#  $ nid.length       : num  39.4 24.1 39 41.4 39.8 20 14 55 44 53 ...</span></span>
-<span id="cb1-17"><a href="#cb1-17" tabindex="-1"></a><span class="co">#  $ nid.weight       : num  2.46 0.319 1.169 1.631 2.03 ...</span></span>
-<span id="cb1-18"><a href="#cb1-18" tabindex="-1"></a><span class="co">#  $ ovary.weight     : num  1.68 0.103 0.289 0.252 0.86 ...</span></span>
-<span id="cb1-19"><a href="#cb1-19" tabindex="-1"></a></span>
-<span id="cb1-20"><a href="#cb1-20" tabindex="-1"></a><span class="fu">summary</span>(squid)</span>
-<span id="cb1-21"><a href="#cb1-21" tabindex="-1"></a></span>
-<span id="cb1-22"><a href="#cb1-22" tabindex="-1"></a><span class="co"># convert variables to factors</span></span>
-<span id="cb1-23"><a href="#cb1-23" tabindex="-1"></a>squid<span class="sc">$</span>Fmaturity <span class="ot">&lt;-</span> <span class="fu">factor</span>(squid<span class="sc">$</span>maturity.stage)</span>
-<span id="cb1-24"><a href="#cb1-24" tabindex="-1"></a>squid<span class="sc">$</span>Fmonth <span class="ot">&lt;-</span> <span class="fu">factor</span>(squid<span class="sc">$</span>month) </span>
-<span id="cb1-25"><a href="#cb1-25" tabindex="-1"></a>squid<span class="sc">$</span>Fyear <span class="ot">&lt;-</span> <span class="fu">factor</span>(squid<span class="sc">$</span>year)</span>
-<span id="cb1-26"><a href="#cb1-26" tabindex="-1"></a></span>
-<span id="cb1-27"><a href="#cb1-27" tabindex="-1"></a><span class="fu">str</span>(squid)</span>
-<span id="cb1-28"><a href="#cb1-28" tabindex="-1"></a><span class="co"># &#39;data.frame&#39;: 519 obs. of  16 variables:</span></span>
-<span id="cb1-29"><a href="#cb1-29" tabindex="-1"></a><span class="co">#  $ sample.no        : int  105128901 105128901 105128901 ...</span></span>
-<span id="cb1-30"><a href="#cb1-30" tabindex="-1"></a><span class="co">#  $ specimen         : int  1002 1003 1005 1007 1008 1009 ...</span></span>
-<span id="cb1-31"><a href="#cb1-31" tabindex="-1"></a><span class="co">#  $ year             : int  1989 1989 1989 1989 1989 1989 ...</span></span>
-<span id="cb1-32"><a href="#cb1-32" tabindex="-1"></a><span class="co">#  $ month            : int  12 12 12 12 12 12 12 12 12 12 ...</span></span>
-<span id="cb1-33"><a href="#cb1-33" tabindex="-1"></a><span class="co">#  $ weight           : num  152 106 138 141 126 ...</span></span>
-<span id="cb1-34"><a href="#cb1-34" tabindex="-1"></a><span class="co">#  $ sex              : int  2 2 2 2 2 2 2 2 2 2 ...</span></span>
-<span id="cb1-35"><a href="#cb1-35" tabindex="-1"></a><span class="co">#  $ maturity.stage   : int  3 1 2 2 3 1 2 3 3 4 ...</span></span>
-<span id="cb1-36"><a href="#cb1-36" tabindex="-1"></a><span class="co">#  $ DML              : int  174 153 169 175 169 116 135 ...</span></span>
-<span id="cb1-37"><a href="#cb1-37" tabindex="-1"></a><span class="co">#  $ eviscerate.weight: num  87.5 62.6 79.4 83.1 72.2 ...</span></span>
-<span id="cb1-38"><a href="#cb1-38" tabindex="-1"></a><span class="co">#  $ dig.weight       : num  4.648 3.138 0.307 4.123 3.605 ...</span></span>
-<span id="cb1-39"><a href="#cb1-39" tabindex="-1"></a><span class="co">#  $ nid.length       : num  39.4 24.1 39 41.4 39.8 20 14 ...</span></span>
-<span id="cb1-40"><a href="#cb1-40" tabindex="-1"></a><span class="co">#  $ nid.weight       : num  2.46 0.319 1.169 1.631 2.03 ...</span></span>
-<span id="cb1-41"><a href="#cb1-41" tabindex="-1"></a><span class="co">#  $ ovary.weight     : num  1.68 0.103 0.289 0.252 0.86 ...</span></span>
-<span id="cb1-42"><a href="#cb1-42" tabindex="-1"></a><span class="co">#  $ Fmaturity        : Factor w/ 5 levels &quot;1&quot;,&quot;2&quot;,&quot;3&quot;,&quot;4&quot; &quot;5&quot;...</span></span>
-<span id="cb1-43"><a href="#cb1-43" tabindex="-1"></a><span class="co">#  $ Fmonth           : Factor w/ 12 levels &quot;1&quot;,&quot;2&quot;,&quot;3&quot;,&quot;4&quot; ...</span></span>
-<span id="cb1-44"><a href="#cb1-44" tabindex="-1"></a><span class="co">#  $ Fyear            : Factor w/ 3 levels &quot;1989&quot;,&quot;1990&quot;,..1 ...</span></span></code></pre></div>
+<span id="cb1-4"><a href="#cb1-4" tabindex="-1"></a><span class="co"># 1 = Female and 2 = Male. Writing the labels out means you never have to</span></span>
+<span id="cb1-5"><a href="#cb1-5" tabindex="-1"></a><span class="co"># remember the codes again, and your output reads properly.</span></span>
+<span id="cb1-6"><a href="#cb1-6" tabindex="-1"></a>cardiac<span class="sc">$</span>sex <span class="ot">&lt;-</span> <span class="fu">factor</span>(cardiac<span class="sc">$</span>sex, <span class="at">levels =</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">2</span>), <span class="at">labels =</span> <span class="fu">c</span>(<span class="st">&quot;Female&quot;</span>, <span class="st">&quot;Male&quot;</span>))</span></code></pre></div>
 <p> </p>
-<p>5. How many observations are there per month and year combination
-(hint: remember the <code>table()</code> or <code>xtabs()</code>
-functions?)? Don’t forget to use the factor recoded versions of these
-variables. Do you have data for each month in each year? Which years
-have the most observations? (optional) Use a combination of the
-<code>xtabs()</code> and <code>ftable()</code> functions to create a
-flattened table of the number of observations for each year, maturity
-stage and month (aka a contingency table).</p>
-<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" tabindex="-1"></a><span class="fu">table</span>(squid<span class="sc">$</span>Fmonth, squid<span class="sc">$</span>Fyear)</span>
+<p>1. In addition to extracting rows and columns from your dataframe by
+position you can also use conditional statements to select particular
+rows based on some logical criteria. This is very useful but takes a bit
+of practice to get used to (see <a
+href="https://intro2r.com/wrangling-data-frames.html#logical-indexes">Section
+3.4.2</a> for an introduction). Extract rows from your dataframe (all
+columns by default) based on the following criteria (note: you will need
+to assign the results of these statements to appropriately named
+variables, I’ll leave it up to you to use informative names!). Remember
+that <code>smoking</code> is coded 1 for current smokers, 2 for
+ex-smokers and 3 for those who have never smoked:</p>
+<ul>
+<li>systolic blood pressure greater than 160 mmHg</li>
+<li>diastolic blood pressure greater than 90 mmHg</li>
+<li>patients who have never smoked</li>
+<li>female patients who are current smokers</li>
+<li>male patients who have never smoked and whose diastolic pressure is
+greater than the median diastolic pressure (76 mmHg)</li>
+<li>all patients with a bmi between 25 and 30 and a triglyceride between
+1 and 2 mmol/l</li>
+<li>all patients who are not ex-smokers</li>
+</ul>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" tabindex="-1"></a>cardiac.sys160 <span class="ot">&lt;-</span> cardiac[cardiac<span class="sc">$</span>systolic <span class="sc">&gt;</span> <span class="dv">160</span>, ]</span>
 <span id="cb2-2"><a href="#cb2-2" tabindex="-1"></a></span>
-<span id="cb2-3"><a href="#cb2-3" tabindex="-1"></a>  <span class="co">#   1989 1990 1991</span></span>
-<span id="cb2-4"><a href="#cb2-4" tabindex="-1"></a>  <span class="co"># 1     0    3   37</span></span>
-<span id="cb2-5"><a href="#cb2-5" tabindex="-1"></a>  <span class="co"># 2     0    0   30</span></span>
-<span id="cb2-6"><a href="#cb2-6" tabindex="-1"></a>  <span class="co"># 3     0   40   29</span></span>
-<span id="cb2-7"><a href="#cb2-7" tabindex="-1"></a>  <span class="co"># 4     0   10   33</span></span>
-<span id="cb2-8"><a href="#cb2-8" tabindex="-1"></a>  <span class="co"># 5     0    1   30</span></span>
-<span id="cb2-9"><a href="#cb2-9" tabindex="-1"></a>  <span class="co"># 6     0    0   14</span></span>
-<span id="cb2-10"><a href="#cb2-10" tabindex="-1"></a>  <span class="co"># 7     0   42    1</span></span>
-<span id="cb2-11"><a href="#cb2-11" tabindex="-1"></a>  <span class="co"># 8     0   29    0</span></span>
-<span id="cb2-12"><a href="#cb2-12" tabindex="-1"></a>  <span class="co"># 9     0   82    0</span></span>
-<span id="cb2-13"><a href="#cb2-13" tabindex="-1"></a>  <span class="co"># 10    0   19    0</span></span>
-<span id="cb2-14"><a href="#cb2-14" tabindex="-1"></a>  <span class="co"># 11    0   76    0</span></span>
-<span id="cb2-15"><a href="#cb2-15" tabindex="-1"></a>  <span class="co"># 12   12   31    0</span></span>
-<span id="cb2-16"><a href="#cb2-16" tabindex="-1"></a>  </span>
-<span id="cb2-17"><a href="#cb2-17" tabindex="-1"></a><span class="fu">ftable</span>(<span class="fu">xtabs</span>(<span class="sc">~</span> Fyear <span class="sc">+</span> Fmaturity <span class="sc">+</span> Fmonth, <span class="at">data =</span> squid))</span>
-<span id="cb2-18"><a href="#cb2-18" tabindex="-1"></a></span>
-<span id="cb2-19"><a href="#cb2-19" tabindex="-1"></a><span class="co">#                 Fmonth  1  2  3  4  5  6  7  8  9 10 11 12</span></span>
-<span id="cb2-20"><a href="#cb2-20" tabindex="-1"></a><span class="co"># Fyear Fmaturity                                           </span></span>
-<span id="cb2-21"><a href="#cb2-21" tabindex="-1"></a><span class="co"># 1989  1                 0  0  0  0  0  0  0  0  0  0  0  2</span></span>
-<span id="cb2-22"><a href="#cb2-22" tabindex="-1"></a><span class="co">#       2                 0  0  0  0  0  0  0  0  0  0  0  3</span></span>
-<span id="cb2-23"><a href="#cb2-23" tabindex="-1"></a><span class="co">#       3                 0  0  0  0  0  0  0  0  0  0  0  5</span></span>
-<span id="cb2-24"><a href="#cb2-24" tabindex="-1"></a><span class="co">#       4                 0  0  0  0  0  0  0  0  0  0  0  2</span></span>
-<span id="cb2-25"><a href="#cb2-25" tabindex="-1"></a><span class="co">#       5                 0  0  0  0  0  0  0  0  0  0  0  0</span></span>
-<span id="cb2-26"><a href="#cb2-26" tabindex="-1"></a><span class="co"># 1990  1                 0  0  0  0  0  0  8  0  1  1  1  2</span></span>
-<span id="cb2-27"><a href="#cb2-27" tabindex="-1"></a><span class="co">#       2                 0  0  0  0  0  0 22 21 76 17 31  4</span></span>
-<span id="cb2-28"><a href="#cb2-28" tabindex="-1"></a><span class="co">#       3                 0  0  0  0  0  0  0  5  5  1 31  6</span></span>
-<span id="cb2-29"><a href="#cb2-29" tabindex="-1"></a><span class="co">#       4                 2  0 15  7  0  0  4  3  0  0 10 13</span></span>
-<span id="cb2-30"><a href="#cb2-30" tabindex="-1"></a><span class="co">#       5                 1  0 25  3  1  0  8  0  0  0  3  6</span></span>
-<span id="cb2-31"><a href="#cb2-31" tabindex="-1"></a><span class="co"># 1991  1                 0  0  0  2  0  4  0  0  0  0  0  0</span></span>
-<span id="cb2-32"><a href="#cb2-32" tabindex="-1"></a><span class="co">#       2                 1  1  0  1  0  6  0  0  0  0  0  0</span></span>
-<span id="cb2-33"><a href="#cb2-33" tabindex="-1"></a><span class="co">#       3                 2  0  0  1  1  0  0  0  0  0  0  0</span></span>
-<span id="cb2-34"><a href="#cb2-34" tabindex="-1"></a><span class="co">#       4                16  8  6 13  6  1  1  0  0  0  0  0</span></span>
-<span id="cb2-35"><a href="#cb2-35" tabindex="-1"></a><span class="co">#       5                18 21 23 16 23  3  0  0  0  0  0  0</span></span></code></pre></div>
+<span id="cb2-3"><a href="#cb2-3" tabindex="-1"></a>cardiac.dia90 <span class="ot">&lt;-</span> cardiac[cardiac<span class="sc">$</span>diastolic <span class="sc">&gt;</span> <span class="dv">90</span>, ]</span>
+<span id="cb2-4"><a href="#cb2-4" tabindex="-1"></a></span>
+<span id="cb2-5"><a href="#cb2-5" tabindex="-1"></a>cardiac.never <span class="ot">&lt;-</span> cardiac[cardiac<span class="sc">$</span>smoking <span class="sc">==</span> <span class="dv">3</span>, ]</span>
+<span id="cb2-6"><a href="#cb2-6" tabindex="-1"></a></span>
+<span id="cb2-7"><a href="#cb2-7" tabindex="-1"></a>cardiac.f.current <span class="ot">&lt;-</span> cardiac[cardiac<span class="sc">$</span>smoking <span class="sc">==</span> <span class="dv">1</span> <span class="sc">&amp;</span> cardiac<span class="sc">$</span>sex <span class="sc">==</span> <span class="st">&quot;Female&quot;</span>, ]</span>
+<span id="cb2-8"><a href="#cb2-8" tabindex="-1"></a></span>
+<span id="cb2-9"><a href="#cb2-9" tabindex="-1"></a>cardiac.subset <span class="ot">&lt;-</span> cardiac[cardiac<span class="sc">$</span>sex <span class="sc">==</span> <span class="st">&quot;Male&quot;</span> <span class="sc">&amp;</span> cardiac<span class="sc">$</span>smoking <span class="sc">==</span> <span class="dv">3</span> <span class="sc">&amp;</span> cardiac<span class="sc">$</span>diastolic <span class="sc">&gt;</span></span>
+<span id="cb2-10"><a href="#cb2-10" tabindex="-1"></a>    <span class="dv">76</span>, ]</span>
+<span id="cb2-11"><a href="#cb2-11" tabindex="-1"></a></span>
+<span id="cb2-12"><a href="#cb2-12" tabindex="-1"></a>cardiac.bmi.trig <span class="ot">&lt;-</span> cardiac[cardiac<span class="sc">$</span>bmi <span class="sc">&gt;</span> <span class="dv">25</span> <span class="sc">&amp;</span> cardiac<span class="sc">$</span>bmi <span class="sc">&lt;</span> <span class="dv">30</span> <span class="sc">&amp;</span> cardiac<span class="sc">$</span>triglyceride <span class="sc">&gt;</span></span>
+<span id="cb2-13"><a href="#cb2-13" tabindex="-1"></a>    <span class="dv">1</span> <span class="sc">&amp;</span> cardiac<span class="sc">$</span>triglyceride <span class="sc">&lt;</span> <span class="dv">2</span>, ]</span>
+<span id="cb2-14"><a href="#cb2-14" tabindex="-1"></a></span>
+<span id="cb2-15"><a href="#cb2-15" tabindex="-1"></a>cardiac.notex <span class="ot">&lt;-</span> cardiac[cardiac<span class="sc">$</span>smoking <span class="sc">!=</span> <span class="dv">2</span>, ]</span></code></pre></div>
 <p> </p>
-<p>6. The humble cleveland dotplot is a great way of identifying if you
-have potential outliers in continuous variables (See <a
-href="https://intro2r.com/simple-base-r-plots.html#dotcharts">Section
-4.2.4</a>. Create dotplots (using the <code>dotchart()</code> function)
-for the following variables; <code>DML</code>, <code>weight</code>,
-<code>nid.length</code> and <code>ovary.weight</code>. Do these
-variables contain any unusually large or small observations? Don’t
-forget, if you prefer to create a single figure with all 4 plots you can
-always split your plotting device into 2 rows and 2 columns (see <a
-href="https://intro2r.com/mult_graphs.html#mult_graphs">Section 4.4</a>
-of the book). Use the <code>pdf()</code> function to save a pdf version
-of your plot(s) in your <code>output</code> directory you created in
-Exercise 1 (see <a
-href="https://intro2r.com/export_plots.html#export_plots">Section
-4.5</a> of the book to see how the <code>pdf()</code> function works). I
-have also included some alternative code in the <a
-href="exercise_4_solution.html">solutions for this exercise</a> using
-the <code>dotplot()</code> function from the <code>lattice</code>
-package.</p>
-<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" tabindex="-1"></a><span class="fu">pdf</span>(<span class="st">&#39;output/ex4_dotplots.pdf&#39;</span>)</span>
-<span id="cb3-2"><a href="#cb3-2" tabindex="-1"></a><span class="fu">par</span>(<span class="at">mfrow =</span> <span class="fu">c</span>(<span class="dv">2</span>, <span class="dv">2</span>))</span>
-<span id="cb3-3"><a href="#cb3-3" tabindex="-1"></a><span class="fu">dotchart</span>(squid<span class="sc">$</span>DML, <span class="at">main =</span> <span class="st">&quot;DML&quot;</span>)</span>
-<span id="cb3-4"><a href="#cb3-4" tabindex="-1"></a><span class="fu">dotchart</span>(squid<span class="sc">$</span>weight, <span class="at">main =</span> <span class="st">&quot;weight&quot;</span>)</span>
-<span id="cb3-5"><a href="#cb3-5" tabindex="-1"></a><span class="fu">dotchart</span>(squid<span class="sc">$</span>nid.length, <span class="at">main =</span> <span class="st">&quot;nid length&quot;</span>)</span>
-<span id="cb3-6"><a href="#cb3-6" tabindex="-1"></a><span class="fu">dotchart</span>(squid<span class="sc">$</span>ovary.weight, <span class="at">main =</span> <span class="st">&quot;ovary weight&quot;</span>)</span>
-<span id="cb3-7"><a href="#cb3-7" tabindex="-1"></a><span class="fu">dev.off</span>()</span>
-<span id="cb3-8"><a href="#cb3-8" tabindex="-1"></a></span>
-<span id="cb3-9"><a href="#cb3-9" tabindex="-1"></a><span class="co"># alternative code using dotplot function from lattice package</span></span>
-<span id="cb3-10"><a href="#cb3-10" tabindex="-1"></a><span class="fu">library</span>(lattice)</span>
-<span id="cb3-11"><a href="#cb3-11" tabindex="-1"></a><span class="fu">dotplot</span>(<span class="fu">as.matrix</span>(squid[,<span class="fu">c</span>(<span class="st">&quot;DML&quot;</span>, <span class="st">&quot;weight&quot;</span>, <span class="st">&quot;nid.length&quot;</span>, <span class="st">&quot;ovary.weight&quot;</span>)]),</span>
-<span id="cb3-12"><a href="#cb3-12" tabindex="-1"></a>      <span class="at">groups=</span><span class="cn">FALSE</span>,</span>
-<span id="cb3-13"><a href="#cb3-13" tabindex="-1"></a>      <span class="at">strip =</span> <span class="fu">strip.custom</span>(<span class="at">bg =</span> <span class="st">&#39;white&#39;</span>,</span>
-<span id="cb3-14"><a href="#cb3-14" tabindex="-1"></a>            <span class="at">par.strip.text =</span> <span class="fu">list</span>(<span class="at">cex =</span> <span class="fl">0.8</span>)),</span>
-<span id="cb3-15"><a href="#cb3-15" tabindex="-1"></a>        <span class="at">scales =</span> <span class="fu">list</span>(<span class="at">x =</span> <span class="fu">list</span>(<span class="at">relation =</span> <span class="st">&quot;free&quot;</span>),</span>
-<span id="cb3-16"><a href="#cb3-16" tabindex="-1"></a>                      <span class="at">y =</span> <span class="fu">list</span>(<span class="at">relation =</span> <span class="st">&quot;free&quot;</span>),</span>
-<span id="cb3-17"><a href="#cb3-17" tabindex="-1"></a>                      <span class="at">draw =</span> <span class="cn">FALSE</span>),</span>
-<span id="cb3-18"><a href="#cb3-18" tabindex="-1"></a>        <span class="at">col=</span><span class="dv">1</span>, <span class="at">cex  =</span><span class="fl">0.5</span>, <span class="at">pch =</span> <span class="dv">16</span>,</span>
-<span id="cb3-19"><a href="#cb3-19" tabindex="-1"></a>        <span class="at">xlab =</span> <span class="st">&quot;Value of the variable&quot;</span>,</span>
-<span id="cb3-20"><a href="#cb3-20" tabindex="-1"></a>        <span class="at">ylab =</span> <span class="st">&quot;Order of the data from text file&quot;</span>)</span></code></pre></div>
+<p>2. A really neat feature of extracting rows based on conditional
+statements is that you can include R functions within the statement
+itself. To practice this, modify your answer to the diastolic question
+in Q1 to use the <code>median()</code> function rather than hard coding
+the value 76. Why is this a better idea? (hint: what happens to your
+code if someone adds another twenty patients to the study?)</p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" tabindex="-1"></a>cardiac.subset <span class="ot">&lt;-</span> cardiac[cardiac<span class="sc">$</span>sex <span class="sc">==</span> <span class="st">&quot;Male&quot;</span> <span class="sc">&amp;</span> cardiac<span class="sc">$</span>smoking <span class="sc">==</span> <span class="dv">3</span> <span class="sc">&amp;</span> cardiac<span class="sc">$</span>diastolic <span class="sc">&gt;</span></span>
+<span id="cb3-2"><a href="#cb3-2" tabindex="-1"></a>    <span class="fu">median</span>(cardiac<span class="sc">$</span>diastolic), ]</span></code></pre></div>
 <p> </p>
-<p>7. It looks like the variable <code>nid.length</code> contains an
-unusually large value. Actually, this value is biologically implausible
-and clearly an error. The researchers were asked to go back and check
-their field notebooks and sure enough they discover a typo. It looks
-like a tired researcher accidentally inserted a zero by mistake when
-transcribing these data (mistakes in data are very common and why we
-<strong>always</strong> explore, check and validate any data we are
-working on). We can clearly see this value is over 400 so we can use the
-<code>which()</code> function to identify which observation this is
-<code>which(squid$nid.length &gt; 400)</code>. It looks like this is the
-11<sup>th</sup> observation of the <code>squid$nid.length</code>
-variable. Use your skill with the square brackets <code>[ ]</code> to
-first confirm the this is the correct value (you should get 430.2) and
-then change this value to 43.2. Now redo the dotchart to visualise your
-correction. Caution: You can only do this because you have confirmed
-that this is an transcribing error. You should <strong>not</strong>
-remove or change values in your data just because you feel like it or
-they look ‘unusual’. This is scientific fraud! Also, the advantage of
-making this change in your R script rather than in Excel is that you now
-have a permanent record of the change you made and can state a clear
-reason for the change.</p>
-<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" tabindex="-1"></a><span class="fu">which</span>(squid<span class="sc">$</span>nid.length <span class="sc">&gt;</span> <span class="dv">400</span>)</span>
-<span id="cb4-2"><a href="#cb4-2" tabindex="-1"></a><span class="co"># [1] 11</span></span>
-<span id="cb4-3"><a href="#cb4-3" tabindex="-1"></a>squid<span class="sc">$</span>nid.length[<span class="dv">11</span>]</span>
-<span id="cb4-4"><a href="#cb4-4" tabindex="-1"></a><span class="co"># [1] 430.2</span></span>
-<span id="cb4-5"><a href="#cb4-5" tabindex="-1"></a>squid<span class="sc">$</span>nid.length[<span class="dv">11</span>] <span class="ot">&lt;-</span> <span class="fl">43.2</span></span>
-<span id="cb4-6"><a href="#cb4-6" tabindex="-1"></a>squid<span class="sc">$</span>nid.length[<span class="dv">11</span>]</span>
-<span id="cb4-7"><a href="#cb4-7" tabindex="-1"></a><span class="co"># [1] 43.2</span></span>
-<span id="cb4-8"><a href="#cb4-8" tabindex="-1"></a><span class="fu">dotchart</span>(squid<span class="sc">$</span>nid.length, <span class="at">main =</span> <span class="st">&quot;nid length&quot;</span>)</span></code></pre></div>
+<p>3. However, when using functions in conditional statements you need
+to be careful. For example, write some code to extract all rows from the
+dataframe <code>cardiac</code> with a systolic pressure greater than 160
+mmHg and a total cholesterol greater than average (hint: use the
+<code>mean()</code> function in your conditional statement). Can you see
+a problem with the output? Discuss the cause of this problem with an
+instructor and explore possible solutions.</p>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" tabindex="-1"></a><span class="co"># results in a dataframe filled with NAs.</span></span>
+<span id="cb4-2"><a href="#cb4-2" tabindex="-1"></a>cardiac.new <span class="ot">&lt;-</span> cardiac[cardiac<span class="sc">$</span>systolic <span class="sc">&gt;</span> <span class="dv">160</span> <span class="sc">&amp;</span> cardiac<span class="sc">$</span>tchol <span class="sc">&gt;</span> <span class="fu">mean</span>(cardiac<span class="sc">$</span>tchol),</span>
+<span id="cb4-3"><a href="#cb4-3" tabindex="-1"></a>    ]</span>
+<span id="cb4-4"><a href="#cb4-4" tabindex="-1"></a></span>
+<span id="cb4-5"><a href="#cb4-5" tabindex="-1"></a><span class="co"># the variable tchol contains 2 NA values. By default the mean function will</span></span>
+<span id="cb4-6"><a href="#cb4-6" tabindex="-1"></a><span class="co"># return an NA.  use the na.rm argument to ignore NAs</span></span>
+<span id="cb4-7"><a href="#cb4-7" tabindex="-1"></a>cardiac.new <span class="ot">&lt;-</span> cardiac[cardiac<span class="sc">$</span>systolic <span class="sc">&gt;</span> <span class="dv">160</span> <span class="sc">&amp;</span> cardiac<span class="sc">$</span>tchol <span class="sc">&gt;</span> <span class="fu">mean</span>(cardiac<span class="sc">$</span>tchol,</span>
+<span id="cb4-8"><a href="#cb4-8" tabindex="-1"></a>    <span class="at">na.rm =</span> <span class="cn">TRUE</span>), ]</span></code></pre></div>
 <p> </p>
-<p>8. When exploring your data it is often useful to visualise the
-distribution of continuous variables. Take a look at <a
-href="https://intro2r.com/simple-base-r-plots.html#histograms">Section
-4.2.2</a> and then create histograms for the variables;
-<code>DML</code>, <code>weight</code>, <code>eviscerate.weight</code>
-and <code>ovary.weight</code>. Again, its up to you if you want to plot
-all 4 plots separately or in the same figure. Export your plot(s) as pdf
-file(s) to the <code>output</code> directory. One potential problem with
-histograms is that the distribution of data can look quite different
-depending on the number of ‘breaks’ used. The <code>hist()</code>
-function does it’s best to create appropriate ‘breaks’ for your plots
-(it uses the <a href="https://en.wikipedia.org/wiki/Histogram">Sturges
-algorithm</a> for those that want to know) but experiment with changing
-the number of breaks for the <code>DML</code> variable to see how the
-shape of the distribution changes (see <a
-href="https://intro2r.com/simple-base-r-plots.html#histograms">Section
-4.2.2</a> of the book for further details of how to change the
-breaks).</p>
-<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" tabindex="-1"></a><span class="fu">pdf</span>(<span class="st">&#39;output/ex4_hist.pdf&#39;</span>)</span>
-<span id="cb5-2"><a href="#cb5-2" tabindex="-1"></a><span class="fu">par</span>(<span class="at">mfrow =</span> <span class="fu">c</span>(<span class="dv">2</span>,<span class="dv">2</span>))</span>
-<span id="cb5-3"><a href="#cb5-3" tabindex="-1"></a><span class="fu">hist</span>(squid<span class="sc">$</span>DML, <span class="at">main=</span><span class="st">&quot;&quot;</span>, <span class="at">xlab =</span> <span class="st">&quot;DML&quot;</span>)</span>
-<span id="cb5-4"><a href="#cb5-4" tabindex="-1"></a><span class="fu">hist</span>(squid<span class="sc">$</span>weight, <span class="at">main=</span><span class="st">&quot;&quot;</span>, <span class="at">xlab =</span> <span class="st">&quot;weight&quot;</span>)</span>
-<span id="cb5-5"><a href="#cb5-5" tabindex="-1"></a><span class="fu">hist</span>(squid<span class="sc">$</span>eviscerate.weight, <span class="at">main=</span><span class="st">&quot;&quot;</span>, <span class="at">xlab =</span> <span class="st">&quot;eviscerate weight&quot;</span>)</span>
-<span id="cb5-6"><a href="#cb5-6" tabindex="-1"></a><span class="fu">hist</span>(squid<span class="sc">$</span>ovary.weight, <span class="at">main=</span><span class="st">&quot;&quot;</span>, <span class="at">xlab =</span> <span class="st">&quot;ovary weight&quot;</span>)</span>
-<span id="cb5-7"><a href="#cb5-7" tabindex="-1"></a><span class="fu">dev.off</span>()</span>
-<span id="cb5-8"><a href="#cb5-8" tabindex="-1"></a></span>
-<span id="cb5-9"><a href="#cb5-9" tabindex="-1"></a><span class="co"># need to get the min and max values for DML</span></span>
-<span id="cb5-10"><a href="#cb5-10" tabindex="-1"></a><span class="co"># to work out the limits for the breaks</span></span>
-<span id="cb5-11"><a href="#cb5-11" tabindex="-1"></a></span>
-<span id="cb5-12"><a href="#cb5-12" tabindex="-1"></a><span class="fu">summary</span>(squid<span class="sc">$</span>DML)</span>
-<span id="cb5-13"><a href="#cb5-13" tabindex="-1"></a><span class="co"># Min. 1st Qu.  Median    Mean 3rd Qu.    Max. </span></span>
-<span id="cb5-14"><a href="#cb5-14" tabindex="-1"></a><span class="co">#   88     187     217     215     240     323 </span></span>
-<span id="cb5-15"><a href="#cb5-15" tabindex="-1"></a> </span>
-<span id="cb5-16"><a href="#cb5-16" tabindex="-1"></a><span class="co"># experimenting with different breaks</span></span>
-<span id="cb5-17"><a href="#cb5-17" tabindex="-1"></a><span class="fu">par</span>(<span class="at">mfrow =</span> <span class="fu">c</span>(<span class="dv">2</span>,<span class="dv">2</span>))</span>
-<span id="cb5-18"><a href="#cb5-18" tabindex="-1"></a>brk1 <span class="ot">&lt;-</span> <span class="fu">seq</span>(<span class="at">from =</span> <span class="dv">80</span>, <span class="at">to =</span> <span class="dv">340</span>, <span class="at">by =</span> <span class="dv">20</span>)   </span>
-<span id="cb5-19"><a href="#cb5-19" tabindex="-1"></a><span class="fu">hist</span>(squid<span class="sc">$</span>DML, <span class="at">xlab =</span> <span class="st">&quot;DML&quot;</span>, <span class="at">breaks =</span> brk1, <span class="at">main =</span> <span class="st">&quot;brk: 20&quot;</span>)</span>
-<span id="cb5-20"><a href="#cb5-20" tabindex="-1"></a></span>
-<span id="cb5-21"><a href="#cb5-21" tabindex="-1"></a>brk2 <span class="ot">&lt;-</span> <span class="fu">seq</span>(<span class="at">from =</span> <span class="dv">80</span>, <span class="at">to =</span> <span class="dv">340</span>, <span class="at">by =</span> <span class="dv">10</span>)   </span>
-<span id="cb5-22"><a href="#cb5-22" tabindex="-1"></a><span class="fu">hist</span>(squid<span class="sc">$</span>DML, <span class="at">xlab =</span> <span class="st">&quot;DML&quot;</span>, <span class="at">breaks =</span> brk2, <span class="at">main =</span> <span class="st">&quot;brk: 10&quot;</span>)</span>
-<span id="cb5-23"><a href="#cb5-23" tabindex="-1"></a></span>
-<span id="cb5-24"><a href="#cb5-24" tabindex="-1"></a>brk3 <span class="ot">&lt;-</span> <span class="fu">seq</span>(<span class="at">from =</span> <span class="dv">80</span>, <span class="at">to =</span> <span class="dv">340</span>, <span class="at">by =</span> <span class="dv">5</span>)   </span>
-<span id="cb5-25"><a href="#cb5-25" tabindex="-1"></a><span class="fu">hist</span>(squid<span class="sc">$</span>DML, <span class="at">xlab =</span> <span class="st">&quot;DML&quot;</span>, <span class="at">breaks =</span> brk3, <span class="at">main =</span> <span class="st">&quot;brk: 5&quot;</span>)</span>
-<span id="cb5-26"><a href="#cb5-26" tabindex="-1"></a></span>
-<span id="cb5-27"><a href="#cb5-27" tabindex="-1"></a>brk4 <span class="ot">&lt;-</span> <span class="fu">seq</span>(<span class="at">from =</span> <span class="dv">80</span>, <span class="at">to =</span> <span class="dv">340</span>, <span class="at">by =</span> <span class="dv">2</span>)   </span>
-<span id="cb5-28"><a href="#cb5-28" tabindex="-1"></a><span class="fu">hist</span>(squid<span class="sc">$</span>DML, <span class="at">xlab =</span> <span class="st">&quot;DML&quot;</span>, <span class="at">breaks =</span> brk4, <span class="at">main =</span> <span class="st">&quot;brk: 2&quot;</span>)</span></code></pre></div>
+<p>4. Although you have concentrated on using the square bracket
+<code>[ ]</code> notation to extract rows and columns from your
+dataframe, there are of course many other approaches. One such approach
+is to use the <code>subset()</code> function (see <code>?subset</code>
+or search for the <code>subset</code> function in the Introduction to R
+book to find more information). Use the <code>subset()</code> function
+to extract all female patients under 65 years of age with a systolic
+pressure greater than 140 mmHg. Also use <code>subset()</code> to
+extract all male patients with a bmi greater than 30 but only include
+the columns <code>patno</code>, <code>sex</code>, <code>bmi</code>,
+<code>systolic</code> and <code>tchol</code>.</p>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" tabindex="-1"></a><span class="fu">subset</span>(cardiac, sex <span class="sc">==</span> <span class="st">&quot;Female&quot;</span> <span class="sc">&amp;</span> age <span class="sc">&lt;</span> <span class="dv">65</span> <span class="sc">&amp;</span> systolic <span class="sc">&gt;</span> <span class="dv">140</span>)</span>
+<span id="cb5-2"><a href="#cb5-2" tabindex="-1"></a></span>
+<span id="cb5-3"><a href="#cb5-3" tabindex="-1"></a><span class="fu">subset</span>(cardiac, sex <span class="sc">==</span> <span class="st">&quot;Male&quot;</span> <span class="sc">&amp;</span> bmi <span class="sc">&gt;</span> <span class="dv">30</span>, <span class="at">select =</span> <span class="fu">c</span>(<span class="st">&quot;patno&quot;</span>, <span class="st">&quot;sex&quot;</span>, <span class="st">&quot;bmi&quot;</span>, <span class="st">&quot;systolic&quot;</span>,</span>
+<span id="cb5-4"><a href="#cb5-4" tabindex="-1"></a>    <span class="st">&quot;tchol&quot;</span>))</span></code></pre></div>
 <p> </p>
-<p>9. Scatterplots are great for visualising relationships between two
-continuous variables (<a
-href="https://intro2r.com/simple-base-r-plots.html#scatterplot">Section
-4.2.1</a>). Plot the relationship between <code>DML</code> on the x axis
-and <code>weight</code> on the y axis. How would you describe this
-relationship? Is it linear? One approach to linearising relationships is
-to apply a transformation on one or both variables. Try transforming the
-<code>weight</code> variable with either a natural log
-(<code>log()</code>) or square root (<code>sqrt()</code>)
-transformation. I suggest you create new variables in the
-<code>squid</code> dataframe for your transformed variables and use
-these variables when creating your new plots (ask if you’re not sure how
-to do this). Which transformation best linearises this relationship?
-Again, save your plots as a pdf file (or try saving in your
-<code>output</code> directory as jpeg or png format using the
-<code>jpeg()</code> or <code>png()</code> functions (<a
-href="https://intro2r.com/export_plots.html#export_plots">Section
-4.5</a>) if you feel the need for a change!).</p>
-<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" tabindex="-1"></a><span class="co"># clearly not linear</span></span>
-<span id="cb6-2"><a href="#cb6-2" tabindex="-1"></a><span class="fu">plot</span>(squid<span class="sc">$</span>DML, squid<span class="sc">$</span>weight)</span>
-<span id="cb6-3"><a href="#cb6-3" tabindex="-1"></a></span>
-<span id="cb6-4"><a href="#cb6-4" tabindex="-1"></a><span class="co"># natural log and sqrt tranform weight</span></span>
-<span id="cb6-5"><a href="#cb6-5" tabindex="-1"></a>squid<span class="sc">$</span>weight.sqrt <span class="ot">&lt;-</span> <span class="fu">sqrt</span>(squid<span class="sc">$</span>weight)</span>
-<span id="cb6-6"><a href="#cb6-6" tabindex="-1"></a>squid<span class="sc">$</span>weight.log <span class="ot">&lt;-</span> <span class="fu">log</span>(squid<span class="sc">$</span>weight)</span>
-<span id="cb6-7"><a href="#cb6-7" tabindex="-1"></a></span>
-<span id="cb6-8"><a href="#cb6-8" tabindex="-1"></a><span class="fu">par</span>(<span class="at">mfrow =</span> <span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">2</span>))</span>
-<span id="cb6-9"><a href="#cb6-9" tabindex="-1"></a><span class="fu">plot</span>(squid<span class="sc">$</span>DML, squid<span class="sc">$</span>weight.sqrt)</span>
-<span id="cb6-10"><a href="#cb6-10" tabindex="-1"></a><span class="fu">plot</span>(squid<span class="sc">$</span>DML, squid<span class="sc">$</span>weight.log)</span>
-<span id="cb6-11"><a href="#cb6-11" tabindex="-1"></a></span>
-<span id="cb6-12"><a href="#cb6-12" tabindex="-1"></a><span class="co"># the square root transformation looks</span></span>
-<span id="cb6-13"><a href="#cb6-13" tabindex="-1"></a><span class="co"># most appropriate</span></span>
-<span id="cb6-14"><a href="#cb6-14" tabindex="-1"></a><span class="fu">jpeg</span>(<span class="st">&#39;output/ex4_transf_plot.jpeg&#39;</span>)</span>
-<span id="cb6-15"><a href="#cb6-15" tabindex="-1"></a><span class="fu">plot</span>(squid<span class="sc">$</span>DML, squid<span class="sc">$</span>weight.sqrt)</span>
-<span id="cb6-16"><a href="#cb6-16" tabindex="-1"></a><span class="fu">dev.off</span>()</span>
-<span id="cb6-17"><a href="#cb6-17" tabindex="-1"></a></span>
-<span id="cb6-18"><a href="#cb6-18" tabindex="-1"></a><span class="fu">png</span>(<span class="st">&#39;output/ex4_transf_plot.png&#39;</span>)</span>
-<span id="cb6-19"><a href="#cb6-19" tabindex="-1"></a><span class="fu">plot</span>(squid<span class="sc">$</span>DML, squid<span class="sc">$</span>weight.sqrt)</span>
-<span id="cb6-20"><a href="#cb6-20" tabindex="-1"></a><span class="fu">dev.off</span>()</span></code></pre></div>
+<p>5. Now that you can pick out rows that meet a condition, you can use
+that skill to check whether your data are believable. This matters more
+than it sounds: a value that is simply wrong will not stop your code
+running, will not produce a warning, and will quietly change every
+result you calculate from it. Run <code>summary()</code> on your
+dataframe again and look at the minimum and maximum of each numeric
+variable. Three of them contain values that are not merely unusual but
+impossible. Two are impossibly low and one is impossibly high. Find
+them, work out which patients they belong to, and then set those
+particular values to <code>NA</code> so they cannot contaminate anything
+you calculate later. Why is <code>NA</code> the right answer here,
+rather than deleting the whole patient record or guessing what the value
+should have been?</p>
+<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" tabindex="-1"></a><span class="fu">summary</span>(cardiac)</span>
+<span id="cb6-2"><a href="#cb6-2" tabindex="-1"></a></span>
+<span id="cb6-3"><a href="#cb6-3" tabindex="-1"></a><span class="co"># hdlchol has a minimum of 0.000, triglyceride has a minimum of 0.000, and bmi</span></span>
+<span id="cb6-4"><a href="#cb6-4" tabindex="-1"></a><span class="co"># has a maximum of 514.60. A blood concentration of zero is not a low reading,</span></span>
+<span id="cb6-5"><a href="#cb6-5" tabindex="-1"></a><span class="co"># it is impossible; you cannot have no cholesterol in your blood and still be</span></span>
+<span id="cb6-6"><a href="#cb6-6" tabindex="-1"></a><span class="co"># alive to take part in a study. And a body mass index of 514 is not a very</span></span>
+<span id="cb6-7"><a href="#cb6-7" tabindex="-1"></a><span class="co"># large person, it is a decimal point in the wrong place: 51.46 typed as 514.6.</span></span>
+<span id="cb6-8"><a href="#cb6-8" tabindex="-1"></a></span>
+<span id="cb6-9"><a href="#cb6-9" tabindex="-1"></a><span class="co"># which patients are they?</span></span>
+<span id="cb6-10"><a href="#cb6-10" tabindex="-1"></a>cardiac[cardiac<span class="sc">$</span>hdlchol <span class="sc">==</span> <span class="dv">0</span> <span class="sc">&amp;</span> <span class="sc">!</span><span class="fu">is.na</span>(cardiac<span class="sc">$</span>hdlchol), ]</span>
+<span id="cb6-11"><a href="#cb6-11" tabindex="-1"></a>cardiac[cardiac<span class="sc">$</span>triglyceride <span class="sc">==</span> <span class="dv">0</span> <span class="sc">&amp;</span> <span class="sc">!</span><span class="fu">is.na</span>(cardiac<span class="sc">$</span>triglyceride), ]</span>
+<span id="cb6-12"><a href="#cb6-12" tabindex="-1"></a>cardiac[cardiac<span class="sc">$</span>bmi <span class="sc">&gt;</span> <span class="dv">100</span>, ]</span>
+<span id="cb6-13"><a href="#cb6-13" tabindex="-1"></a></span>
+<span id="cb6-14"><a href="#cb6-14" tabindex="-1"></a><span class="co"># set the impossible values to NA</span></span>
+<span id="cb6-15"><a href="#cb6-15" tabindex="-1"></a>cardiac<span class="sc">$</span>hdlchol[cardiac<span class="sc">$</span>hdlchol <span class="sc">==</span> <span class="dv">0</span>] <span class="ot">&lt;-</span> <span class="cn">NA</span></span>
+<span id="cb6-16"><a href="#cb6-16" tabindex="-1"></a>cardiac<span class="sc">$</span>triglyceride[cardiac<span class="sc">$</span>triglyceride <span class="sc">==</span> <span class="dv">0</span>] <span class="ot">&lt;-</span> <span class="cn">NA</span></span>
+<span id="cb6-17"><a href="#cb6-17" tabindex="-1"></a>cardiac<span class="sc">$</span>bmi[cardiac<span class="sc">$</span>bmi <span class="sc">&gt;</span> <span class="dv">100</span>] <span class="ot">&lt;-</span> <span class="cn">NA</span></span>
+<span id="cb6-18"><a href="#cb6-18" tabindex="-1"></a></span>
+<span id="cb6-19"><a href="#cb6-19" tabindex="-1"></a><span class="fu">summary</span>(cardiac)  <span class="co"># check: the minima and maximum are now sensible</span></span>
+<span id="cb6-20"><a href="#cb6-20" tabindex="-1"></a></span>
+<span id="cb6-21"><a href="#cb6-21" tabindex="-1"></a><span class="co"># Why NA and not something else? Deleting the whole record throws away all the</span></span>
+<span id="cb6-22"><a href="#cb6-22" tabindex="-1"></a><span class="co"># other measurements for that patient, which are perfectly good. Guessing the</span></span>
+<span id="cb6-23"><a href="#cb6-23" tabindex="-1"></a><span class="co"># value - even a very reasonable guess like 51.46 - means inventing data, and</span></span>
+<span id="cb6-24"><a href="#cb6-24" tabindex="-1"></a><span class="co"># nobody reading your results afterwards could tell which numbers you measured</span></span>
+<span id="cb6-25"><a href="#cb6-25" tabindex="-1"></a><span class="co"># and which you made up. NA says exactly what you know: there should be a value</span></span>
+<span id="cb6-26"><a href="#cb6-26" tabindex="-1"></a><span class="co"># here, and it isn&#39;t usable. Every R function that matters has an na.rm</span></span>
+<span id="cb6-27"><a href="#cb6-27" tabindex="-1"></a><span class="co"># argument to cope with it.</span></span>
+<span id="cb6-28"><a href="#cb6-28" tabindex="-1"></a></span>
+<span id="cb6-29"><a href="#cb6-29" tabindex="-1"></a><span class="co"># Note that you have changed the dataframe in your R session, not the file on</span></span>
+<span id="cb6-30"><a href="#cb6-30" tabindex="-1"></a><span class="co"># disk. data/cardiacdata.txt still contains the original values, which is</span></span>
+<span id="cb6-31"><a href="#cb6-31" tabindex="-1"></a><span class="co"># exactly as it should be: your raw data stays raw, and your script is the</span></span>
+<span id="cb6-32"><a href="#cb6-32" tabindex="-1"></a><span class="co"># record of what you changed.</span></span></code></pre></div>
 <p> </p>
-<p>10. When visualising differences in a continuous variable between
-levels of a factor (categorical variable) then a boxplot is your friend
-(avoid using bar plots - Google ‘bar plots are evil’ for more info).
-Create a boxplot to visualise the differences in DML at each maturity
-stage (don’t forget to use the recoded version of this variable you
-created in Q4) . Include x and y axes labels in your plot. Make sure you
-understand the anatomy of a boxplot before moving on - please ask if
-you’re not sure (also see <a
-href="https://intro2r.com/simple-base-r-plots.html#box-and-violin-plots">Section
-4.2.3</a> of the book). An alternative to the boxplot is the violin
-plot. A violin plot is a combination of a boxplot and a <a
-href="https://www.statmethods.net/graphs/density.html">kernel density
-plot</a> and is great at visualising the distribution of a variable. To
-create a violin plot you will first need to install the
-<code>vioplot</code> package from CRAN and make it available using
-<code>library(vioplot)</code>. You can now use the
-<code>vioplot()</code> function in pretty much the same way as you
-created your boxplot (again <a
-href="https://intro2r.com/simple-base-r-plots.html#box-and-violin-plots">Section
-4.2.3</a> of the book walks you through this).</p>
-<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" tabindex="-1"></a><span class="co"># note: Fmaturity is the recoded maturity.stage variable cerated in Q4</span></span>
-<span id="cb7-2"><a href="#cb7-2" tabindex="-1"></a><span class="fu">boxplot</span>(DML <span class="sc">~</span> Fmaturity, <span class="at">data =</span> squid, <span class="at">xlab =</span> <span class="st">&quot;maturity stage&quot;</span>, <span class="at">ylab =</span> <span class="st">&quot;DML&quot;</span>)</span>
-<span id="cb7-3"><a href="#cb7-3" tabindex="-1"></a></span>
-<span id="cb7-4"><a href="#cb7-4" tabindex="-1"></a><span class="co"># violin plot</span></span>
-<span id="cb7-5"><a href="#cb7-5" tabindex="-1"></a><span class="fu">library</span>(vioplot)</span>
-<span id="cb7-6"><a href="#cb7-6" tabindex="-1"></a><span class="fu">vioplot</span>(DML <span class="sc">~</span> Fmaturity, <span class="at">data =</span> squid, <span class="at">xlab =</span> <span class="st">&quot;maturity stage&quot;</span>, <span class="at">ylab =</span> <span class="st">&quot;DML&quot;</span>, <span class="at">col =</span> <span class="st">&quot;lightblue&quot;</span>)</span></code></pre></div>
+<p>6. Another useful way to manipulate your dataframes is to sort the
+rows based on the value of a variable (or combinations of variables).
+Rather counter-intuitively you should use the <code>order()</code>
+function to sort your dataframes, not the <code>sort()</code> function
+(see <a
+href="https://intro2r.com/wrangling-data-frames.html#ordering-data-frames">Section
+3.4.3</a> of the Introduction to R book for an explanation). Ordering
+dataframes uses the same logic you practised in Q12 in Exercise 2. Let’s
+practice with a straight forward example. Use the <code>order()</code>
+function to sort all rows in the <code>cardiac</code> dataframe in
+ascending order of systolic blood pressure (lowest to highest). Store
+this sorted dataframe in a variable called
+<code>cardiac.sys.sort</code>.</p>
+<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" tabindex="-1"></a>cardiac.sys.sort <span class="ot">&lt;-</span> cardiac[<span class="fu">order</span>(cardiac<span class="sc">$</span>systolic), ]</span></code></pre></div>
 <p> </p>
-<p>11. To visualise the relationship between two continuous variables
-but for different levels of a factor variable you can create a
-conditional scatterplot. Use the <code>coplot()</code> function (<a
-href="https://intro2r.com/simple-base-r-plots.html#coplots">Section
-4.2.6</a>) to plot the relationship between DML on the x axis and square
-root transformed weight on the y axis (you created this variable in Q8)
-for each level of maturity stage. Does the relationship between DML and
-weight look different for each maturity stage (suggesting an
-interaction)? If you prefer, you can also create a similar plot using
-the <code>xyplot()</code> function (<a
-href="https://intro2r.com/simple-base-r-plots.html#lattice-plots">Section
-4.2.7</a>) from the <code>lattice</code> package (don’t forget to make
-the function available by using <code>library(lattice)</code>
-first).</p>
-<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" tabindex="-1"></a><span class="fu">coplot</span>(weight.sqrt <span class="sc">~</span> DML <span class="sc">|</span> Fmaturity, <span class="at">data =</span> squid)</span>
-<span id="cb8-2"><a href="#cb8-2" tabindex="-1"></a></span>
-<span id="cb8-3"><a href="#cb8-3" tabindex="-1"></a><span class="co"># using xyplot from the lattice package</span></span>
-<span id="cb8-4"><a href="#cb8-4" tabindex="-1"></a><span class="fu">xyplot</span>(weight.sqrt <span class="sc">~</span> DML <span class="sc">|</span> Fmaturity, <span class="at">data =</span> squid)</span></code></pre></div>
+<p>7. Now for something a little more complicated. Sort all rows in the
+<code>cardiac</code> dataframe by ascending order of systolic pressure
+within each level of smoking status. The trick here is to remember that
+you can order by more than one variable when using the
+<code>order()</code> function (see <a
+href="https://intro2r.com/wrangling-data-frames.html#ordering-data-frames">Section
+3.4.3</a> again). Don’t forget to assign your sorted dataframe to a new
+variable with a sensible name. Repeat the previous ordering but this
+time order by <strong>descending</strong> order of systolic pressure
+within each level of smoking status.</p>
+<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" tabindex="-1"></a><span class="co"># notice where the patients with a missing smoking status end up - and why</span></span>
+<span id="cb8-2"><a href="#cb8-2" tabindex="-1"></a>cardiac.sorted <span class="ot">&lt;-</span> cardiac[<span class="fu">order</span>(cardiac<span class="sc">$</span>smoking, cardiac<span class="sc">$</span>systolic), ]        </span>
+<span id="cb8-3"><a href="#cb8-3" tabindex="-1"></a></span>
+<span id="cb8-4"><a href="#cb8-4" tabindex="-1"></a><span class="co"># use &#39;-&#39; to reverse the order of systolic</span></span>
+<span id="cb8-5"><a href="#cb8-5" tabindex="-1"></a>cardiac.rev.sorted <span class="ot">&lt;-</span> cardiac[<span class="fu">order</span>(cardiac<span class="sc">$</span>smoking, <span class="sc">-</span>cardiac<span class="sc">$</span>systolic), ]   </span></code></pre></div>
 <p> </p>
-<p>12. To explore the relationships between multiple continuous
-variables it’s hard to beat a pairs plot. Create a pairs plot for the
-variables; <code>DML</code>, <code>weight</code>,
-<code>eviscerate.weight</code>, <code>ovary.weight</code>,
-<code>nid.length</code>, and <code>nid.weight</code> (see <a
-href="https://intro2r.com/simple-base-r-plots.html#pairs-plots">Section
-4.2.5</a> of the book for more details). If it looks a little cramped in
-RStudio then click on the ‘zoom’ button in the plot viewer to see a
-larger version. One of the great things about the <code>pairs()</code>
-function is that you can customise what goes into each panel. Modify
-your pairs plot to include a histogram of the variables on the diagonal
-panel and include a correlation coefficient for each relationship on the
-upper triangle panels. Also include a smoother (wiggly line) in the
-lower triangle panels to help visualise these relationships. Take a look
-at the Introduction to R book to see how to do all this (or
-<code>?pairs</code>).</p>
-<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" tabindex="-1"></a><span class="co"># vanilla pairs plot</span></span>
-<span id="cb9-2"><a href="#cb9-2" tabindex="-1"></a><span class="fu">pairs</span>(squid[, <span class="fu">c</span>(<span class="dv">5</span>, <span class="dv">8</span>, <span class="dv">9</span>, <span class="dv">11</span>, <span class="dv">12</span>, <span class="dv">13</span>)])</span>
-<span id="cb9-3"><a href="#cb9-3" tabindex="-1"></a></span>
-<span id="cb9-4"><a href="#cb9-4" tabindex="-1"></a><span class="co"># customise the plot. You will need to define the panel.hist and panel.cor</span></span>
-<span id="cb9-5"><a href="#cb9-5" tabindex="-1"></a><span class="co"># functions first. see the course manual or ?pairs help file</span></span>
-<span id="cb9-6"><a href="#cb9-6" tabindex="-1"></a></span>
-<span id="cb9-7"><a href="#cb9-7" tabindex="-1"></a><span class="fu">pairs</span>(squid[, <span class="fu">c</span>(<span class="dv">5</span>, <span class="dv">8</span>, <span class="dv">9</span>, <span class="dv">11</span>, <span class="dv">12</span>, <span class="dv">13</span>)], <span class="at">diag.panel =</span> panel.hist, <span class="at">upper.panel =</span> panel.cor,</span>
-<span id="cb9-8"><a href="#cb9-8" tabindex="-1"></a>    <span class="at">lower.panel =</span> panel.smooth)</span></code></pre></div>
+<p>8. Often, we would like to summarise variables by, for example,
+calculating a mean, median or counting the number of observations. To do
+this for a single variable it’s fairly straight forward :</p>
 <p> </p>
-<p>13. Almost every aspect of the figures you create in R is
-customisable. Learning how to get your plot looking just right is not
-only rewarding but also means that you will never have to include a plot
-in your paper/thesis that you’re not completely happy with. When you
-start learning how to use R it can sometimes seem to take a lot of work
-to customise your plots. Don’t worry, it gets easier with experience
-(most of the time anyway) and you will always have your code if you want
-to create a similar plot in the future. Use the <code>plot()</code>
-function to produce a scatterplot of DML on the x axis and ovary weight
-on the y axis (you might need to apply a transformation on the variable
-<code>ovary.weight</code>). Use a different colour to highlight points
-for each level of maturity stage. Produce a legend explaining the
-different colours and place it in a suitable position on the plot.
-Format the graph further to make it suitable for inclusion into your
-paper/thesis (i.e. add axes labels, change the axes scales etc). See <a
-href="https://intro2r.com/custom_plot.html#custom_plot">Section 4.3</a>
-for more details about customising plots. I have given you a few
-different solutions in the code below. give them a go!</p>
-<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" tabindex="-1"></a><span class="co"># quick and dirty way need to transform ovary.weight first</span></span>
-<span id="cb10-2"><a href="#cb10-2" tabindex="-1"></a>squid<span class="sc">$</span>ovary.weight.sqrt <span class="ot">&lt;-</span> <span class="fu">sqrt</span>(squid<span class="sc">$</span>ovary.weight)</span>
-<span id="cb10-3"><a href="#cb10-3" tabindex="-1"></a></span>
-<span id="cb10-4"><a href="#cb10-4" tabindex="-1"></a><span class="co"># create the plot</span></span>
-<span id="cb10-5"><a href="#cb10-5" tabindex="-1"></a><span class="fu">with</span>(squid, <span class="fu">plot</span>(DML, ovary.weight.sqrt, <span class="at">xlab =</span> <span class="st">&quot;DML (mm)&quot;</span>, <span class="at">ylab =</span> <span class="st">&quot;square root ovary weight (g)&quot;</span>,</span>
-<span id="cb10-6"><a href="#cb10-6" tabindex="-1"></a>    <span class="at">col =</span> <span class="fu">as.numeric</span>(Fmaturity), <span class="at">xlim =</span> <span class="fu">c</span>(<span class="dv">60</span>, <span class="dv">350</span>), <span class="at">ylim =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="fl">8.5</span>)))</span>
-<span id="cb10-7"><a href="#cb10-7" tabindex="-1"></a></span>
-<span id="cb10-8"><a href="#cb10-8" tabindex="-1"></a><span class="co"># create the legend</span></span>
-<span id="cb10-9"><a href="#cb10-9" tabindex="-1"></a>labs <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;stage 1&quot;</span>, <span class="st">&quot;stage 2&quot;</span>, <span class="st">&quot;stage 3&quot;</span>, <span class="st">&quot;stage 4&quot;</span>, <span class="st">&quot;stage 5&quot;</span>)</span>
-<span id="cb10-10"><a href="#cb10-10" tabindex="-1"></a>cols <span class="ot">&lt;-</span> <span class="fu">as.numeric</span>(<span class="fu">levels</span>(squid<span class="sc">$</span>Fmaturity))</span>
-<span id="cb10-11"><a href="#cb10-11" tabindex="-1"></a><span class="fu">legend</span>(<span class="st">&quot;topleft&quot;</span>, labs, <span class="at">col =</span> cols, <span class="at">pch =</span> <span class="dv">1</span>)</span></code></pre></div>
-<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" tabindex="-1"></a><span class="co"># longer but more control</span></span>
+<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" tabindex="-1"></a><span class="fu">mean</span>(cardiac<span class="sc">$</span>age)          <span class="co"># mean age</span></span>
+<span id="cb9-2"><a href="#cb9-2" tabindex="-1"></a><span class="fu">median</span>(cardiac<span class="sc">$</span>systolic)   <span class="co"># median systolic blood pressure</span></span>
+<span id="cb9-3"><a href="#cb9-3" tabindex="-1"></a><span class="fu">length</span>(cardiac<span class="sc">$</span>tchol)      <span class="co"># number of observations</span></span></code></pre></div>
+<p> </p>
+<p>8. (cont) Perhaps more interestingly, you might want to summarise one
+variable conditional on the level of another categorical variable. For
+example, write some R code to calculate the mean total cholesterol for
+each of the three smoking categories (see <a
+href="https://intro2r.com/summarising-data-frames.html#summarising-data-frames">Section
+3.5</a> for a few hints). Next, calculate the median total cholesterol
+for each smoking category and for each sex.</p>
+<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" tabindex="-1"></a><span class="fu">tapply</span>(cardiac<span class="sc">$</span>tchol, cardiac<span class="sc">$</span>smoking, mean)      <span class="co"># notice the NAs?</span></span>
+<span id="cb10-2"><a href="#cb10-2" tabindex="-1"></a></span>
+<span id="cb10-3"><a href="#cb10-3" tabindex="-1"></a><span class="co"># use the na.rm argument again</span></span>
+<span id="cb10-4"><a href="#cb10-4" tabindex="-1"></a><span class="fu">tapply</span>(cardiac<span class="sc">$</span>tchol, cardiac<span class="sc">$</span>smoking, mean, <span class="at">na.rm =</span> <span class="cn">TRUE</span>)    </span>
+<span id="cb10-5"><a href="#cb10-5" tabindex="-1"></a></span>
+<span id="cb10-6"><a href="#cb10-6" tabindex="-1"></a><span class="co"># alternative method using the with() function. see ?with</span></span>
+<span id="cb10-7"><a href="#cb10-7" tabindex="-1"></a><span class="fu">with</span>(cardiac, <span class="fu">tapply</span>(tchol, smoking, mean, <span class="at">na.rm =</span> <span class="cn">TRUE</span>))   </span>
+<span id="cb10-8"><a href="#cb10-8" tabindex="-1"></a></span>
+<span id="cb10-9"><a href="#cb10-9" tabindex="-1"></a><span class="co"># when using multiple grouping variables these need to be supplied as a list</span></span>
+<span id="cb10-10"><a href="#cb10-10" tabindex="-1"></a><span class="fu">tapply</span>(cardiac<span class="sc">$</span>tchol, <span class="fu">list</span>(cardiac<span class="sc">$</span>smoking, cardiac<span class="sc">$</span>sex), median, <span class="at">na.rm =</span> <span class="cn">TRUE</span>)</span></code></pre></div>
+<p> </p>
+<p>9. Another useful function for summarising dataframes is
+<code>aggregate()</code>. Search in the R book for the function
+aggregate to see how to use this function (or see
+<code>?aggregate</code>). Use the <code>aggregate()</code> function to
+calculate the mean age, systolic pressure, diastolic pressure and total
+cholesterol for each smoking category (don’t forget about those sneaky
+NA values). Next calculate the same means for each smoking category and
+each sex. (Optional): For an extra bonus point see if you can figure out
+how to modify your previous code to display the mean values to 2 decimal
+places rather than the default of 3 decimal places.</p>
+<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" tabindex="-1"></a><span class="fu">aggregate</span>(cardiac[, <span class="fu">c</span>(<span class="dv">2</span>, <span class="dv">4</span>, <span class="dv">5</span>, <span class="dv">6</span>)], <span class="at">by =</span> <span class="fu">list</span>(<span class="at">smoking =</span> cardiac<span class="sc">$</span>smoking), mean, <span class="at">na.rm =</span> <span class="cn">TRUE</span>)</span>
 <span id="cb11-2"><a href="#cb11-2" tabindex="-1"></a></span>
-<span id="cb11-3"><a href="#cb11-3" tabindex="-1"></a><span class="co"># need to scales package to set transparency of points will the alpha function</span></span>
-<span id="cb11-4"><a href="#cb11-4" tabindex="-1"></a><span class="fu">library</span>(scales)</span>
+<span id="cb11-3"><a href="#cb11-3" tabindex="-1"></a><span class="fu">aggregate</span>(cardiac[, <span class="fu">c</span>(<span class="dv">2</span>, <span class="dv">4</span>, <span class="dv">5</span>, <span class="dv">6</span>)], <span class="at">by =</span> <span class="fu">list</span>(<span class="at">smoking =</span> cardiac<span class="sc">$</span>smoking, <span class="at">sex =</span> cardiac<span class="sc">$</span>sex),</span>
+<span id="cb11-4"><a href="#cb11-4" tabindex="-1"></a>    mean, <span class="at">na.rm =</span> <span class="cn">TRUE</span>)</span>
 <span id="cb11-5"><a href="#cb11-5" tabindex="-1"></a></span>
-<span id="cb11-6"><a href="#cb11-6" tabindex="-1"></a><span class="co"># setup the axes but dont plot the points</span></span>
-<span id="cb11-7"><a href="#cb11-7" tabindex="-1"></a><span class="fu">with</span>(squid, <span class="fu">plot</span>(DML, ovary.weight.sqrt, <span class="at">xlab =</span> <span class="st">&quot;DML (mm)&quot;</span>, <span class="at">ylab =</span> <span class="st">&quot;square root ovary weight (g)&quot;</span>,</span>
-<span id="cb11-8"><a href="#cb11-8" tabindex="-1"></a>    <span class="at">type =</span> <span class="st">&quot;n&quot;</span>, <span class="at">xlim =</span> <span class="fu">c</span>(<span class="dv">60</span>, <span class="dv">350</span>), <span class="at">ylim =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="fl">8.5</span>)))</span>
-<span id="cb11-9"><a href="#cb11-9" tabindex="-1"></a></span>
-<span id="cb11-10"><a href="#cb11-10" tabindex="-1"></a><span class="co"># plot the points with custom colours</span></span>
-<span id="cb11-11"><a href="#cb11-11" tabindex="-1"></a><span class="fu">with</span>(squid, <span class="fu">points</span>(DML[Fmaturity <span class="sc">==</span> <span class="st">&quot;1&quot;</span>], ovary.weight.sqrt[Fmaturity <span class="sc">==</span> <span class="st">&quot;1&quot;</span>], <span class="at">col =</span> <span class="fu">alpha</span>(<span class="st">&quot;deepskyblue3&quot;</span>,</span>
-<span id="cb11-12"><a href="#cb11-12" tabindex="-1"></a>    <span class="fl">0.7</span>), <span class="at">pch =</span> <span class="dv">16</span>))</span>
-<span id="cb11-13"><a href="#cb11-13" tabindex="-1"></a><span class="fu">with</span>(squid, <span class="fu">points</span>(DML[Fmaturity <span class="sc">==</span> <span class="st">&quot;2&quot;</span>], ovary.weight.sqrt[Fmaturity <span class="sc">==</span> <span class="st">&quot;2&quot;</span>], <span class="at">col =</span> <span class="fu">alpha</span>(<span class="st">&quot;darkolivegreen3&quot;</span>,</span>
-<span id="cb11-14"><a href="#cb11-14" tabindex="-1"></a>    <span class="fl">0.7</span>), <span class="at">pch =</span> <span class="dv">16</span>))</span>
-<span id="cb11-15"><a href="#cb11-15" tabindex="-1"></a><span class="fu">with</span>(squid, <span class="fu">points</span>(DML[Fmaturity <span class="sc">==</span> <span class="st">&quot;3&quot;</span>], ovary.weight.sqrt[Fmaturity <span class="sc">==</span> <span class="st">&quot;3&quot;</span>], <span class="at">col =</span> <span class="fu">alpha</span>(<span class="st">&quot;coral3&quot;</span>,</span>
-<span id="cb11-16"><a href="#cb11-16" tabindex="-1"></a>    <span class="fl">0.7</span>), <span class="at">pch =</span> <span class="dv">16</span>))</span>
-<span id="cb11-17"><a href="#cb11-17" tabindex="-1"></a><span class="fu">with</span>(squid, <span class="fu">points</span>(DML[Fmaturity <span class="sc">==</span> <span class="st">&quot;4&quot;</span>], ovary.weight.sqrt[Fmaturity <span class="sc">==</span> <span class="st">&quot;4&quot;</span>], <span class="at">col =</span> <span class="fu">alpha</span>(<span class="st">&quot;lemonchiffon3&quot;</span>,</span>
-<span id="cb11-18"><a href="#cb11-18" tabindex="-1"></a>    <span class="fl">0.7</span>), <span class="at">pch =</span> <span class="dv">16</span>))</span>
-<span id="cb11-19"><a href="#cb11-19" tabindex="-1"></a><span class="fu">with</span>(squid, <span class="fu">points</span>(DML[Fmaturity <span class="sc">==</span> <span class="st">&quot;5&quot;</span>], ovary.weight.sqrt[Fmaturity <span class="sc">==</span> <span class="st">&quot;5&quot;</span>], <span class="at">col =</span> <span class="fu">alpha</span>(<span class="st">&quot;darkorchid3&quot;</span>,</span>
-<span id="cb11-20"><a href="#cb11-20" tabindex="-1"></a>    <span class="fl">0.7</span>), <span class="at">pch =</span> <span class="dv">16</span>))</span>
-<span id="cb11-21"><a href="#cb11-21" tabindex="-1"></a></span>
-<span id="cb11-22"><a href="#cb11-22" tabindex="-1"></a><span class="co"># include the legend</span></span>
-<span id="cb11-23"><a href="#cb11-23" tabindex="-1"></a>labs <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;stage 1&quot;</span>, <span class="st">&quot;stage 2&quot;</span>, <span class="st">&quot;stage 3&quot;</span>, <span class="st">&quot;stage 4&quot;</span>, <span class="st">&quot;stage 5&quot;</span>)</span>
-<span id="cb11-24"><a href="#cb11-24" tabindex="-1"></a>cols <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;deepskyblue3&quot;</span>, <span class="st">&quot;darkolivegreen3&quot;</span>, <span class="st">&quot;coral3&quot;</span>, <span class="st">&quot;lemonchiffon3&quot;</span>, <span class="st">&quot;darkorchid3&quot;</span>)</span>
-<span id="cb11-25"><a href="#cb11-25" tabindex="-1"></a><span class="fu">legend</span>(<span class="dv">55</span>, <span class="fl">8.2</span>, labs, <span class="at">col =</span> <span class="fu">alpha</span>(cols, <span class="fl">0.7</span>), <span class="at">pch =</span> <span class="dv">16</span>, <span class="at">bty =</span> <span class="st">&quot;n&quot;</span>)</span></code></pre></div>
+<span id="cb11-6"><a href="#cb11-6" tabindex="-1"></a><span class="co"># optional question. Need to specify a function &#39;on the fly&#39; using</span></span>
+<span id="cb11-7"><a href="#cb11-7" tabindex="-1"></a><span class="co"># function(x){}</span></span>
+<span id="cb11-8"><a href="#cb11-8" tabindex="-1"></a><span class="fu">aggregate</span>(cardiac[, <span class="fu">c</span>(<span class="dv">2</span>, <span class="dv">4</span>, <span class="dv">5</span>, <span class="dv">6</span>)], <span class="at">by =</span> <span class="fu">list</span>(<span class="at">smoking =</span> cardiac<span class="sc">$</span>smoking, <span class="at">sex =</span> cardiac<span class="sc">$</span>sex),</span>
+<span id="cb11-9"><a href="#cb11-9" tabindex="-1"></a>    <span class="cf">function</span>(x) {</span>
+<span id="cb11-10"><a href="#cb11-10" tabindex="-1"></a>        <span class="fu">round</span>(<span class="fu">mean</span>(x, <span class="at">na.rm =</span> <span class="cn">TRUE</span>), <span class="at">digits =</span> <span class="dv">2</span>)</span>
+<span id="cb11-11"><a href="#cb11-11" tabindex="-1"></a>    })</span></code></pre></div>
 <p> </p>
-<p><sup>1</sup> Smith JM et al (2005) Seasonal patterns of investment in
-reproductive and somatic tissues in the squid <em>Loligo forbesi</em>,
-Aquatic Living Resources. 18, 341–351.</p>
+<p>10. Knowing how many observations are present for each category (or
+combinations of categories) is useful to determine whether you have an
+adequate sample size (for subsequent modelling for example). Use the
+<code>table()</code> function to determine the number of patients in
+each smoking category (see <a
+href="https://intro2r.com/summarising-data-frames.html#summarising-data-frames">Section
+3.5</a> again for more information). Next use the same function to
+display the number of patients for each combination of smoking category
+and sex. Does <code>table()</code> tell you about the patients whose
+smoking status is missing? (Optional): The <code>xtabs()</code> function
+is very flexible for creating tables of counts for factor combinations
+(aka contingency tables). Take a look at the Introduction to R book, the
+help file or Google to figure out how to use the <code>xtabs()</code>
+function to replicate your use of the <code>table()</code> function.</p>
+<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" tabindex="-1"></a><span class="co"># using table</span></span>
+<span id="cb12-2"><a href="#cb12-2" tabindex="-1"></a><span class="fu">table</span>(cardiac<span class="sc">$</span>smoking)</span>
+<span id="cb12-3"><a href="#cb12-3" tabindex="-1"></a><span class="fu">table</span>(cardiac<span class="sc">$</span>smoking, cardiac<span class="sc">$</span>sex)</span>
+<span id="cb12-4"><a href="#cb12-4" tabindex="-1"></a></span>
+<span id="cb12-5"><a href="#cb12-5" tabindex="-1"></a><span class="co"># by default table() silently drops the missing values - 50 + 52 + 54 = 156,</span></span>
+<span id="cb12-6"><a href="#cb12-6" tabindex="-1"></a><span class="co"># not 163. Ask for them explicitly:</span></span>
+<span id="cb12-7"><a href="#cb12-7" tabindex="-1"></a><span class="fu">table</span>(cardiac<span class="sc">$</span>smoking, <span class="at">useNA =</span> <span class="st">&quot;ifany&quot;</span>)</span>
+<span id="cb12-8"><a href="#cb12-8" tabindex="-1"></a></span>
+<span id="cb12-9"><a href="#cb12-9" tabindex="-1"></a><span class="co"># using xtabs</span></span>
+<span id="cb12-10"><a href="#cb12-10" tabindex="-1"></a><span class="fu">xtabs</span>(<span class="sc">~</span> smoking, <span class="at">data =</span> cardiac)</span>
+<span id="cb12-11"><a href="#cb12-11" tabindex="-1"></a><span class="fu">xtabs</span>(<span class="sc">~</span> sex <span class="sc">+</span> smoking, <span class="at">data =</span> cardiac)</span></code></pre></div>
+<p> </p>
+<p>11. Real analyses almost never involve a single file. The
+measurements you want are usually spread across several tables and you
+have to put them together first. The patients in this study were
+followed up ten years after their first examination, and those follow-up
+measurements are in a separate file. Download
+<em>‘cardiac_followup.txt’</em> from the <strong><a
+href="data.html"><i class="fa fa-download"></i> Data</a></strong> link,
+save it to your <code>data</code> directory and import it with
+<code>read.table()</code> into a variable called <code>followup</code>.
+How many rows does it have, and how does that compare with
+<code>cardiac</code>? Now use the <code>merge()</code> function to join
+the two together on the patient number, and assign the result to
+<code>cardiac.fu</code>. How many rows does the joined dataframe have,
+and can you explain why?</p>
+<div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" tabindex="-1"></a>followup <span class="ot">&lt;-</span> <span class="fu">read.table</span>(<span class="st">&quot;data/cardiac_followup.txt&quot;</span>, <span class="at">header =</span> <span class="cn">TRUE</span>, <span class="at">sep =</span> <span class="st">&quot;</span><span class="sc">\t</span><span class="st">&quot;</span>, <span class="at">na.strings =</span> <span class="st">&quot;NA&quot;</span>,</span>
+<span id="cb13-2"><a href="#cb13-2" tabindex="-1"></a>    <span class="at">stringsAsFactors =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb13-3"><a href="#cb13-3" tabindex="-1"></a></span>
+<span id="cb13-4"><a href="#cb13-4" tabindex="-1"></a><span class="fu">nrow</span>(cardiac)  <span class="co"># 163 patients at the start of the study</span></span>
+<span id="cb13-5"><a href="#cb13-5" tabindex="-1"></a><span class="fu">nrow</span>(followup)  <span class="co"># 108 patients with follow-up measurements</span></span>
+<span id="cb13-6"><a href="#cb13-6" tabindex="-1"></a></span>
+<span id="cb13-7"><a href="#cb13-7" tabindex="-1"></a>cardiac.fu <span class="ot">&lt;-</span> <span class="fu">merge</span>(cardiac, followup, <span class="at">by =</span> <span class="st">&quot;patno&quot;</span>)</span>
+<span id="cb13-8"><a href="#cb13-8" tabindex="-1"></a><span class="fu">nrow</span>(cardiac.fu)  <span class="co"># 108</span></span>
+<span id="cb13-9"><a href="#cb13-9" tabindex="-1"></a></span>
+<span id="cb13-10"><a href="#cb13-10" tabindex="-1"></a><span class="co"># By default merge() keeps only the rows that appear in BOTH dataframes, which</span></span>
+<span id="cb13-11"><a href="#cb13-11" tabindex="-1"></a><span class="co"># is called an inner join. 55 of the original patients have no follow-up</span></span>
+<span id="cb13-12"><a href="#cb13-12" tabindex="-1"></a><span class="co"># measurements, so they have quietly disappeared. Nothing warned you about</span></span>
+<span id="cb13-13"><a href="#cb13-13" tabindex="-1"></a><span class="co"># this.  ALWAYS check the number of rows before and after a join.</span></span></code></pre></div>
+<p> </p>
+<p>12. Losing 55 patients without being told is exactly the sort of
+thing that ruins an analysis, and it is why you check row counts every
+single time you join. Often what you actually want is to keep every
+patient from the first dataframe whether or not they have a match in the
+second. Look at the help file for <code>merge()</code> and find the
+argument that does this. Redo the join keeping all 163 patients, assign
+it to <code>cardiac.all</code>, and check how many of them have a
+missing follow-up systolic pressure. Finally, try running
+<code>merge(cardiac, followup)</code> without the <code>by</code>
+argument at all. It works. Why is relying on that a bad habit?</p>
+<div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" tabindex="-1"></a>cardiac.all <span class="ot">&lt;-</span> <span class="fu">merge</span>(cardiac, followup, <span class="at">by =</span> <span class="st">&quot;patno&quot;</span>, <span class="at">all.x =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb14-2"><a href="#cb14-2" tabindex="-1"></a><span class="fu">nrow</span>(cardiac.all)  <span class="co"># 163 - everybody is kept</span></span>
+<span id="cb14-3"><a href="#cb14-3" tabindex="-1"></a></span>
+<span id="cb14-4"><a href="#cb14-4" tabindex="-1"></a><span class="fu">sum</span>(<span class="fu">is.na</span>(cardiac.all<span class="sc">$</span>systolic10))  <span class="co"># 55 patients have no follow-up</span></span>
+<span id="cb14-5"><a href="#cb14-5" tabindex="-1"></a></span>
+<span id="cb14-6"><a href="#cb14-6" tabindex="-1"></a><span class="co"># all.x = TRUE keeps every row of x (the first dataframe) and fills the missing</span></span>
+<span id="cb14-7"><a href="#cb14-7" tabindex="-1"></a><span class="co"># columns with NA. This is a left join.</span></span>
+<span id="cb14-8"><a href="#cb14-8" tabindex="-1"></a></span>
+<span id="cb14-9"><a href="#cb14-9" tabindex="-1"></a><span class="co"># Without &#39;by&#39;, merge() silently joins on every column name the two dataframes</span></span>
+<span id="cb14-10"><a href="#cb14-10" tabindex="-1"></a><span class="co"># happen to share. Here that is just patno, so you get the right answer by</span></span>
+<span id="cb14-11"><a href="#cb14-11" tabindex="-1"></a><span class="co"># luck.  If both files also had a column called, say, &#39;systolic&#39;, merge() would</span></span>
+<span id="cb14-12"><a href="#cb14-12" tabindex="-1"></a><span class="co"># try to match on that too and you would get almost no rows back - with no</span></span>
+<span id="cb14-13"><a href="#cb14-13" tabindex="-1"></a><span class="co"># error, no warning, and no clue as to why. Always name your key.</span></span></code></pre></div>
+<p> </p>
+<p>13. There is one more join worth knowing, and it solves the
+<code>smoking</code> problem left over from Q0. Rather than typing the
+labels out by hand, you can keep the codes and their meanings in their
+own small file and join them on. Download <em>‘smoking_lookup.txt’</em>
+from the <strong><a href="data.html"><i class="fa fa-download"></i>
+Data</a></strong> link, save it to your <code>data</code> directory and
+import it into a variable called <code>smoke.codes</code>. Take a look
+at it. Notice that the column holding the code is called
+<code>code</code>, not <code>smoking</code>, so the two dataframes have
+no column name in common and <code>by</code> on its own will not work.
+Look at the help file for <code>merge()</code> again and find the two
+arguments that let you name a different key in each dataframe. Join the
+labels onto <code>cardiac.all</code>, keeping all patients, and then
+check with <code>table()</code> that every patient has ended up with the
+right label.</p>
+<div class="sourceCode" id="cb15"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" tabindex="-1"></a>smoke.codes <span class="ot">&lt;-</span> <span class="fu">read.table</span>(<span class="st">&quot;data/smoking_lookup.txt&quot;</span>, <span class="at">header =</span> <span class="cn">TRUE</span>, <span class="at">sep =</span> <span class="st">&quot;</span><span class="sc">\t</span><span class="st">&quot;</span>, <span class="at">na.strings =</span> <span class="st">&quot;NA&quot;</span>,</span>
+<span id="cb15-2"><a href="#cb15-2" tabindex="-1"></a>    <span class="at">stringsAsFactors =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb15-3"><a href="#cb15-3" tabindex="-1"></a>smoke.codes</span>
+<span id="cb15-4"><a href="#cb15-4" tabindex="-1"></a></span>
+<span id="cb15-5"><a href="#cb15-5" tabindex="-1"></a><span class="co"># code smoking_status 1 1 Current 2 2 Ex 3 3 Never</span></span>
+<span id="cb15-6"><a href="#cb15-6" tabindex="-1"></a></span>
+<span id="cb15-7"><a href="#cb15-7" tabindex="-1"></a>cardiac.all <span class="ot">&lt;-</span> <span class="fu">merge</span>(cardiac.all, smoke.codes, <span class="at">by.x =</span> <span class="st">&quot;smoking&quot;</span>, <span class="at">by.y =</span> <span class="st">&quot;code&quot;</span>, <span class="at">all.x =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb15-8"><a href="#cb15-8" tabindex="-1"></a></span>
+<span id="cb15-9"><a href="#cb15-9" tabindex="-1"></a><span class="fu">nrow</span>(cardiac.all)  <span class="co"># still 163 - check every time!</span></span>
+<span id="cb15-10"><a href="#cb15-10" tabindex="-1"></a></span>
+<span id="cb15-11"><a href="#cb15-11" tabindex="-1"></a><span class="fu">table</span>(cardiac.all<span class="sc">$</span>smoking_status, <span class="at">useNA =</span> <span class="st">&quot;ifany&quot;</span>)</span>
+<span id="cb15-12"><a href="#cb15-12" tabindex="-1"></a></span>
+<span id="cb15-13"><a href="#cb15-13" tabindex="-1"></a><span class="co"># Current Ex Never &lt;NA&gt; 50 52 54 7</span></span>
+<span id="cb15-14"><a href="#cb15-14" tabindex="-1"></a></span>
+<span id="cb15-15"><a href="#cb15-15" tabindex="-1"></a><span class="co"># The 7 patients with a missing smoking code get a missing label, which is</span></span>
+<span id="cb15-16"><a href="#cb15-16" tabindex="-1"></a><span class="co"># right. This is how coded data is usually handled: the codes stay in the data,</span></span>
+<span id="cb15-17"><a href="#cb15-17" tabindex="-1"></a><span class="co"># the meanings live in a lookup file, and anyone can see how one maps to the</span></span>
+<span id="cb15-18"><a href="#cb15-18" tabindex="-1"></a><span class="co"># other. If a code is ever added or changed you edit one small file rather than</span></span>
+<span id="cb15-19"><a href="#cb15-19" tabindex="-1"></a><span class="co"># hunting through your scripts for hard coded labels.</span></span></code></pre></div>
+<p> </p>
+<p>14. Ok, we have spent quite a bit of time (and energy) learning how
+to clean, check and join dataframes. The last thing we need to cover is
+how to export a dataframe from R to an external file (see <a
+href="https://intro2r.com/exporting-data.html#exporting-data">Section
+3.6</a> of the book for more details). Export your cleaned and joined
+dataframe <code>cardiac.all</code> to a file called ‘cardiac_clean.txt’
+in the <code>output</code> directory you created in Exercise 1. To do
+this you will need to use the <code>write.table()</code> function. You
+want to include the variable names in the first row of the file, but you
+don’t want to include the row names. Also, make sure the file is a tab
+delimited file. Once you have created your file, try to open it in
+Microsoft Excel (or open source equivalent). Finally, and this is the
+part people forget: add a comment block at the top of your R script
+listing every change you made to the data and why. Which three values
+did you set to <code>NA</code>, and which patients did they belong to?
+Someone reading your work in six months, including you, needs to be able
+to answer that without re-running anything.</p>
+<div class="sourceCode" id="cb16"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" tabindex="-1"></a><span class="fu">write.table</span>(cardiac.all, <span class="st">&quot;output/cardiac_clean.txt&quot;</span>, <span class="at">col.names =</span> <span class="cn">TRUE</span>, <span class="at">row.names =</span> <span class="cn">FALSE</span>,</span>
+<span id="cb16-2"><a href="#cb16-2" tabindex="-1"></a>    <span class="at">sep =</span> <span class="st">&quot;</span><span class="sc">\t</span><span class="st">&quot;</span>)</span>
+<span id="cb16-3"><a href="#cb16-3" tabindex="-1"></a></span>
+<span id="cb16-4"><a href="#cb16-4" tabindex="-1"></a><span class="co"># Decision log - the sort of thing that belongs at the top of your script:</span></span>
+<span id="cb16-5"><a href="#cb16-5" tabindex="-1"></a><span class="co"># Data: data/cardiacdata.txt, 163 patients, imported unchanged.  1. hdlchol of</span></span>
+<span id="cb16-6"><a href="#cb16-6" tabindex="-1"></a><span class="co"># 0.00 set to NA (2 patients). A HDL cholesterol of zero is physiologically</span></span>
+<span id="cb16-7"><a href="#cb16-7" tabindex="-1"></a><span class="co"># impossible and is almost certainly a missing value that was recorded as 0.</span></span>
+<span id="cb16-8"><a href="#cb16-8" tabindex="-1"></a><span class="co"># 2. triglyceride of 0.00 set to NA (1 patient). Same reasoning.  3. bmi of</span></span>
+<span id="cb16-9"><a href="#cb16-9" tabindex="-1"></a><span class="co"># 514.60 set to NA (1 patient). Almost certainly 51.46 with the decimal point</span></span>
+<span id="cb16-10"><a href="#cb16-10" tabindex="-1"></a><span class="co"># misplaced, but as we cannot confirm that, NA rather than a correction.  4.</span></span>
+<span id="cb16-11"><a href="#cb16-11" tabindex="-1"></a><span class="co"># sex converted to a factor with labels Female (1) and Male (2).  5. smoking</span></span>
+<span id="cb16-12"><a href="#cb16-12" tabindex="-1"></a><span class="co"># labels joined on from data/smoking_lookup.txt.  6. Ten year follow-up</span></span>
+<span id="cb16-13"><a href="#cb16-13" tabindex="-1"></a><span class="co"># measurements joined on from data/cardiac_followup.txt, keeping all 163</span></span>
+<span id="cb16-14"><a href="#cb16-14" tabindex="-1"></a><span class="co"># patients; 55 have no follow-up data.</span></span></code></pre></div>
 <p> </p>
 <p>End of Exercise 4</p>
 </div>

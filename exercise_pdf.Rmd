@@ -26,20 +26,18 @@ cat("Exercises will be released as the course progresses")
 
 \  
 
-#### Section 1 Exercises
+#### Exercises
 
 \  
 
 ```{r, results='asis', eval = isTRUE(show_exercise)}
 ex_text <- c(": Getting to know R and RStudio", ": Basic R operations", 
-             ": Importing and manipulating dataframes", 
-             ": Visualising data using base R and lattice graphics",
-             ": Basic programming in R")
+             ": Importing and inspecting data", 
+             ": Manipulating and summarising dataframes",
+             ": Visualising data using base R",
+             ": Graphics for communication")
 
-dir <- "exercises"
-file_name <- list.files(dir) %>%
-              sort %>% 
-              grep("^exercise*", ., value=TRUE)
+file_name <- paste0("exercise_", 1:6, ".pdf")
 
 link_name <- file_name %>%
               gsub("\\.pdf", "", .) %>%
@@ -48,13 +46,10 @@ link_name <- file_name %>%
 
   paste0("- [", link_name, ex_text, "](", "exercises/", file_name, "){target='_blank'}") %>%
 cat(sep="\n\n")
+
+cat("\n\n")
+
+cat("- [Exercise (optional): Basic programming in R](exercises/exercise_programming.pdf){target='_blank'}")
               
 ```
 
-\  
-
-#### Section 2 Exercises
-
-\  
-
- - [Graphical data Exploration exercise](./exercises/graphical_data_exploration_exercise.pdf)

@@ -1,0 +1,224 @@
+---
+title: 'Exercises'
+output: 
+  html_document:
+    toc: false
+    code_folding: hide
+---
+
+
+```{r setup, echo=FALSE, purl = FALSE}
+knitr::opts_chunk$set(echo=TRUE, message = FALSE, warning = FALSE, eval = FALSE, cache = FALSE)
+```
+
+\  
+
+## Exercise 5 (optional): Visualising data using ggplot
+
+\  
+
+Alternative (optional) solutions to Exercise 5 for those who use (or are interested in using) the `ggplot` approach to plotting data. See [Chapter 5](https://intro2r.com/graphics-r.html) of the Introduction to R book for more information about how to use `ggplot`.
+
+**Base R graphics are what is taught and what you will be assessed on.** Nothing here is required, and you can ignore this page entirely without missing anything. It is here because some of you will already know `ggplot2`, or will want to learn it, and it is worth seeing the same plots built both ways.
+
+\  
+
+```{r packages}
+
+# make ggplot2, gridExtra and GGally packages available
+# Note: you may need to install these packages first
+# Use : install.packages('ggplot2', dep = TRUE)
+# Use : install.packages('gridExtra', dep = TRUE)
+# Use : install.packages('GGally', dep = TRUE)
+
+library(ggplot2)
+library(gridExtra)
+library(GGally)
+```
+
+\  
+
+4\. Import the data and recode `sex` and `smoking` as factors. This part is identical whichever plotting system you use: `ggplot2` replaces your graphics code, not your data handling.
+
+```{r Q4}
+cardiac <- read.table('data/cardiacdata.txt', header = TRUE, sep = "\t",
+                      na.strings = "NA", stringsAsFactors = TRUE)
+
+cardiac$Fsex <- factor(cardiac$sex, levels = c(1, 2),
+                       labels = c("Female", "Male"))
+
+cardiac$Fsmoking <- factor(cardiac$smoking, levels = c(1, 2, 3),
+                           labels = c("Current", "Ex", "Never"))
+
+str(cardiac)
+```
+
+\  
+
+5\. Patients in each combination of smoking status and sex. A table is still the right tool for this, but if you want it as a plot, `geom_bar()` will count for you.
+
+```{r Q5}
+table(cardiac$Fsmoking, cardiac$Fsex)
+
+ggplot(data = cardiac, aes(x = Fsmoking, fill = Fsex)) +
+  geom_bar(position = "dodge") +
+  labs(x = "Smoking status", y = "Number of patients", fill = "Sex")
+```
+
+\  
+
+6\. Cleveland dotplots for `bmi`, `systolic`, `tchol` and `alcohol`. There is no `geom_dotchart()`; you build one by plotting the value against the row number.
+
+```{r Q6}
+p1 <- ggplot(data = cardiac) + 
+  geom_point(aes(x = bmi, y = as.numeric(rownames(cardiac)))) +
+  ylab("")
+p2 <- ggplot(data = cardiac) +
+  geom_point(aes(x = systolic, y = as.numeric(rownames(cardiac)))) +
+  ylab("") 
+p3 <- ggplot(data = cardiac) +
+  geom_point(aes(x = tchol, y = as.numeric(rownames(cardiac)))) +
+  ylab("")
+p4 <- ggplot(data = cardiac) +
+  geom_point(aes(x = alcohol, y = as.numeric(rownames(cardiac)))) +
+  ylab("")
+
+# arrange all 4 plots in a single graphics device
+pall <- grid.arrange(p1, p2, p3, p4, nrow = 2)
+
+# save the plot
+ggsave('output/gg_dotplot.pdf', plot = pall, device = 'pdf')
+```
+
+\  
+
+7\. The impossible `bmi` value, and what the plot does about it.
+
+```{r Q7}
+which(cardiac$bmi > 100)
+# [1] 161
+cardiac$bmi[161]
+# [1] 514.6
+cardiac$bmi[cardiac$bmi > 100] <- NA
+
+ggplot(data = cardiac) +
+  geom_point(aes(x = bmi, y = as.numeric(rownames(cardiac)))) +
+  ylab("")
+
+# As with the base R version, the remaining extreme values - a bmi of 51.46, a
+# systolic of 230, alcohol intakes of 64 and 82 units - are all perfectly
+# possible and must be left exactly as they are.
+```
+
+\  
+
+8\. Histograms, and the effect of changing the bin width. `ggplot2` will warn you that it has picked a bin number for you, which is a good deal more honest than `hist()` doing it silently.
+
+```{r Q8}
+ggplot(data = cardiac) + geom_histogram(aes(bmi))
+ggplot(data = cardiac) + geom_histogram(aes(systolic))
+ggplot(data = cardiac) + geom_histogram(aes(tchol))
+ggplot(data = cardiac) + geom_histogram(aes(alcohol))
+
+# experimenting with different bin widths on systolic
+b1 <- ggplot(data = cardiac) + geom_histogram(aes(systolic), binwidth = 20) + ggtitle("binwidth: 20")
+b2 <- ggplot(data = cardiac) + geom_histogram(aes(systolic), binwidth = 10) + ggtitle("binwidth: 10")
+b3 <- ggplot(data = cardiac) + geom_histogram(aes(systolic), binwidth = 5) + ggtitle("binwidth: 5")
+b4 <- ggplot(data = cardiac) + geom_histogram(aes(systolic), binwidth = 2) + ggtitle("binwidth: 2")
+grid.arrange(b1, b2, b3, b4, nrow = 2)
+```
+
+\  
+
+9\. Scatterplots, and transforming a skewed variable.
+
+```{r Q9}
+ggplot(data = cardiac, aes(x = systolic, y = diastolic)) +
+  geom_point() +
+  labs(x = "systolic (mmHg)", y = "diastolic (mmHg)")
+
+ggplot(data = cardiac, aes(x = hdlchol, y = triglyceride)) +
+  geom_point() +
+  labs(x = "HDL cholesterol (mmol/l)", y = "triglyceride (mmol/l)")
+
+cardiac$alcohol.sqrt <- sqrt(cardiac$alcohol)
+cardiac$alcohol.log  <- log(cardiac$alcohol)
+
+h1 <- ggplot(data = cardiac) + geom_histogram(aes(alcohol)) + ggtitle("untransformed")
+h2 <- ggplot(data = cardiac) + geom_histogram(aes(alcohol.sqrt)) + ggtitle("square root")
+h3 <- ggplot(data = cardiac) + geom_histogram(aes(alcohol.log)) + ggtitle("natural log")
+grid.arrange(h1, h2, h3, nrow = 1)
+
+# ggplot2 is more explicit than base R about the log problem: it prints
+# "Removed 58 rows containing non-finite values" rather than quietly dropping
+# them. The warning is the useful part - do not learn to ignore it.
+```
+
+\  
+
+10\. Boxplots and violin plots by smoking status. Here `ggplot2` has a real advantage: the violin plot needs no extra package, and you can lay the boxplot on top of it.
+
+```{r Q10}
+ggplot(data = cardiac, aes(x = Fsmoking, y = tchol)) +
+  geom_boxplot() +
+  labs(x = "smoking status", y = "total cholesterol (mmol/l)")
+
+ggplot(data = cardiac, aes(x = Fsmoking, y = tchol)) +
+  geom_violin(fill = "lightblue") +
+  geom_boxplot(width = 0.1) +
+  labs(x = "smoking status", y = "total cholesterol (mmol/l)")
+```
+
+\  
+
+11\. A pairs plot. `GGally::ggpairs()` is the `ggplot2` equivalent of `pairs()`, and gives you the histograms and correlations without having to write panel functions.
+
+```{r Q11}
+ggpairs(cardiac[, c("age", "systolic", "diastolic", "tchol", "hdlchol",
+                    "triglyceride", "bmi")])
+
+# coloured by a factor, which is where ggpairs earns its keep
+ggpairs(cardiac[, c("systolic", "diastolic", "tchol", "bmi", "Fsex")],
+        aes(colour = Fsex, alpha = 0.5))
+```
+
+\  
+
+### Exercise 6 in ggplot: the communication plot
+
+The multi-area time series from Exercise 6, built with `ggplot2`. Note how much of the work is the same: the colour palette, the redundant line type, the labels and the source note all still have to be decided by you.
+
+```{r Q12}
+scotpho <- read.table('data/scotpho_alcohol_admissions.txt', header = TRUE, sep = "\t",
+                      na.strings = "NA", stringsAsFactors = TRUE)
+
+areas <- c("Scotland", "Glasgow City", "Aberdeen City", "Aberdeenshire")
+sub <- scotpho[scotpho$area_name %in% areas, ]
+sub$area_name <- factor(sub$area_name, levels = areas)   # drops unused levels and sets the order
+
+cols <- palette.colors(4, palette = "Okabe-Ito")
+
+ggplot(data = sub, aes(x = year, y = measure,
+                       colour = area_name, linetype = area_name)) +
+  geom_line(linewidth = 1) +
+  scale_colour_manual(values = as.vector(cols)) +
+  scale_y_continuous(limits = c(0, NA)) +
+  # without this ggplot labels the axis 2010.0, 2012.5, 2015.0 - decimal years,
+  # which is nonsense on a plot anyone else has to read
+  scale_x_continuous(breaks = seq(2010, 2018, by = 2)) +
+  labs(x = "Year",
+       y = "Hospital admissions per 100,000 people",
+       title = "Alcohol-related hospital admissions, 2010 to 2019",
+       caption = "Source: Scottish Public Health Observatory. Rates are age-sex standardised.",
+       colour = NULL, linetype = NULL) +
+  theme_minimal() +
+  theme(legend.position = "bottom",
+        plot.caption = element_text(hjust = 0))
+
+ggsave('output/gg_admissions.pdf', width = 10, height = 5.625, device = 'pdf')
+ggsave('output/gg_admissions.png', width = 10, height = 5.625, dpi = 300, device = 'png')
+```
+
+\  
+
+End of Exercise 5 (optional)

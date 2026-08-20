@@ -1,0 +1,4 @@
+code	smoking_status
+1	Current
+2	Ex
+3	Never

@@ -399,17 +399,7 @@ area of a circle! Also, remember that R already knows about
 <code>pi</code>. Don’t worry if you’re stumped and feel free to ask one
 of the instructors for guidance.</p>
 <p> </p>
-<p>4. Now for something a little more tricky. Calculate the cube root of
-14 x 0.51. You might need to think creatively for a solution (hint:
-think exponents), and remember that R follows the usual order of
-mathematical operators so you might need to use brackets in your code
-(see <a href="https://en.wikipedia.org/wiki/Order_of_operations">this
-page</a> if you’ve never heard of this). The point of this question is
-not to torture you with maths (so please don’t stress!), its to get you
-used to writing mathematical equations in R and highlight the order of
-operations.</p>
-<p> </p>
-<p>5. Ok, you’re now ready to explore one of R’s basic (but very useful)
+<p>4. Ok, you’re now ready to explore one of R’s basic (but very useful)
 data structures - vectors. A vector is a sequence of elements (or
 components) that are all of the same data type (see <a
 href="https://intro2r.com/data-structures.html#scal_vecs">Section
@@ -423,9 +413,13 @@ containing the weight (in kg) of 10 children:
 href="https://intro2r.com/using-functions-in-r.html#using-functions-in-r">Section
 2.3</a> or watch this <a
 href="https://alexd106.github.io/PU5058/howto.html#vec-vid">video</a>
-for more information).</p>
+for more information). These ten children are a toy example,
+deliberately small enough that you can check every result by eye. Next
+week you’ll meet <code>cardiacdata.csv</code>, a real study of 163
+patients, where you won’t have that luxury and will have to trust your
+code instead.</p>
 <p> </p>
-<p>6. Now you can do some useful stuff to your <code>weight</code>
+<p>5. Now you can do some useful stuff to your <code>weight</code>
 vector. Get R to calculate the mean, variance, standard deviation, range
 of weights and the number of children of your <code>weight</code> vector
 (see <a href="https://intro2r.com/using-functions-in-r.html">Section
@@ -439,7 +433,7 @@ indexes</a> and store these weights in a new variable called
 brackets <code>[ ]</code> to extract (aka index, subset) elements from a
 variable.</p>
 <p> </p>
-<p>7. We’re now going to use the the <code>c()</code> function again to
+<p>6. We’re now going to use the the <code>c()</code> function again to
 create another vector called <code>height</code> containing the height
 (in cm) of the same 10 children:
 <code>112, 102, 83, 84, 99, 90, 77, 112, 133, 112</code>. Use the
@@ -454,7 +448,7 @@ indexes</a>. Let’s extract all the heights of children less than or
 equal to 99 cm and assign to a variable called
 <code>shorter_child</code>.</p>
 <p> </p>
-<p>8. Now you can use the information in your <code>weight</code> and
+<p>7. Now you can use the information in your <code>weight</code> and
 <code>height</code> variables to calculate the body mass index (BMI) for
 each child. The BMI is calculated as weight (in kg) divided by the
 square of the height (<strong>in meters</strong>).</p>
@@ -467,36 +461,33 @@ is called vectorisation (see <a
 href="https://intro2r.com/vectors.html#vectorisation">Section 2.4.4</a>
 of the Introduction to R book).</p>
 <p> </p>
-<p>9. Now let’s practice a very useful skill - creating sequences
+<p>8. Now let’s practice a very useful skill - creating sequences
 (honestly it is…). Take a look at <a
 href="https://intro2r.com/using-functions-in-r.html#using-functions-in-r">Section
 2.3</a> in the R book (the bit on creating sequences) to see the myriad
 ways you can create sequences in R. Let’s use the <code>seq()</code>
 function to create a sequence of numbers ranging from 0 to 1 in steps of
 0.1 (this is also a vector by the way) and assign this sequence to a
-variable called <code>seq1</code>.</p>
+variable called <code>seq1</code>. Once you’ve done that, see if you can
+figure out how to create a sequence going the other way, from 10 to 1 in
+steps of 0.5, and assign it to a variable called <code>seq2</code>.
+Hint: you may find it useful to include the <code>rev()</code> function
+in your code (use the search facility in the Introduction to R book to
+search for <code>'rev'</code>).</p>
 <p> </p>
-<p>10. Next, see if you can figure out how to create a sequence from 10
-to 1 in steps of 0.5. Assign this sequence to a variable called
-<code>seq2</code>. Hint: you may find it useful to include the
-<code>rev()</code> function in your code (use the search facility in the
-Introduction to R book to search for <code>'rev'</code>).</p>
-<p> </p>
-<p>11. Let’s go sequence crazy! Generate the following sequences. You
-will need to experiment with the arguments of the <code>rep()</code>
-function to generate these sequences (see <a
+<p>9. Now for a different way of building a vector. Generate the
+following two sequences. You will need to experiment with the arguments
+of the <code>rep()</code> function to generate them (see <a
 href="https://intro2r.com/using-functions-in-r.html#using-functions-in-r">Section
-2.3</a> for some clues):</p>
+2.3</a> for some clues). The two sequences use the same four elements
+but repeat them differently, so pay attention to which argument you need
+in each case:</p>
 <ul>
 <li>1 2 3 1 2 3 1 2 3</li>
 <li>a a a c c c e e e g g g</li>
-<li>a c e g a c e g a c e g</li>
-<li>1 1 1 2 2 2 3 3 3 1 1 1 2 2 2 3 3 3</li>
-<li>1 1 1 1 1 2 2 2 2 3 3 3 4 4 5</li>
-<li>7 7 7 7 2 2 2 8 1 1 1 1 1</li>
 </ul>
 <p> </p>
-<p>12. OK, back to the variable <code>height</code> you created in Q7.
+<p>10. OK, back to the variable <code>height</code> you created in Q6.
 Sort the values of <code>height</code> into ascending order (shortest to
 tallest) and assign the sorted vector to a new variable called
 <code>height_sorted</code>. Take a look at <a
@@ -504,11 +495,11 @@ href="https://intro2r.com/vectors.html#vec_ord">Section 2.4.3</a> in the
 R book to see how to do this. Now sort all heights into descending order
 and assign the new vector a name of your choice.</p>
 <p> </p>
-<p>13. Let’s give the children some names. Create a new vector called
+<p>11. Let’s give the children some names. Create a new vector called
 <code>child_names</code> with the following names of the 10 children:
 <code>"Alfred", "Barbara", "James", "Jane", "John", "Judy", "Louise", "Mary", "Ronald", "William"</code>.</p>
 <p> </p>
-<p>14. A really useful (and common) task is to order the values of one
+<p>12. A really useful (and common) task is to order the values of one
 variable by the order of another variable. To do this you will need to
 use the <code>order()</code> function in combination with the square
 bracket notation <code>[ ]</code>. Have a peep at <a
@@ -518,13 +509,7 @@ store the names of the children ordered by child height (from shortest
 to tallest). Who is the shortest? who is the tallest child? If you’re
 not sure how to do this, please ask one of the instructors.</p>
 <p> </p>
-<p>15. Now order the names of the children by
-<strong>descending</strong> values of weight and assign the result to a
-variable called <code>weight_rev</code> (Hint: perhaps include the
-<code>rev()</code> function?). Who is the heaviest? Who is the
-lightest?</p>
-<p> </p>
-<p>16. Almost there! In R, missing values are usually represented with
+<p>13. Almost there! In R, missing values are usually represented with
 an <code>NA</code>. Missing data can be tricky to deal with in R (and in
 statistics more generally) and cause some surprising behaviour when
 using some functions. Take a look at <a
@@ -540,7 +525,7 @@ for the function <code>mean()</code>. Can you figure out how to alter
 your use of the <code>mean()</code> function to calculate the mean
 ignoring this missing value?</p>
 <p> </p>
-<p>17. Finally, list all variables in your workspace that you have
+<p>14. Finally, list all variables in your workspace that you have
 created in this exercise. Remove the variable <code>seq1</code> from the
 workspace using the <code>rm()</code> function.</p>
 <p> </p>

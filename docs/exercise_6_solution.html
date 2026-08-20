@@ -1,0 +1,790 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+
+
+
+<title>Exercises</title>
+
+<script src="site_libs/header-attrs-2.30/header-attrs.js"></script>
+<script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/flatly.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<style>h1 {font-size: 34px;}
+       h1.title {font-size: 38px;}
+       h2 {font-size: 30px;}
+       h3 {font-size: 24px;}
+       h4 {font-size: 18px;}
+       h5 {font-size: 16px;}
+       h6 {font-size: 12px;}
+       code {color: inherit; background-color: rgba(0, 0, 0, 0.04);}
+       pre:not([class]) { background-color: white }</style>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<script src="site_libs/navigation-1.1/codefolding.js"></script>
+<link href="site_libs/font-awesome-6.5.2/css/all.min.css" rel="stylesheet" />
+<link href="site_libs/font-awesome-6.5.2/css/v4-shims.min.css" rel="stylesheet" />
+
+<style type="text/css">
+  code{white-space: pre-wrap;}
+  span.smallcaps{font-variant: small-caps;}
+  span.underline{text-decoration: underline;}
+  div.column{display: inline-block; vertical-align: top; width: 50%;}
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+  ul.task-list{list-style: none;}
+    </style>
+
+
+
+<style type="text/css">
+  code {
+    white-space: pre;
+  }
+  .sourceCode {
+    overflow: visible;
+  }
+</style>
+<style type="text/css" data-origin="pandoc">
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {  background-color: #f8f8f8; }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ef2929; } /* Alert */
+code span.an { color: #8f5902; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #204a87; } /* Attribute */
+code span.bn { color: #0000cf; } /* BaseN */
+code span.cf { color: #204a87; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4e9a06; } /* Char */
+code span.cn { color: #8f5902; } /* Constant */
+code span.co { color: #8f5902; font-style: italic; } /* Comment */
+code span.cv { color: #8f5902; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #8f5902; font-weight: bold; font-style: italic; } /* Documentation */
+code span.dt { color: #204a87; } /* DataType */
+code span.dv { color: #0000cf; } /* DecVal */
+code span.er { color: #a40000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #0000cf; } /* Float */
+code span.fu { color: #204a87; font-weight: bold; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #8f5902; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #204a87; font-weight: bold; } /* Keyword */
+code span.op { color: #ce5c00; font-weight: bold; } /* Operator */
+code span.ot { color: #8f5902; } /* Other */
+code span.pp { color: #8f5902; font-style: italic; } /* Preprocessor */
+code span.sc { color: #ce5c00; font-weight: bold; } /* SpecialChar */
+code span.ss { color: #4e9a06; } /* SpecialString */
+code span.st { color: #4e9a06; } /* String */
+code span.va { color: #000000; } /* Variable */
+code span.vs { color: #4e9a06; } /* VerbatimString */
+code span.wa { color: #8f5902; font-weight: bold; font-style: italic; } /* Warning */
+
+.sourceCode .row {
+  width: 100%;
+}
+.sourceCode {
+  overflow-x: auto;
+}
+.code-folding-btn {
+  margin-right: -30px;
+}
+</style>
+<script>
+// apply pandoc div.sourceCode style to pre.sourceCode instead
+(function() {
+  var sheets = document.styleSheets;
+  for (var i = 0; i < sheets.length; i++) {
+    if (sheets[i].ownerNode.dataset["origin"] !== "pandoc") continue;
+    try { var rules = sheets[i].cssRules; } catch (e) { continue; }
+    var j = 0;
+    while (j < rules.length) {
+      var rule = rules[j];
+      // check if there is a div.sourceCode rule
+      if (rule.type !== rule.STYLE_RULE || rule.selectorText !== "div.sourceCode") {
+        j++;
+        continue;
+      }
+      var style = rule.style.cssText;
+      // check if color or background-color is set
+      if (rule.style.color === '' && rule.style.backgroundColor === '') {
+        j++;
+        continue;
+      }
+      // replace div.sourceCode by a pre.sourceCode rule
+      sheets[i].deleteRule(j);
+      sheets[i].insertRule('pre.sourceCode{' + style + '}', j);
+    }
+  }
+})();
+</script>
+
+
+
+
+
+
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+img {
+  max-width:100%;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+.html-widget {
+  margin-bottom: 20px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+summary {
+  display: list-item;
+}
+details > summary > p:only-child {
+  display: inline;
+}
+pre code {
+  padding: 0;
+}
+</style>
+
+
+<style type="text/css">
+.dropdown-submenu {
+  position: relative;
+}
+.dropdown-submenu>.dropdown-menu {
+  top: 0;
+  left: 100%;
+  margin-top: -6px;
+  margin-left: -1px;
+  border-radius: 0 6px 6px 6px;
+}
+.dropdown-submenu:hover>.dropdown-menu {
+  display: block;
+}
+.dropdown-submenu>a:after {
+  display: block;
+  content: " ";
+  float: right;
+  width: 0;
+  height: 0;
+  border-color: transparent;
+  border-style: solid;
+  border-width: 5px 0 5px 5px;
+  border-left-color: #cccccc;
+  margin-top: 5px;
+  margin-right: -10px;
+}
+.dropdown-submenu:hover>a:after {
+  border-left-color: #adb5bd;
+}
+.dropdown-submenu.pull-left {
+  float: none;
+}
+.dropdown-submenu.pull-left>.dropdown-menu {
+  left: -100%;
+  margin-left: 10px;
+  border-radius: 6px 0 6px 6px;
+}
+</style>
+
+<script type="text/javascript">
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark the anchor link active (and if it's in a dropdown, also mark that active)
+  var dropdown = menuAnchor.closest('li.dropdown');
+  if (window.bootstrap) { // Bootstrap 4+
+    menuAnchor.addClass('active');
+    dropdown.find('> .dropdown-toggle').addClass('active');
+  } else { // Bootstrap 3
+    menuAnchor.parent().addClass('active');
+    dropdown.addClass('active');
+  }
+
+  // Navbar adjustments
+  var navHeight = $(".navbar").first().height() + 15;
+  var style = document.createElement('style');
+  var pt = "padding-top: " + navHeight + "px; ";
+  var mt = "margin-top: -" + navHeight + "px; ";
+  var css = "";
+  // offset scroll position for anchor links (for fixed navbar)
+  for (var i = 1; i <= 6; i++) {
+    css += ".section h" + i + "{ " + pt + mt + "}\n";
+  }
+  style.innerHTML = "body {" + pt + "padding-bottom: 40px; }\n" + css;
+  document.head.appendChild(style);
+});
+</script>
+
+<!-- tabsets -->
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before, .tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "\e259";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "\e258";
+  font-family: 'Glyphicons Halflings';
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+  background-color: transparent;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
+
+<!-- code folding -->
+<style type="text/css">
+.code-folding-btn { margin-bottom: 4px; }
+</style>
+
+
+
+
+</head>
+
+<body>
+
+
+<div class="container-fluid main-container">
+
+
+
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-bs-toggle="collapse" data-target="#navbar" data-bs-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html">PU5058</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li>
+  <a href="index.html">
+    <span class="fa fa-home"></span>
+     
+    Home
+  </a>
+</li>
+<li>
+  <a href="setup.html">
+    <span class="fa fa-cog"></span>
+     
+    Setup
+  </a>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    <span class="fa fa-desktop"></span>
+     
+    Learn
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="howto.html">
+        <span class="fa fa-tv"></span>
+         
+        How-to
+      </a>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    <span class="fa fa-book"></span>
+     
+    R Book
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="https://intro2r.com">
+        <span class="fa fa-firefox"></span>
+         
+        Web book
+      </a>
+    </li>
+    <li class="divider"></li>
+    <li>
+      <a href="https://github.com/alexd106/Rbook/raw/master/docs/Rbook.pdf">
+        <span class="fa fa-file-pdf"></span>
+         
+        PDF book
+      </a>
+    </li>
+  </ul>
+</li>
+<li>
+  <a href="exercises.html">
+    <span class="fa fa-book"></span>
+     
+    Exercises
+  </a>
+</li>
+<li>
+  <a href="exercise_solutions.html">
+    <span class="fa fa-book"></span>
+     
+    Exercise Solutions
+  </a>
+</li>
+<li>
+  <a href="data.html">
+    <span class="fa fa-download"></span>
+     
+    Data
+  </a>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    <span class="fa fa-question-circle"></span>
+     
+    Info
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="resources.html">
+        <span class="fa fa-book"></span>
+         
+        Resources
+      </a>
+    </li>
+    <li>
+      <a href="https://github.com/alexd106/PU5058">
+        <span class="fa fa-github fa-lg"></span>
+         
+        Source code
+      </a>
+    </li>
+  </ul>
+</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<div id="header">
+
+<div class="btn-group pull-right float-right">
+<button type="button" class="btn btn-default btn-xs btn-secondary btn-sm dropdown-toggle" data-toggle="dropdown" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span>Code</span> <span class="caret"></span></button>
+<ul class="dropdown-menu dropdown-menu-right" style="min-width: 50px;">
+<li><a id="rmd-show-all-code" href="#">Show All Code</a></li>
+<li><a id="rmd-hide-all-code" href="#">Hide All Code</a></li>
+</ul>
+</div>
+
+
+
+<h1 class="title toc-ignore">Exercises</h1>
+
+</div>
+
+
+<p> </p>
+<div id="exercise-6-graphics-for-communication" class="section level2">
+<h2>Exercise 6: Graphics for communication</h2>
+<p> </p>
+<p>Read <a href="https://intro2r.com/graphics_r.html">Chapter 4</a>, and
+<a href="https://intro2r.com/custom_plot.html#custom_plot">Section
+4.3</a> in particular, to help you complete the questions in this
+exercise.</p>
+<p> </p>
+<p>Everything you plotted in Exercise 5 was for <strong>you</strong>.
+Exploratory plots are quick, ugly and disposable: their only job is to
+show you what is in your data, and it does not matter that the axis
+label says <code>cardiac$tchol</code> because you are the only person
+who will ever see it. This exercise is about the other kind of plot, the
+one that goes on a poster or in a report, where the reader is not you,
+has about fifteen seconds, and will not ask you what the axis means.
+Nearly all of the work is in the details you skipped last week.</p>
+<p>You will also switch datasets. From here on the course uses data from
+the <a href="https://www.scotpho.org.uk/">Scottish Public Health
+Observatory</a>, which is the same source you will use for your own
+assessment.</p>
+<p> </p>
+<p>1. As in previous exercises, either create a new R script or continue
+with your previous R script in your RStudio Project. Again, make sure
+you include any metadata you feel is appropriate (title, description of
+task, date of creation etc) and don’t forget to comment out your
+metadata with a <code>#</code> at the beginning of the line.</p>
+<p> </p>
+<p>2. Download the data file <em>‘scotpho_alcohol_admissions.txt’</em>
+from the <strong><a href="data.html"><i class="fa fa-download"></i>
+Data</a></strong> link and save it to your <code>data</code> directory.
+This one is already a tab delimited text file, so there is no conversion
+to do. Import it with <code>read.table()</code>, remembering to write
+out your <code>header</code>, <code>sep</code>, <code>na.strings</code>
+and <code>stringsAsFactors</code> arguments, and assign it to a variable
+called <code>scotpho</code>.</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" tabindex="-1"></a>scotpho <span class="ot">&lt;-</span> <span class="fu">read.table</span>(<span class="st">&#39;data/scotpho_alcohol_admissions.txt&#39;</span>, <span class="at">header =</span> <span class="cn">TRUE</span>, <span class="at">sep =</span> <span class="st">&quot;</span><span class="sc">\t</span><span class="st">&quot;</span>,</span>
+<span id="cb1-2"><a href="#cb1-2" tabindex="-1"></a>                      <span class="at">na.strings =</span> <span class="st">&quot;NA&quot;</span>, <span class="at">stringsAsFactors =</span> <span class="cn">TRUE</span>)</span></code></pre></div>
+<p> </p>
+<p>3. These data are an extract from the ScotPHO online profiles tool.
+The indicator is <em>alcohol-related hospital admissions</em>, and the
+<code>measure</code> column is an age-sex standardised rate per 100,000
+population: in other words, how many people per 100,000 were admitted to
+hospital for a reason related to alcohol, adjusted so that areas with
+different age and sex profiles can be compared fairly. The extract
+covers each of the 32 Scottish council areas plus Scotland as a whole
+(<code>area_name</code>, <code>area_code</code>,
+<code>area_type</code>), for each year from 2010 to 2019
+(<code>year</code>). Because the rate is an estimate rather than a
+count, it comes with a confidence interval
+(<code>lower_confidence_interval</code>,
+<code>upper_confidence_interval</code>), which gives you a sense of how
+precise the estimate is.</p>
+<p> </p>
+<p>4. Before plotting anything, get your bearings, exactly as you did in
+Exercise 3. Use <code>str()</code> and <code>summary()</code> on
+<code>scotpho</code>. How many rows are there? Use <code>table()</code>
+on <code>area_type</code> to see how the rows split between council
+areas and Scotland. Then check something that matters a great deal
+before you draw a line through points: does every area have a value for
+every year? (hint: <code>table()</code> on <code>area_name</code> will
+tell you how many rows each area has). What would your plot look like if
+one area were missing 2015?</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" tabindex="-1"></a><span class="fu">str</span>(scotpho)</span>
+<span id="cb2-2"><a href="#cb2-2" tabindex="-1"></a><span class="fu">summary</span>(scotpho)</span>
+<span id="cb2-3"><a href="#cb2-3" tabindex="-1"></a></span>
+<span id="cb2-4"><a href="#cb2-4" tabindex="-1"></a><span class="fu">nrow</span>(scotpho)            <span class="co"># 330</span></span>
+<span id="cb2-5"><a href="#cb2-5" tabindex="-1"></a></span>
+<span id="cb2-6"><a href="#cb2-6" tabindex="-1"></a><span class="fu">table</span>(scotpho<span class="sc">$</span>area_type)</span>
+<span id="cb2-7"><a href="#cb2-7" tabindex="-1"></a><span class="co"># Council area     Scotland </span></span>
+<span id="cb2-8"><a href="#cb2-8" tabindex="-1"></a><span class="co">#          320           10 </span></span>
+<span id="cb2-9"><a href="#cb2-9" tabindex="-1"></a></span>
+<span id="cb2-10"><a href="#cb2-10" tabindex="-1"></a><span class="co"># 33 areas, 10 years each. Every area is complete:</span></span>
+<span id="cb2-11"><a href="#cb2-11" tabindex="-1"></a><span class="fu">table</span>(scotpho<span class="sc">$</span>area_name)</span>
+<span id="cb2-12"><a href="#cb2-12" tabindex="-1"></a><span class="fu">unique</span>(<span class="fu">table</span>(scotpho<span class="sc">$</span>area_name))   <span class="co"># 10 - so every area has all 10 years</span></span>
+<span id="cb2-13"><a href="#cb2-13" tabindex="-1"></a></span>
+<span id="cb2-14"><a href="#cb2-14" tabindex="-1"></a><span class="fu">range</span>(scotpho<span class="sc">$</span>year)      <span class="co"># 2010 2019</span></span>
+<span id="cb2-15"><a href="#cb2-15" tabindex="-1"></a></span>
+<span id="cb2-16"><a href="#cb2-16" tabindex="-1"></a><span class="co"># If an area were missing a year, lines() would simply join the points either</span></span>
+<span id="cb2-17"><a href="#cb2-17" tabindex="-1"></a><span class="co"># side of the gap and draw a straight line straight through it. Nothing would</span></span>
+<span id="cb2-18"><a href="#cb2-18" tabindex="-1"></a><span class="co"># warn you, and the plot would imply data you do not have.</span></span></code></pre></div>
+<p> </p>
+<p>5. Start with the simplest possible communication plot: how have
+alcohol-related admissions across Scotland as a whole changed over the
+ten years? Extract just the rows where <code>area_name</code> is
+“Scotland” and use <code>plot()</code> to plot <code>measure</code> on
+the y axis against <code>year</code> on the x axis. Use the
+<code>type</code> argument to draw both points and a line joining them.
+Now look hard at what R has given you by default, and list everything a
+stranger would not understand about it.</p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" tabindex="-1"></a>scot <span class="ot">&lt;-</span> scotpho[scotpho<span class="sc">$</span>area_name <span class="sc">==</span> <span class="st">&quot;Scotland&quot;</span>, ]</span>
+<span id="cb3-2"><a href="#cb3-2" tabindex="-1"></a></span>
+<span id="cb3-3"><a href="#cb3-3" tabindex="-1"></a><span class="fu">plot</span>(scot<span class="sc">$</span>year, scot<span class="sc">$</span>measure, <span class="at">type =</span> <span class="st">&quot;b&quot;</span>)</span>
+<span id="cb3-4"><a href="#cb3-4" tabindex="-1"></a></span>
+<span id="cb3-5"><a href="#cb3-5" tabindex="-1"></a><span class="co"># What is wrong with this plot for anyone other than you?</span></span>
+<span id="cb3-6"><a href="#cb3-6" tabindex="-1"></a><span class="co">#  - the x axis is labelled scot$year and the y axis scot$measure</span></span>
+<span id="cb3-7"><a href="#cb3-7" tabindex="-1"></a><span class="co">#  - there are no units anywhere, so 673 could be anything</span></span>
+<span id="cb3-8"><a href="#cb3-8" tabindex="-1"></a><span class="co">#  - there is no title, so the reader does not know what is being counted</span></span>
+<span id="cb3-9"><a href="#cb3-9" tabindex="-1"></a><span class="co">#  - the y axis does not start at zero, which exaggerates the decline</span></span>
+<span id="cb3-10"><a href="#cb3-10" tabindex="-1"></a><span class="co">#  - there is nothing to say where the data came from</span></span>
+<span id="cb3-11"><a href="#cb3-11" tabindex="-1"></a><span class="co">#</span></span>
+<span id="cb3-12"><a href="#cb3-12" tabindex="-1"></a><span class="co"># The plot is not wrong. It is just useless to anybody who is not already</span></span>
+<span id="cb3-13"><a href="#cb3-13" tabindex="-1"></a><span class="co"># holding the dataset.</span></span></code></pre></div>
+<p> </p>
+<p>6. A single line rarely tells the whole story. Scotland’s average
+hides enormous variation between council areas. Add three council areas
+to your plot: “Glasgow City”, “Aberdeen City” and “Aberdeenshire”. You
+cannot do this with one <code>plot()</code> call. The usual approach is
+to set up an empty plot with the right axis limits using
+<code>type = "n"</code>, then add each area in turn with
+<code>lines()</code>. Give each area its own colour and add a legend so
+the reader knows which is which. Two things will catch you out. First,
+work out your y axis limits from all four areas, not just Scotland, or
+lines will run off the top. Second, if you subset a dataframe the factor
+keeps all of its original levels, which is why <code>droplevels()</code>
+exists.</p>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" tabindex="-1"></a>areas <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;Scotland&quot;</span>, <span class="st">&quot;Glasgow City&quot;</span>, <span class="st">&quot;Aberdeen City&quot;</span>, <span class="st">&quot;Aberdeenshire&quot;</span>)</span>
+<span id="cb4-2"><a href="#cb4-2" tabindex="-1"></a>sub <span class="ot">&lt;-</span> scotpho[scotpho<span class="sc">$</span>area_name <span class="sc">%in%</span> areas, ]</span>
+<span id="cb4-3"><a href="#cb4-3" tabindex="-1"></a></span>
+<span id="cb4-4"><a href="#cb4-4" tabindex="-1"></a><span class="co"># the factor still thinks it has 33 levels, even though only 4 are left</span></span>
+<span id="cb4-5"><a href="#cb4-5" tabindex="-1"></a><span class="fu">levels</span>(sub<span class="sc">$</span>area_name)  <span class="co"># all 33</span></span>
+<span id="cb4-6"><a href="#cb4-6" tabindex="-1"></a>sub<span class="sc">$</span>area_name <span class="ot">&lt;-</span> <span class="fu">droplevels</span>(sub<span class="sc">$</span>area_name)</span>
+<span id="cb4-7"><a href="#cb4-7" tabindex="-1"></a><span class="fu">levels</span>(sub<span class="sc">$</span>area_name)  <span class="co"># now 4</span></span>
+<span id="cb4-8"><a href="#cb4-8" tabindex="-1"></a></span>
+<span id="cb4-9"><a href="#cb4-9" tabindex="-1"></a><span class="co"># set up an empty plot with limits that fit every area</span></span>
+<span id="cb4-10"><a href="#cb4-10" tabindex="-1"></a><span class="fu">plot</span>(<span class="fu">range</span>(sub<span class="sc">$</span>year), <span class="fu">range</span>(sub<span class="sc">$</span>measure), <span class="at">type =</span> <span class="st">&quot;n&quot;</span>, <span class="at">xlab =</span> <span class="st">&quot;Year&quot;</span>, <span class="at">ylab =</span> <span class="st">&quot;Admissions per 100,000&quot;</span>)</span>
+<span id="cb4-11"><a href="#cb4-11" tabindex="-1"></a></span>
+<span id="cb4-12"><a href="#cb4-12" tabindex="-1"></a>cols <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;black&quot;</span>, <span class="st">&quot;red&quot;</span>, <span class="st">&quot;blue&quot;</span>, <span class="st">&quot;darkgreen&quot;</span>)</span>
+<span id="cb4-13"><a href="#cb4-13" tabindex="-1"></a></span>
+<span id="cb4-14"><a href="#cb4-14" tabindex="-1"></a><span class="cf">for</span> (i <span class="cf">in</span> <span class="fu">seq_along</span>(areas)) {</span>
+<span id="cb4-15"><a href="#cb4-15" tabindex="-1"></a>    a <span class="ot">&lt;-</span> sub[sub<span class="sc">$</span>area_name <span class="sc">==</span> areas[i], ]</span>
+<span id="cb4-16"><a href="#cb4-16" tabindex="-1"></a>    a <span class="ot">&lt;-</span> a[<span class="fu">order</span>(a<span class="sc">$</span>year), ]  <span class="co"># never assume the rows are in order</span></span>
+<span id="cb4-17"><a href="#cb4-17" tabindex="-1"></a>    <span class="fu">lines</span>(a<span class="sc">$</span>year, a<span class="sc">$</span>measure, <span class="at">col =</span> cols[i], <span class="at">lwd =</span> <span class="dv">2</span>)</span>
+<span id="cb4-18"><a href="#cb4-18" tabindex="-1"></a>}</span>
+<span id="cb4-19"><a href="#cb4-19" tabindex="-1"></a></span>
+<span id="cb4-20"><a href="#cb4-20" tabindex="-1"></a><span class="fu">legend</span>(<span class="st">&quot;topright&quot;</span>, <span class="at">legend =</span> areas, <span class="at">col =</span> cols, <span class="at">lwd =</span> <span class="dv">2</span>)</span>
+<span id="cb4-21"><a href="#cb4-21" tabindex="-1"></a></span>
+<span id="cb4-22"><a href="#cb4-22" tabindex="-1"></a><span class="co"># Glasgow City is roughly twice the Scottish average and Aberdeenshire is</span></span>
+<span id="cb4-23"><a href="#cb4-23" tabindex="-1"></a><span class="co"># roughly half of it. The national line, on its own, describes almost nobody.</span></span></code></pre></div>
+<p> </p>
+<p>7. Now think about those colours. Roughly 1 in 12 men has some form
+of colour vision deficiency, most commonly difficulty distinguishing red
+from green - and you have just used red and green on the same plot.
+Posters also get photocopied, printed in black and white, and viewed on
+projectors that wash colour out. Redraw your plot using a colour-blind
+friendly palette: base R has one built in,
+<code>palette.colors(n, palette = "Okabe-Ito")</code>. Then test it.
+Convert your colours to their greyscale equivalents and redraw the plot
+in grey to see whether the lines are still tellable apart. If they are
+not, what could you change other than the colour?</p>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" tabindex="-1"></a>cols <span class="ot">&lt;-</span> <span class="fu">palette.colors</span>(<span class="dv">4</span>, <span class="at">palette =</span> <span class="st">&quot;Okabe-Ito&quot;</span>)</span>
+<span id="cb5-2"><a href="#cb5-2" tabindex="-1"></a>cols</span>
+<span id="cb5-3"><a href="#cb5-3" tabindex="-1"></a><span class="co"># &#39;#000000&#39; &#39;#E69F00&#39; &#39;#56B4E9&#39; &#39;#009E73&#39;</span></span>
+<span id="cb5-4"><a href="#cb5-4" tabindex="-1"></a></span>
+<span id="cb5-5"><a href="#cb5-5" tabindex="-1"></a><span class="co"># a greyscale test: convert each colour to the grey of the same luminance</span></span>
+<span id="cb5-6"><a href="#cb5-6" tabindex="-1"></a>grey.cols <span class="ot">&lt;-</span> <span class="fu">grey</span>(<span class="fu">apply</span>(<span class="fu">col2rgb</span>(cols), <span class="dv">2</span>, <span class="cf">function</span>(x) <span class="fu">sum</span>(x <span class="sc">*</span> <span class="fu">c</span>(<span class="fl">0.299</span>, <span class="fl">0.587</span>, <span class="fl">0.114</span>))<span class="sc">/</span><span class="dv">255</span>))</span>
+<span id="cb5-7"><a href="#cb5-7" tabindex="-1"></a></span>
+<span id="cb5-8"><a href="#cb5-8" tabindex="-1"></a><span class="co"># draw both versions side by side and compare</span></span>
+<span id="cb5-9"><a href="#cb5-9" tabindex="-1"></a><span class="fu">par</span>(<span class="at">mfrow =</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">2</span>))</span>
+<span id="cb5-10"><a href="#cb5-10" tabindex="-1"></a><span class="cf">for</span> (palette.in.use <span class="cf">in</span> <span class="fu">list</span>(cols, grey.cols)) {</span>
+<span id="cb5-11"><a href="#cb5-11" tabindex="-1"></a>    <span class="fu">plot</span>(<span class="fu">range</span>(sub<span class="sc">$</span>year), <span class="fu">range</span>(sub<span class="sc">$</span>measure), <span class="at">type =</span> <span class="st">&quot;n&quot;</span>, <span class="at">xlab =</span> <span class="st">&quot;Year&quot;</span>, <span class="at">ylab =</span> <span class="st">&quot;Admissions per 100,000&quot;</span>)</span>
+<span id="cb5-12"><a href="#cb5-12" tabindex="-1"></a>    <span class="cf">for</span> (i <span class="cf">in</span> <span class="fu">seq_along</span>(areas)) {</span>
+<span id="cb5-13"><a href="#cb5-13" tabindex="-1"></a>        a <span class="ot">&lt;-</span> sub[sub<span class="sc">$</span>area_name <span class="sc">==</span> areas[i], ]</span>
+<span id="cb5-14"><a href="#cb5-14" tabindex="-1"></a>        a <span class="ot">&lt;-</span> a[<span class="fu">order</span>(a<span class="sc">$</span>year), ]</span>
+<span id="cb5-15"><a href="#cb5-15" tabindex="-1"></a>        <span class="fu">lines</span>(a<span class="sc">$</span>year, a<span class="sc">$</span>measure, <span class="at">col =</span> palette.in.use[i], <span class="at">lwd =</span> <span class="dv">2</span>)</span>
+<span id="cb5-16"><a href="#cb5-16" tabindex="-1"></a>    }</span>
+<span id="cb5-17"><a href="#cb5-17" tabindex="-1"></a>    <span class="fu">legend</span>(<span class="st">&quot;topright&quot;</span>, <span class="at">legend =</span> areas, <span class="at">col =</span> palette.in.use, <span class="at">lwd =</span> <span class="dv">2</span>)</span>
+<span id="cb5-18"><a href="#cb5-18" tabindex="-1"></a>}</span>
+<span id="cb5-19"><a href="#cb5-19" tabindex="-1"></a></span>
+<span id="cb5-20"><a href="#cb5-20" tabindex="-1"></a><span class="co"># In grey, two of the four lines become hard to separate. Colour alone is never</span></span>
+<span id="cb5-21"><a href="#cb5-21" tabindex="-1"></a><span class="co"># enough. The fix is to give the reader a second, redundant cue - here, a</span></span>
+<span id="cb5-22"><a href="#cb5-22" tabindex="-1"></a><span class="co"># different line type for each area - so the plot still works with no colour at</span></span>
+<span id="cb5-23"><a href="#cb5-23" tabindex="-1"></a><span class="co"># all.</span></span>
+<span id="cb5-24"><a href="#cb5-24" tabindex="-1"></a><span class="fu">par</span>(<span class="at">mfrow =</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">1</span>))</span>
+<span id="cb5-25"><a href="#cb5-25" tabindex="-1"></a>ltys <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">3</span>, <span class="dv">4</span>)</span>
+<span id="cb5-26"><a href="#cb5-26" tabindex="-1"></a><span class="fu">plot</span>(<span class="fu">range</span>(sub<span class="sc">$</span>year), <span class="fu">range</span>(sub<span class="sc">$</span>measure), <span class="at">type =</span> <span class="st">&quot;n&quot;</span>, <span class="at">xlab =</span> <span class="st">&quot;Year&quot;</span>, <span class="at">ylab =</span> <span class="st">&quot;Admissions per 100,000&quot;</span>)</span>
+<span id="cb5-27"><a href="#cb5-27" tabindex="-1"></a><span class="cf">for</span> (i <span class="cf">in</span> <span class="fu">seq_along</span>(areas)) {</span>
+<span id="cb5-28"><a href="#cb5-28" tabindex="-1"></a>    a <span class="ot">&lt;-</span> sub[sub<span class="sc">$</span>area_name <span class="sc">==</span> areas[i], ]</span>
+<span id="cb5-29"><a href="#cb5-29" tabindex="-1"></a>    a <span class="ot">&lt;-</span> a[<span class="fu">order</span>(a<span class="sc">$</span>year), ]</span>
+<span id="cb5-30"><a href="#cb5-30" tabindex="-1"></a>    <span class="fu">lines</span>(a<span class="sc">$</span>year, a<span class="sc">$</span>measure, <span class="at">col =</span> cols[i], <span class="at">lwd =</span> <span class="dv">2</span>, <span class="at">lty =</span> ltys[i])</span>
+<span id="cb5-31"><a href="#cb5-31" tabindex="-1"></a>}</span>
+<span id="cb5-32"><a href="#cb5-32" tabindex="-1"></a><span class="fu">legend</span>(<span class="st">&quot;topright&quot;</span>, <span class="at">legend =</span> areas, <span class="at">col =</span> cols, <span class="at">lwd =</span> <span class="dv">2</span>, <span class="at">lty =</span> ltys)</span></code></pre></div>
+<p> </p>
+<p>8. Time to fix the words. Every plot that leaves your computer needs
+axis labels a non-specialist can read, including units; a title that
+says what the reader is looking at; and a note saying where the data
+came from and what period it covers. Write the labels for someone who
+has never heard the phrase ‘age-sex standardised’ - your reader is a
+public health colleague or a member of the public, not a statistician.
+Add the source as a small note underneath the plot using
+<code>mtext()</code>. Finally, think about the y axis. Should it start
+at zero? There is no single right answer, but you should be able to
+justify whichever you choose.</p>
+<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" tabindex="-1"></a><span class="fu">plot</span>(<span class="fu">range</span>(sub<span class="sc">$</span>year), <span class="fu">c</span>(<span class="dv">0</span>, <span class="fu">max</span>(sub<span class="sc">$</span>measure)), <span class="at">type =</span> <span class="st">&quot;n&quot;</span>, <span class="at">xlab =</span> <span class="st">&quot;Year&quot;</span>, <span class="at">ylab =</span> <span class="st">&quot;Hospital admissions per 100,000 people&quot;</span>,</span>
+<span id="cb6-2"><a href="#cb6-2" tabindex="-1"></a>    <span class="at">main =</span> <span class="st">&quot;Alcohol-related hospital admissions, 2010 to 2019&quot;</span>, <span class="at">las =</span> <span class="dv">1</span>)</span>
+<span id="cb6-3"><a href="#cb6-3" tabindex="-1"></a></span>
+<span id="cb6-4"><a href="#cb6-4" tabindex="-1"></a><span class="cf">for</span> (i <span class="cf">in</span> <span class="fu">seq_along</span>(areas)) {</span>
+<span id="cb6-5"><a href="#cb6-5" tabindex="-1"></a>    a <span class="ot">&lt;-</span> sub[sub<span class="sc">$</span>area_name <span class="sc">==</span> areas[i], ]</span>
+<span id="cb6-6"><a href="#cb6-6" tabindex="-1"></a>    a <span class="ot">&lt;-</span> a[<span class="fu">order</span>(a<span class="sc">$</span>year), ]</span>
+<span id="cb6-7"><a href="#cb6-7" tabindex="-1"></a>    <span class="fu">lines</span>(a<span class="sc">$</span>year, a<span class="sc">$</span>measure, <span class="at">col =</span> cols[i], <span class="at">lwd =</span> <span class="dv">2</span>, <span class="at">lty =</span> ltys[i])</span>
+<span id="cb6-8"><a href="#cb6-8" tabindex="-1"></a>}</span>
+<span id="cb6-9"><a href="#cb6-9" tabindex="-1"></a></span>
+<span id="cb6-10"><a href="#cb6-10" tabindex="-1"></a><span class="fu">legend</span>(<span class="st">&quot;bottomleft&quot;</span>, <span class="at">legend =</span> areas, <span class="at">col =</span> cols, <span class="at">lwd =</span> <span class="dv">2</span>, <span class="at">lty =</span> ltys, <span class="at">bty =</span> <span class="st">&quot;n&quot;</span>)</span>
+<span id="cb6-11"><a href="#cb6-11" tabindex="-1"></a></span>
+<span id="cb6-12"><a href="#cb6-12" tabindex="-1"></a><span class="fu">mtext</span>(<span class="st">&quot;Source: Scottish Public Health Observatory. Rates are age-sex standardised.&quot;</span>,</span>
+<span id="cb6-13"><a href="#cb6-13" tabindex="-1"></a>    <span class="at">side =</span> <span class="dv">1</span>, <span class="at">line =</span> <span class="dv">4</span>, <span class="at">cex =</span> <span class="fl">0.7</span>, <span class="at">adj =</span> <span class="dv">0</span>)</span>
+<span id="cb6-14"><a href="#cb6-14" tabindex="-1"></a></span>
+<span id="cb6-15"><a href="#cb6-15" tabindex="-1"></a><span class="co"># Should the y axis start at zero?  Starting at zero, as here, shows the true</span></span>
+<span id="cb6-16"><a href="#cb6-16" tabindex="-1"></a><span class="co"># relative size of the difference between areas: Glasgow really is about four</span></span>
+<span id="cb6-17"><a href="#cb6-17" tabindex="-1"></a><span class="co"># times Aberdeenshire. Starting at the minimum instead would fill the panel</span></span>
+<span id="cb6-18"><a href="#cb6-18" tabindex="-1"></a><span class="co"># with the year to year wiggles and make a modest national decline look</span></span>
+<span id="cb6-19"><a href="#cb6-19" tabindex="-1"></a><span class="co"># dramatic. For a rate like this, where zero is meaningful and the comparison</span></span>
+<span id="cb6-20"><a href="#cb6-20" tabindex="-1"></a><span class="co"># between areas is the point, starting at zero is the honest choice. For</span></span>
+<span id="cb6-21"><a href="#cb6-21" tabindex="-1"></a><span class="co"># something like average age, where zero is nowhere near the data, it would be</span></span>
+<span id="cb6-22"><a href="#cb6-22" tabindex="-1"></a><span class="co"># absurd. Decide, and be able to say why.</span></span></code></pre></div>
+<p> </p>
+<p>9. Finally, get the plot out of R at a size and resolution fit for a
+poster. Screen defaults are no use here: a plot that looks fine in the
+RStudio plot pane will be a blurry mess when blown up to A1. Save your
+finished plot twice, once as a pdf and once as a png. Use a 16:9 shape,
+which is what most poster and slide templates expect. For the png, set
+the resolution explicitly - 300 dpi is the usual minimum for print.
+Watch what happens to your text: <code>pointsize</code> is in points, so
+as you make the canvas bigger the text gets relatively smaller. Open
+both files and check them at full size before you believe them.</p>
+<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" tabindex="-1"></a><span class="co"># a small function so you don&#39;t have to repeat the plotting code</span></span>
+<span id="cb7-2"><a href="#cb7-2" tabindex="-1"></a>plot.admissions <span class="ot">&lt;-</span> <span class="cf">function</span>() {</span>
+<span id="cb7-3"><a href="#cb7-3" tabindex="-1"></a>    <span class="fu">plot</span>(<span class="fu">range</span>(sub<span class="sc">$</span>year), <span class="fu">c</span>(<span class="dv">0</span>, <span class="fu">max</span>(sub<span class="sc">$</span>measure)), <span class="at">type =</span> <span class="st">&quot;n&quot;</span>, <span class="at">xlab =</span> <span class="st">&quot;Year&quot;</span>, <span class="at">ylab =</span> <span class="st">&quot;Hospital admissions per 100,000 people&quot;</span>,</span>
+<span id="cb7-4"><a href="#cb7-4" tabindex="-1"></a>        <span class="at">main =</span> <span class="st">&quot;Alcohol-related hospital admissions, 2010 to 2019&quot;</span>, <span class="at">las =</span> <span class="dv">1</span>)</span>
+<span id="cb7-5"><a href="#cb7-5" tabindex="-1"></a>    <span class="cf">for</span> (i <span class="cf">in</span> <span class="fu">seq_along</span>(areas)) {</span>
+<span id="cb7-6"><a href="#cb7-6" tabindex="-1"></a>        a <span class="ot">&lt;-</span> sub[sub<span class="sc">$</span>area_name <span class="sc">==</span> areas[i], ]</span>
+<span id="cb7-7"><a href="#cb7-7" tabindex="-1"></a>        a <span class="ot">&lt;-</span> a[<span class="fu">order</span>(a<span class="sc">$</span>year), ]</span>
+<span id="cb7-8"><a href="#cb7-8" tabindex="-1"></a>        <span class="fu">lines</span>(a<span class="sc">$</span>year, a<span class="sc">$</span>measure, <span class="at">col =</span> cols[i], <span class="at">lwd =</span> <span class="dv">2</span>, <span class="at">lty =</span> ltys[i])</span>
+<span id="cb7-9"><a href="#cb7-9" tabindex="-1"></a>    }</span>
+<span id="cb7-10"><a href="#cb7-10" tabindex="-1"></a>    <span class="fu">legend</span>(<span class="st">&quot;bottomleft&quot;</span>, <span class="at">legend =</span> areas, <span class="at">col =</span> cols, <span class="at">lwd =</span> <span class="dv">2</span>, <span class="at">lty =</span> ltys, <span class="at">bty =</span> <span class="st">&quot;n&quot;</span>)</span>
+<span id="cb7-11"><a href="#cb7-11" tabindex="-1"></a>    <span class="fu">mtext</span>(<span class="st">&quot;Source: Scottish Public Health Observatory. Rates are age-sex standardised.&quot;</span>,</span>
+<span id="cb7-12"><a href="#cb7-12" tabindex="-1"></a>        <span class="at">side =</span> <span class="dv">1</span>, <span class="at">line =</span> <span class="dv">4</span>, <span class="at">cex =</span> <span class="fl">0.7</span>, <span class="at">adj =</span> <span class="dv">0</span>)</span>
+<span id="cb7-13"><a href="#cb7-13" tabindex="-1"></a>}</span>
+<span id="cb7-14"><a href="#cb7-14" tabindex="-1"></a></span>
+<span id="cb7-15"><a href="#cb7-15" tabindex="-1"></a><span class="co"># pdf: vector, so it stays sharp at any size. width and height are in inches,</span></span>
+<span id="cb7-16"><a href="#cb7-16" tabindex="-1"></a><span class="co"># and 10 x 5.625 is 16:9</span></span>
+<span id="cb7-17"><a href="#cb7-17" tabindex="-1"></a><span class="fu">pdf</span>(<span class="st">&quot;output/ex6_admissions.pdf&quot;</span>, <span class="at">width =</span> <span class="dv">10</span>, <span class="at">height =</span> <span class="fl">5.625</span>, <span class="at">pointsize =</span> <span class="dv">12</span>)</span>
+<span id="cb7-18"><a href="#cb7-18" tabindex="-1"></a><span class="fu">plot.admissions</span>()</span>
+<span id="cb7-19"><a href="#cb7-19" tabindex="-1"></a><span class="fu">dev.off</span>()</span>
+<span id="cb7-20"><a href="#cb7-20" tabindex="-1"></a></span>
+<span id="cb7-21"><a href="#cb7-21" tabindex="-1"></a><span class="co"># png: pixels, so the resolution matters. units = &#39;in&#39; plus res = 300 gives you</span></span>
+<span id="cb7-22"><a href="#cb7-22" tabindex="-1"></a><span class="co"># a 3000 x 1688 pixel image that will print cleanly</span></span>
+<span id="cb7-23"><a href="#cb7-23" tabindex="-1"></a><span class="fu">png</span>(<span class="st">&quot;output/ex6_admissions.png&quot;</span>, <span class="at">width =</span> <span class="dv">10</span>, <span class="at">height =</span> <span class="fl">5.625</span>, <span class="at">units =</span> <span class="st">&quot;in&quot;</span>, <span class="at">res =</span> <span class="dv">300</span>,</span>
+<span id="cb7-24"><a href="#cb7-24" tabindex="-1"></a>    <span class="at">pointsize =</span> <span class="dv">12</span>)</span>
+<span id="cb7-25"><a href="#cb7-25" tabindex="-1"></a><span class="fu">plot.admissions</span>()</span>
+<span id="cb7-26"><a href="#cb7-26" tabindex="-1"></a><span class="fu">dev.off</span>()</span>
+<span id="cb7-27"><a href="#cb7-27" tabindex="-1"></a></span>
+<span id="cb7-28"><a href="#cb7-28" tabindex="-1"></a><span class="co"># Use the pdf for anything going to a printer, and the png for anything going</span></span>
+<span id="cb7-29"><a href="#cb7-29" tabindex="-1"></a><span class="co"># into PowerPoint or a web page. If your poster template asks for a specific</span></span>
+<span id="cb7-30"><a href="#cb7-30" tabindex="-1"></a><span class="co"># figure size, set width and height to that size here rather than resizing the</span></span>
+<span id="cb7-31"><a href="#cb7-31" tabindex="-1"></a><span class="co"># image afterwards, which is what makes text look squashed or fuzzy.</span></span></code></pre></div>
+<p> </p>
+<p>End of Exercise 6</p>
+</div>
+
+
+
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.odd').parent('tbody').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- tabsets -->
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open');
+  });
+});
+</script>
+
+<!-- code folding -->
+<script>
+$(document).ready(function () {
+  window.initializeCodeFolding("hide" === "show");
+});
+</script>
+
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>

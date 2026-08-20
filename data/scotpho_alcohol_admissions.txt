@@ -1,0 +1,331 @@
+indicator	area_name	area_code	area_type	year	measure	lower_confidence_interval	upper_confidence_interval
+Alcohol-related hospital admissions	Aberdeen City	S12000033	Council area	2010	923.61	881.88	966.76
+Alcohol-related hospital admissions	Aberdeen City	S12000033	Council area	2011	960.93	918.56	1004.71
+Alcohol-related hospital admissions	Aberdeen City	S12000033	Council area	2012	854.38	814.49	895.69
+Alcohol-related hospital admissions	Aberdeen City	S12000033	Council area	2013	791.82	753.6	831.44
+Alcohol-related hospital admissions	Aberdeen City	S12000033	Council area	2014	719.63	683.16	757.49
+Alcohol-related hospital admissions	Aberdeen City	S12000033	Council area	2015	765.86	728.19	804.94
+Alcohol-related hospital admissions	Aberdeen City	S12000033	Council area	2016	709.27	673.18	746.75
+Alcohol-related hospital admissions	Aberdeen City	S12000033	Council area	2017	714.73	678.47	752.39
+Alcohol-related hospital admissions	Aberdeen City	S12000033	Council area	2018	759.27	722.05	797.87
+Alcohol-related hospital admissions	Aberdeen City	S12000033	Council area	2019	710.57	674.93	747.57
+Alcohol-related hospital admissions	Aberdeenshire	S12000034	Council area	2010	401.83	377.06	427.79
+Alcohol-related hospital admissions	Aberdeenshire	S12000034	Council area	2011	385.45	361.26	410.82
+Alcohol-related hospital admissions	Aberdeenshire	S12000034	Council area	2012	323.86	301.71	347.19
+Alcohol-related hospital admissions	Aberdeenshire	S12000034	Council area	2013	362.83	339.65	387.16
+Alcohol-related hospital admissions	Aberdeenshire	S12000034	Council area	2014	305.28	284.2	327.5
+Alcohol-related hospital admissions	Aberdeenshire	S12000034	Council area	2015	284.66	264.37	306.08
+Alcohol-related hospital admissions	Aberdeenshire	S12000034	Council area	2016	320.52	298.97	343.2
+Alcohol-related hospital admissions	Aberdeenshire	S12000034	Council area	2017	310.42	289.28	332.68
+Alcohol-related hospital admissions	Aberdeenshire	S12000034	Council area	2018	312.94	291.77	335.23
+Alcohol-related hospital admissions	Aberdeenshire	S12000034	Council area	2019	314.3	292.98	336.75
+Alcohol-related hospital admissions	Angus	S12000041	Council area	2010	408.13	371.23	447.68
+Alcohol-related hospital admissions	Angus	S12000041	Council area	2011	374.67	339.73	412.21
+Alcohol-related hospital admissions	Angus	S12000041	Council area	2012	370.07	335.72	406.95
+Alcohol-related hospital admissions	Angus	S12000041	Council area	2013	381.73	346.42	419.62
+Alcohol-related hospital admissions	Angus	S12000041	Council area	2014	364.99	330.66	401.89
+Alcohol-related hospital admissions	Angus	S12000041	Council area	2015	371.97	337.55	408.9
+Alcohol-related hospital admissions	Angus	S12000041	Council area	2016	365.36	331.44	401.77
+Alcohol-related hospital admissions	Angus	S12000041	Council area	2017	351.08	317.69	386.99
+Alcohol-related hospital admissions	Angus	S12000041	Council area	2018	403.67	367.58	442.3
+Alcohol-related hospital admissions	Angus	S12000041	Council area	2019	380.14	345.04	417.8
+Alcohol-related hospital admissions	Argyll & Bute	S12000035	Council area	2010	888.79	826.75	954.19
+Alcohol-related hospital admissions	Argyll & Bute	S12000035	Council area	2011	868.81	808.01	932.9
+Alcohol-related hospital admissions	Argyll & Bute	S12000035	Council area	2012	687.47	633.24	745.02
+Alcohol-related hospital admissions	Argyll & Bute	S12000035	Council area	2013	665.17	611.86	721.81
+Alcohol-related hospital admissions	Argyll & Bute	S12000035	Council area	2014	763.15	705.55	824.11
+Alcohol-related hospital admissions	Argyll & Bute	S12000035	Council area	2015	668.89	615.23	725.88
+Alcohol-related hospital admissions	Argyll & Bute	S12000035	Council area	2016	674.33	620.04	732
+Alcohol-related hospital admissions	Argyll & Bute	S12000035	Council area	2017	650.67	597.56	707.14
+Alcohol-related hospital admissions	Argyll & Bute	S12000035	Council area	2018	664.09	610.44	721.08
+Alcohol-related hospital admissions	Argyll & Bute	S12000035	Council area	2019	638.42	585.38	694.85
+Alcohol-related hospital admissions	City of Edinburgh	S12000036	Council area	2010	695.63	670.24	721.71
+Alcohol-related hospital admissions	City of Edinburgh	S12000036	Council area	2011	691.56	666.35	717.46
+Alcohol-related hospital admissions	City of Edinburgh	S12000036	Council area	2012	657.69	633.29	682.77
+Alcohol-related hospital admissions	City of Edinburgh	S12000036	Council area	2013	662.29	638.02	687.22
+Alcohol-related hospital admissions	City of Edinburgh	S12000036	Council area	2014	636.19	612.48	660.56
+Alcohol-related hospital admissions	City of Edinburgh	S12000036	Council area	2015	590	567.3	613.35
+Alcohol-related hospital admissions	City of Edinburgh	S12000036	Council area	2016	555.34	533.45	577.88
+Alcohol-related hospital admissions	City of Edinburgh	S12000036	Council area	2017	536.37	515.01	558.36
+Alcohol-related hospital admissions	City of Edinburgh	S12000036	Council area	2018	542.21	520.8	564.26
+Alcohol-related hospital admissions	City of Edinburgh	S12000036	Council area	2019	618.37	595.77	641.6
+Alcohol-related hospital admissions	Clackmannanshire	S12000005	Council area	2010	441.16	385.42	502.63
+Alcohol-related hospital admissions	Clackmannanshire	S12000005	Council area	2011	497.52	438.11	562.66
+Alcohol-related hospital admissions	Clackmannanshire	S12000005	Council area	2012	504.77	444.2	571.17
+Alcohol-related hospital admissions	Clackmannanshire	S12000005	Council area	2013	505.44	445.44	571.2
+Alcohol-related hospital admissions	Clackmannanshire	S12000005	Council area	2014	491.8	432.65	556.7
+Alcohol-related hospital admissions	Clackmannanshire	S12000005	Council area	2015	509.01	449.1	574.63
+Alcohol-related hospital admissions	Clackmannanshire	S12000005	Council area	2016	503.61	443.75	569.23
+Alcohol-related hospital admissions	Clackmannanshire	S12000005	Council area	2017	599.92	534.13	671.49
+Alcohol-related hospital admissions	Clackmannanshire	S12000005	Council area	2018	591.67	525.85	663.37
+Alcohol-related hospital admissions	Clackmannanshire	S12000005	Council area	2019	360.28	310.43	415.81
+Alcohol-related hospital admissions	Dumfries & Galloway	S12000006	Council area	2010	524.12	487.2	563.05
+Alcohol-related hospital admissions	Dumfries & Galloway	S12000006	Council area	2011	499	463.03	536.99
+Alcohol-related hospital admissions	Dumfries & Galloway	S12000006	Council area	2012	486.17	450.9	523.43
+Alcohol-related hospital admissions	Dumfries & Galloway	S12000006	Council area	2013	518.55	482.11	556.97
+Alcohol-related hospital admissions	Dumfries & Galloway	S12000006	Council area	2014	411.13	379.19	445.01
+Alcohol-related hospital admissions	Dumfries & Galloway	S12000006	Council area	2015	460.06	425.65	496.45
+Alcohol-related hospital admissions	Dumfries & Galloway	S12000006	Council area	2016	448.75	414.27	485.26
+Alcohol-related hospital admissions	Dumfries & Galloway	S12000006	Council area	2017	469.07	433.45	506.76
+Alcohol-related hospital admissions	Dumfries & Galloway	S12000006	Council area	2018	424.13	390.64	459.67
+Alcohol-related hospital admissions	Dumfries & Galloway	S12000006	Council area	2019	441.69	407.61	477.79
+Alcohol-related hospital admissions	Dundee City	S12000042	Council area	2010	783.96	736.85	833.25
+Alcohol-related hospital admissions	Dundee City	S12000042	Council area	2011	654.4	611.17	699.84
+Alcohol-related hospital admissions	Dundee City	S12000042	Council area	2012	676.17	632.57	721.94
+Alcohol-related hospital admissions	Dundee City	S12000042	Council area	2013	756.55	710.15	805.15
+Alcohol-related hospital admissions	Dundee City	S12000042	Council area	2014	776.87	729.63	826.33
+Alcohol-related hospital admissions	Dundee City	S12000042	Council area	2015	673.28	629.39	719.39
+Alcohol-related hospital admissions	Dundee City	S12000042	Council area	2016	658.48	614.82	704.4
+Alcohol-related hospital admissions	Dundee City	S12000042	Council area	2017	712.63	667.64	759.83
+Alcohol-related hospital admissions	Dundee City	S12000042	Council area	2018	707.32	662.42	754.42
+Alcohol-related hospital admissions	Dundee City	S12000042	Council area	2019	743.33	697.51	791.34
+Alcohol-related hospital admissions	East Ayrshire	S12000008	Council area	2010	980.88	925.67	1038.51
+Alcohol-related hospital admissions	East Ayrshire	S12000008	Council area	2011	925.15	871.44	981.28
+Alcohol-related hospital admissions	East Ayrshire	S12000008	Council area	2012	819.27	768.73	872.23
+Alcohol-related hospital admissions	East Ayrshire	S12000008	Council area	2013	805.15	754.76	857.99
+Alcohol-related hospital admissions	East Ayrshire	S12000008	Council area	2014	751.01	701.99	802.51
+Alcohol-related hospital admissions	East Ayrshire	S12000008	Council area	2015	662.02	616.33	710.18
+Alcohol-related hospital admissions	East Ayrshire	S12000008	Council area	2016	738.31	690.22	788.86
+Alcohol-related hospital admissions	East Ayrshire	S12000008	Council area	2017	649.91	604.54	697.76
+Alcohol-related hospital admissions	East Ayrshire	S12000008	Council area	2018	665.43	619.77	713.54
+Alcohol-related hospital admissions	East Ayrshire	S12000008	Council area	2019	662.37	616.46	710.75
+Alcohol-related hospital admissions	East Dunbartonshire	S12000045	Council area	2010	404.43	366	445.74
+Alcohol-related hospital admissions	East Dunbartonshire	S12000045	Council area	2011	412.48	372.76	455.2
+Alcohol-related hospital admissions	East Dunbartonshire	S12000045	Council area	2012	371.25	334.31	411.1
+Alcohol-related hospital admissions	East Dunbartonshire	S12000045	Council area	2013	435.09	395.17	477.89
+Alcohol-related hospital admissions	East Dunbartonshire	S12000045	Council area	2014	443.77	403.49	486.93
+Alcohol-related hospital admissions	East Dunbartonshire	S12000045	Council area	2015	460.41	419.66	503.99
+Alcohol-related hospital admissions	East Dunbartonshire	S12000045	Council area	2016	530.18	486.24	576.98
+Alcohol-related hospital admissions	East Dunbartonshire	S12000045	Council area	2017	466	424.86	510
+Alcohol-related hospital admissions	East Dunbartonshire	S12000045	Council area	2018	442.99	402.52	486.37
+Alcohol-related hospital admissions	East Dunbartonshire	S12000045	Council area	2019	423.81	384.77	465.68
+Alcohol-related hospital admissions	East Lothian	S12000010	Council area	2010	590.4	541.8	642.15
+Alcohol-related hospital admissions	East Lothian	S12000010	Council area	2011	547.01	500.71	596.4
+Alcohol-related hospital admissions	East Lothian	S12000010	Council area	2012	448.68	407.25	493.15
+Alcohol-related hospital admissions	East Lothian	S12000010	Council area	2013	444.79	404.12	488.42
+Alcohol-related hospital admissions	East Lothian	S12000010	Council area	2014	468.17	426.13	513.21
+Alcohol-related hospital admissions	East Lothian	S12000010	Council area	2015	427.68	387.96	470.33
+Alcohol-related hospital admissions	East Lothian	S12000010	Council area	2016	380.85	344.21	420.32
+Alcohol-related hospital admissions	East Lothian	S12000010	Council area	2017	415.6	376.8	457.27
+Alcohol-related hospital admissions	East Lothian	S12000010	Council area	2018	411.04	372.62	452.33
+Alcohol-related hospital admissions	East Lothian	S12000010	Council area	2019	416.57	378.17	457.79
+Alcohol-related hospital admissions	East Renfrewshire	S12000011	Council area	2010	425.1	381.44	472.31
+Alcohol-related hospital admissions	East Renfrewshire	S12000011	Council area	2011	525.4	476.36	578.04
+Alcohol-related hospital admissions	East Renfrewshire	S12000011	Council area	2012	484.4	437.49	534.88
+Alcohol-related hospital admissions	East Renfrewshire	S12000011	Council area	2013	449.29	404.73	497.34
+Alcohol-related hospital admissions	East Renfrewshire	S12000011	Council area	2014	412.9	371.27	457.86
+Alcohol-related hospital admissions	East Renfrewshire	S12000011	Council area	2015	437.39	394.32	483.83
+Alcohol-related hospital admissions	East Renfrewshire	S12000011	Council area	2016	417.61	375.27	463.36
+Alcohol-related hospital admissions	East Renfrewshire	S12000011	Council area	2017	411.2	370.01	455.67
+Alcohol-related hospital admissions	East Renfrewshire	S12000011	Council area	2018	450.92	407.91	497.2
+Alcohol-related hospital admissions	East Renfrewshire	S12000011	Council area	2019	457.98	414.52	504.71
+Alcohol-related hospital admissions	Falkirk	S12000014	Council area	2010	374.75	344.35	407.11
+Alcohol-related hospital admissions	Falkirk	S12000014	Council area	2011	424.31	392.03	458.52
+Alcohol-related hospital admissions	Falkirk	S12000014	Council area	2012	441.91	408.97	476.76
+Alcohol-related hospital admissions	Falkirk	S12000014	Council area	2013	512.99	477.45	550.45
+Alcohol-related hospital admissions	Falkirk	S12000014	Council area	2014	519.35	483.84	556.75
+Alcohol-related hospital admissions	Falkirk	S12000014	Council area	2015	529.39	493.74	566.93
+Alcohol-related hospital admissions	Falkirk	S12000014	Council area	2016	490.6	456.48	526.57
+Alcohol-related hospital admissions	Falkirk	S12000014	Council area	2017	536.04	500.39	573.54
+Alcohol-related hospital admissions	Falkirk	S12000014	Council area	2018	538.88	503.16	576.45
+Alcohol-related hospital admissions	Falkirk	S12000014	Council area	2019	392.16	361.87	424.3
+Alcohol-related hospital admissions	Fife	S12000047	Council area	2010	613.92	588.04	640.63
+Alcohol-related hospital admissions	Fife	S12000047	Council area	2011	554	529.74	579.08
+Alcohol-related hospital admissions	Fife	S12000047	Council area	2012	628.78	602.89	655.5
+Alcohol-related hospital admissions	Fife	S12000047	Council area	2013	636.76	610.75	663.59
+Alcohol-related hospital admissions	Fife	S12000047	Council area	2014	629.98	604.18	656.59
+Alcohol-related hospital admissions	Fife	S12000047	Council area	2015	609.32	583.95	635.51
+Alcohol-related hospital admissions	Fife	S12000047	Council area	2016	641.22	615.35	667.88
+Alcohol-related hospital admissions	Fife	S12000047	Council area	2017	644.98	619.04	671.72
+Alcohol-related hospital admissions	Fife	S12000047	Council area	2018	677.73	651.1	705.17
+Alcohol-related hospital admissions	Fife	S12000047	Council area	2019	702.48	675.43	730.33
+Alcohol-related hospital admissions	Glasgow City	S12000049	Council area	2010	1516.94	1482.99	1551.45
+Alcohol-related hospital admissions	Glasgow City	S12000049	Council area	2011	1398.35	1365.96	1431.3
+Alcohol-related hospital admissions	Glasgow City	S12000049	Council area	2012	1256.7	1225.96	1288
+Alcohol-related hospital admissions	Glasgow City	S12000049	Council area	2013	1249.22	1218.42	1280.59
+Alcohol-related hospital admissions	Glasgow City	S12000049	Council area	2014	1198.5	1168.29	1229.27
+Alcohol-related hospital admissions	Glasgow City	S12000049	Council area	2015	1238.55	1207.83	1269.84
+Alcohol-related hospital admissions	Glasgow City	S12000049	Council area	2016	1336.74	1305.13	1368.9
+Alcohol-related hospital admissions	Glasgow City	S12000049	Council area	2017	1219.28	1189.23	1249.88
+Alcohol-related hospital admissions	Glasgow City	S12000049	Council area	2018	1145.8	1116.85	1175.29
+Alcohol-related hospital admissions	Glasgow City	S12000049	Council area	2019	1168.93	1139.97	1198.43
+Alcohol-related hospital admissions	Highland	S12000017	Council area	2010	720.15	685.44	756.16
+Alcohol-related hospital admissions	Highland	S12000017	Council area	2011	684.85	650.95	720.03
+Alcohol-related hospital admissions	Highland	S12000017	Council area	2012	697.23	663.33	732.41
+Alcohol-related hospital admissions	Highland	S12000017	Council area	2013	669.59	636.63	703.81
+Alcohol-related hospital admissions	Highland	S12000017	Council area	2014	649.89	617.35	683.68
+Alcohol-related hospital admissions	Highland	S12000017	Council area	2015	658.5	625.88	692.36
+Alcohol-related hospital admissions	Highland	S12000017	Council area	2016	607.47	576.41	639.76
+Alcohol-related hospital admissions	Highland	S12000017	Council area	2017	597.4	566.57	629.46
+Alcohol-related hospital admissions	Highland	S12000017	Council area	2018	641.57	609.54	674.83
+Alcohol-related hospital admissions	Highland	S12000017	Council area	2019	651.95	619.66	685.46
+Alcohol-related hospital admissions	Inverclyde	S12000018	Council area	2010	1191.2	1115.93	1270.16
+Alcohol-related hospital admissions	Inverclyde	S12000018	Council area	2011	1152.62	1078.96	1229.94
+Alcohol-related hospital admissions	Inverclyde	S12000018	Council area	2012	853.02	789.82	919.88
+Alcohol-related hospital admissions	Inverclyde	S12000018	Council area	2013	1022.72	952.79	1096.37
+Alcohol-related hospital admissions	Inverclyde	S12000018	Council area	2014	1074.98	1003.06	1150.63
+Alcohol-related hospital admissions	Inverclyde	S12000018	Council area	2015	1154.23	1079.36	1232.88
+Alcohol-related hospital admissions	Inverclyde	S12000018	Council area	2016	1001.86	932.51	1074.95
+Alcohol-related hospital admissions	Inverclyde	S12000018	Council area	2017	1038.23	967.54	1112.67
+Alcohol-related hospital admissions	Inverclyde	S12000018	Council area	2018	954.69	885.83	1027.42
+Alcohol-related hospital admissions	Inverclyde	S12000018	Council area	2019	822.98	759.42	890.39
+Alcohol-related hospital admissions	Midlothian	S12000019	Council area	2010	581.59	529.79	637.02
+Alcohol-related hospital admissions	Midlothian	S12000019	Council area	2011	513.41	465.17	565.26
+Alcohol-related hospital admissions	Midlothian	S12000019	Council area	2012	548.89	498.55	602.9
+Alcohol-related hospital admissions	Midlothian	S12000019	Council area	2013	545.24	495.56	598.53
+Alcohol-related hospital admissions	Midlothian	S12000019	Council area	2014	587.66	536.66	642.17
+Alcohol-related hospital admissions	Midlothian	S12000019	Council area	2015	563.05	512.96	616.65
+Alcohol-related hospital admissions	Midlothian	S12000019	Council area	2016	539.06	490.85	590.71
+Alcohol-related hospital admissions	Midlothian	S12000019	Council area	2017	541.59	493.47	593.12
+Alcohol-related hospital admissions	Midlothian	S12000019	Council area	2018	435.08	392.59	480.89
+Alcohol-related hospital admissions	Midlothian	S12000019	Council area	2019	553.21	505.5	604.18
+Alcohol-related hospital admissions	Moray	S12000020	Council area	2010	465.99	422.6	512.58
+Alcohol-related hospital admissions	Moray	S12000020	Council area	2011	528.64	482.59	577.87
+Alcohol-related hospital admissions	Moray	S12000020	Council area	2012	422.47	381.26	466.9
+Alcohol-related hospital admissions	Moray	S12000020	Council area	2013	434.01	392.34	478.87
+Alcohol-related hospital admissions	Moray	S12000020	Council area	2014	491.43	447.11	538.94
+Alcohol-related hospital admissions	Moray	S12000020	Council area	2015	478.21	434.8	524.75
+Alcohol-related hospital admissions	Moray	S12000020	Council area	2016	480.86	437.57	527.25
+Alcohol-related hospital admissions	Moray	S12000020	Council area	2017	502.49	457.96	550.14
+Alcohol-related hospital admissions	Moray	S12000020	Council area	2018	399.85	360.53	442.27
+Alcohol-related hospital admissions	Moray	S12000020	Council area	2019	474.04	430.87	520.33
+Alcohol-related hospital admissions	Na h-Eileanan Siar	S12000013	Council area	2010	1046.58	928.75	1175.09
+Alcohol-related hospital admissions	Na h-Eileanan Siar	S12000013	Council area	2011	929.86	820.18	1049.96
+Alcohol-related hospital admissions	Na h-Eileanan Siar	S12000013	Council area	2012	804.23	703.11	915.66
+Alcohol-related hospital admissions	Na h-Eileanan Siar	S12000013	Council area	2013	871.41	765.08	988.2
+Alcohol-related hospital admissions	Na h-Eileanan Siar	S12000013	Council area	2014	618.13	529.55	717.11
+Alcohol-related hospital admissions	Na h-Eileanan Siar	S12000013	Council area	2015	710.2	614.46	816.39
+Alcohol-related hospital admissions	Na h-Eileanan Siar	S12000013	Council area	2016	805.85	702.58	919.79
+Alcohol-related hospital admissions	Na h-Eileanan Siar	S12000013	Council area	2017	705.15	607.99	813.12
+Alcohol-related hospital admissions	Na h-Eileanan Siar	S12000013	Council area	2018	995.51	878.75	1123.15
+Alcohol-related hospital admissions	Na h-Eileanan Siar	S12000013	Council area	2019	903.28	791.88	1025.61
+Alcohol-related hospital admissions	North Ayrshire	S12000021	Council area	2010	1119.74	1063.38	1178.28
+Alcohol-related hospital admissions	North Ayrshire	S12000021	Council area	2011	1093.77	1038.26	1151.46
+Alcohol-related hospital admissions	North Ayrshire	S12000021	Council area	2012	926.15	874.57	979.95
+Alcohol-related hospital admissions	North Ayrshire	S12000021	Council area	2013	922.55	870.48	976.89
+Alcohol-related hospital admissions	North Ayrshire	S12000021	Council area	2014	868.31	818.6	920.22
+Alcohol-related hospital admissions	North Ayrshire	S12000021	Council area	2015	814.68	766.62	864.93
+Alcohol-related hospital admissions	North Ayrshire	S12000021	Council area	2016	895.47	844.27	948.92
+Alcohol-related hospital admissions	North Ayrshire	S12000021	Council area	2017	879.75	829.23	932.5
+Alcohol-related hospital admissions	North Ayrshire	S12000021	Council area	2018	835.23	785.31	887.45
+Alcohol-related hospital admissions	North Ayrshire	S12000021	Council area	2019	761.89	714.21	811.86
+Alcohol-related hospital admissions	North Lanarkshire	S12000050	Council area	2010	683.25	654.66	712.76
+Alcohol-related hospital admissions	North Lanarkshire	S12000050	Council area	2011	763.8	733.53	794.99
+Alcohol-related hospital admissions	North Lanarkshire	S12000050	Council area	2012	786.29	755.65	817.83
+Alcohol-related hospital admissions	North Lanarkshire	S12000050	Council area	2013	791.47	760.95	822.89
+Alcohol-related hospital admissions	North Lanarkshire	S12000050	Council area	2014	781.85	751.35	813.25
+Alcohol-related hospital admissions	North Lanarkshire	S12000050	Council area	2015	834.51	803.19	866.73
+Alcohol-related hospital admissions	North Lanarkshire	S12000050	Council area	2016	859.46	827.81	892.01
+Alcohol-related hospital admissions	North Lanarkshire	S12000050	Council area	2017	920.23	887.49	953.86
+Alcohol-related hospital admissions	North Lanarkshire	S12000050	Council area	2018	932.74	899.8	966.57
+Alcohol-related hospital admissions	North Lanarkshire	S12000050	Council area	2019	982.36	948.76	1016.83
+Alcohol-related hospital admissions	Orkney Islands	S12000023	Council area	2010	1740.73	1567.05	1928.27
+Alcohol-related hospital admissions	Orkney Islands	S12000023	Council area	2011	1679.4	1509.52	1863.06
+Alcohol-related hospital admissions	Orkney Islands	S12000023	Council area	2012	1540.15	1381.91	1711.45
+Alcohol-related hospital admissions	Orkney Islands	S12000023	Council area	2013	1407.14	1255.97	1571.37
+Alcohol-related hospital admissions	Orkney Islands	S12000023	Council area	2014	728.31	618.1	852.26
+Alcohol-related hospital admissions	Orkney Islands	S12000023	Council area	2015	698.65	591.01	819.98
+Alcohol-related hospital admissions	Orkney Islands	S12000023	Council area	2016	542.51	451.11	646.81
+Alcohol-related hospital admissions	Orkney Islands	S12000023	Council area	2017	742.6	633.1	865.35
+Alcohol-related hospital admissions	Orkney Islands	S12000023	Council area	2018	697.4	591.3	816.77
+Alcohol-related hospital admissions	Orkney Islands	S12000023	Council area	2019	619.45	517.65	735.15
+Alcohol-related hospital admissions	Perth & Kinross	S12000048	Council area	2010	490.87	455.11	528.67
+Alcohol-related hospital admissions	Perth & Kinross	S12000048	Council area	2011	478.5	443.39	515.63
+Alcohol-related hospital admissions	Perth & Kinross	S12000048	Council area	2012	435.81	402.45	471.18
+Alcohol-related hospital admissions	Perth & Kinross	S12000048	Council area	2013	354.22	324.45	385.97
+Alcohol-related hospital admissions	Perth & Kinross	S12000048	Council area	2014	401.43	369.59	435.27
+Alcohol-related hospital admissions	Perth & Kinross	S12000048	Council area	2015	329.13	300.61	359.61
+Alcohol-related hospital admissions	Perth & Kinross	S12000048	Council area	2016	396.3	364.81	429.76
+Alcohol-related hospital admissions	Perth & Kinross	S12000048	Council area	2017	354.19	324.48	385.88
+Alcohol-related hospital admissions	Perth & Kinross	S12000048	Council area	2018	380.76	349.88	413.6
+Alcohol-related hospital admissions	Perth & Kinross	S12000048	Council area	2019	414.86	382.75	448.91
+Alcohol-related hospital admissions	Renfrewshire	S12000038	Council area	2010	929.85	883.97	977.47
+Alcohol-related hospital admissions	Renfrewshire	S12000038	Council area	2011	960.9	914.24	1009.31
+Alcohol-related hospital admissions	Renfrewshire	S12000038	Council area	2012	953.27	907.17	1001.09
+Alcohol-related hospital admissions	Renfrewshire	S12000038	Council area	2013	1010.8	962.9	1060.44
+Alcohol-related hospital admissions	Renfrewshire	S12000038	Council area	2014	968.52	921.87	1016.89
+Alcohol-related hospital admissions	Renfrewshire	S12000038	Council area	2015	934.95	889.33	982.29
+Alcohol-related hospital admissions	Renfrewshire	S12000038	Council area	2016	935.74	890.33	982.84
+Alcohol-related hospital admissions	Renfrewshire	S12000038	Council area	2017	847.74	804.44	892.74
+Alcohol-related hospital admissions	Renfrewshire	S12000038	Council area	2018	807.51	765.6	851.1
+Alcohol-related hospital admissions	Renfrewshire	S12000038	Council area	2019	789.63	748.13	832.83
+Alcohol-related hospital admissions	Scotland	S00000001	Scotland	2010	759.79	752.2	767.44
+Alcohol-related hospital admissions	Scotland	S00000001	Scotland	2011	749.75	742.24	757.31
+Alcohol-related hospital admissions	Scotland	S00000001	Scotland	2012	699.05	691.81	706.35
+Alcohol-related hospital admissions	Scotland	S00000001	Scotland	2013	706.39	699.12	713.71
+Alcohol-related hospital admissions	Scotland	S00000001	Scotland	2014	676.56	669.47	683.7
+Alcohol-related hospital admissions	Scotland	S00000001	Scotland	2015	674.09	667.04	681.2
+Alcohol-related hospital admissions	Scotland	S00000001	Scotland	2016	685.36	678.28	692.5
+Alcohol-related hospital admissions	Scotland	S00000001	Scotland	2017	669.17	662.19	676.21
+Alcohol-related hospital admissions	Scotland	S00000001	Scotland	2018	669.33	662.37	676.35
+Alcohol-related hospital admissions	Scotland	S00000001	Scotland	2019	673.27	666.3	680.28
+Alcohol-related hospital admissions	Scottish Borders	S12000026	Council area	2010	543.17	499.76	589.27
+Alcohol-related hospital admissions	Scottish Borders	S12000026	Council area	2011	624.52	578	673.73
+Alcohol-related hospital admissions	Scottish Borders	S12000026	Council area	2012	556.8	512.67	603.63
+Alcohol-related hospital admissions	Scottish Borders	S12000026	Council area	2013	567.27	522.78	614.46
+Alcohol-related hospital admissions	Scottish Borders	S12000026	Council area	2014	459.31	419.65	501.62
+Alcohol-related hospital admissions	Scottish Borders	S12000026	Council area	2015	444.58	405.25	486.62
+Alcohol-related hospital admissions	Scottish Borders	S12000026	Council area	2016	450.26	410.84	492.36
+Alcohol-related hospital admissions	Scottish Borders	S12000026	Council area	2017	408.24	371.21	447.9
+Alcohol-related hospital admissions	Scottish Borders	S12000026	Council area	2018	449.45	410.82	490.65
+Alcohol-related hospital admissions	Scottish Borders	S12000026	Council area	2019	491.46	451.65	533.76
+Alcohol-related hospital admissions	Shetland Islands	S12000027	Council area	2010	721.69	614.22	842.39
+Alcohol-related hospital admissions	Shetland Islands	S12000027	Council area	2011	956.91	834.41	1092.21
+Alcohol-related hospital admissions	Shetland Islands	S12000027	Council area	2012	716.2	610.58	834.71
+Alcohol-related hospital admissions	Shetland Islands	S12000027	Council area	2013	683.17	581.19	797.82
+Alcohol-related hospital admissions	Shetland Islands	S12000027	Council area	2014	575.97	482.47	682.24
+Alcohol-related hospital admissions	Shetland Islands	S12000027	Council area	2015	672.73	570.36	788.08
+Alcohol-related hospital admissions	Shetland Islands	S12000027	Council area	2016	604.45	507.89	713.93
+Alcohol-related hospital admissions	Shetland Islands	S12000027	Council area	2017	631.09	534	740.66
+Alcohol-related hospital admissions	Shetland Islands	S12000027	Council area	2018	618.37	520.59	729.09
+Alcohol-related hospital admissions	Shetland Islands	S12000027	Council area	2019	486.65	399.65	586.84
+Alcohol-related hospital admissions	South Ayrshire	S12000028	Council area	2010	914.28	858.29	972.93
+Alcohol-related hospital admissions	South Ayrshire	S12000028	Council area	2011	875.58	820.93	932.87
+Alcohol-related hospital admissions	South Ayrshire	S12000028	Council area	2012	795.04	743.05	849.66
+Alcohol-related hospital admissions	South Ayrshire	S12000028	Council area	2013	772.81	720.78	827.55
+Alcohol-related hospital admissions	South Ayrshire	S12000028	Council area	2014	717.24	667.64	769.51
+Alcohol-related hospital admissions	South Ayrshire	S12000028	Council area	2015	696.95	647.96	748.6
+Alcohol-related hospital admissions	South Ayrshire	S12000028	Council area	2016	705.36	656.23	757.13
+Alcohol-related hospital admissions	South Ayrshire	S12000028	Council area	2017	749.8	698.48	803.83
+Alcohol-related hospital admissions	South Ayrshire	S12000028	Council area	2018	737.92	687.49	790.99
+Alcohol-related hospital admissions	South Ayrshire	S12000028	Council area	2019	687.92	639.33	739.14
+Alcohol-related hospital admissions	South Lanarkshire	S12000029	Council area	2010	561.25	534.84	588.62
+Alcohol-related hospital admissions	South Lanarkshire	S12000029	Council area	2011	677.84	648.81	707.82
+Alcohol-related hospital admissions	South Lanarkshire	S12000029	Council area	2012	620.6	592.83	649.32
+Alcohol-related hospital admissions	South Lanarkshire	S12000029	Council area	2013	712.46	682.66	743.21
+Alcohol-related hospital admissions	South Lanarkshire	S12000029	Council area	2014	673.29	644.46	703.08
+Alcohol-related hospital admissions	South Lanarkshire	S12000029	Council area	2015	692.7	663.53	722.81
+Alcohol-related hospital admissions	South Lanarkshire	S12000029	Council area	2016	706.03	676.76	736.23
+Alcohol-related hospital admissions	South Lanarkshire	S12000029	Council area	2017	699.4	670.34	729.38
+Alcohol-related hospital admissions	South Lanarkshire	S12000029	Council area	2018	766.59	736.19	797.92
+Alcohol-related hospital admissions	South Lanarkshire	S12000029	Council area	2019	747.14	717.25	777.96
+Alcohol-related hospital admissions	Stirling	S12000030	Council area	2010	455.13	410.43	503.33
+Alcohol-related hospital admissions	Stirling	S12000030	Council area	2011	490.43	443.85	540.52
+Alcohol-related hospital admissions	Stirling	S12000030	Council area	2012	410.02	368.18	455.25
+Alcohol-related hospital admissions	Stirling	S12000030	Council area	2013	455.65	411.2	503.54
+Alcohol-related hospital admissions	Stirling	S12000030	Council area	2014	365.79	326.8	408.1
+Alcohol-related hospital admissions	Stirling	S12000030	Council area	2015	423.19	381.08	468.63
+Alcohol-related hospital admissions	Stirling	S12000030	Council area	2016	388.79	348.63	432.26
+Alcohol-related hospital admissions	Stirling	S12000030	Council area	2017	413.45	372.22	457.96
+Alcohol-related hospital admissions	Stirling	S12000030	Council area	2018	429.64	387.43	475.15
+Alcohol-related hospital admissions	Stirling	S12000030	Council area	2019	320.61	284.86	359.58
+Alcohol-related hospital admissions	West Dunbartonshire	S12000039	Council area	2010	1247.97	1173.47	1325.92
+Alcohol-related hospital admissions	West Dunbartonshire	S12000039	Council area	2011	1027.36	960.42	1097.67
+Alcohol-related hospital admissions	West Dunbartonshire	S12000039	Council area	2012	911.48	848.42	977.95
+Alcohol-related hospital admissions	West Dunbartonshire	S12000039	Council area	2013	979.85	912.9	1050.33
+Alcohol-related hospital admissions	West Dunbartonshire	S12000039	Council area	2014	950.79	885.28	1019.81
+Alcohol-related hospital admissions	West Dunbartonshire	S12000039	Council area	2015	1057.56	989.07	1129.49
+Alcohol-related hospital admissions	West Dunbartonshire	S12000039	Council area	2016	1096.6	1027.34	1169.26
+Alcohol-related hospital admissions	West Dunbartonshire	S12000039	Council area	2017	1053.59	985.4	1125.2
+Alcohol-related hospital admissions	West Dunbartonshire	S12000039	Council area	2018	1005.56	939.73	1074.73
+Alcohol-related hospital admissions	West Dunbartonshire	S12000039	Council area	2019	1075.35	1006.14	1148
+Alcohol-related hospital admissions	West Lothian	S12000040	Council area	2010	723.4	682.54	766.03
+Alcohol-related hospital admissions	West Lothian	S12000040	Council area	2011	768.97	726.76	812.95
+Alcohol-related hospital admissions	West Lothian	S12000040	Council area	2012	737.79	695.79	781.6
+Alcohol-related hospital admissions	West Lothian	S12000040	Council area	2013	642.28	604.06	682.25
+Alcohol-related hospital admissions	West Lothian	S12000040	Council area	2014	644.98	607.3	684.36
+Alcohol-related hospital admissions	West Lothian	S12000040	Council area	2015	644.47	607.08	683.56
+Alcohol-related hospital admissions	West Lothian	S12000040	Council area	2016	658.59	620.3	698.6
+Alcohol-related hospital admissions	West Lothian	S12000040	Council area	2017	595.18	559.35	632.69
+Alcohol-related hospital admissions	West Lothian	S12000040	Council area	2018	617.29	580.91	655.33
+Alcohol-related hospital admissions	West Lothian	S12000040	Council area	2019	593.01	557.38	630.31

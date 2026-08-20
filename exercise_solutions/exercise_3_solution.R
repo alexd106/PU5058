@@ -1,151 +1,81 @@
 ## ----Q5, echo=SOLUTIONS-------------------------------------------------------
-whale <- read.table('data/whaledata.txt', header = TRUE, stringsAsFactors = TRUE)
+cardiac <- read.table('data/cardiacdata.txt', header = TRUE, sep = "\t",
+                      na.strings = "NA", stringsAsFactors = TRUE)
 
 
 ## ----Q6, echo=SOLUTIONS-------------------------------------------------------
-head(whale)         # display the first 5 rows 
-names(whale)        # display the variable names
-str(whale)          # display the structure of the dataframe whale
+head(cardiac)         # display the first few rows 
+names(cardiac)        # display the variable names
+str(cardiac)          # display the structure of the dataframe cardiac
 
-# 'data.frame':	100 obs. of  8 variables:
-#  $ month          : Factor w/ 2 levels "May","October": 1 1 1 1 ...
-#  $ time.at.station: int  1344 1633 743 1050 1764 580 459 ...
-#  $ water.noise    : Factor w/ 3 levels "high","low","medium": 2 3 3 3 ...
-#  $ number.whales  : int  7 13 12 10 12 10 5 8 11 12 ...
-#  $ latitude       : num  60.4 60.4 60.5 60.3 60.4 ...
-#  $ longitude      : num  -4.18 -4.19 -4.62 -4.35 -5.2 ...
-#  $ depth          : int  520 559 1006 540 1000 1000 993 988 ...
-#  $ gradient       : int  415 405 88 409 97 173 162 162 245 161 ..
+# 'data.frame':	163 obs. of  11 variables:
+#  $ patno       : Factor w/ 163 levels "0049B","0052H",..: 6 54 65 69 ...
+#  $ age         : num  71 68.2 62.9 69.9 65 ...
+#  $ sex         : int  2 2 2 2 2 2 2 1 1 2 ...
+#  $ systolic    : int  142 140 156 154 187 123 147 140 131 128 ...
+#  $ diastolic   : int  63 78 82 102 131 63 66 67 73 62 ...
+#  $ tchol       : num  7.03 5.32 9.34 7.19 8.84 6.17 6.2 6.96 7.02 7.21 ...
+#  $ hdlchol     : num  1.4 0.88 0.92 1.31 1.83 1.58 1.65 1.68 1.57 1.08 ...
+#  $ triglyceride: num  0.81 3.4 4.67 2.53 1.76 0.73 1.11 0.69 1.29 1.16 ...
+#  $ bmi         : num  24.7 26 26.6 26.2 26.1 ...
+#  $ alcohol     : int  9 2 7 24 14 8 0 2 0 0 ...
+#  $ smoking     : int  NA NA NA NA NA NA NA 1 1 1 ...
 
-# the dataframe whale has 100 observations
-# the dataframe whale has 8 variables
-# the variables month and water.noise are factors
+# 163 observations and 11 variables.
+
+# R thinks sex and smoking are integers, because that is how they are stored
+# in the file: sex is coded 1 and 2, smoking is coded 1, 2 and 3. But they are
+# not really numbers, they are categories, and R has no way of knowing that.
+# Nothing stops you calculating mean(cardiac$sex) - it returns 1.52 - and that
+# number is meaningless. You will convert these to factors in Exercise 4.
+
+# patno is a factor with 163 levels, one for every row. A factor with as many
+# levels as there are rows is a good sign that you are looking at an identifier
+# rather than a variable.
 
 
 ## ----Q7, echo=SOLUTIONS-------------------------------------------------------
-summary(whale)
+summary(cardiac)
 
-# NOTE: I have removed the last 3 column information to save space!
+# NOTE: only some of the columns are shown here, to save space
 
- #    month    time.at.station  water.noise number.whales      latitude        
- # May    :50   Min.   :  60.0   high  :15   Min.   : 0.00   Min.   :60.29   
- # October:50   1st Qu.: 693.8   low   :28   1st Qu.: 9.00   1st Qu.:60.69   
- #              Median :1077.5   medium:57   Median :11.00   Median :61.29  
- #              Mean   :1064.7               Mean   :11.56   Mean   :61.16  
- #              3rd Qu.:1349.2               3rd Qu.:14.00   3rd Qu.:61.59     
- #              Max.   :2158.0               Max.   :28.00   Max.   :62.10     
- #                                           NA's   :1    
+ #     tchol           hdlchol       triglyceride        bmi        
+ #  Min.   : 4.120   Min.   :0.000   Min.   :0.000   Min.   : 17.57  
+ #  1st Qu.: 6.140   1st Qu.:1.080   1st Qu.:1.040   1st Qu.: 22.88  
+ #  Median : 6.830   Median :1.360   Median :1.380   Median : 25.20  
+ #  Mean   : 6.978   Mean   :1.404   Mean   :1.547   Mean   : 28.72  
+ #  3rd Qu.: 7.720   3rd Qu.:1.700   3rd Qu.:1.870   3rd Qu.: 28.24  
+ #  Max.   :11.660   Max.   :3.000   Max.   :4.670   Max.   :514.60  
+ #  NA's   :2        NA's   :2       NA's   :2                       
 
-# the variable number.whales has one missing value (NA)
+# Four variables have missing values: tchol, hdlchol and triglyceride have 2
+# each, and smoking has 7.
+
+# The maximum bmi is 514.60. A body mass index of 514 is not possible; the
+# heaviest person ever recorded had a BMI of around 200. Notice that nothing
+# went wrong when you imported the file, and R will happily calculate a mean
+# from it (28.72, when the median is 25.20). It is simply a wrong number sitting
+# quietly in a column of right ones. You will deal with it in Exercise 4.
 
 
 ## ----Q8, echo=SOLUTIONS-------------------------------------------------------
 # first 10 rows and first 4 columns
-whale.sub <- whale[1:10, 1:4]                                      
+cardiac.sub <- cardiac[1:10, 1:4]                                      
 
-# all rows and columns 1, 3 and 6
-whale.num <- whale[, c(1, 3, 4)] 
-# alternative way of indexing columns with named indexes
-whale.num <- whale[, c("month", "water.noise", "number.whales")]    
+# all rows and the columns patno, sex, smoking and tchol
+cardiac.risk <- cardiac[, c(1, 3, 11, 6)] 
+# alternative way of indexing columns with named indexes - much easier to read,
+# and it still works if the column order changes
+cardiac.risk <- cardiac[, c("patno", "sex", "smoking", "tchol")]    
 
 # first 50 rows and all columns
-whale.may <- whale[1:50, ]  
+cardiac.50 <- cardiac[1:50, ]  
 
 # excluding first 10 rows and last column using negative indexing
-whale.last <- whale[-c(1:10), -8]  
+cardiac.last <- cardiac[-c(1:10), -11]  
 # more general way if you have lots of columns
-whale.last <- whale[-c(1:10), -c(ncol(whale))] 
-# NOTE: this doesn't work for named columns
-whale.last <- whale[-c(1:10), -c("gradient")]   
-
-
-## ----Q9, echo=SOLUTIONS, tidy = TRUE------------------------------------------
-whale.1200 <- whale[whale$depth > 1200, ]
-
-whale.200 <- whale[whale$gradient > 200, ]
-
-whale.low <- whale[whale$water.noise == 'low', ]
-
-whale.h.may <- whale[whale$water.noise == 'high' & whale$month == 'May', ]
-
-whale.subset <- whale[whale$month == 'October' & whale$water.noise == 'low' & whale$gradient > 132, ]
-
-whale.lat.long <- whale[whale$latitude > 60 & whale$latitude < 61 & whale$longitude > -6 & whale$longitude < -4, ]
-
-whale.nomed <- whale[whale$water.noise != 'medium', ]
-
-
-## ----Q10, echo=SOLUTIONS, tidy = TRUE-----------------------------------------
-whale.subset <- whale[whale$month == 'October' & whale$water.noise == 'low' & whale$gradient > median(whale$gradient), ]
-
-
-## ----Q11, echo=SOLUTIONS, tidy = TRUE-----------------------------------------
-# results in a dataframe filled with NAs. 
-whale.new <- whale[whale$depth > 1500 & whale$number.whales > mean(whale$number.whales), ]
-
-# the variable number.whales contains 1 NA value. By default the mean function will return an NA.
-# use the na.rm argument to ignore NAs
-whale.new <- whale[whale$depth > 1500 & whale$number.whales > mean(whale$number.whales, na.rm = TRUE), ]  
-
-
-
-## ----Q12, echo=SOLUTIONS, tidy = TRUE-----------------------------------------
-subset(whale, month == 'May' & time.at.station < 1000 & depth > 1000)
-
-subset(whale, month == "October" & latitude > 61, select = c("month", "latitude", "longitude", "number.whales"))
-
-
-## ----Q13, echo=SOLUTIONS------------------------------------------------------
-whale.depth.sort <- whale[order(whale$depth), ]
-
-
-## ----Q14, echo=SOLUTIONS------------------------------------------------------
-# notice how the variable water.noise has been ordered - why?
-whale.sorted <- whale[order(whale$water.noise, whale$depth), ]        
-
-# use '-' to reverse the order of depth
-whale.rev.sorted <- whale[order(whale$water.noise, -whale$depth), ]   
-
-
-## ----Q15a, echo=SOLUTIONS-----------------------------------------------------
-mean(whale$time.at.station)     # mean time at station
-median(whale$depth)             # median depth
-length(whale$number.whales)     # number of observations
-
-
-## ----Q15b, echo=SOLUTIONS-----------------------------------------------------
-tapply(whale$number.whales, whale$water.noise, mean)      # notice the NA?
-
-# use the na.rm argument again
-tapply(whale$number.whales, whale$water.noise, mean, na.rm = TRUE)    
-
-# alternative method using the with() function. see ?with
-with(whale, tapply(number.whales, water.noise, mean, na.rm = TRUE))   
-
-# when using multiple factors these need to be supplied as a list
-tapply(whale$number.whales, list(whale$water.noise, whale$month), median, na.rm = TRUE)    
-
-
-
-## ----Q16, echo=SOLUTIONS, tidy = TRUE-----------------------------------------
-aggregate(whale[, c(2, 4, 7, 8)], by = list(water.noise = whale$water.noise), mean, na.rm = TRUE)
-
-aggregate(whale[, c(2, 4, 7, 8)], by = list(water.noise = whale$water.noise, month = whale$month), mean, na.rm = TRUE)
-
-# optional question. Need to specify a function 'on the fly' using function(x){}
-aggregate(whale[, c(2, 4, 7, 8)], by = list(water.noise = whale$water.noise, month = whale$month), function(x){round(mean(x, na.rm = TRUE), digits = 2)})
-
-
-## ----Q17, echo=SOLUTIONS------------------------------------------------------
-# using table
-table(whale$water.noise)
-table(whale$water.noise, whale$month)
-
-# using xtabs
-xtabs(~ water.noise, data = whale)
-xtabs(~ month + water.noise, data = whale)
-
-
-## ----Q18, echo=SOLUTIONS, tidy = TRUE-----------------------------------------
-write.table(whale.num, "output/whale_num.txt", col.names = TRUE, row.names = FALSE, sep = "\t")
+cardiac.last <- cardiac[-c(1:10), -c(ncol(cardiac))] 
+# NOTE: negative indexing does NOT work with column names. Uncomment the line
+# below and run it to see the error for yourself:
+# cardiac.last <- cardiac[-c(1:10), -c("smoking")]
 

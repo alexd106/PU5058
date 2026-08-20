@@ -20,7 +20,7 @@ Follow the links below for solutions to each of the exercises you have completed
 
 \  
 
-#### Section 1 Exercise solutions
+#### Exercise solutions
 
 ```{r, reveal, echo=FALSE, eval = isFALSE(show_text12)}
 cat("solutions will be released as the course progresses")
@@ -53,29 +53,23 @@ paste0("- [", link_name, "](", file_name, "){target='_blank'}") %>%
 cat(sep="\n\n")
 ```
 
-```{r sol5, results='asis', eval = isTRUE(show_text5)}
-file_name <- "exercise_5_solution.html"
+```{r sol56, results='asis', eval = isTRUE(show_text56)}
+file_name <- paste0("exercise_", 5:6, "_solution.html")
 
 link_name <- file_name %>%
   gsub("\\.html", "", .) %>%
   paste0(., "s") %>%
   gsub("_", " ", .) %>%
   str_to_sentence(.)
+# the ggplot solutions (exercise_5_ggplot_solution.html) remain unlinked, as before
 
 paste0("- [", link_name, "](", file_name, "){target='_blank'}") %>%
 cat(sep="\n\n")
 ```
 
-\  
-
-#### Section 2 Exercise solutions
-
-\  
-
-```{r sol_GDE, results='asis', eval = isTRUE(show_text_GDE)}
-link_name <- "Graphical data exploration exercise"
-file_name <- "graphical_data_exploration_exercise_solutions.html"
-paste0("- [", link_name, "](", file_name, ")") %>%
+```{r sol_prog, results='asis', eval = isTRUE(show_text_prog)}
+paste0("- [Exercise (optional): Basic programming in R solutions",
+       "](exercise_programming_solution.html){target='_blank'}") %>%
 cat(sep="\n\n")
 ```
 
@@ -89,13 +83,16 @@ cat(sep="\n\n")
 
 ```{r code-out, include = FALSE}
 # TODO: generate list automagically
-knitr::purl('./exercise_1_solution.Rmd', output = './exercise_solutions/exercise_1_solution.R', quiet = TRUE)
-knitr::purl('./exercise_2_solution.Rmd', output = './exercise_solutions/exercise_2_solution.R', quiet = TRUE)
-knitr::purl('./exercise_3_solution.Rmd', output = './exercise_solutions/exercise_3_solution.R', quiet = TRUE)
-knitr::purl('./exercise_4_solution.Rmd', output = './exercise_solutions/exercise_4_solution.R', quiet = TRUE)
-# knitr::purl('./exercise_4_ggplot_solution.Rmd', output = './exercise_solutions/exercise_4_ggplot_solution.R', quiet = TRUE)
-knitr::purl('./exercise_5_solution.Rmd', output = './exercise_solutions/exercise_5_solution.R', quiet = TRUE)
-knitr::purl('./graphical_data_exploration_exercise_solutions.Rmd', output = './exercise_solutions/graphical_data_exploration_exercise_solutions.R', quiet = TRUE)
+# Chunk options in the solution files are written as eval=SOLUTIONS / echo=SOLUTIONS,
+# and their setup chunks are purl = FALSE, so purl() cannot see SOLUTIONS unless we
+# define it here. Without this the purled scripts come out empty.
+SOLUTIONS <- TRUE
+for (i in 1:6) {
+  knitr::purl(paste0('./exercise_', i, '_solution.Rmd'),
+              output = paste0('./exercise_solutions/exercise_', i, '_solution.R'), quiet = TRUE)
+}
+# knitr::purl('./exercise_5_ggplot_solution.Rmd', output = './exercise_solutions/exercise_5_ggplot_solution.R', quiet = TRUE)
+knitr::purl('./exercise_programming_solution.Rmd', output = './exercise_solutions/exercise_programming_solution.R', quiet = TRUE)
 ```
 
 

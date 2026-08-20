@@ -15,3 +15,16 @@
 course_end_message
 course_welcome_message
 Intro_and_questions
+
+# Local-only working notes, not for the public site
+CLAUDE.md
+.claude/
+exercise_audit.md
+
+
+R_Factsheet_Unit_1.pdf
+
+# render_site() renders every root-level .md, including the two local-only notes above.
+# Their rendered output must never be published from docs/.
+docs/CLAUDE.html
+docs/exercise_audit.html

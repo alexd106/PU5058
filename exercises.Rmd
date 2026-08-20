@@ -18,15 +18,11 @@ source('reveal.R')
 
 ### Exercises
 
-The following exercises are split into two main sections.
-
-**Section 1** of the exercises will introduce you to using R and comprises four exercises which corresponds to material covered in the first four Chapters of the [Introduction to R book](https://intro2r.com). We will be covering these exercises during the first two weeks of the course. It’s entirely up to you how you progress through these exercises, everyone learns R at their own pace and in their own way. You can either work your way through each section of the book and then test your understanding of the material by completing the associated exercise. Alternatively, you can start with each exercise and refer back to the appropriate material in the book. Or find another way that works for you. Whichever approach you use, make sure that you write your R code in RStudio (or your favourite script editor), annotate it liberally and save it regularly. At the end of the course you will have many hundreds of lines of code that you can refer back to at a later date when you’ve forgotten most of it! There is also an additional optional exercise (Exercise 5) which covers the book Chapter 7 - Programming in R. This exercise is entirely optional and should only be completed after you have finished the first four exercises. 
-
-**Section 2** exercises will cover material introduced during the remainder of the course. These exercises will help you learn how to explore your data using R.
+These exercises will introduce you to using R. There are six of them, covering the material in the first four Chapters of the [Introduction to R book](https://intro2r.com). We will be covering these exercises during the first two weeks of the course. It’s entirely up to you how you progress through these exercises, everyone learns R at their own pace and in their own way. You can either work your way through each section of the book and then test your understanding of the material by completing the associated exercise. Alternatively, you can start with each exercise and refer back to the appropriate material in the book. Or find another way that works for you. Whichever approach you use, make sure that you write your R code in RStudio (or your favourite script editor), annotate it liberally and save it regularly. At the end of the course you will have many hundreds of lines of code that you can refer back to at a later date when you’ve forgotten most of it! There is also an additional optional exercise covering Chapter 7 of the book, Programming in R. This exercise is entirely optional and should only be completed after you have finished the six exercises above. 
 
 The solutions and code for each of the exercises are available by following the [Exercise Solutions <i class="fa fa-book" aria-hidden="true"></i>](exercise_solutions.html){target="_blank"} link in the navbar above. If you prefer to download the exercises in pdf format you can [find them here](exercise_pdf.html){target="_blank"}. 
 
-Finally, just a word about the content of some of the early R exercises in Section 1. Initially, some of the material in these exercises might strike you as ‘pointless’, ‘trivial’ or ‘irrelevant’ and you may even ask yourself what possible use is generating sequences of numbers, concatenating elements in a vector or ordering lists of names (to name but a few).  However, please stick with it, you’ll be amazed how many times you will use the skills (and code) that you have learned throughout these exercises when it comes to dealing with and analysing your own data. 
+Finally, just a word about the content of some of the early R exercises. Initially, some of the material in these exercises might strike you as ‘pointless’, ‘trivial’ or ‘irrelevant’ and you may even ask yourself what possible use is generating sequences of numbers, concatenating elements in a vector or ordering lists of names (to name but a few).  However, please stick with it, you’ll be amazed how many times you will use the skills (and code) that you have learned throughout these exercises when it comes to dealing with and analysing your own data. 
 
 Have fun!
 
@@ -37,17 +33,14 @@ Have fun!
 cat("Exercises will be released as the course progresses")
 ```
 
-#### Section 1
-
-\  
-
 ```{r, ex15, results='asis', eval = TRUE}
 ex_text <- c(": Getting to know R and RStudio", ": Basic R operations", 
-             ": Importing and manipulating dataframes", 
-             ": Visualising data using base R and lattice graphics",
-             ": Basic programming in R (optional)")
+             ": Importing and inspecting data", 
+             ": Manipulating and summarising dataframes",
+             ": Visualising data using base R",
+             ": Graphics for communication")
 
-file_name <- paste0("exercise_", 1:5, ".html")
+file_name <- paste0("exercise_", 1:6, ".html")
 
 link_name <- file_name %>%
   gsub("\\.html", "", .) %>%
@@ -56,26 +49,21 @@ link_name <- file_name %>%
 
 paste0("- [", link_name, ex_text, "](", file_name, "){target='_blank'}") %>%
 cat(sep="\n\n")
+
+cat("\n\n")
+
+cat("- [Exercise (optional): Basic programming in R](exercise_programming.html){target='_blank'}")
 ```
 
 \  
 
 ```{r, pdf-out, include = FALSE}
 # TODO: generate list automagically
-rmarkdown::render("exercise_1.Rmd", output_format = "pdf_document", output_file = "./exercises/exercise_1.pdf", quiet = TRUE)
-rmarkdown::render("exercise_2.Rmd", output_format = "pdf_document", output_file = "./exercises/exercise_2.pdf", quiet = TRUE)
-rmarkdown::render("exercise_3.Rmd", output_format = "pdf_document", output_file = "./exercises/exercise_3.pdf", quiet = TRUE)
-rmarkdown::render("exercise_4.Rmd", output_format = "pdf_document", output_file = "./exercises/exercise_4.pdf", quiet = TRUE)
-rmarkdown::render("exercise_5.Rmd", output_format = "pdf_document", output_file = "./exercises/exercise_5.pdf", quiet = TRUE)
-rmarkdown::render("graphical_data_exploration_exercise.Rmd", output_format = "pdf_document", output_file = "./exercises/graphical_data_exploration_exercise.pdf", quiet = TRUE)
+for (i in 1:6) {
+  rmarkdown::render(paste0("exercise_", i, ".Rmd"), output_format = "pdf_document",
+                    output_file = paste0("./exercises/exercise_", i, ".pdf"), quiet = TRUE)
+}
+rmarkdown::render("exercise_programming.Rmd", output_format = "pdf_document", output_file = "./exercises/exercise_programming.pdf", quiet = TRUE)
 ```
-
-#### Section 2
-
-\  
-
- - [Graphical data exploration exercise](graphical_data_exploration_exercise.html)
-
-\  
 
 [pdf version of exercises](exercise_pdf.html)

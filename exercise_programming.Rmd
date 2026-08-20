@@ -13,7 +13,7 @@ SOLUTIONS <- FALSE
 
 \  
 
-## Exercise 5: Basic programming in R
+## Exercise (optional): Basic programming in R
 
 \  
 
@@ -159,4 +159,4 @@ Ricker.model(nzero=0.1,r=1,time=100)
 
 \  
 
-End of Exercise 6
+End of Exercise

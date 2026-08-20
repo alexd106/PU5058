@@ -366,54 +366,169 @@ $(document).ready(function () {
 
 
 <p> </p>
-<div id="exercise-5-basic-programming-in-r" class="section level2">
-<h2>Exercise 5: Basic programming in R</h2>
+<div id="exercise-5-visualising-data-using-base-r"
+class="section level2">
+<h2>Exercise 5: Visualising data using base R</h2>
 <p> </p>
-<p>Read <a href="https://intro2r.com/prog_r.html">Chapter 7</a> to help
-you complete the questions in this exercise.</p>
+<p>Read <a href="https://intro2r.com/graphics_r.html">Chapter 4</a> to
+help you complete the questions in this exercise.</p>
 <p> </p>
-<p>1. Create a function to calculate the area of a circle. Test the
-function by finding the area of a circle with a diameter of 3.4 cm. Can
-you use it on a vector of data?</p>
+<p>1. As in previous exercises, either create a new R script or continue
+with your previous R script in your RStudio Project. Again, make sure
+you include any metadata you feel is appropriate (title, description of
+task, date of creation etc) and don’t forget to comment out your
+metadata with a <code>#</code> at the beginning of the line.</p>
 <p> </p>
-<p>2. Write a function to convert farenheit to centegrade (oC = (oF -
-32) x 5/9). Get your function to print out your result in the following
-format: “Farenheit : <em>value of oF</em> is equivalent to <em>value
-oC</em> centigrade.”</p>
+<p>2. You do not need to download anything for this exercise. You
+already have <em>‘cardiacdata.txt’</em> in the <code>data</code>
+directory of your RStudio Project, from Exercise 3. If for some reason
+you haven’t, go back to the <strong><a
+href="data.html"><i class="fa fa-download"></i> Data</a></strong> link,
+download <em>‘cardiacdata.xlsx’</em> and save it as a tab delimited file
+called <em>‘cardiacdata.txt’</em> as you did before.</p>
 <p> </p>
-<p>3. Create a vector of normally distributed data, of length 100, mean
-35 and standard deviation of 15. Write a function to calculate the mean,
-median, and range of the vector, print these values out with appropriate
-labels. Also get the function to plot a histogram (as a proportion) of
-the values and add a density curve.</p>
+<p>3. A quick reminder of what these data are. They come from a cohort
+study of the risk factors for cardiovascular disease, in which 163
+adults aged between 55 and 75 were examined and a range of measurements
+taken: age and sex, systolic and diastolic blood pressure (mmHg), body
+mass index (kg/m<sup>2</sup>), total cholesterol, HDL cholesterol and
+triglyceride (all mmol/l), units of alcohol drunk in the previous week,
+and smoking status. Note that you are importing the original file again,
+not the cleaned version you exported at the end of Exercise 4. Starting
+from the raw data every time, and doing your cleaning in a script, is
+what makes an analysis reproducible.</p>
 <p> </p>
-<p>4. Write a function to calculate the median value of a vector of
-numbers (yes I know there’s a <code>median()</code> function already but
-this is fun!). Be careful with vectors of an even sample size, as you
-will have to take the average of the two central numbers (hint: use
-modulo %%2 to determine whether the vector is an odd or an even size).
-Test your function on vectors with both odd and even sample sizes.</p>
+<p>4. Import the <em>‘cardiacdata.txt’</em> file into R using the
+<code>read.table()</code> function and assign it to a variable named
+<code>cardiac</code>. Use the <code>str()</code> function to display the
+structure of the dataset and the <code>summary()</code> function to
+summarise it. As you found in Exercise 3, the <code>sex</code> and
+<code>smoking</code> variables are coded as integers, but they are
+really categories. Create a new variable in the <code>cardiac</code>
+dataframe for each of them, recoded as a factor with meaningful labels
+(<code>sex</code> is 1 for Female and 2 for Male; <code>smoking</code>
+is 1 for Current, 2 for Ex and 3 for Never). Use the <code>str()</code>
+function again to check the coding of these new variables. Almost every
+plotting function in this exercise treats a factor differently from a
+number, so this step is not optional housekeeping - get it wrong and
+your boxplots will come out as nonsense.</p>
 <p> </p>
-<p>5. You are a population ecologist for the day and wish to investigate
-the properties of the <a
-href="https://en.wikipedia.org/wiki/Ricker_model">Ricker model</a>. The
-Ricker model is defined as:</p>
+<p>5. How many patients are there in each combination of smoking status
+and sex (hint: remember the <code>table()</code> or <code>xtabs()</code>
+functions?)? Don’t forget to use the factor recoded versions of these
+variables. Is the split between the smoking categories similar for women
+and men? Are any of the combinations small enough to worry about if you
+wanted to compare them?</p>
 <p> </p>
-<p><span class="math display">\[ N_{t+1} = N_{t} exp\left[r\left(1-
-\frac{N_{t}}{K} \right) \right] \]</span></p>
+<p>6. The humble cleveland dotplot is a great way of identifying if you
+have potential outliers in continuous variables (see <a
+href="https://intro2r.com/simple-base-r-plots.html#dotcharts">Section
+4.2.4</a>). Create dotplots (using the <code>dotchart()</code> function)
+for the following variables; <code>bmi</code>, <code>systolic</code>,
+<code>tchol</code> and <code>alcohol</code>. Do these variables contain
+any unusually large or small observations? Don’t forget, if you prefer
+to create a single figure with all 4 plots you can always split your
+plotting device into 2 rows and 2 columns (see <a
+href="https://intro2r.com/mult_graphs.html#mult_graphs">Section 4.4</a>
+of the book). Use the <code>pdf()</code> function to save a pdf version
+of your plot(s) in the <code>output</code> directory you created in
+Exercise 1 (see <a
+href="https://intro2r.com/export_plots.html#export_plots">Section
+4.5</a> of the book to see how the <code>pdf()</code> function
+works).</p>
 <p> </p>
-<p>5. (cont) Where <em>N<sub>t</sub></em> is the population size at time
-<em>t</em>, <em>r</em> is the population growth rate and <em>K</em> is
-the carrying capacity. Write a function to simulate this model so you
-can conveniently determine the effect of changing <em>r</em> and the
-initial population size N0. <em>K</em> is often set to 100 by default,
-but you want the option of being able to change this with your function.
-So, you will need a function with the following arguments; nzero which
-sets the initial population size, <em>r</em> which will determine the
-population growth rate, time which sets how long the simulation will run
-for and <em>K</em> which we will initially set to 100 by default.</p>
+<p>7. You met that extreme <code>bmi</code> value in Exercise 4, when
+you checked the ranges with <code>summary()</code> and found a maximum
+of 514.60. A body mass index of 514 is not possible: it is 51.46 with
+the decimal point in the wrong place. What the dotplot adds is not the
+discovery, but the damage: one bad value has made the plot useless for
+looking at the other 162 patients. Use the <code>which()</code> function
+to identify which observation it is, confirm the value with the square
+bracket <code>[ ]</code> notation, set it to <code>NA</code> as you did
+in Exercise 4, and then redo the dotchart. Now look again at all four
+plots. Several points still sit well away from the rest. Which ones, and
+what should you do about them?</p>
 <p> </p>
-<p>End of Exercise 6</p>
+<p>8. When exploring your data it is often useful to visualise the
+distribution of continuous variables. Take a look at <a
+href="https://intro2r.com/simple-base-r-plots.html#histograms">Section
+4.2.2</a> and then create histograms for the variables;
+<code>bmi</code>, <code>systolic</code>, <code>tchol</code> and
+<code>alcohol</code>. Again, it’s up to you if you want to plot all 4
+plots separately or in the same figure. Export your plot(s) as pdf
+file(s) to the <code>output</code> directory. One potential problem with
+histograms is that the distribution of data can look quite different
+depending on the number of ‘breaks’ used. The <code>hist()</code>
+function does its best to create appropriate ‘breaks’ for your plots (it
+uses the <a href="https://en.wikipedia.org/wiki/Histogram">Sturges
+algorithm</a> for those that want to know) but experiment with changing
+the number of breaks for the <code>systolic</code> variable to see how
+the shape of the distribution changes (see <a
+href="https://intro2r.com/simple-base-r-plots.html#histograms">Section
+4.2.2</a> of the book for further details of how to change the
+breaks).</p>
+<p> </p>
+<p>9. Scatterplots are great for visualising relationships between two
+continuous variables (<a
+href="https://intro2r.com/simple-base-r-plots.html#scatterplot">Section
+4.2.1</a>). Plot the relationship between <code>systolic</code> on the x
+axis and <code>diastolic</code> on the y axis. How would you describe
+this relationship? Now plot <code>hdlchol</code> on the x axis against
+<code>triglyceride</code> on the y axis. Which way does that one go, and
+does that make clinical sense to you? Finally, take a look at
+<code>alcohol</code>. It is badly skewed, and skew is a nuisance in a
+plot because most of the points end up squashed into a corner. One
+approach is to apply a transformation. Create new variables in the
+<code>cardiac</code> dataframe holding the square root
+(<code>sqrt()</code>) and natural log (<code>log()</code>) of
+<code>alcohol</code> and plot histograms of each. One of the two
+transformations goes badly wrong. Which one, and why? (hint: what is the
+smallest value of <code>alcohol</code>, and what is the log of it?) Save
+your plots as a pdf file, or try jpeg or png format using the
+<code>jpeg()</code> or <code>png()</code> functions (<a
+href="https://intro2r.com/export_plots.html#export_plots">Section
+4.5</a>) if you feel the need for a change.</p>
+<p> </p>
+<p>10. When visualising differences in a continuous variable between
+levels of a factor (categorical variable) then a boxplot is your friend
+(avoid using bar plots - Google ‘bar plots are evil’ for more info).
+Create a boxplot to visualise the differences in total cholesterol at
+each level of smoking status (don’t forget to use the recoded version of
+this variable you created in Q4). Include x and y axes labels in your
+plot. Make sure you understand the anatomy of a boxplot before moving on
+- please ask if you’re not sure (also see <a
+href="https://intro2r.com/simple-base-r-plots.html#box-and-violin-plots">Section
+4.2.3</a> of the book). An alternative to the boxplot is the violin
+plot. A violin plot is a combination of a boxplot and a <a
+href="https://www.statmethods.net/graphs/density.html">kernel density
+plot</a> and is great at visualising the distribution of a variable. To
+create a violin plot you will first need to install the
+<code>vioplot</code> package from CRAN and make it available using
+<code>library(vioplot)</code>. You can now use the
+<code>vioplot()</code> function in pretty much the same way as you
+created your boxplot (again <a
+href="https://intro2r.com/simple-base-r-plots.html#box-and-violin-plots">Section
+4.2.3</a> of the book walks you through this).</p>
+<p> </p>
+<p>11. To explore the relationships between multiple continuous
+variables it’s hard to beat a pairs plot. Create a pairs plot for the
+variables; <code>age</code>, <code>systolic</code>,
+<code>diastolic</code>, <code>tchol</code>, <code>hdlchol</code>,
+<code>triglyceride</code> and <code>bmi</code> (see <a
+href="https://intro2r.com/simple-base-r-plots.html#pairs-plots">Section
+4.2.5</a> of the book for more details). If it looks a little cramped in
+RStudio then click on the ‘zoom’ button in the plot viewer to see a
+larger version. One of the great things about the <code>pairs()</code>
+function is that you can customise what goes into each panel. Modify
+your pairs plot to include a histogram of the variables on the diagonal
+panel and include a correlation coefficient for each relationship on the
+upper triangle panels. Also include a smoother (wiggly line) in the
+lower triangle panels to help visualise these relationships. Take a look
+at the Introduction to R book to see how to do all this (or
+<code>?pairs</code>). Which pair of variables is most strongly related,
+and which variable is related to almost nothing?</p>
+<p> </p>
+<p>End of Exercise 5</p>
 </div>
 
 

@@ -12,6 +12,20 @@ knitr::opts_chunk$set(message=FALSE, warning=FALSE, eval=TRUE, echo=FALSE)
 suppressPackageStartupMessages(library(dplyr))
 suppressPackageStartupMessages(library(stringr))
 source('reveal.R')
+
+# descriptive titles, kept in step with exercises.Rmd
+ex_text <- c(": Getting to know R and RStudio", ": Basic R operations",
+             ": Importing and inspecting data",
+             ": Manipulating and summarising dataframes",
+             ": Visualising data using base R",
+             ": Graphics for communication",
+             ": Reproducible reports with R markdown",
+             ": Version control with Git and GitHub")
+
+sol_links <- function(n) {
+  paste0("- [Exercise ", n, " solutions", ex_text[n], "](exercise_", n,
+         "_solution.html){target='_blank'}")
+}
 ```
 
 \  
@@ -27,63 +41,24 @@ cat("solutions will be released as the course progresses")
 ```
 
 ```{r sol12, results='asis', eval = isTRUE(show_text12)}
-file_name <- paste0("exercise_", 1:2, "_solution.html")
-
-link_name <- file_name %>%
-  gsub("\\.html", "", .) %>%
-  paste0(., "s") %>%
-  gsub("_", " ", .) %>%
-  str_to_sentence(.)
-
-paste0("- [", link_name, "](", file_name, "){target='_blank'}") %>%
-cat(sep="\n\n")
+cat(sol_links(1:2), sep = "\n\n")
 ```
 
 
 ```{r sol34, results='asis', eval = isTRUE(show_text34)}
-file_name <- paste0("exercise_", 3:4, "_solution.html")
-
-link_name <- file_name %>%
-  gsub("\\.html", "", .) %>%
-  paste0(., "s") %>%
-  gsub("_", " ", .) %>%
-  str_to_sentence(.)
-
-paste0("- [", link_name, "](", file_name, "){target='_blank'}") %>%
-cat(sep="\n\n")
+cat(sol_links(3:4), sep = "\n\n")
 ```
 
 ```{r sol56, results='asis', eval = isTRUE(show_text56)}
-file_name <- paste0("exercise_", 5:6, "_solution.html")
-
-link_name <- file_name %>%
-  gsub("\\.html", "", .) %>%
-  paste0(., "s") %>%
-  gsub("_", " ", .) %>%
-  str_to_sentence(.)
-# the ggplot solutions (exercise_5_ggplot_solution.html) remain unlinked, as before
-
-paste0("- [", link_name, "](", file_name, "){target='_blank'}") %>%
-cat(sep="\n\n")
+cat(sol_links(5:6), sep = "\n\n")
 ```
 
 ```{r sol78, results='asis', eval = isTRUE(show_text78)}
-file_name <- paste0("exercise_", 7:8, "_solution.html")
-
-link_name <- file_name %>%
-  gsub("\\.html", "", .) %>%
-  paste0(., "s") %>%
-  gsub("_", " ", .) %>%
-  str_to_sentence(.)
-
-paste0("- [", link_name, "](", file_name, "){target='_blank'}") %>%
-cat(sep="\n\n")
+cat(sol_links(7:8), sep = "\n\n")
 ```
 
 ```{r sol_prog, results='asis', eval = isTRUE(show_text_prog)}
-paste0("- [Exercise (optional): Basic programming in R solutions",
-       "](exercise_programming_solution.html){target='_blank'}") %>%
-cat(sep="\n\n")
+cat("- [Exercise (optional) solutions: Basic programming in R](exercise_programming_solution.html){target='_blank'}")
 ```
 
 \  

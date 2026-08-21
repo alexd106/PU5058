@@ -9,6 +9,7 @@ output:
 
 ```{r setup, echo=FALSE, purl = FALSE}
 knitr::opts_chunk$set(echo=TRUE, message = FALSE, warning = FALSE, eval = FALSE, cache = FALSE)
+options(width = 80)
 SOLUTIONS <- FALSE
 ```
 
@@ -30,7 +31,7 @@ Read [Chapter 3](https://intro2r.com/data_r.html) to help you complete the quest
 
 \  
 
-3\. Notice that the file you have just downloaded is a spreadsheet, not a data file. A spreadsheet is a program's own format, and R would much rather be given plain text. Open the *'cardiacdata.xlsx'* file in Microsoft Excel (or even better use an open source equivalent - [LibreOffice](https://www.libreoffice.org/download/download/) is a good free alternative) and save it as a tab delimited file type (see [Section 3.3.1](https://intro2r.com/importing-data.html#saving-files-to-import) of the Introduction to R book or watch this [video](https://alexd106.github.io/PU5058/howto.html#import-vid) if you're not sure how to do this). Name the file *'cardiacdata.txt'* and save it to the `data` directory. If you're a Windows user be careful with file extensions (things like *.txt*). By default, Windows doesn't show you the file extension (maybe the boffins at Microsoft don't think you need to know complicated things like this?) so if you enter *'cardiacdata.txt'* as a filename you might end up with a filename *'cardiacdata.txt.txt*'! 
+3\. Notice that the file you have just downloaded is a spreadsheet, not a data file. A spreadsheet is a program's own format, and R would much rather be given plain text. Open the *'cardiacdata.xlsx'* file in Microsoft Excel (or even better use an open source equivalent - [LibreOffice](https://www.libreoffice.org/download/download-libreoffice/) is a good free alternative) and save it as a tab delimited file type (see [Section 3.3.1](https://intro2r.com/importing-data.html#saving-files-to-import) of the Introduction to R book or watch this [video](https://alexd106.github.io/PU5058/howto.html#import-vid) if you're not sure how to do this). Name the file *'cardiacdata.txt'* and save it to the `data` directory. If you're a Windows user be careful with file extensions (things like *.txt*). By default, Windows doesn't show you the file extension (maybe the boffins at Microsoft don't think you need to know complicated things like this?) so if you enter *'cardiacdata.txt'* as a filename you might end up with a filename *'cardiacdata.txt.txt*'! 
 
 \  
 

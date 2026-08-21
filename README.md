@@ -49,3 +49,4 @@ Build the site from the repository root with:
 ```r
 rmarkdown::render_site()
 ```
+

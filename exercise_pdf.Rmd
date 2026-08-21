@@ -9,6 +9,7 @@ output:
 library(knitr)
 library(stringr)
 knitr::opts_chunk$set(message=FALSE, warning=FALSE, eval=TRUE, echo=FALSE)
+options(width = 80)
 suppressPackageStartupMessages(library(dplyr))
 suppressPackageStartupMessages(library(stringr))
 source('reveal.R')

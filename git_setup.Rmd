@@ -31,7 +31,7 @@ You only ever do this once per computer.
 ## Step 1: Install Git
 
 Git is a separate program from R and RStudio, and you need it installed before RStudio can
-use it. There is a fuller version of these instructions in [Appendix B](https://intro2r.com/install-git.html)
+use it. There is a fuller version of these instructions in [Appendix B](https://intro2r.com/install_git.html)
 of the Introduction to R book.
 
 **Windows.** Download [Git for Windows](https://gitforwindows.org/) and run the installer.

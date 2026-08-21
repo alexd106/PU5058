@@ -17,7 +17,7 @@ knitr::opts_chunk$set(echo=TRUE, message = FALSE, warning = FALSE, eval = FALSE,
 
 \  
 
-Alternative (optional) solutions to Exercise 5 for those who use (or are interested in using) the `ggplot` approach to plotting data. See [Chapter 5](https://intro2r.com/graphics-r.html) of the Introduction to R book for more information about how to use `ggplot`.
+Alternative (optional) solutions to Exercise 5 for those who use (or are interested in using) the `ggplot` approach to plotting data. See [Chapter 5](https://intro2r.com/graphics_r.html) of the Introduction to R book for more information about how to use `ggplot`.
 
 **Base R graphics are what is taught and what you will be assessed on.** Nothing here is required, and you can ignore this page entirely without missing anything. It is here because some of you will already know `ggplot2`, or will want to learn it, and it is worth seeing the same plots built both ways.
 

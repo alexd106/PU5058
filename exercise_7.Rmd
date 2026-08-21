@@ -88,7 +88,7 @@ Add `toc: true` first and knit. Then add `toc_float: true` and knit again. Then 
 - a sentence with a word in **bold**, written as `**bold**`, and a word in *italics*, written as `*italics*`
 - a bulleted list of four of the variables in the dataset, each line starting with a dash and a space
 
-That is enough to be going on with. If you want to add a link, a numbered list, a quotation or a table, [Section 8.5.2](https://intro2r.com/rmarkdown_r.html#formatted-text) of the book has the syntax for all of them, and there is a summary on the R markdown cheat sheet under `Help` -> `Cheat Sheets`.
+That is enough to be going on with. If you want to add a link, a numbered list, a quotation or a table, [Section 8.5.2](https://intro2r.com/r-markdown-anatomy.html#formatted-text) of the book has the syntax for all of them, and there is a summary on the R markdown cheat sheet under `Help` -> `Cheat Sheets`.
 
 Knit, and put your source file and the output side by side. Notice that the headings you wrote have appeared in the table of contents on their own, because of the `toc: true` you added in Q3.
 

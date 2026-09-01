@@ -79,11 +79,11 @@ paste0("- [", link_name, "](", "exercise_solutions/", file_name, ")") %>%
 cat(sep="\n\n")
 ```
 
-```{r sol78, results='asis', , eval = isTRUE(show_text78)}
+```{r sol789, results='asis', , eval = isTRUE(show_text789)}
 dir <- "exercise_solutions/"
 file_name <- list.files(dir) %>%
              sort %>% 
-             grep("(exercise_[78]_solution\\.R$)", . , value=TRUE) 
+             grep("(exercise_[789]_solution\\.R$)", . , value=TRUE) 
 
 link_name <- file_name %>%
             gsub("\\.R", "", .) %>%

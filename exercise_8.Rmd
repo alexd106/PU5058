@@ -1,0 +1,26 @@
+---
+title: 'Exercises'
+output: 
+  html_document:
+    toc: false
+    code_folding: hide
+---
+
+
+```{r setup, echo=FALSE, purl = FALSE}
+knitr::opts_chunk$set(echo=TRUE, message = FALSE, warning = FALSE, eval = FALSE, cache = FALSE)
+options(width = 80)
+SOLUTIONS <- FALSE
+```
+
+\  
+
+## Exercise 8: Data analysis using R
+
+\  
+
+This exercise is still being written and will be released before the session it belongs to. Nothing is missing on your part, so please carry on with the other exercises in the meantime.
+
+\  
+
+End of Exercise 8

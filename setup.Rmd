@@ -12,7 +12,7 @@ During the course we will be using both R and RStudio. To get your computer read
 
 \  
 
-Later in the course, for Exercise 8, you will also need Git and a GitHub account. Those instructions are on a separate page, **[Git and GitHub](git_setup.html)**, also under the Setup menu above. **You do not need to do that yet**, and it is a good deal more fiddly than installing R, so leave it until nearer the time.
+Later in the course, for Exercise 9, you will also need Git and a GitHub account. Those instructions are on a separate page, **[Git and GitHub](git_setup.html)**, also under the Setup menu above. **You do not need to do that yet**, and it is a good deal more fiddly than installing R, so leave it until nearer the time.
 
 \  
 

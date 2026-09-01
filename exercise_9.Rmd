@@ -15,7 +15,7 @@ SOLUTIONS <- FALSE
 
 \  
 
-## Exercise 8: Version control with Git and GitHub
+## Exercise 9: Version control with Git and GitHub
 
 \  
 
@@ -144,4 +144,4 @@ One last thing worth knowing: the website you are reading this on is built from 
 
 \  
 
-End of Exercise 8
+End of Exercise 9

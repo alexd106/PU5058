@@ -14,7 +14,7 @@ navbar:
           icon: fa-cog
           href: setup.html
         - text: "----"
-        - text: "Git and GitHub (for Exercise 8)"
+        - text: "Git and GitHub (for Exercise 9)"
           icon: fa-github
           href: git_setup.html
     - text: "Learn"

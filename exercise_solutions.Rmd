@@ -21,6 +21,7 @@ ex_text <- c(": Getting to know R and RStudio", ": Basic R operations",
              ": Visualising data using base R",
              ": Graphics for communication",
              ": Reproducible reports with R markdown",
+             ": Data analysis using R",
              ": Version control with Git and GitHub")
 
 sol_links <- function(n) {
@@ -54,8 +55,9 @@ cat(sol_links(3:4), sep = "\n\n")
 cat(sol_links(5:6), sep = "\n\n")
 ```
 
-```{r sol78, results='asis', eval = isTRUE(show_text78)}
-cat(sol_links(7:8), sep = "\n\n")
+```{r sol789, results='asis', eval = isTRUE(show_text789)}
+# exercise 8 is a placeholder with no solutions yet, so it is not listed
+cat(sol_links(c(7, 9)), sep = "\n\n")
 ```
 
 ```{r sol_prog, results='asis', eval = isTRUE(show_text_prog)}
@@ -76,7 +78,8 @@ cat("- [Exercise (optional) solutions: Basic programming in R](exercise_programm
 # and their setup chunks are purl = FALSE, so purl() cannot see SOLUTIONS unless we
 # define it here. Without this the purled scripts come out empty.
 SOLUTIONS <- TRUE
-for (i in 1:8) {
+# exercise 8 is a placeholder with no code chunks, so there is nothing to purl
+for (i in c(1:7, 9)) {
   knitr::purl(paste0('./exercise_', i, '_solution.Rmd'),
               output = paste0('./exercise_solutions/exercise_', i, '_solution.R'), quiet = TRUE)
 }

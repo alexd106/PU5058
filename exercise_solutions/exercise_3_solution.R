@@ -26,7 +26,7 @@ str(cardiac)          # display the structure of the dataframe cardiac
 # in the file: sex is coded 1 and 2, smoking is coded 1, 2 and 3. But they are
 # not really numbers, they are categories, and R has no way of knowing that.
 # Nothing stops you calculating mean(cardiac$sex) and it returns 1.52 - and that
-# number is mostly meaningless. You will fix the sex variable in the next question.
+# number is mostly meaningless. You will fix both of them in the next question.
 
 # patno is a factor with 163 levels, one for every row. A factor with as many
 # levels as there are rows is a good sign that you are looking at an identifier
@@ -34,17 +34,25 @@ str(cardiac)          # display the structure of the dataframe cardiac
 
 
 ## ----Q7, echo=SOLUTIONS-------------------------------------------------------
-# 1 = Female and 2 = Male. Writing the labels out means you never have to
-# remember the codes again, and your output reads properly.
+# Writing the labels out means you never have to remember the codes again, and
+# your output reads properly from here on.
 cardiac$Fsex <- factor(cardiac$sex, levels = c(1, 2),
                        labels = c("Female", "Male"))
+
+cardiac$Fsmoking <- factor(cardiac$smoking, levels = c(1, 2, 3),
+                           labels = c("Current", "Ex", "Never"))
 
 str(cardiac)
 
 #  $ sex         : int  2 2 2 2 2 2 2 1 1 2 ...
+#  $ smoking     : int  NA NA NA NA NA NA NA 1 1 1 ...
 #  $ Fsex        : Factor w/ 2 levels "Female","Male": 2 2 2 2 2 2 2 1 1 2 ...
+#  $ Fsmoking    : Factor w/ 3 levels "Current","Ex",..: NA NA NA NA NA NA NA 1 1 1 ...
 
-# Why a new variable rather than overwriting the sex variable?
+# the 7 patients with no smoking code stay missing in Fsmoking, which is exactly
+# right. factor() does not invent a category for them.
+
+# Why new variables rather than overwriting sex and smoking?
 #
 # 1. The raw codes survive. You can always check your recoding against what was
 #    actually in the file, and if you get the labels the wrong way round you can
@@ -52,10 +60,11 @@ str(cardiac)
 #    only way back is to import the file again.
 #
 # 2. The 'F' prefix says at a glance which variable is the factor version. You
-#    will use the same convention for Fsmoking in Exercise 5.
+#    will use the same convention every time you recode something.
 
-# and note: the sex variable is still an integer, exactly as it was
+# and note: the originals are still integers, exactly as they were
 str(cardiac$sex)
+str(cardiac$smoking)
 
 
 ## ----Q8, echo=SOLUTIONS-------------------------------------------------------
@@ -95,23 +104,23 @@ cardiac_risk <- cardiac[, c(1, 3, 11, 6)]
 cardiac_risk <- cardiac[, c("patno", "sex", "smoking", "tchol")]    
 
 # excluding first 10 rows and last column using negative indexing. NOTE: the
-# last column is now Fsex, the one you created in Q7, not smoking. Adding a
-# column shifted the positions, which is exactly why hard coded numbers are
-# fragile.
-cardiac_last <- cardiac[-c(1:10), -12]  
+# last column is now Fsmoking, the second of the two you created in Q7. The
+# dataframe has 13 columns rather than the 11 you imported, which is exactly why
+# hard coded column numbers are fragile.
+cardiac_last <- cardiac[-c(1:10), -13]  
 # more general way, and it stays correct however many columns you add
 cardiac_last <- cardiac[-c(1:10), -c(ncol(cardiac))] 
 # NOTE: negative indexing does NOT work with column names. Uncomment the line
 # below and run it to see the error for yourself:
-# cardiac_last <- cardiac[-c(1:10), -c("Fsex")]
+# cardiac_last <- cardiac[-c(1:10), -c("Fsmoking")]
 
 
 ## ----Q10, echo=SOLUTIONS, tidy = TRUE-----------------------------------------
 cardiac_sys160 <- cardiac[cardiac$systolic > 160, ]
 
-cardiac_subset <- cardiac[cardiac$Fsex == "Male" & cardiac$smoking == 3 & cardiac$diastolic > 76, ]
+cardiac_subset <- cardiac[cardiac$Fsex == "Male" & cardiac$Fsmoking == "Never" & cardiac$diastolic > 76, ]
 
-cardiac_notex <- cardiac[cardiac$smoking != 2, ]
+cardiac_notex <- cardiac[cardiac$Fsmoking != "Ex", ]
 
 
 ## ----Q11, echo=SOLUTIONS, tidy = TRUE-----------------------------------------

@@ -507,15 +507,14 @@ you complete the questions in this exercise.</p>
 same <code>cardiac</code> dataframe. If you are starting a fresh R
 session, either continue with the R script you wrote for Exercise 3 or
 run the two lines below before you go any further. They are the import
-from Exercise 3, Q5 and the <code>Fsex</code> factor from Exercise 3,
-Q7.</p>
-<p>You will notice that <code>smoking</code> is still sitting there as
-an integer. That is deliberate. You will deal with it in Q8, rather more
-elegantly than typing labels out by hand.</p>
+from Exercise 3, Q5 and the two factors from Exercise 3, Q7.</p>
 <div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" tabindex="-1"></a>cardiac <span class="ot">&lt;-</span> <span class="fu">read.table</span>(<span class="st">&#39;data/cardiacdata.txt&#39;</span>, <span class="at">header =</span> <span class="cn">TRUE</span>, <span class="at">sep =</span> <span class="st">&quot;</span><span class="sc">\t</span><span class="st">&quot;</span>, <span class="at">stringsAsFactors =</span> <span class="cn">TRUE</span>)</span>
 <span id="cb1-2"><a href="#cb1-2" tabindex="-1"></a></span>
 <span id="cb1-3"><a href="#cb1-3" tabindex="-1"></a>cardiac<span class="sc">$</span>Fsex <span class="ot">&lt;-</span> <span class="fu">factor</span>(cardiac<span class="sc">$</span>sex, <span class="at">levels =</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">2</span>),</span>
-<span id="cb1-4"><a href="#cb1-4" tabindex="-1"></a>                       <span class="at">labels =</span> <span class="fu">c</span>(<span class="st">&quot;Female&quot;</span>, <span class="st">&quot;Male&quot;</span>))</span></code></pre></div>
+<span id="cb1-4"><a href="#cb1-4" tabindex="-1"></a>                       <span class="at">labels =</span> <span class="fu">c</span>(<span class="st">&quot;Female&quot;</span>, <span class="st">&quot;Male&quot;</span>))</span>
+<span id="cb1-5"><a href="#cb1-5" tabindex="-1"></a></span>
+<span id="cb1-6"><a href="#cb1-6" tabindex="-1"></a>cardiac<span class="sc">$</span>Fsmoking <span class="ot">&lt;-</span> <span class="fu">factor</span>(cardiac<span class="sc">$</span>smoking, <span class="at">levels =</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">3</span>),</span>
+<span id="cb1-7"><a href="#cb1-7" tabindex="-1"></a>                           <span class="at">labels =</span> <span class="fu">c</span>(<span class="st">&quot;Current&quot;</span>, <span class="st">&quot;Ex&quot;</span>, <span class="st">&quot;Never&quot;</span>))</span></code></pre></div>
 <p> </p>
 <p>1. In Exercise 3 you learned how to pick out rows that meet a
 condition. You can use that skill to check whether your data are
@@ -598,7 +597,7 @@ sorted dataframe. Where have the patients with a missing smoking status
 ended up, and why?</p>
 <div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" tabindex="-1"></a><span class="co"># now systolic within smoking status. smoking comes first because it is the</span></span>
 <span id="cb3-2"><a href="#cb3-2" tabindex="-1"></a><span class="co"># grouping you want, systolic second because it sorts within each group</span></span>
-<span id="cb3-3"><a href="#cb3-3" tabindex="-1"></a>cardiac_sorted <span class="ot">&lt;-</span> cardiac[<span class="fu">order</span>(cardiac<span class="sc">$</span>smoking, cardiac<span class="sc">$</span>systolic), ]</span>
+<span id="cb3-3"><a href="#cb3-3" tabindex="-1"></a>cardiac_sorted <span class="ot">&lt;-</span> cardiac[<span class="fu">order</span>(cardiac<span class="sc">$</span>Fsmoking, cardiac<span class="sc">$</span>systolic), ]</span>
 <span id="cb3-4"><a href="#cb3-4" tabindex="-1"></a></span>
 <span id="cb3-5"><a href="#cb3-5" tabindex="-1"></a><span class="co"># order() puts NAs last by default, so the 7 patients with no smoking status</span></span>
 <span id="cb3-6"><a href="#cb3-6" tabindex="-1"></a><span class="co"># are all at the bottom rather than mixed in with the ones you can interpret.</span></span>
@@ -632,22 +631,22 @@ have been tripping over since Exercise 3? They have not gone away, and
 <code>tchol</code> column, and only then reach for the
 <code>na.rm</code> argument.</p>
 <div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" tabindex="-1"></a><span class="co"># run it plainly first and see what the missing values do</span></span>
-<span id="cb5-2"><a href="#cb5-2" tabindex="-1"></a><span class="fu">aggregate</span>(cardiac[, <span class="fu">c</span>(<span class="dv">2</span>, <span class="dv">4</span>, <span class="dv">5</span>, <span class="dv">6</span>)], <span class="at">by =</span> <span class="fu">list</span>(<span class="at">smoking =</span> cardiac<span class="sc">$</span>smoking), <span class="at">FUN =</span> mean)</span>
+<span id="cb5-2"><a href="#cb5-2" tabindex="-1"></a><span class="fu">aggregate</span>(cardiac[, <span class="fu">c</span>(<span class="dv">2</span>, <span class="dv">4</span>, <span class="dv">5</span>, <span class="dv">6</span>)], <span class="at">by =</span> <span class="fu">list</span>(<span class="at">smoking =</span> cardiac<span class="sc">$</span>Fsmoking), <span class="at">FUN =</span> mean)</span>
 <span id="cb5-3"><a href="#cb5-3" tabindex="-1"></a></span>
-<span id="cb5-4"><a href="#cb5-4" tabindex="-1"></a><span class="co"># smoking age systolic diastolic tchol 1 1 63.10060 143.5400 76.40000 NA 2 2</span></span>
-<span id="cb5-5"><a href="#cb5-5" tabindex="-1"></a><span class="co"># 66.40769 145.0385 77.48077 6.82 3 3 64.82019 139.2778 77.50000 NA</span></span>
+<span id="cb5-4"><a href="#cb5-4" tabindex="-1"></a><span class="co"># smoking age systolic diastolic tchol 1 Current 63.10060 143.5400 76.40000 NA</span></span>
+<span id="cb5-5"><a href="#cb5-5" tabindex="-1"></a><span class="co"># 2 Ex 66.40769 145.0385 77.48077 6.82 3 Never 64.82019 139.2778 77.50000 NA</span></span>
 <span id="cb5-6"><a href="#cb5-6" tabindex="-1"></a></span>
 <span id="cb5-7"><a href="#cb5-7" tabindex="-1"></a><span class="co"># two missing values in 163 have wiped out two of the three means. na.rm = TRUE</span></span>
 <span id="cb5-8"><a href="#cb5-8" tabindex="-1"></a><span class="co"># is passed straight through to mean()</span></span>
-<span id="cb5-9"><a href="#cb5-9" tabindex="-1"></a><span class="fu">aggregate</span>(cardiac[, <span class="fu">c</span>(<span class="dv">2</span>, <span class="dv">4</span>, <span class="dv">5</span>, <span class="dv">6</span>)], <span class="at">by =</span> <span class="fu">list</span>(<span class="at">smoking =</span> cardiac<span class="sc">$</span>smoking), <span class="at">FUN =</span> mean,</span>
+<span id="cb5-9"><a href="#cb5-9" tabindex="-1"></a><span class="fu">aggregate</span>(cardiac[, <span class="fu">c</span>(<span class="dv">2</span>, <span class="dv">4</span>, <span class="dv">5</span>, <span class="dv">6</span>)], <span class="at">by =</span> <span class="fu">list</span>(<span class="at">smoking =</span> cardiac<span class="sc">$</span>Fsmoking), <span class="at">FUN =</span> mean,</span>
 <span id="cb5-10"><a href="#cb5-10" tabindex="-1"></a>    <span class="at">na.rm =</span> <span class="cn">TRUE</span>)</span>
 <span id="cb5-11"><a href="#cb5-11" tabindex="-1"></a></span>
-<span id="cb5-12"><a href="#cb5-12" tabindex="-1"></a><span class="co"># smoking age systolic diastolic tchol 1 1 63.10060 143.5400 76.40000 6.927143</span></span>
-<span id="cb5-13"><a href="#cb5-13" tabindex="-1"></a><span class="co"># 2 2 66.40769 145.0385 77.48077 6.820000 3 3 64.82019 139.2778 77.50000</span></span>
-<span id="cb5-14"><a href="#cb5-14" tabindex="-1"></a><span class="co"># 7.157170</span></span>
+<span id="cb5-12"><a href="#cb5-12" tabindex="-1"></a><span class="co"># smoking age systolic diastolic tchol 1 Current 63.10060 143.5400 76.40000</span></span>
+<span id="cb5-13"><a href="#cb5-13" tabindex="-1"></a><span class="co"># 6.927143 2 Ex 66.40769 145.0385 77.48077 6.820000 3 Never 64.82019 139.2778</span></span>
+<span id="cb5-14"><a href="#cb5-14" tabindex="-1"></a><span class="co"># 77.50000 7.157170</span></span>
 <span id="cb5-15"><a href="#cb5-15" tabindex="-1"></a></span>
 <span id="cb5-16"><a href="#cb5-16" tabindex="-1"></a><span class="co"># two grouping variables, both named</span></span>
-<span id="cb5-17"><a href="#cb5-17" tabindex="-1"></a><span class="fu">aggregate</span>(cardiac[, <span class="fu">c</span>(<span class="dv">2</span>, <span class="dv">4</span>, <span class="dv">5</span>, <span class="dv">6</span>)], <span class="at">by =</span> <span class="fu">list</span>(<span class="at">smoking =</span> cardiac<span class="sc">$</span>smoking, <span class="at">sex =</span> cardiac<span class="sc">$</span>Fsex),</span>
+<span id="cb5-17"><a href="#cb5-17" tabindex="-1"></a><span class="fu">aggregate</span>(cardiac[, <span class="fu">c</span>(<span class="dv">2</span>, <span class="dv">4</span>, <span class="dv">5</span>, <span class="dv">6</span>)], <span class="at">by =</span> <span class="fu">list</span>(<span class="at">smoking =</span> cardiac<span class="sc">$</span>Fsmoking, <span class="at">sex =</span> cardiac<span class="sc">$</span>Fsex),</span>
 <span id="cb5-18"><a href="#cb5-18" tabindex="-1"></a>    <span class="at">FUN =</span> mean, <span class="at">na.rm =</span> <span class="cn">TRUE</span>)</span>
 <span id="cb5-19"><a href="#cb5-19" tabindex="-1"></a></span>
 <span id="cb5-20"><a href="#cb5-20" tabindex="-1"></a><span class="co"># note that the 7 patients with no smoking status are dropped from every one of</span></span>
@@ -664,21 +663,21 @@ display the number of patients for each combination of smoking category
 and sex. Does <code>table()</code> tell you about the patients whose
 smoking status is missing?</p>
 <div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" tabindex="-1"></a><span class="co"># using table</span></span>
-<span id="cb6-2"><a href="#cb6-2" tabindex="-1"></a><span class="fu">table</span>(cardiac<span class="sc">$</span>smoking)</span>
+<span id="cb6-2"><a href="#cb6-2" tabindex="-1"></a><span class="fu">table</span>(cardiac<span class="sc">$</span>Fsmoking)</span>
 <span id="cb6-3"><a href="#cb6-3" tabindex="-1"></a></span>
-<span id="cb6-4"><a href="#cb6-4" tabindex="-1"></a><span class="co">#  1  2  3 </span></span>
-<span id="cb6-5"><a href="#cb6-5" tabindex="-1"></a><span class="co"># 50 52 54 </span></span>
+<span id="cb6-4"><a href="#cb6-4" tabindex="-1"></a><span class="co"># Current      Ex   Never </span></span>
+<span id="cb6-5"><a href="#cb6-5" tabindex="-1"></a><span class="co">#      50      52      54 </span></span>
 <span id="cb6-6"><a href="#cb6-6" tabindex="-1"></a></span>
-<span id="cb6-7"><a href="#cb6-7" tabindex="-1"></a><span class="fu">table</span>(cardiac<span class="sc">$</span>smoking, cardiac<span class="sc">$</span>Fsex)</span>
+<span id="cb6-7"><a href="#cb6-7" tabindex="-1"></a><span class="fu">table</span>(cardiac<span class="sc">$</span>Fsmoking, cardiac<span class="sc">$</span>Fsex)</span>
 <span id="cb6-8"><a href="#cb6-8" tabindex="-1"></a></span>
-<span id="cb6-9"><a href="#cb6-9" tabindex="-1"></a><span class="co">#     Female Male</span></span>
-<span id="cb6-10"><a href="#cb6-10" tabindex="-1"></a><span class="co">#   1     26   24</span></span>
-<span id="cb6-11"><a href="#cb6-11" tabindex="-1"></a><span class="co">#   2     15   37</span></span>
-<span id="cb6-12"><a href="#cb6-12" tabindex="-1"></a><span class="co">#   3     37   17</span></span>
+<span id="cb6-9"><a href="#cb6-9" tabindex="-1"></a><span class="co">#           Female Male</span></span>
+<span id="cb6-10"><a href="#cb6-10" tabindex="-1"></a><span class="co">#   Current     26   24</span></span>
+<span id="cb6-11"><a href="#cb6-11" tabindex="-1"></a><span class="co">#   Ex          15   37</span></span>
+<span id="cb6-12"><a href="#cb6-12" tabindex="-1"></a><span class="co">#   Never       37   17</span></span>
 <span id="cb6-13"><a href="#cb6-13" tabindex="-1"></a></span>
 <span id="cb6-14"><a href="#cb6-14" tabindex="-1"></a><span class="co"># by default table() silently drops the missing values - 50 + 52 + 54 = 156,</span></span>
 <span id="cb6-15"><a href="#cb6-15" tabindex="-1"></a><span class="co"># not 163. Ask for them explicitly:</span></span>
-<span id="cb6-16"><a href="#cb6-16" tabindex="-1"></a><span class="fu">table</span>(cardiac<span class="sc">$</span>smoking, <span class="at">useNA =</span> <span class="st">&quot;ifany&quot;</span>)</span></code></pre></div>
+<span id="cb6-16"><a href="#cb6-16" tabindex="-1"></a><span class="fu">table</span>(cardiac<span class="sc">$</span>Fsmoking, <span class="at">useNA =</span> <span class="st">&quot;ifany&quot;</span>)</span></code></pre></div>
 <p> </p>
 <p>5. Not every variable is symmetric, and several of the ones here are
 not. Look back at <code>triglyceride</code> in your
@@ -775,53 +774,131 @@ follow-up systolic pressure.</p>
 <span id="cb9-6"><a href="#cb9-6" tabindex="-1"></a><span class="co"># all.x = TRUE keeps every row of x (the first dataframe) and fills the missing</span></span>
 <span id="cb9-7"><a href="#cb9-7" tabindex="-1"></a><span class="co"># columns with NA. This is a left join.</span></span></code></pre></div>
 <p> </p>
-<p>8. There is one more linkage worth knowing, and it solves the
-<code>smoking</code> problem that has been hanging over you since
-Exercise 3. Rather than typing the labels out by hand as you did for
-<code>Fsex</code>, you can keep the codes and their meanings in their
-own small file and link them on. This is a left join again, exactly as
-in Q7, but onto a small lookup table rather than onto a second set of
-measurements.</p>
-<p>Download <em>‘smoking_lookup.txt’</em> from the <strong><a
+<p>8. So far the two files you have linked have both been one row per
+patient, which is the easy case. Real linkage is usually messier than
+that, because the thing you are linking to happens more than once.</p>
+<p>Download <em>‘cardiac_admissions.txt’</em> from the <strong><a
 href="data.html"><i class="fa fa-download"></i> Data</a></strong> link,
 save it to your <code>data</code> directory and import it into a
-variable called <code>smoke_codes</code>. Take a look at it. Notice that
-the column holding the code is called <code>code</code>, not
-<code>smoking</code>, so the two dataframes have no column name in
-common and <code>by</code> on its own will not work.</p>
-<p>Look at <a
-href="https://intro2r.com/wrangling-data-frames.html#merging-data-frames">Section
-3.4.5</a> and the help file for <code>merge()</code> again to find the
-arguments you need (hint: <code>by</code> has a pair of siblings that
-let you name a different key in each dataframe. <code>merge()</code>
-calls its two dataframes <code>x</code> and <code>y</code>, in the order
-you supply them, so look for the two arguments whose names end in
-<code>.x</code> and <code>.y</code>). Link the labels onto
-<code>cardiac_all</code>, keeping all patients, and then check with
-<code>table()</code> that every patient has ended up with the right
-label.</p>
-<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" tabindex="-1"></a>smoke_codes <span class="ot">&lt;-</span> <span class="fu">read.table</span>(<span class="st">&quot;data/smoking_lookup.txt&quot;</span>, <span class="at">header =</span> <span class="cn">TRUE</span>, <span class="at">sep =</span> <span class="st">&quot;</span><span class="sc">\t</span><span class="st">&quot;</span>, <span class="at">stringsAsFactors =</span> <span class="cn">TRUE</span>)</span>
-<span id="cb10-2"><a href="#cb10-2" tabindex="-1"></a>smoke_codes</span>
+variable called <code>admissions</code>. This file holds one row per
+<strong>hospital admission</strong> during the ten year follow up, not
+one row per patient. Note that unlike the rest of the cardiac data,
+which is real, these admission records are simulated.</p>
+<p>Use <code>str()</code> and <code>nrow()</code> to get your bearings.
+How many admissions are there, and how many different patients do they
+belong to? Then, before you join anything, check the key in both
+directions. Are there any patients in <code>cardiac</code> with no
+admissions at all? Are there any admissions belonging to a patient
+number that is not in <code>cardiac</code>, and if so, how would that
+happen?</p>
+<p>Now join <code>cardiac</code> to <code>admissions</code> with
+<code>merge()</code> as you did in Q6, and look at the number of rows.
+Compare <code>mean(age)</code> before and after the join. Something has
+gone wrong. What?</p>
+<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" tabindex="-1"></a>admissions <span class="ot">&lt;-</span> <span class="fu">read.table</span>(<span class="st">&quot;data/cardiac_admissions.txt&quot;</span>, <span class="at">header =</span> <span class="cn">TRUE</span>, <span class="at">sep =</span> <span class="st">&quot;</span><span class="sc">\t</span><span class="st">&quot;</span>,</span>
+<span id="cb10-2"><a href="#cb10-2" tabindex="-1"></a>    <span class="at">stringsAsFactors =</span> <span class="cn">TRUE</span>)</span>
 <span id="cb10-3"><a href="#cb10-3" tabindex="-1"></a></span>
-<span id="cb10-4"><a href="#cb10-4" tabindex="-1"></a><span class="co"># code smoking_status 1 1 Current 2 2 Ex 3 3 Never</span></span>
-<span id="cb10-5"><a href="#cb10-5" tabindex="-1"></a></span>
-<span id="cb10-6"><a href="#cb10-6" tabindex="-1"></a>cardiac_all <span class="ot">&lt;-</span> <span class="fu">merge</span>(cardiac_all, smoke_codes, <span class="at">by.x =</span> <span class="st">&quot;smoking&quot;</span>, <span class="at">by.y =</span> <span class="st">&quot;code&quot;</span>, <span class="at">all.x =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb10-4"><a href="#cb10-4" tabindex="-1"></a><span class="fu">str</span>(admissions)</span>
+<span id="cb10-5"><a href="#cb10-5" tabindex="-1"></a><span class="fu">nrow</span>(admissions)  <span class="co"># 200 admissions</span></span>
+<span id="cb10-6"><a href="#cb10-6" tabindex="-1"></a><span class="fu">length</span>(<span class="fu">unique</span>(admissions<span class="sc">$</span>patno))  <span class="co"># belonging to 115 different patients</span></span>
 <span id="cb10-7"><a href="#cb10-7" tabindex="-1"></a></span>
-<span id="cb10-8"><a href="#cb10-8" tabindex="-1"></a><span class="fu">nrow</span>(cardiac_all)  <span class="co"># still 163 - check every time!</span></span>
-<span id="cb10-9"><a href="#cb10-9" tabindex="-1"></a></span>
-<span id="cb10-10"><a href="#cb10-10" tabindex="-1"></a><span class="fu">table</span>(cardiac_all<span class="sc">$</span>smoking_status, <span class="at">useNA =</span> <span class="st">&quot;ifany&quot;</span>)</span>
+<span id="cb10-8"><a href="#cb10-8" tabindex="-1"></a><span class="co"># check the key in BOTH directions, every time</span></span>
+<span id="cb10-9"><a href="#cb10-9" tabindex="-1"></a><span class="fu">sum</span>(<span class="sc">!</span>cardiac<span class="sc">$</span>patno <span class="sc">%in%</span> admissions<span class="sc">$</span>patno)  <span class="co"># 53 patients were never admitted</span></span>
+<span id="cb10-10"><a href="#cb10-10" tabindex="-1"></a><span class="fu">sum</span>(<span class="sc">!</span><span class="fu">unique</span>(admissions<span class="sc">$</span>patno) <span class="sc">%in%</span> cardiac<span class="sc">$</span>patno)  <span class="co"># 5 patients are not in the cohort</span></span>
 <span id="cb10-11"><a href="#cb10-11" tabindex="-1"></a></span>
-<span id="cb10-12"><a href="#cb10-12" tabindex="-1"></a><span class="co"># Current Ex Never &lt;NA&gt; 50 52 54 7</span></span>
-<span id="cb10-13"><a href="#cb10-13" tabindex="-1"></a></span>
-<span id="cb10-14"><a href="#cb10-14" tabindex="-1"></a><span class="co"># The 7 patients with a missing smoking code get a missing label, which is</span></span>
-<span id="cb10-15"><a href="#cb10-15" tabindex="-1"></a><span class="co"># right. This is how coded data is usually handled: the codes stay in the data,</span></span>
-<span id="cb10-16"><a href="#cb10-16" tabindex="-1"></a><span class="co"># the meanings live in a lookup file, and anyone can see how one maps to the</span></span>
-<span id="cb10-17"><a href="#cb10-17" tabindex="-1"></a><span class="co"># other. If a code is ever added or changed you edit one small file rather than</span></span>
-<span id="cb10-18"><a href="#cb10-18" tabindex="-1"></a><span class="co"># hunting through your scripts for hard coded labels.</span></span></code></pre></div>
+<span id="cb10-12"><a href="#cb10-12" tabindex="-1"></a><span class="fu">unique</span>(admissions<span class="sc">$</span>patno[<span class="sc">!</span>admissions<span class="sc">$</span>patno <span class="sc">%in%</span> cardiac<span class="sc">$</span>patno])</span>
+<span id="cb10-13"><a href="#cb10-13" tabindex="-1"></a><span class="co"># 2841P 3167C 3402R 3775T 3918M</span></span>
+<span id="cb10-14"><a href="#cb10-14" tabindex="-1"></a></span>
+<span id="cb10-15"><a href="#cb10-15" tabindex="-1"></a><span class="co"># Those five are not an error. A hospital extract covers everybody treated, not</span></span>
+<span id="cb10-16"><a href="#cb10-16" tabindex="-1"></a><span class="co"># just the people in your study, so admissions for patients outside the cohort</span></span>
+<span id="cb10-17"><a href="#cb10-17" tabindex="-1"></a><span class="co"># are exactly what you should expect. What matters is that you knew they were</span></span>
+<span id="cb10-18"><a href="#cb10-18" tabindex="-1"></a><span class="co"># there before you joined, rather than after.</span></span>
+<span id="cb10-19"><a href="#cb10-19" tabindex="-1"></a></span>
+<span id="cb10-20"><a href="#cb10-20" tabindex="-1"></a>cardiac_adm <span class="ot">&lt;-</span> <span class="fu">merge</span>(cardiac, admissions, <span class="at">by =</span> <span class="st">&quot;patno&quot;</span>)</span>
+<span id="cb10-21"><a href="#cb10-21" tabindex="-1"></a><span class="fu">nrow</span>(cardiac_adm)  <span class="co"># 195, up from 163</span></span>
+<span id="cb10-22"><a href="#cb10-22" tabindex="-1"></a></span>
+<span id="cb10-23"><a href="#cb10-23" tabindex="-1"></a><span class="fu">mean</span>(cardiac<span class="sc">$</span>age)  <span class="co"># 64.98</span></span>
+<span id="cb10-24"><a href="#cb10-24" tabindex="-1"></a><span class="fu">mean</span>(cardiac_adm<span class="sc">$</span>age)  <span class="co"># 66.00</span></span>
+<span id="cb10-25"><a href="#cb10-25" tabindex="-1"></a></span>
+<span id="cb10-26"><a href="#cb10-26" tabindex="-1"></a><span class="co"># What went wrong? The row count went UP, which neither of the previous joins</span></span>
+<span id="cb10-27"><a href="#cb10-27" tabindex="-1"></a><span class="co"># did. Because a patient can have several admissions, each patient now appears</span></span>
+<span id="cb10-28"><a href="#cb10-28" tabindex="-1"></a><span class="co"># once per admission: a patient admitted four times appears four times, and the</span></span>
+<span id="cb10-29"><a href="#cb10-29" tabindex="-1"></a><span class="co"># 53 patients never admitted have disappeared altogether.  So cardiac_adm is no</span></span>
+<span id="cb10-30"><a href="#cb10-30" tabindex="-1"></a><span class="co"># longer one row per patient. It is one row per admission, and every patient</span></span>
+<span id="cb10-31"><a href="#cb10-31" tabindex="-1"></a><span class="co"># characteristic in it is now weighted by how often that patient was admitted.</span></span>
+<span id="cb10-32"><a href="#cb10-32" tabindex="-1"></a><span class="co"># The mean age has risen by a full year, not because anybody aged, but because</span></span>
+<span id="cb10-33"><a href="#cb10-33" tabindex="-1"></a><span class="co"># older patients are admitted more often and are therefore counted more often.</span></span>
+<span id="cb10-34"><a href="#cb10-34" tabindex="-1"></a><span class="co"># Every mean, count and table you calculate from this dataframe is wrong in the</span></span>
+<span id="cb10-35"><a href="#cb10-35" tabindex="-1"></a><span class="co"># same quiet way.</span></span></code></pre></div>
 <p> </p>
-<p>9. Ok, we have spent quite a bit of time (and energy) learning how to
-clean, summarise and link dataframes. The last thing we need to cover is
-how to export a dataframe from R to an external file (see <a
+<p>9. So the join in Q8 is not the one you wanted. What you actually
+want is to keep one row per patient and attach a <em>summary</em> of
+that patient’s admissions, and to do that you have to summarise the
+admissions <strong>before</strong> you link them, not after.</p>
+<ol style="list-style-type: lower-alpha">
+<li><p>Use <code>aggregate()</code>, as you did in Q3, to produce one
+row per patient from <code>admissions</code>, holding the number of
+admissions and the total number of days spent in hospital. Counting rows
+per group is what <code>FUN = length</code> is for, and total bed days
+is <code>FUN = sum</code> applied to <code>los</code>.</p></li>
+<li><p>Now link that summary onto <code>cardiac</code>, keeping all 163
+patients as you did in Q7. Check the row count.</p></li>
+<li><p>Look at the patients who were never admitted. What has the join
+put in their count column, and is that the right value? This is the one
+place in this whole course where an <code>NA</code> does not mean ‘we do
+not know’. Work out what it does mean here, decide what to do about it,
+and calculate the mean number of admissions per patient both ways to see
+how much the decision matters.</p></li>
+<li><p>Finally, the question the linkage was for. Does the number of
+admissions differ by smoking status?</p></li>
+</ol>
+<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" tabindex="-1"></a><span class="co"># a) one row per patient, from 200 rows of admissions</span></span>
+<span id="cb11-2"><a href="#cb11-2" tabindex="-1"></a>n_adm <span class="ot">&lt;-</span> <span class="fu">aggregate</span>(<span class="fu">cbind</span>(<span class="at">n_admissions =</span> los) <span class="sc">~</span> patno, <span class="at">data =</span> admissions, <span class="at">FUN =</span> length)</span>
+<span id="cb11-3"><a href="#cb11-3" tabindex="-1"></a>bed <span class="ot">&lt;-</span> <span class="fu">aggregate</span>(<span class="fu">cbind</span>(<span class="at">bed_days =</span> los) <span class="sc">~</span> patno, <span class="at">data =</span> admissions, <span class="at">FUN =</span> sum)</span>
+<span id="cb11-4"><a href="#cb11-4" tabindex="-1"></a>adm_summary <span class="ot">&lt;-</span> <span class="fu">merge</span>(n_adm, bed, <span class="at">by =</span> <span class="st">&quot;patno&quot;</span>)</span>
+<span id="cb11-5"><a href="#cb11-5" tabindex="-1"></a></span>
+<span id="cb11-6"><a href="#cb11-6" tabindex="-1"></a><span class="fu">nrow</span>(adm_summary)  <span class="co"># 115 - the 110 cohort patients admitted, plus the 5 outsiders</span></span>
+<span id="cb11-7"><a href="#cb11-7" tabindex="-1"></a></span>
+<span id="cb11-8"><a href="#cb11-8" tabindex="-1"></a><span class="co"># b) link it on, keeping everybody</span></span>
+<span id="cb11-9"><a href="#cb11-9" tabindex="-1"></a>cardiac_all <span class="ot">&lt;-</span> <span class="fu">merge</span>(cardiac_all, adm_summary, <span class="at">by =</span> <span class="st">&quot;patno&quot;</span>, <span class="at">all.x =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb11-10"><a href="#cb11-10" tabindex="-1"></a><span class="fu">nrow</span>(cardiac_all)  <span class="co"># 163 - check every time</span></span>
+<span id="cb11-11"><a href="#cb11-11" tabindex="-1"></a></span>
+<span id="cb11-12"><a href="#cb11-12" tabindex="-1"></a><span class="co"># c) what did the never-admitted patients get?</span></span>
+<span id="cb11-13"><a href="#cb11-13" tabindex="-1"></a><span class="fu">sum</span>(<span class="fu">is.na</span>(cardiac_all<span class="sc">$</span>n_admissions))  <span class="co"># 53</span></span>
+<span id="cb11-14"><a href="#cb11-14" tabindex="-1"></a></span>
+<span id="cb11-15"><a href="#cb11-15" tabindex="-1"></a><span class="co"># Everywhere else in this course an NA has meant &#39;there should be a value here</span></span>
+<span id="cb11-16"><a href="#cb11-16" tabindex="-1"></a><span class="co"># and we do not have it&#39;. Here it means something completely different. These</span></span>
+<span id="cb11-17"><a href="#cb11-17" tabindex="-1"></a><span class="co"># patients were not admitted, so the correct number of admissions is 0, and we</span></span>
+<span id="cb11-18"><a href="#cb11-18" tabindex="-1"></a><span class="co"># know that for certain. The NA is an artefact of how a left join fills gaps,</span></span>
+<span id="cb11-19"><a href="#cb11-19" tabindex="-1"></a><span class="co"># not a statement about our knowledge.</span></span>
+<span id="cb11-20"><a href="#cb11-20" tabindex="-1"></a></span>
+<span id="cb11-21"><a href="#cb11-21" tabindex="-1"></a><span class="fu">mean</span>(cardiac_all<span class="sc">$</span>n_admissions, <span class="at">na.rm =</span> <span class="cn">TRUE</span>)  <span class="co"># 1.77 - WRONG</span></span>
+<span id="cb11-22"><a href="#cb11-22" tabindex="-1"></a></span>
+<span id="cb11-23"><a href="#cb11-23" tabindex="-1"></a>cardiac_all<span class="sc">$</span>n_admissions[<span class="fu">is.na</span>(cardiac_all<span class="sc">$</span>n_admissions)] <span class="ot">&lt;-</span> <span class="dv">0</span></span>
+<span id="cb11-24"><a href="#cb11-24" tabindex="-1"></a>cardiac_all<span class="sc">$</span>bed_days[<span class="fu">is.na</span>(cardiac_all<span class="sc">$</span>bed_days)] <span class="ot">&lt;-</span> <span class="dv">0</span></span>
+<span id="cb11-25"><a href="#cb11-25" tabindex="-1"></a></span>
+<span id="cb11-26"><a href="#cb11-26" tabindex="-1"></a><span class="fu">mean</span>(cardiac_all<span class="sc">$</span>n_admissions)  <span class="co"># 1.20 - right</span></span>
+<span id="cb11-27"><a href="#cb11-27" tabindex="-1"></a></span>
+<span id="cb11-28"><a href="#cb11-28" tabindex="-1"></a><span class="co"># Using na.rm = TRUE here, the habit the rest of this exercise has been</span></span>
+<span id="cb11-29"><a href="#cb11-29" tabindex="-1"></a><span class="co"># drilling into you, overstates the admission rate by nearly 50%, because it</span></span>
+<span id="cb11-30"><a href="#cb11-30" tabindex="-1"></a><span class="co"># silently throws away every patient who was never admitted. Always ask what a</span></span>
+<span id="cb11-31"><a href="#cb11-31" tabindex="-1"></a><span class="co"># missing value means before you decide how to handle it. The answer is not</span></span>
+<span id="cb11-32"><a href="#cb11-32" tabindex="-1"></a><span class="co"># always the same.</span></span>
+<span id="cb11-33"><a href="#cb11-33" tabindex="-1"></a></span>
+<span id="cb11-34"><a href="#cb11-34" tabindex="-1"></a><span class="co"># d) the question the linkage was for</span></span>
+<span id="cb11-35"><a href="#cb11-35" tabindex="-1"></a><span class="fu">aggregate</span>(<span class="fu">cbind</span>(n_admissions, bed_days) <span class="sc">~</span> Fsmoking, <span class="at">data =</span> cardiac_all, <span class="at">FUN =</span> mean)</span>
+<span id="cb11-36"><a href="#cb11-36" tabindex="-1"></a></span>
+<span id="cb11-37"><a href="#cb11-37" tabindex="-1"></a><span class="co"># Fsmoking n_admissions bed_days 1 Current 1.320000 5.540000 2 Ex 1.307692</span></span>
+<span id="cb11-38"><a href="#cb11-38" tabindex="-1"></a><span class="co"># 4.692308 3 Never 1.037037 4.148148</span></span>
+<span id="cb11-39"><a href="#cb11-39" tabindex="-1"></a></span>
+<span id="cb11-40"><a href="#cb11-40" tabindex="-1"></a><span class="co"># Smokers and ex-smokers average about a quarter more admissions than those who</span></span>
+<span id="cb11-41"><a href="#cb11-41" tabindex="-1"></a><span class="co"># have never smoked, and rather more days in hospital. Remember that these</span></span>
+<span id="cb11-42"><a href="#cb11-42" tabindex="-1"></a><span class="co"># admission records are simulated, so this is a demonstration of how to get the</span></span>
+<span id="cb11-43"><a href="#cb11-43" tabindex="-1"></a><span class="co"># answer, not a finding about the real cohort.</span></span></code></pre></div>
+<p> </p>
+<p>10. Ok, we have spent quite a bit of time (and energy) learning how
+to clean, summarise and link dataframes. The last thing we need to cover
+is how to export a dataframe from R to an external file (see <a
 href="https://intro2r.com/exporting-data.html#exporting-data">Section
 3.6</a> of the book for more details). Export your cleaned and linked
 dataframe <code>cardiac_all</code> to a file called ‘cardiac_clean.txt’
@@ -836,22 +913,26 @@ listing every change you made to the data and why. Which values did you
 set to <code>NA</code>, in which variables, and which patients did they
 belong to? Someone reading your work in six months, including you, needs
 to be able to answer that without re-running anything.</p>
-<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" tabindex="-1"></a><span class="fu">write.table</span>(cardiac_all, <span class="st">&quot;output/cardiac_clean.txt&quot;</span>, <span class="at">col.names =</span> <span class="cn">TRUE</span>, <span class="at">row.names =</span> <span class="cn">FALSE</span>,</span>
-<span id="cb11-2"><a href="#cb11-2" tabindex="-1"></a>    <span class="at">sep =</span> <span class="st">&quot;</span><span class="sc">\t</span><span class="st">&quot;</span>)</span>
-<span id="cb11-3"><a href="#cb11-3" tabindex="-1"></a></span>
-<span id="cb11-4"><a href="#cb11-4" tabindex="-1"></a><span class="co"># Decision log - the sort of thing that belongs at the top of your script:</span></span>
-<span id="cb11-5"><a href="#cb11-5" tabindex="-1"></a><span class="co"># Data: data/cardiacdata.txt, 163 patients, imported unchanged.  1. Fsex</span></span>
-<span id="cb11-6"><a href="#cb11-6" tabindex="-1"></a><span class="co"># created as a factor version of sex, labelled Female (1) and Male (2).  The</span></span>
-<span id="cb11-7"><a href="#cb11-7" tabindex="-1"></a><span class="co"># original sex column was left untouched.  2. hdlchol of 0.00 set to NA (2</span></span>
-<span id="cb11-8"><a href="#cb11-8" tabindex="-1"></a><span class="co"># patients). A HDL cholesterol of zero is physiologically impossible and is</span></span>
-<span id="cb11-9"><a href="#cb11-9" tabindex="-1"></a><span class="co"># almost certainly a missing value that was recorded as 0.  3. triglyceride of</span></span>
-<span id="cb11-10"><a href="#cb11-10" tabindex="-1"></a><span class="co"># 0.00 set to NA (1 patient). Same reasoning.  4. bmi of 514.60 set to NA</span></span>
-<span id="cb11-11"><a href="#cb11-11" tabindex="-1"></a><span class="co"># (patient 1630L). Almost certainly 51.46 with the decimal point misplaced, but</span></span>
-<span id="cb11-12"><a href="#cb11-12" tabindex="-1"></a><span class="co"># as we cannot confirm that, NA rather than a correction.  5. log_triglyceride</span></span>
-<span id="cb11-13"><a href="#cb11-13" tabindex="-1"></a><span class="co"># added, the base 10 log of triglyceride, taken after the cleaning in step 3.</span></span>
-<span id="cb11-14"><a href="#cb11-14" tabindex="-1"></a><span class="co"># 6. Ten year follow-up measurements linked on from data/cardiac_followup.txt,</span></span>
-<span id="cb11-15"><a href="#cb11-15" tabindex="-1"></a><span class="co"># keeping all 163 patients; 55 have no follow-up data.  7. smoking labels</span></span>
-<span id="cb11-16"><a href="#cb11-16" tabindex="-1"></a><span class="co"># linked on from data/smoking_lookup.txt.</span></span></code></pre></div>
+<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" tabindex="-1"></a><span class="fu">write.table</span>(cardiac_all, <span class="st">&quot;output/cardiac_clean.txt&quot;</span>, <span class="at">col.names =</span> <span class="cn">TRUE</span>, <span class="at">row.names =</span> <span class="cn">FALSE</span>,</span>
+<span id="cb12-2"><a href="#cb12-2" tabindex="-1"></a>    <span class="at">sep =</span> <span class="st">&quot;</span><span class="sc">\t</span><span class="st">&quot;</span>)</span>
+<span id="cb12-3"><a href="#cb12-3" tabindex="-1"></a></span>
+<span id="cb12-4"><a href="#cb12-4" tabindex="-1"></a><span class="co"># Decision log - the sort of thing that belongs at the top of your script:</span></span>
+<span id="cb12-5"><a href="#cb12-5" tabindex="-1"></a><span class="co"># Data: data/cardiacdata.txt, 163 patients, imported unchanged.  1. Fsex and</span></span>
+<span id="cb12-6"><a href="#cb12-6" tabindex="-1"></a><span class="co"># Fsmoking created as factor versions of sex (Female, Male) and smoking</span></span>
+<span id="cb12-7"><a href="#cb12-7" tabindex="-1"></a><span class="co"># (Current, Ex, Never). The original coded columns were left untouched.  2.</span></span>
+<span id="cb12-8"><a href="#cb12-8" tabindex="-1"></a><span class="co"># hdlchol of 0.00 set to NA (2 patients). A HDL cholesterol of zero is</span></span>
+<span id="cb12-9"><a href="#cb12-9" tabindex="-1"></a><span class="co"># physiologically impossible and is almost certainly a missing value that was</span></span>
+<span id="cb12-10"><a href="#cb12-10" tabindex="-1"></a><span class="co"># recorded as 0.  3. triglyceride of 0.00 set to NA (1 patient). Same</span></span>
+<span id="cb12-11"><a href="#cb12-11" tabindex="-1"></a><span class="co"># reasoning.  4. bmi of 514.60 set to NA (patient 1630L). Almost certainly</span></span>
+<span id="cb12-12"><a href="#cb12-12" tabindex="-1"></a><span class="co"># 51.46 with the decimal point misplaced, but as we cannot confirm that, NA</span></span>
+<span id="cb12-13"><a href="#cb12-13" tabindex="-1"></a><span class="co"># rather than a correction.  5. log_triglyceride added, the base 10 log of</span></span>
+<span id="cb12-14"><a href="#cb12-14" tabindex="-1"></a><span class="co"># triglyceride, taken after the cleaning in step 3.  6. Ten year follow-up</span></span>
+<span id="cb12-15"><a href="#cb12-15" tabindex="-1"></a><span class="co"># measurements linked on from data/cardiac_followup.txt, keeping all 163</span></span>
+<span id="cb12-16"><a href="#cb12-16" tabindex="-1"></a><span class="co"># patients; 55 have no follow-up data.  7. Admissions summarised to one row per</span></span>
+<span id="cb12-17"><a href="#cb12-17" tabindex="-1"></a><span class="co"># patient from data/cardiac_admissions.txt (SIMULATED data) and linked on,</span></span>
+<span id="cb12-18"><a href="#cb12-18" tabindex="-1"></a><span class="co"># keeping all 163 patients. n_admissions and bed_days set to 0, not left as NA,</span></span>
+<span id="cb12-19"><a href="#cb12-19" tabindex="-1"></a><span class="co"># for the 53 patients never admitted, because a patient with no admission</span></span>
+<span id="cb12-20"><a href="#cb12-20" tabindex="-1"></a><span class="co"># record has zero admissions rather than an unknown number.</span></span></code></pre></div>
 <p> </p>
 <p>End of Exercise 4</p>
 </div>

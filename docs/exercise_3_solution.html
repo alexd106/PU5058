@@ -624,69 +624,81 @@ and <code>smoking</code> are, and is it right?</p>
 <span id="cb2-21"><a href="#cb2-21" tabindex="-1"></a><span class="co"># in the file: sex is coded 1 and 2, smoking is coded 1, 2 and 3. But they are</span></span>
 <span id="cb2-22"><a href="#cb2-22" tabindex="-1"></a><span class="co"># not really numbers, they are categories, and R has no way of knowing that.</span></span>
 <span id="cb2-23"><a href="#cb2-23" tabindex="-1"></a><span class="co"># Nothing stops you calculating mean(cardiac$sex) and it returns 1.52 - and that</span></span>
-<span id="cb2-24"><a href="#cb2-24" tabindex="-1"></a><span class="co"># number is mostly meaningless. You will fix the sex variable in the next question.</span></span>
+<span id="cb2-24"><a href="#cb2-24" tabindex="-1"></a><span class="co"># number is mostly meaningless. You will fix both of them in the next question.</span></span>
 <span id="cb2-25"><a href="#cb2-25" tabindex="-1"></a></span>
 <span id="cb2-26"><a href="#cb2-26" tabindex="-1"></a><span class="co"># patno is a factor with 163 levels, one for every row. A factor with as many</span></span>
 <span id="cb2-27"><a href="#cb2-27" tabindex="-1"></a><span class="co"># levels as there are rows is a good sign that you are looking at an identifier</span></span>
 <span id="cb2-28"><a href="#cb2-28" tabindex="-1"></a><span class="co"># rather than a variable.</span></span></code></pre></div>
 <p> </p>
-<p>7. Let’s do something about the <code>sex</code> variable. The way to
-tell R that a variable holds categories rather than quantities is to
-make it a <strong>factor</strong>, using the <code>factor()</code>
-function (see <code>?factor</code>, and <a
+<p>7. Let’s do something about the <code>sex</code> and
+<code>smoking</code> variables. The way to tell R that a variable holds
+categories rather than quantities is to make it a
+<strong>factor</strong>, using the <code>factor()</code> function (see
+<code>?factor</code>, and <a
 href="https://intro2r.com/data-types.html#data-types">Section 3.1</a> of
 the Introduction to R book for where factors sit among R’s data types).
 You give <code>factor()</code> the codes that appear in the data with
 the <code>levels</code> argument, and what each code means with the
 <code>labels</code> argument. For <code>sex</code>, 1 is Female and 2 is
-Male.</p>
-<p>Here is the important part. Do <strong>not</strong> overwrite
-<code>sex</code>. Create a <strong>new</strong> variable in the
-<code>cardiac</code> dataframe called for example <code>Fsex</code>
-instead, and leave the original <code>sex</code> variable exactly as it
-was. Do this, then use <code>str()</code> to check that
-<code>Fsex</code> really is a factor with the two levels you expect, and
-that <code>sex</code> is still there and still an integer.</p>
+Male. For <code>smoking</code>, 1 is Current, 2 is Ex and 3 is
+Never.</p>
+<p>Here is the important part. Do <strong>not</strong> overwrite either
+of them. Create two <strong>new</strong> variables in the
+<code>cardiac</code> dataframe, called for example <code>Fsex</code> and
+<code>Fsmoking</code>, and leave the original <code>sex</code> and
+<code>smoking</code> variables exactly as they were. Do this, then use
+<code>str()</code> to check that both really are factors with the levels
+you expect, and that <code>sex</code> and <code>smoking</code> are still
+there and still integers.</p>
 <p>Why do we create a new variable rather than overwriting the original?
 Have a think about it before you reveal the answer.</p>
-<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" tabindex="-1"></a><span class="co"># 1 = Female and 2 = Male. Writing the labels out means you never have to</span></span>
-<span id="cb3-2"><a href="#cb3-2" tabindex="-1"></a><span class="co"># remember the codes again, and your output reads properly.</span></span>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" tabindex="-1"></a><span class="co"># Writing the labels out means you never have to remember the codes again, and</span></span>
+<span id="cb3-2"><a href="#cb3-2" tabindex="-1"></a><span class="co"># your output reads properly from here on.</span></span>
 <span id="cb3-3"><a href="#cb3-3" tabindex="-1"></a>cardiac<span class="sc">$</span>Fsex <span class="ot">&lt;-</span> <span class="fu">factor</span>(cardiac<span class="sc">$</span>sex, <span class="at">levels =</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">2</span>),</span>
 <span id="cb3-4"><a href="#cb3-4" tabindex="-1"></a>                       <span class="at">labels =</span> <span class="fu">c</span>(<span class="st">&quot;Female&quot;</span>, <span class="st">&quot;Male&quot;</span>))</span>
 <span id="cb3-5"><a href="#cb3-5" tabindex="-1"></a></span>
-<span id="cb3-6"><a href="#cb3-6" tabindex="-1"></a><span class="fu">str</span>(cardiac)</span>
-<span id="cb3-7"><a href="#cb3-7" tabindex="-1"></a></span>
-<span id="cb3-8"><a href="#cb3-8" tabindex="-1"></a><span class="co">#  $ sex         : int  2 2 2 2 2 2 2 1 1 2 ...</span></span>
-<span id="cb3-9"><a href="#cb3-9" tabindex="-1"></a><span class="co">#  $ Fsex        : Factor w/ 2 levels &quot;Female&quot;,&quot;Male&quot;: 2 2 2 2 2 2 2 1 1 2 ...</span></span>
+<span id="cb3-6"><a href="#cb3-6" tabindex="-1"></a>cardiac<span class="sc">$</span>Fsmoking <span class="ot">&lt;-</span> <span class="fu">factor</span>(cardiac<span class="sc">$</span>smoking, <span class="at">levels =</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">3</span>),</span>
+<span id="cb3-7"><a href="#cb3-7" tabindex="-1"></a>                           <span class="at">labels =</span> <span class="fu">c</span>(<span class="st">&quot;Current&quot;</span>, <span class="st">&quot;Ex&quot;</span>, <span class="st">&quot;Never&quot;</span>))</span>
+<span id="cb3-8"><a href="#cb3-8" tabindex="-1"></a></span>
+<span id="cb3-9"><a href="#cb3-9" tabindex="-1"></a><span class="fu">str</span>(cardiac)</span>
 <span id="cb3-10"><a href="#cb3-10" tabindex="-1"></a></span>
-<span id="cb3-11"><a href="#cb3-11" tabindex="-1"></a><span class="co"># Why a new variable rather than overwriting the sex variable?</span></span>
-<span id="cb3-12"><a href="#cb3-12" tabindex="-1"></a><span class="co">#</span></span>
-<span id="cb3-13"><a href="#cb3-13" tabindex="-1"></a><span class="co"># 1. The raw codes survive. You can always check your recoding against what was</span></span>
-<span id="cb3-14"><a href="#cb3-14" tabindex="-1"></a><span class="co">#    actually in the file, and if you get the labels the wrong way round you can</span></span>
-<span id="cb3-15"><a href="#cb3-15" tabindex="-1"></a><span class="co">#    simply redo it. Overwrite, and the codes are gone from your session and the</span></span>
-<span id="cb3-16"><a href="#cb3-16" tabindex="-1"></a><span class="co">#    only way back is to import the file again.</span></span>
-<span id="cb3-17"><a href="#cb3-17" tabindex="-1"></a><span class="co">#</span></span>
-<span id="cb3-18"><a href="#cb3-18" tabindex="-1"></a><span class="co"># 2. The &#39;F&#39; prefix says at a glance which variable is the factor version. You</span></span>
-<span id="cb3-19"><a href="#cb3-19" tabindex="-1"></a><span class="co">#    will use the same convention for Fsmoking in Exercise 5.</span></span>
-<span id="cb3-20"><a href="#cb3-20" tabindex="-1"></a></span>
-<span id="cb3-21"><a href="#cb3-21" tabindex="-1"></a><span class="co"># and note: the sex variable is still an integer, exactly as it was</span></span>
-<span id="cb3-22"><a href="#cb3-22" tabindex="-1"></a><span class="fu">str</span>(cardiac<span class="sc">$</span>sex)</span></code></pre></div>
+<span id="cb3-11"><a href="#cb3-11" tabindex="-1"></a><span class="co">#  $ sex         : int  2 2 2 2 2 2 2 1 1 2 ...</span></span>
+<span id="cb3-12"><a href="#cb3-12" tabindex="-1"></a><span class="co">#  $ smoking     : int  NA NA NA NA NA NA NA 1 1 1 ...</span></span>
+<span id="cb3-13"><a href="#cb3-13" tabindex="-1"></a><span class="co">#  $ Fsex        : Factor w/ 2 levels &quot;Female&quot;,&quot;Male&quot;: 2 2 2 2 2 2 2 1 1 2 ...</span></span>
+<span id="cb3-14"><a href="#cb3-14" tabindex="-1"></a><span class="co">#  $ Fsmoking    : Factor w/ 3 levels &quot;Current&quot;,&quot;Ex&quot;,..: NA NA NA NA NA NA NA 1 1 1 ...</span></span>
+<span id="cb3-15"><a href="#cb3-15" tabindex="-1"></a></span>
+<span id="cb3-16"><a href="#cb3-16" tabindex="-1"></a><span class="co"># the 7 patients with no smoking code stay missing in Fsmoking, which is exactly</span></span>
+<span id="cb3-17"><a href="#cb3-17" tabindex="-1"></a><span class="co"># right. factor() does not invent a category for them.</span></span>
+<span id="cb3-18"><a href="#cb3-18" tabindex="-1"></a></span>
+<span id="cb3-19"><a href="#cb3-19" tabindex="-1"></a><span class="co"># Why new variables rather than overwriting sex and smoking?</span></span>
+<span id="cb3-20"><a href="#cb3-20" tabindex="-1"></a><span class="co">#</span></span>
+<span id="cb3-21"><a href="#cb3-21" tabindex="-1"></a><span class="co"># 1. The raw codes survive. You can always check your recoding against what was</span></span>
+<span id="cb3-22"><a href="#cb3-22" tabindex="-1"></a><span class="co">#    actually in the file, and if you get the labels the wrong way round you can</span></span>
+<span id="cb3-23"><a href="#cb3-23" tabindex="-1"></a><span class="co">#    simply redo it. Overwrite, and the codes are gone from your session and the</span></span>
+<span id="cb3-24"><a href="#cb3-24" tabindex="-1"></a><span class="co">#    only way back is to import the file again.</span></span>
+<span id="cb3-25"><a href="#cb3-25" tabindex="-1"></a><span class="co">#</span></span>
+<span id="cb3-26"><a href="#cb3-26" tabindex="-1"></a><span class="co"># 2. The &#39;F&#39; prefix says at a glance which variable is the factor version. You</span></span>
+<span id="cb3-27"><a href="#cb3-27" tabindex="-1"></a><span class="co">#    will use the same convention every time you recode something.</span></span>
+<span id="cb3-28"><a href="#cb3-28" tabindex="-1"></a></span>
+<span id="cb3-29"><a href="#cb3-29" tabindex="-1"></a><span class="co"># and note: the originals are still integers, exactly as they were</span></span>
+<span id="cb3-30"><a href="#cb3-30" tabindex="-1"></a><span class="fu">str</span>(cardiac<span class="sc">$</span>sex)</span>
+<span id="cb3-31"><a href="#cb3-31" tabindex="-1"></a><span class="fu">str</span>(cardiac<span class="sc">$</span>smoking)</span></code></pre></div>
 <p> </p>
 <p>8. You can get another useful summary of your dataframe by using the
 <code>summary()</code> function. This will provide you with some useful
 summary statistics for each variable. Notice how the type of output
 depends on whether the variable is a factor or a number: for
-<code>Fsex</code>, the factor you just created, you get a count of
-patients in each level, whereas for a numeric variable you get the
-minimum, maximum, mean, median and quartiles. Compare <code>sex</code>
-and <code>Fsex</code> in the output and you will see the same
-information summarised in two very different ways. Another useful
-feature of the <code>summary()</code> function is that it will also
-count the number of missing values in each variable. Which variables
-have missing values, and how many? While you are looking at this output,
-check the maximum value of <code>bmi</code>. Does that look like a
-plausible body mass index to you? Make a note of it and hang on to that
-thought until Exercise 4.</p>
+<code>Fsex</code> and <code>Fsmoking</code>, the factors you just
+created, you get a count of patients in each level, whereas for a
+numeric variable you get the minimum, maximum, mean, median and
+quartiles. Compare <code>sex</code> and <code>Fsex</code> in the output
+and you will see the same information summarised in two very different
+ways. Another useful feature of the <code>summary()</code> function is
+that it will also count the number of missing values in each variable.
+Which variables have missing values, and how many? While you are looking
+at this output, check the maximum value of <code>bmi</code>. Does that
+look like a plausible body mass index to you? Make a note of it and hang
+on to that thought until Exercise 4.</p>
 <div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" tabindex="-1"></a><span class="fu">summary</span>(cardiac)</span>
 <span id="cb4-2"><a href="#cb4-2" tabindex="-1"></a></span>
 <span id="cb4-3"><a href="#cb4-3" tabindex="-1"></a><span class="co"># </span><span class="al">NOTE</span><span class="co">: only some of the columns are shown here, and not in their original</span></span>
@@ -743,15 +755,15 @@ name. Practice both ways.</p></li>
 <span id="cb5-5"><a href="#cb5-5" tabindex="-1"></a>cardiac_risk <span class="ot">&lt;-</span> cardiac[, <span class="fu">c</span>(<span class="st">&quot;patno&quot;</span>, <span class="st">&quot;sex&quot;</span>, <span class="st">&quot;smoking&quot;</span>, <span class="st">&quot;tchol&quot;</span>)]    </span>
 <span id="cb5-6"><a href="#cb5-6" tabindex="-1"></a></span>
 <span id="cb5-7"><a href="#cb5-7" tabindex="-1"></a><span class="co"># excluding first 10 rows and last column using negative indexing. </span><span class="al">NOTE</span><span class="co">: the</span></span>
-<span id="cb5-8"><a href="#cb5-8" tabindex="-1"></a><span class="co"># last column is now Fsex, the one you created in Q7, not smoking. Adding a</span></span>
-<span id="cb5-9"><a href="#cb5-9" tabindex="-1"></a><span class="co"># column shifted the positions, which is exactly why hard coded numbers are</span></span>
-<span id="cb5-10"><a href="#cb5-10" tabindex="-1"></a><span class="co"># fragile.</span></span>
-<span id="cb5-11"><a href="#cb5-11" tabindex="-1"></a>cardiac_last <span class="ot">&lt;-</span> cardiac[<span class="sc">-</span><span class="fu">c</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">10</span>), <span class="sc">-</span><span class="dv">12</span>]  </span>
+<span id="cb5-8"><a href="#cb5-8" tabindex="-1"></a><span class="co"># last column is now Fsmoking, the second of the two you created in Q7. The</span></span>
+<span id="cb5-9"><a href="#cb5-9" tabindex="-1"></a><span class="co"># dataframe has 13 columns rather than the 11 you imported, which is exactly why</span></span>
+<span id="cb5-10"><a href="#cb5-10" tabindex="-1"></a><span class="co"># hard coded column numbers are fragile.</span></span>
+<span id="cb5-11"><a href="#cb5-11" tabindex="-1"></a>cardiac_last <span class="ot">&lt;-</span> cardiac[<span class="sc">-</span><span class="fu">c</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">10</span>), <span class="sc">-</span><span class="dv">13</span>]  </span>
 <span id="cb5-12"><a href="#cb5-12" tabindex="-1"></a><span class="co"># more general way, and it stays correct however many columns you add</span></span>
 <span id="cb5-13"><a href="#cb5-13" tabindex="-1"></a>cardiac_last <span class="ot">&lt;-</span> cardiac[<span class="sc">-</span><span class="fu">c</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">10</span>), <span class="sc">-</span><span class="fu">c</span>(<span class="fu">ncol</span>(cardiac))] </span>
 <span id="cb5-14"><a href="#cb5-14" tabindex="-1"></a><span class="co"># </span><span class="al">NOTE</span><span class="co">: negative indexing does NOT work with column names. Uncomment the line</span></span>
 <span id="cb5-15"><a href="#cb5-15" tabindex="-1"></a><span class="co"># below and run it to see the error for yourself:</span></span>
-<span id="cb5-16"><a href="#cb5-16" tabindex="-1"></a><span class="co"># cardiac_last &lt;- cardiac[-c(1:10), -c(&quot;Fsex&quot;)]</span></span></code></pre></div>
+<span id="cb5-16"><a href="#cb5-16" tabindex="-1"></a><span class="co"># cardiac_last &lt;- cardiac[-c(1:10), -c(&quot;Fsmoking&quot;)]</span></span></code></pre></div>
 <p> </p>
 <p>10. In addition to extracting rows and columns from your dataframe by
 position (as you have just been doing) you can also use conditional
@@ -761,10 +773,11 @@ href="https://intro2r.com/wrangling-data-frames.html#logical-indexes">Section
 3.4.2</a> for an introduction). Extract rows from your dataframe (all
 columns by default) based on the following criteria (note: you will need
 to assign the results of these statements to appropriately named
-variables, I’ll leave it up to you to use informative names!). Remember
-that <code>smoking</code> is coded 1 for current smokers, 2 for
-ex-smokers and 3 for those who have never smoked, and that for sex you
-now have a properly labelled <code>Fsex</code> to use:</p>
+variables, I’ll leave it up to you to use informative names!). You now
+have properly labelled <code>Fsex</code> and <code>Fsmoking</code>
+variables, so use those rather than the raw codes. Your conditions will
+then read like English and you will not have to keep looking up which
+number means what:</p>
 <ul>
 <li>systolic blood pressure greater than 160 mmHg</li>
 <li>male patients who have never smoked and whose diastolic pressure is
@@ -773,10 +786,10 @@ greater than the median diastolic pressure (76 mmHg)</li>
 </ul>
 <div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" tabindex="-1"></a>cardiac_sys160 <span class="ot">&lt;-</span> cardiac[cardiac<span class="sc">$</span>systolic <span class="sc">&gt;</span> <span class="dv">160</span>, ]</span>
 <span id="cb6-2"><a href="#cb6-2" tabindex="-1"></a></span>
-<span id="cb6-3"><a href="#cb6-3" tabindex="-1"></a>cardiac_subset <span class="ot">&lt;-</span> cardiac[cardiac<span class="sc">$</span>Fsex <span class="sc">==</span> <span class="st">&quot;Male&quot;</span> <span class="sc">&amp;</span> cardiac<span class="sc">$</span>smoking <span class="sc">==</span> <span class="dv">3</span> <span class="sc">&amp;</span> cardiac<span class="sc">$</span>diastolic <span class="sc">&gt;</span></span>
-<span id="cb6-4"><a href="#cb6-4" tabindex="-1"></a>    <span class="dv">76</span>, ]</span>
+<span id="cb6-3"><a href="#cb6-3" tabindex="-1"></a>cardiac_subset <span class="ot">&lt;-</span> cardiac[cardiac<span class="sc">$</span>Fsex <span class="sc">==</span> <span class="st">&quot;Male&quot;</span> <span class="sc">&amp;</span> cardiac<span class="sc">$</span>Fsmoking <span class="sc">==</span> <span class="st">&quot;Never&quot;</span> <span class="sc">&amp;</span></span>
+<span id="cb6-4"><a href="#cb6-4" tabindex="-1"></a>    cardiac<span class="sc">$</span>diastolic <span class="sc">&gt;</span> <span class="dv">76</span>, ]</span>
 <span id="cb6-5"><a href="#cb6-5" tabindex="-1"></a></span>
-<span id="cb6-6"><a href="#cb6-6" tabindex="-1"></a>cardiac_notex <span class="ot">&lt;-</span> cardiac[cardiac<span class="sc">$</span>smoking <span class="sc">!=</span> <span class="dv">2</span>, ]</span></code></pre></div>
+<span id="cb6-6"><a href="#cb6-6" tabindex="-1"></a>cardiac_notex <span class="ot">&lt;-</span> cardiac[cardiac<span class="sc">$</span>Fsmoking <span class="sc">!=</span> <span class="st">&quot;Ex&quot;</span>, ]</span></code></pre></div>
 <p> </p>
 <p>11. A really neat feature of conditional statements is that you can
 put R functions inside them, so the threshold is worked out from the

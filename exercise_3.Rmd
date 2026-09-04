@@ -75,7 +75,7 @@ str(cardiac)          # display the structure of the dataframe cardiac
 # in the file: sex is coded 1 and 2, smoking is coded 1, 2 and 3. But they are
 # not really numbers, they are categories, and R has no way of knowing that.
 # Nothing stops you calculating mean(cardiac$sex) and it returns 1.52 - and that
-# number is mostly meaningless. You will fix the sex variable in the next question.
+# number is mostly meaningless. You will fix both of them in the next question.
 
 # patno is a factor with 163 levels, one for every row. A factor with as many
 # levels as there are rows is a good sign that you are looking at an identifier
@@ -84,24 +84,32 @@ str(cardiac)          # display the structure of the dataframe cardiac
 
 \  
 
-7\. Let's do something about the `sex` variable. The way to tell R that a variable holds categories rather than quantities is to make it a **factor**, using the `factor()` function (see `?factor`, and [Section 3.1](https://intro2r.com/data-types.html#data-types) of the Introduction to R book for where factors sit among R's data types). You give `factor()` the codes that appear in the data with the `levels` argument, and what each code means with the `labels` argument. For `sex`, 1 is Female and 2 is Male.
+7\. Let's do something about the `sex` and `smoking` variables. The way to tell R that a variable holds categories rather than quantities is to make it a **factor**, using the `factor()` function (see `?factor`, and [Section 3.1](https://intro2r.com/data-types.html#data-types) of the Introduction to R book for where factors sit among R's data types). You give `factor()` the codes that appear in the data with the `levels` argument, and what each code means with the `labels` argument. For `sex`, 1 is Female and 2 is Male. For `smoking`, 1 is Current, 2 is Ex and 3 is Never.
 
-Here is the important part. Do **not** overwrite `sex`. Create a **new** variable in the `cardiac` dataframe called for example `Fsex` instead, and leave the original `sex` variable exactly as it was. Do this, then use `str()` to check that `Fsex` really is a factor with the two levels you expect, and that `sex` is still there and still an integer.
+Here is the important part. Do **not** overwrite either of them. Create two **new** variables in the `cardiac` dataframe, called for example `Fsex` and `Fsmoking`, and leave the original `sex` and `smoking` variables exactly as they were. Do this, then use `str()` to check that both really are factors with the levels you expect, and that `sex` and `smoking` are still there and still integers.
 
 Why do we create a new variable rather than overwriting the original? Have a think about it before you reveal the answer.
 
 ```{r Q7, echo=SOLUTIONS}
-# 1 = Female and 2 = Male. Writing the labels out means you never have to
-# remember the codes again, and your output reads properly.
+# Writing the labels out means you never have to remember the codes again, and
+# your output reads properly from here on.
 cardiac$Fsex <- factor(cardiac$sex, levels = c(1, 2),
                        labels = c("Female", "Male"))
+
+cardiac$Fsmoking <- factor(cardiac$smoking, levels = c(1, 2, 3),
+                           labels = c("Current", "Ex", "Never"))
 
 str(cardiac)
 
 #  $ sex         : int  2 2 2 2 2 2 2 1 1 2 ...
+#  $ smoking     : int  NA NA NA NA NA NA NA 1 1 1 ...
 #  $ Fsex        : Factor w/ 2 levels "Female","Male": 2 2 2 2 2 2 2 1 1 2 ...
+#  $ Fsmoking    : Factor w/ 3 levels "Current","Ex",..: NA NA NA NA NA NA NA 1 1 1 ...
 
-# Why a new variable rather than overwriting the sex variable?
+# the 7 patients with no smoking code stay missing in Fsmoking, which is exactly
+# right. factor() does not invent a category for them.
+
+# Why new variables rather than overwriting sex and smoking?
 #
 # 1. The raw codes survive. You can always check your recoding against what was
 #    actually in the file, and if you get the labels the wrong way round you can
@@ -109,15 +117,16 @@ str(cardiac)
 #    only way back is to import the file again.
 #
 # 2. The 'F' prefix says at a glance which variable is the factor version. You
-#    will use the same convention for Fsmoking in Exercise 5.
+#    will use the same convention every time you recode something.
 
-# and note: the sex variable is still an integer, exactly as it was
+# and note: the originals are still integers, exactly as they were
 str(cardiac$sex)
+str(cardiac$smoking)
 ```
 
 \  
 
-8\. You can get another useful summary of your dataframe by using the `summary()` function. This will provide you with some useful summary statistics for each variable. Notice how the type of output depends on whether the variable is a factor or a number: for `Fsex`, the factor you just created, you get a count of patients in each level, whereas for a numeric variable you get the minimum, maximum, mean, median and quartiles. Compare `sex` and `Fsex` in the output and you will see the same information summarised in two very different ways. Another useful feature of the `summary()` function is that it will also count the number of missing values in each variable. Which variables have missing values, and how many? While you are looking at this output, check the maximum value of `bmi`. Does that look like a plausible body mass index to you? Make a note of it and hang on to that thought until Exercise 4.
+8\. You can get another useful summary of your dataframe by using the `summary()` function. This will provide you with some useful summary statistics for each variable. Notice how the type of output depends on whether the variable is a factor or a number: for `Fsex` and `Fsmoking`, the factors you just created, you get a count of patients in each level, whereas for a numeric variable you get the minimum, maximum, mean, median and quartiles. Compare `sex` and `Fsex` in the output and you will see the same information summarised in two very different ways. Another useful feature of the `summary()` function is that it will also count the number of missing values in each variable. Which variables have missing values, and how many? While you are looking at this output, check the maximum value of `bmi`. Does that look like a plausible body mass index to you? Make a note of it and hang on to that thought until Exercise 4.
 
 ```{r Q8, echo=SOLUTIONS}
 summary(cardiac)
@@ -164,20 +173,20 @@ cardiac_risk <- cardiac[, c(1, 3, 11, 6)]
 cardiac_risk <- cardiac[, c("patno", "sex", "smoking", "tchol")]    
 
 # excluding first 10 rows and last column using negative indexing. NOTE: the
-# last column is now Fsex, the one you created in Q7, not smoking. Adding a
-# column shifted the positions, which is exactly why hard coded numbers are
-# fragile.
-cardiac_last <- cardiac[-c(1:10), -12]  
+# last column is now Fsmoking, the second of the two you created in Q7. The
+# dataframe has 13 columns rather than the 11 you imported, which is exactly why
+# hard coded column numbers are fragile.
+cardiac_last <- cardiac[-c(1:10), -13]  
 # more general way, and it stays correct however many columns you add
 cardiac_last <- cardiac[-c(1:10), -c(ncol(cardiac))] 
 # NOTE: negative indexing does NOT work with column names. Uncomment the line
 # below and run it to see the error for yourself:
-# cardiac_last <- cardiac[-c(1:10), -c("Fsex")]
+# cardiac_last <- cardiac[-c(1:10), -c("Fsmoking")]
 ```
 
 \  
 
-10\. In addition to extracting rows and columns from your dataframe by position (as you have just been doing) you can also use conditional statements to select particular rows based on some logical criteria. This is very useful but takes a bit of practice to get used to (see [Section 3.4.2](https://intro2r.com/wrangling-data-frames.html#logical-indexes) for an introduction). Extract rows from your dataframe (all columns by default) based on the following criteria (note: you will need to assign the results of these statements to appropriately named variables, I'll leave it up to you to use informative names!). Remember that `smoking` is coded 1 for current smokers, 2 for ex-smokers and 3 for those who have never smoked, and that for sex you now have a properly labelled `Fsex` to use:  
+10\. In addition to extracting rows and columns from your dataframe by position (as you have just been doing) you can also use conditional statements to select particular rows based on some logical criteria. This is very useful but takes a bit of practice to get used to (see [Section 3.4.2](https://intro2r.com/wrangling-data-frames.html#logical-indexes) for an introduction). Extract rows from your dataframe (all columns by default) based on the following criteria (note: you will need to assign the results of these statements to appropriately named variables, I'll leave it up to you to use informative names!). You now have properly labelled `Fsex` and `Fsmoking` variables, so use those rather than the raw codes. Your conditions will then read like English and you will not have to keep looking up which number means what:  
 
 - systolic blood pressure greater than 160 mmHg
 - male patients who have never smoked and whose diastolic pressure is greater than the median diastolic pressure (76 mmHg)
@@ -186,9 +195,9 @@ cardiac_last <- cardiac[-c(1:10), -c(ncol(cardiac))]
 ```{r Q10, echo=SOLUTIONS, tidy = TRUE}
 cardiac_sys160 <- cardiac[cardiac$systolic > 160, ]
 
-cardiac_subset <- cardiac[cardiac$Fsex == "Male" & cardiac$smoking == 3 & cardiac$diastolic > 76, ]
+cardiac_subset <- cardiac[cardiac$Fsex == "Male" & cardiac$Fsmoking == "Never" & cardiac$diastolic > 76, ]
 
-cardiac_notex <- cardiac[cardiac$smoking != 2, ]
+cardiac_notex <- cardiac[cardiac$Fsmoking != "Ex", ]
 ```
 
 \  

@@ -4,6 +4,9 @@ cardiac <- read.table('data/cardiacdata.txt', header = TRUE, sep = "\t", strings
 cardiac$Fsex <- factor(cardiac$sex, levels = c(1, 2),
                        labels = c("Female", "Male"))
 
+cardiac$Fsmoking <- factor(cardiac$smoking, levels = c(1, 2, 3),
+                           labels = c("Current", "Ex", "Never"))
+
 
 ## ----Q1, echo=SOLUTIONS, tidy = TRUE------------------------------------------
 summary(cardiac)
@@ -56,7 +59,7 @@ summary(cardiac)   # check: the minima and maximum are now sensible
 ## ----Q2, echo=SOLUTIONS-------------------------------------------------------
 # now systolic within smoking status. smoking comes first because it is the
 # grouping you want, systolic second because it sorts within each group
-cardiac_sorted <- cardiac[order(cardiac$smoking, cardiac$systolic), ]
+cardiac_sorted <- cardiac[order(cardiac$Fsmoking, cardiac$systolic), ]
 
 # order() puts NAs last by default, so the 7 patients with no smoking status
 # are all at the bottom rather than mixed in with the ones you can interpret.
@@ -71,24 +74,24 @@ length(cardiac$tchol)      # number of observations
 
 ## ----Q3b, echo=SOLUTIONS, tidy = TRUE-----------------------------------------
 # run it plainly first and see what the missing values do
-aggregate(cardiac[, c(2, 4, 5, 6)], by = list(smoking = cardiac$smoking), FUN = mean)
+aggregate(cardiac[, c(2, 4, 5, 6)], by = list(smoking = cardiac$Fsmoking), FUN = mean)
 
 #   smoking      age systolic diastolic tchol
-# 1       1 63.10060 143.5400  76.40000    NA
-# 2       2 66.40769 145.0385  77.48077  6.82
-# 3       3 64.82019 139.2778  77.50000    NA
+# 1 Current 63.10060 143.5400  76.40000    NA
+# 2      Ex 66.40769 145.0385  77.48077  6.82
+# 3   Never 64.82019 139.2778  77.50000    NA
 
 # two missing values in 163 have wiped out two of the three means. na.rm = TRUE
 # is passed straight through to mean()
-aggregate(cardiac[, c(2, 4, 5, 6)], by = list(smoking = cardiac$smoking), FUN = mean, na.rm = TRUE)
+aggregate(cardiac[, c(2, 4, 5, 6)], by = list(smoking = cardiac$Fsmoking), FUN = mean, na.rm = TRUE)
 
 #   smoking      age systolic diastolic    tchol
-# 1       1 63.10060 143.5400  76.40000 6.927143
-# 2       2 66.40769 145.0385  77.48077 6.820000
-# 3       3 64.82019 139.2778  77.50000 7.157170
+# 1 Current 63.10060 143.5400  76.40000 6.927143
+# 2      Ex 66.40769 145.0385  77.48077 6.820000
+# 3   Never 64.82019 139.2778  77.50000 7.157170
 
 # two grouping variables, both named
-aggregate(cardiac[, c(2, 4, 5, 6)], by = list(smoking = cardiac$smoking, sex = cardiac$Fsex), FUN = mean, na.rm = TRUE)
+aggregate(cardiac[, c(2, 4, 5, 6)], by = list(smoking = cardiac$Fsmoking, sex = cardiac$Fsex), FUN = mean, na.rm = TRUE)
 
 # note that the 7 patients with no smoking status are dropped from every one of
 # these summaries. aggregate() has no group to put them in.
@@ -96,21 +99,21 @@ aggregate(cardiac[, c(2, 4, 5, 6)], by = list(smoking = cardiac$smoking, sex = c
 
 ## ----Q4, echo=SOLUTIONS-------------------------------------------------------
 # using table
-table(cardiac$smoking)
+table(cardiac$Fsmoking)
 
-#  1  2  3 
-# 50 52 54 
+# Current      Ex   Never 
+#      50      52      54 
 
-table(cardiac$smoking, cardiac$Fsex)
+table(cardiac$Fsmoking, cardiac$Fsex)
 
-#     Female Male
-#   1     26   24
-#   2     15   37
-#   3     37   17
+#           Female Male
+#   Current     26   24
+#   Ex          15   37
+#   Never       37   17
 
 # by default table() silently drops the missing values - 50 + 52 + 54 = 156,
 # not 163. Ask for them explicitly:
-table(cardiac$smoking, useNA = "ifany")
+table(cardiac$Fsmoking, useNA = "ifany")
 
 
 ## ----Q5, echo=SOLUTIONS, tidy = TRUE------------------------------------------
@@ -157,38 +160,100 @@ sum(is.na(cardiac_all$systolic10))     # 55 patients have no follow-up
 
 
 ## ----Q8, echo=SOLUTIONS, tidy = TRUE------------------------------------------
-smoke_codes <- read.table('data/smoking_lookup.txt', header = TRUE, sep = "\t", stringsAsFactors = TRUE)
-smoke_codes
+admissions <- read.table('data/cardiac_admissions.txt', header = TRUE, sep = "\t", stringsAsFactors = TRUE)
 
-#   code smoking_status
-# 1    1        Current
-# 2    2             Ex
-# 3    3          Never
+str(admissions)
+nrow(admissions)                        # 200 admissions
+length(unique(admissions$patno))        # belonging to 115 different patients
 
-cardiac_all <- merge(cardiac_all, smoke_codes, by.x = "smoking", by.y = "code", all.x = TRUE)
+# check the key in BOTH directions, every time
+sum(!cardiac$patno %in% admissions$patno)      # 53 patients were never admitted
+sum(!unique(admissions$patno) %in% cardiac$patno)   # 5 patients are not in the cohort
 
-nrow(cardiac_all)    # still 163 - check every time!
+unique(admissions$patno[!admissions$patno %in% cardiac$patno])
+# 2841P 3167C 3402R 3775T 3918M
 
-table(cardiac_all$smoking_status, useNA = "ifany")
+# Those five are not an error. A hospital extract covers everybody treated, not
+# just the people in your study, so admissions for patients outside the cohort
+# are exactly what you should expect. What matters is that you knew they were
+# there before you joined, rather than after.
 
-# Current      Ex   Never    <NA> 
-#      50      52      54       7 
+cardiac_adm <- merge(cardiac, admissions, by = "patno")
+nrow(cardiac_adm)                       # 195, up from 163
 
-# The 7 patients with a missing smoking code get a missing label, which is
-# right. This is how coded data is usually handled: the codes stay in the data,
-# the meanings live in a lookup file, and anyone can see how one maps to the
-# other. If a code is ever added or changed you edit one small file rather than
-# hunting through your scripts for hard coded labels.
+mean(cardiac$age)                       # 64.98
+mean(cardiac_adm$age)                   # 66.00
+
+# What went wrong? The row count went UP, which neither of the previous joins
+# did. Because a patient can have several admissions, each patient now appears
+# once per admission: a patient admitted four times appears four times, and the
+# 53 patients never admitted have disappeared altogether.
+#
+# So cardiac_adm is no longer one row per patient. It is one row per admission,
+# and every patient characteristic in it is now weighted by how often that
+# patient was admitted. The mean age has risen by a full year, not because
+# anybody aged, but because older patients are admitted more often and are
+# therefore counted more often. Every mean, count and table you calculate from
+# this dataframe is wrong in the same quiet way.
 
 
 ## ----Q9, echo=SOLUTIONS, tidy = TRUE------------------------------------------
+# a) one row per patient, from 200 rows of admissions
+n_adm <- aggregate(cbind(n_admissions = los) ~ patno, data = admissions, FUN = length)
+bed   <- aggregate(cbind(bed_days = los) ~ patno, data = admissions, FUN = sum)
+adm_summary <- merge(n_adm, bed, by = "patno")
+
+nrow(adm_summary)      # 115 - the 110 cohort patients admitted, plus the 5 outsiders
+
+# b) link it on, keeping everybody
+cardiac_all <- merge(cardiac_all, adm_summary, by = "patno", all.x = TRUE)
+nrow(cardiac_all)      # 163 - check every time
+
+# c) what did the never-admitted patients get?
+sum(is.na(cardiac_all$n_admissions))    # 53
+
+# Everywhere else in this course an NA has meant 'there should be a value here
+# and we do not have it'. Here it means something completely different. These
+# patients were not admitted, so the correct number of admissions is 0, and we
+# know that for certain. The NA is an artefact of how a left join fills gaps,
+# not a statement about our knowledge.
+
+mean(cardiac_all$n_admissions, na.rm = TRUE)   # 1.77 - WRONG
+
+cardiac_all$n_admissions[is.na(cardiac_all$n_admissions)] <- 0
+cardiac_all$bed_days[is.na(cardiac_all$bed_days)] <- 0
+
+mean(cardiac_all$n_admissions)                 # 1.20 - right
+
+# Using na.rm = TRUE here, the habit the rest of this exercise has been drilling
+# into you, overstates the admission rate by nearly 50%, because it silently
+# throws away every patient who was never admitted. Always ask what a missing
+# value means before you decide how to handle it. The answer is not always the
+# same.
+
+# d) the question the linkage was for
+aggregate(cbind(n_admissions, bed_days) ~ Fsmoking, data = cardiac_all, FUN = mean)
+
+#   Fsmoking n_admissions bed_days
+# 1  Current     1.320000 5.540000
+# 2       Ex     1.307692 4.692308
+# 3    Never     1.037037 4.148148
+
+# Smokers and ex-smokers average about a quarter more admissions than those who
+# have never smoked, and rather more days in hospital. Remember that these
+# admission records are simulated, so this is a demonstration of how to get the
+# answer, not a finding about the real cohort.
+
+
+## ----Q10, echo=SOLUTIONS, tidy = TRUE-----------------------------------------
 write.table(cardiac_all, "output/cardiac_clean.txt", col.names = TRUE, row.names = FALSE, sep = "\t")
 
 # Decision log - the sort of thing that belongs at the top of your script:
 #
 # Data: data/cardiacdata.txt, 163 patients, imported unchanged.
-# 1. Fsex created as a factor version of sex, labelled Female (1) and Male (2).
-#    The original sex column was left untouched.
+# 1. Fsex and Fsmoking created as factor versions of sex (Female, Male) and
+#    smoking (Current, Ex, Never). The original coded columns were left
+#    untouched.
 # 2. hdlchol of 0.00 set to NA (2 patients). A HDL cholesterol of zero is
 #    physiologically impossible and is almost certainly a missing value that
 #    was recorded as 0.
@@ -200,5 +265,9 @@ write.table(cardiac_all, "output/cardiac_clean.txt", col.names = TRUE, row.names
 #    cleaning in step 3.
 # 6. Ten year follow-up measurements linked on from data/cardiac_followup.txt,
 #    keeping all 163 patients; 55 have no follow-up data.
-# 7. smoking labels linked on from data/smoking_lookup.txt.
+# 7. Admissions summarised to one row per patient from data/cardiac_admissions.txt
+#    (SIMULATED data) and linked on, keeping all 163 patients. n_admissions and
+#    bed_days set to 0, not left as NA, for the 53 patients never admitted,
+#    because a patient with no admission record has zero admissions rather than
+#    an unknown number.
 

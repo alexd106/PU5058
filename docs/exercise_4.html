@@ -507,15 +507,14 @@ you complete the questions in this exercise.</p>
 same <code>cardiac</code> dataframe. If you are starting a fresh R
 session, either continue with the R script you wrote for Exercise 3 or
 run the two lines below before you go any further. They are the import
-from Exercise 3, Q5 and the <code>Fsex</code> factor from Exercise 3,
-Q7.</p>
-<p>You will notice that <code>smoking</code> is still sitting there as
-an integer. That is deliberate. You will deal with it in Q8, rather more
-elegantly than typing labels out by hand.</p>
+from Exercise 3, Q5 and the two factors from Exercise 3, Q7.</p>
 <div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" tabindex="-1"></a>cardiac <span class="ot">&lt;-</span> <span class="fu">read.table</span>(<span class="st">&#39;data/cardiacdata.txt&#39;</span>, <span class="at">header =</span> <span class="cn">TRUE</span>, <span class="at">sep =</span> <span class="st">&quot;</span><span class="sc">\t</span><span class="st">&quot;</span>, <span class="at">stringsAsFactors =</span> <span class="cn">TRUE</span>)</span>
 <span id="cb1-2"><a href="#cb1-2" tabindex="-1"></a></span>
 <span id="cb1-3"><a href="#cb1-3" tabindex="-1"></a>cardiac<span class="sc">$</span>Fsex <span class="ot">&lt;-</span> <span class="fu">factor</span>(cardiac<span class="sc">$</span>sex, <span class="at">levels =</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">2</span>),</span>
-<span id="cb1-4"><a href="#cb1-4" tabindex="-1"></a>                       <span class="at">labels =</span> <span class="fu">c</span>(<span class="st">&quot;Female&quot;</span>, <span class="st">&quot;Male&quot;</span>))</span></code></pre></div>
+<span id="cb1-4"><a href="#cb1-4" tabindex="-1"></a>                       <span class="at">labels =</span> <span class="fu">c</span>(<span class="st">&quot;Female&quot;</span>, <span class="st">&quot;Male&quot;</span>))</span>
+<span id="cb1-5"><a href="#cb1-5" tabindex="-1"></a></span>
+<span id="cb1-6"><a href="#cb1-6" tabindex="-1"></a>cardiac<span class="sc">$</span>Fsmoking <span class="ot">&lt;-</span> <span class="fu">factor</span>(cardiac<span class="sc">$</span>smoking, <span class="at">levels =</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">3</span>),</span>
+<span id="cb1-7"><a href="#cb1-7" tabindex="-1"></a>                           <span class="at">labels =</span> <span class="fu">c</span>(<span class="st">&quot;Current&quot;</span>, <span class="st">&quot;Ex&quot;</span>, <span class="st">&quot;Never&quot;</span>))</span></code></pre></div>
 <p> </p>
 <p>1. In Exercise 3 you learned how to pick out rows that meet a
 condition. You can use that skill to check whether your data are
@@ -655,35 +654,53 @@ join. Redo the linkage keeping all 163 patients, assign it to
 <code>cardiac_all</code>, and check how many of them have a missing
 follow-up systolic pressure.</p>
 <p> </p>
-<p>8. There is one more linkage worth knowing, and it solves the
-<code>smoking</code> problem that has been hanging over you since
-Exercise 3. Rather than typing the labels out by hand as you did for
-<code>Fsex</code>, you can keep the codes and their meanings in their
-own small file and link them on. This is a left join again, exactly as
-in Q7, but onto a small lookup table rather than onto a second set of
-measurements.</p>
-<p>Download <em>‘smoking_lookup.txt’</em> from the <strong><a
+<p>8. So far the two files you have linked have both been one row per
+patient, which is the easy case. Real linkage is usually messier than
+that, because the thing you are linking to happens more than once.</p>
+<p>Download <em>‘cardiac_admissions.txt’</em> from the <strong><a
 href="data.html"><i class="fa fa-download"></i> Data</a></strong> link,
 save it to your <code>data</code> directory and import it into a
-variable called <code>smoke_codes</code>. Take a look at it. Notice that
-the column holding the code is called <code>code</code>, not
-<code>smoking</code>, so the two dataframes have no column name in
-common and <code>by</code> on its own will not work.</p>
-<p>Look at <a
-href="https://intro2r.com/wrangling-data-frames.html#merging-data-frames">Section
-3.4.5</a> and the help file for <code>merge()</code> again to find the
-arguments you need (hint: <code>by</code> has a pair of siblings that
-let you name a different key in each dataframe. <code>merge()</code>
-calls its two dataframes <code>x</code> and <code>y</code>, in the order
-you supply them, so look for the two arguments whose names end in
-<code>.x</code> and <code>.y</code>). Link the labels onto
-<code>cardiac_all</code>, keeping all patients, and then check with
-<code>table()</code> that every patient has ended up with the right
-label.</p>
+variable called <code>admissions</code>. This file holds one row per
+<strong>hospital admission</strong> during the ten year follow up, not
+one row per patient. Note that unlike the rest of the cardiac data,
+which is real, these admission records are simulated.</p>
+<p>Use <code>str()</code> and <code>nrow()</code> to get your bearings.
+How many admissions are there, and how many different patients do they
+belong to? Then, before you join anything, check the key in both
+directions. Are there any patients in <code>cardiac</code> with no
+admissions at all? Are there any admissions belonging to a patient
+number that is not in <code>cardiac</code>, and if so, how would that
+happen?</p>
+<p>Now join <code>cardiac</code> to <code>admissions</code> with
+<code>merge()</code> as you did in Q6, and look at the number of rows.
+Compare <code>mean(age)</code> before and after the join. Something has
+gone wrong. What?</p>
 <p> </p>
-<p>9. Ok, we have spent quite a bit of time (and energy) learning how to
-clean, summarise and link dataframes. The last thing we need to cover is
-how to export a dataframe from R to an external file (see <a
+<p>9. So the join in Q8 is not the one you wanted. What you actually
+want is to keep one row per patient and attach a <em>summary</em> of
+that patient’s admissions, and to do that you have to summarise the
+admissions <strong>before</strong> you link them, not after.</p>
+<ol style="list-style-type: lower-alpha">
+<li><p>Use <code>aggregate()</code>, as you did in Q3, to produce one
+row per patient from <code>admissions</code>, holding the number of
+admissions and the total number of days spent in hospital. Counting rows
+per group is what <code>FUN = length</code> is for, and total bed days
+is <code>FUN = sum</code> applied to <code>los</code>.</p></li>
+<li><p>Now link that summary onto <code>cardiac</code>, keeping all 163
+patients as you did in Q7. Check the row count.</p></li>
+<li><p>Look at the patients who were never admitted. What has the join
+put in their count column, and is that the right value? This is the one
+place in this whole course where an <code>NA</code> does not mean ‘we do
+not know’. Work out what it does mean here, decide what to do about it,
+and calculate the mean number of admissions per patient both ways to see
+how much the decision matters.</p></li>
+<li><p>Finally, the question the linkage was for. Does the number of
+admissions differ by smoking status?</p></li>
+</ol>
+<p> </p>
+<p>10. Ok, we have spent quite a bit of time (and energy) learning how
+to clean, summarise and link dataframes. The last thing we need to cover
+is how to export a dataframe from R to an external file (see <a
 href="https://intro2r.com/exporting-data.html#exporting-data">Section
 3.6</a> of the book for more details). Export your cleaned and linked
 dataframe <code>cardiac_all</code> to a file called ‘cardiac_clean.txt’

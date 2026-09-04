@@ -490,23 +490,26 @@ observations does this dataset have? How many variables? And now the
 important question: what type of variable does R think <code>sex</code>
 and <code>smoking</code> are, and is it right?</p>
 <p> </p>
-<p>7. Let’s do something about the <code>sex</code> variable. The way to
-tell R that a variable holds categories rather than quantities is to
-make it a <strong>factor</strong>, using the <code>factor()</code>
-function (see <code>?factor</code>, and <a
+<p>7. Let’s do something about the <code>sex</code> and
+<code>smoking</code> variables. The way to tell R that a variable holds
+categories rather than quantities is to make it a
+<strong>factor</strong>, using the <code>factor()</code> function (see
+<code>?factor</code>, and <a
 href="https://intro2r.com/data-types.html#data-types">Section 3.1</a> of
 the Introduction to R book for where factors sit among R’s data types).
 You give <code>factor()</code> the codes that appear in the data with
 the <code>levels</code> argument, and what each code means with the
 <code>labels</code> argument. For <code>sex</code>, 1 is Female and 2 is
-Male.</p>
-<p>Here is the important part. Do <strong>not</strong> overwrite
-<code>sex</code>. Create a <strong>new</strong> variable in the
-<code>cardiac</code> dataframe called for example <code>Fsex</code>
-instead, and leave the original <code>sex</code> variable exactly as it
-was. Do this, then use <code>str()</code> to check that
-<code>Fsex</code> really is a factor with the two levels you expect, and
-that <code>sex</code> is still there and still an integer.</p>
+Male. For <code>smoking</code>, 1 is Current, 2 is Ex and 3 is
+Never.</p>
+<p>Here is the important part. Do <strong>not</strong> overwrite either
+of them. Create two <strong>new</strong> variables in the
+<code>cardiac</code> dataframe, called for example <code>Fsex</code> and
+<code>Fsmoking</code>, and leave the original <code>sex</code> and
+<code>smoking</code> variables exactly as they were. Do this, then use
+<code>str()</code> to check that both really are factors with the levels
+you expect, and that <code>sex</code> and <code>smoking</code> are still
+there and still integers.</p>
 <p>Why do we create a new variable rather than overwriting the original?
 Have a think about it before you reveal the answer.</p>
 <p> </p>
@@ -514,17 +517,17 @@ Have a think about it before you reveal the answer.</p>
 <code>summary()</code> function. This will provide you with some useful
 summary statistics for each variable. Notice how the type of output
 depends on whether the variable is a factor or a number: for
-<code>Fsex</code>, the factor you just created, you get a count of
-patients in each level, whereas for a numeric variable you get the
-minimum, maximum, mean, median and quartiles. Compare <code>sex</code>
-and <code>Fsex</code> in the output and you will see the same
-information summarised in two very different ways. Another useful
-feature of the <code>summary()</code> function is that it will also
-count the number of missing values in each variable. Which variables
-have missing values, and how many? While you are looking at this output,
-check the maximum value of <code>bmi</code>. Does that look like a
-plausible body mass index to you? Make a note of it and hang on to that
-thought until Exercise 4.</p>
+<code>Fsex</code> and <code>Fsmoking</code>, the factors you just
+created, you get a count of patients in each level, whereas for a
+numeric variable you get the minimum, maximum, mean, median and
+quartiles. Compare <code>sex</code> and <code>Fsex</code> in the output
+and you will see the same information summarised in two very different
+ways. Another useful feature of the <code>summary()</code> function is
+that it will also count the number of missing values in each variable.
+Which variables have missing values, and how many? While you are looking
+at this output, check the maximum value of <code>bmi</code>. Does that
+look like a plausible body mass index to you? Make a note of it and hang
+on to that thought until Exercise 4.</p>
 <p> </p>
 <p>9. Summarising and manipulating dataframes is a key skill to acquire
 when learning R. Although there are many ways to do this, we will
@@ -557,10 +560,11 @@ href="https://intro2r.com/wrangling-data-frames.html#logical-indexes">Section
 3.4.2</a> for an introduction). Extract rows from your dataframe (all
 columns by default) based on the following criteria (note: you will need
 to assign the results of these statements to appropriately named
-variables, I’ll leave it up to you to use informative names!). Remember
-that <code>smoking</code> is coded 1 for current smokers, 2 for
-ex-smokers and 3 for those who have never smoked, and that for sex you
-now have a properly labelled <code>Fsex</code> to use:</p>
+variables, I’ll leave it up to you to use informative names!). You now
+have properly labelled <code>Fsex</code> and <code>Fsmoking</code>
+variables, so use those rather than the raw codes. Your conditions will
+then read like English and you will not have to keep looking up which
+number means what:</p>
 <ul>
 <li>systolic blood pressure greater than 160 mmHg</li>
 <li>male patients who have never smoked and whose diastolic pressure is

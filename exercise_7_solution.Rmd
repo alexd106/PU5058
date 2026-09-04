@@ -239,7 +239,7 @@ Which knits to:
 
 9\. Add a table. If you simply print a dataframe in a chunk you get the console output, monospaced and ugly. The `kable()` function from the `knitr` package formats it as a proper table instead.
 
-Insert a chunk, name it `summary-table`, and start by recreating the `aggregate()` summary from **Exercise 4, Q5**: the mean of `age`, `systolic` and `tchol` for each smoking category. Assign it to an object called `smoke_summary`.
+Insert a chunk, name it `summary-table`, and start by recreating the `aggregate()` summary from **Exercise 4, Q3**: the mean of `age`, `systolic` and `tchol` for each smoking category. Assign it to an object called `smoke_summary`.
 
 Knit and look at how ugly it is. Now put `knitr::kable(smoke_summary)` on the next line, knit again, and compare. Finally add `digits = 1` and a `caption` to the `kable()` call to tidy it up.
 

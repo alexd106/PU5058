@@ -49,26 +49,10 @@ str(cardiac)
 #
 # 1. The raw codes survive. You can always check your recoding against what was
 #    actually in the file, and if you get the labels the wrong way round you can
-#    simply redo it. Overwrite, and the codes are gone from your session.
+#    simply redo it. Overwrite, and the codes are gone from your session and the
+#    only way back is to import the file again.
 #
-# 2. Overwriting is not repeatable, and this is the one that bites people. Run
-#    the line below twice and look at the result:
-#
-#    cardiac$sex <- factor(cardiac$sex, levels = c(1, 2),
-#                          labels = c("Female", "Male"))
-#
-#    The first run works. On the second run, sex no longer contains 1 and 2, it
-#    contains "Female" and "Male", so factor() goes looking for levels 1 and 2,
-#    finds neither, and quietly turns every single value into NA:
-#
-#    Female   Male   <NA>
-#         0      0    163
-#
-#    No error, no warning, all 163 patients lost. Scripts get re-run constantly,
-#    so a line that only works once is a line waiting to ruin your afternoon.
-#    Writing to Fsex is safe to re-run as many times as you like.
-#
-# 3. The 'F' prefix says at a glance which variable is the factor version. You
+# 2. The 'F' prefix says at a glance which variable is the factor version. You
 #    will use the same convention for Fsmoking in Exercise 5.
 
 # and note: sex is still an integer, exactly as it was
@@ -105,17 +89,11 @@ summary(cardiac)
 
 
 ## ----Q9, echo=SOLUTIONS-------------------------------------------------------
-# first 10 rows and first 4 columns
-cardiac_sub <- cardiac[1:10, 1:4]                                      
-
 # all rows and the columns patno, sex, smoking and tchol
 cardiac_risk <- cardiac[, c(1, 3, 11, 6)] 
 # alternative way of indexing columns with named indexes - much easier to read,
 # and it still works if the column order changes
 cardiac_risk <- cardiac[, c("patno", "sex", "smoking", "tchol")]    
-
-# first 50 rows and all columns
-cardiac_50 <- cardiac[1:50, ]  
 
 # excluding first 10 rows and last column using negative indexing. NOTE: the
 # last column is now Fsex, the one you created in Q7, not smoking. Adding a
@@ -132,21 +110,16 @@ cardiac_last <- cardiac[-c(1:10), -c(ncol(cardiac))]
 ## ----Q10, echo=SOLUTIONS, tidy = TRUE-----------------------------------------
 cardiac_sys160 <- cardiac[cardiac$systolic > 160, ]
 
-cardiac_never <- cardiac[cardiac$smoking == 3, ]
-
 cardiac_subset <- cardiac[cardiac$Fsex == "Male" & cardiac$smoking == 3 & cardiac$diastolic > 76, ]
-
-cardiac_bmi_trig <- cardiac[cardiac$bmi > 25 & cardiac$bmi < 30 & cardiac$triglyceride > 1 & cardiac$triglyceride < 2, ]
 
 cardiac_notex <- cardiac[cardiac$smoking != 2, ]
 
 
 ## ----Q11, echo=SOLUTIONS, tidy = TRUE-----------------------------------------
+# the same idea on the diastolic question from Q10, with nothing hard coded
 cardiac_subset <- cardiac[cardiac$Fsex == "Male" & cardiac$smoking == 3 & cardiac$diastolic > median(cardiac$diastolic), ]
 
-
-## ----Q12, echo=SOLUTIONS, tidy = TRUE-----------------------------------------
-# results in a dataframe filled with NAs. 
+# now the harder one. This results in a dataframe filled with NAs. 
 cardiac_new <- cardiac[cardiac$systolic > 160 & cardiac$tchol > mean(cardiac$tchol), ]
 
 # the variable tchol contains 2 NA values. By default the mean function will return an NA.

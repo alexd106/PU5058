@@ -17,7 +17,7 @@ source('reveal.R')
 # descriptive titles, kept in step with exercises.Rmd
 ex_text <- c(": Getting to know R and RStudio", ": Basic R operations",
              ": Importing, inspecting and subsetting data",
-             ": Cleaning, summarising and joining data",
+             ": Cleaning, summarising and linking data",
              ": Visualising data using base R",
              ": Graphics for communication",
              ": Reproducible reports with R markdown",

@@ -647,10 +647,7 @@ leave the original <code>sex</code> exactly as it was. Do this, then use
 with the two levels you expect, and that <code>sex</code> is still there
 and still an integer.</p>
 <p>Now, why the new variable rather than the tidier looking overwrite?
-Have a think about it, then try this: run your <code>factor()</code>
-line a second time, but writing the result back into <code>sex</code>
-rather than <code>Fsex</code>, and look at what happens to the variable.
-Can you explain it?</p>
+Have a think about it before you reveal the answer.</p>
 <div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" tabindex="-1"></a><span class="co"># 1 = Female and 2 = Male. Writing the labels out means you never have to</span></span>
 <span id="cb3-2"><a href="#cb3-2" tabindex="-1"></a><span class="co"># remember the codes again, and your output reads properly.</span></span>
 <span id="cb3-3"><a href="#cb3-3" tabindex="-1"></a>cardiac<span class="sc">$</span>Fsex <span class="ot">&lt;-</span> <span class="fu">factor</span>(cardiac<span class="sc">$</span>sex, <span class="at">levels =</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">2</span>),</span>
@@ -665,30 +662,14 @@ Can you explain it?</p>
 <span id="cb3-12"><a href="#cb3-12" tabindex="-1"></a><span class="co">#</span></span>
 <span id="cb3-13"><a href="#cb3-13" tabindex="-1"></a><span class="co"># 1. The raw codes survive. You can always check your recoding against what was</span></span>
 <span id="cb3-14"><a href="#cb3-14" tabindex="-1"></a><span class="co">#    actually in the file, and if you get the labels the wrong way round you can</span></span>
-<span id="cb3-15"><a href="#cb3-15" tabindex="-1"></a><span class="co">#    simply redo it. Overwrite, and the codes are gone from your session.</span></span>
-<span id="cb3-16"><a href="#cb3-16" tabindex="-1"></a><span class="co">#</span></span>
-<span id="cb3-17"><a href="#cb3-17" tabindex="-1"></a><span class="co"># 2. Overwriting is not repeatable, and this is the one that bites people. Run</span></span>
-<span id="cb3-18"><a href="#cb3-18" tabindex="-1"></a><span class="co">#    the line below twice and look at the result:</span></span>
-<span id="cb3-19"><a href="#cb3-19" tabindex="-1"></a><span class="co">#</span></span>
-<span id="cb3-20"><a href="#cb3-20" tabindex="-1"></a><span class="co">#    cardiac$sex &lt;- factor(cardiac$sex, levels = c(1, 2),</span></span>
-<span id="cb3-21"><a href="#cb3-21" tabindex="-1"></a><span class="co">#                          labels = c(&quot;Female&quot;, &quot;Male&quot;))</span></span>
-<span id="cb3-22"><a href="#cb3-22" tabindex="-1"></a><span class="co">#</span></span>
-<span id="cb3-23"><a href="#cb3-23" tabindex="-1"></a><span class="co">#    The first run works. On the second run, sex no longer contains 1 and 2, it</span></span>
-<span id="cb3-24"><a href="#cb3-24" tabindex="-1"></a><span class="co">#    contains &quot;Female&quot; and &quot;Male&quot;, so factor() goes looking for levels 1 and 2,</span></span>
-<span id="cb3-25"><a href="#cb3-25" tabindex="-1"></a><span class="co">#    finds neither, and quietly turns every single value into NA:</span></span>
-<span id="cb3-26"><a href="#cb3-26" tabindex="-1"></a><span class="co">#</span></span>
-<span id="cb3-27"><a href="#cb3-27" tabindex="-1"></a><span class="co">#    Female   Male   &lt;NA&gt;</span></span>
-<span id="cb3-28"><a href="#cb3-28" tabindex="-1"></a><span class="co">#         0      0    163</span></span>
-<span id="cb3-29"><a href="#cb3-29" tabindex="-1"></a><span class="co">#</span></span>
-<span id="cb3-30"><a href="#cb3-30" tabindex="-1"></a><span class="co">#    No error, no warning, all 163 patients lost. Scripts get re-run constantly,</span></span>
-<span id="cb3-31"><a href="#cb3-31" tabindex="-1"></a><span class="co">#    so a line that only works once is a line waiting to ruin your afternoon.</span></span>
-<span id="cb3-32"><a href="#cb3-32" tabindex="-1"></a><span class="co">#    Writing to Fsex is safe to re-run as many times as you like.</span></span>
-<span id="cb3-33"><a href="#cb3-33" tabindex="-1"></a><span class="co">#</span></span>
-<span id="cb3-34"><a href="#cb3-34" tabindex="-1"></a><span class="co"># 3. The &#39;F&#39; prefix says at a glance which variable is the factor version. You</span></span>
-<span id="cb3-35"><a href="#cb3-35" tabindex="-1"></a><span class="co">#    will use the same convention for Fsmoking in Exercise 5.</span></span>
-<span id="cb3-36"><a href="#cb3-36" tabindex="-1"></a></span>
-<span id="cb3-37"><a href="#cb3-37" tabindex="-1"></a><span class="co"># and note: sex is still an integer, exactly as it was</span></span>
-<span id="cb3-38"><a href="#cb3-38" tabindex="-1"></a><span class="fu">str</span>(cardiac<span class="sc">$</span>sex)</span></code></pre></div>
+<span id="cb3-15"><a href="#cb3-15" tabindex="-1"></a><span class="co">#    simply redo it. Overwrite, and the codes are gone from your session and the</span></span>
+<span id="cb3-16"><a href="#cb3-16" tabindex="-1"></a><span class="co">#    only way back is to import the file again.</span></span>
+<span id="cb3-17"><a href="#cb3-17" tabindex="-1"></a><span class="co">#</span></span>
+<span id="cb3-18"><a href="#cb3-18" tabindex="-1"></a><span class="co"># 2. The &#39;F&#39; prefix says at a glance which variable is the factor version. You</span></span>
+<span id="cb3-19"><a href="#cb3-19" tabindex="-1"></a><span class="co">#    will use the same convention for Fsmoking in Exercise 5.</span></span>
+<span id="cb3-20"><a href="#cb3-20" tabindex="-1"></a></span>
+<span id="cb3-21"><a href="#cb3-21" tabindex="-1"></a><span class="co"># and note: sex is still an integer, exactly as it was</span></span>
+<span id="cb3-22"><a href="#cb3-22" tabindex="-1"></a><span class="fu">str</span>(cardiac<span class="sc">$</span>sex)</span></code></pre></div>
 <p> </p>
 <p>8. You can get another useful summary of your dataframe by using the
 <code>summary()</code> function. This will provide you with some useful
@@ -745,45 +726,31 @@ href="https://alexd106.github.io/PU5058/howto.html#dataw-vid">video</a>
 for some additional background information and a few examples). Let’s
 practice.</p>
 <ol style="list-style-type: lower-alpha">
-<li><p>Extract all the elements (data) of the first 10 rows and the
-first 4 columns of the <code>cardiac</code> dataframe and assign to a
-new variable called <code>cardiac_sub</code>.</p></li>
-<li><p>Next, extract all observations (remember - rows) from the
+<li><p>Extract all observations (remember - rows) from the
 <code>cardiac</code> dataframe and the columns <code>patno</code>,
 <code>sex</code>, <code>smoking</code> and <code>tchol</code> and assign
 to a variable called <code>cardiac_risk</code>.</p></li>
-<li><p>Now, extract the first 50 rows and all columns from the original
-dataframe and assign to a variable <code>cardiac_50</code> (there’s a
-better way to select rows with conditional statements - you’ll meet it
-in Q10 below).</p></li>
-<li><p>Finally, extract all rows except the first 10 rows and all
-columns except the last column. Careful here: which column is the last
-one now? Remember, for some of these questions you can specify the
-columns you want either by position or by name. Practice both ways. Do
-you have a preference? If so why?</p></li>
+<li><p>Next, extract all rows except the first 10 rows and all columns
+except the last column. Careful here, which column is the last one now?
+Remember, you can specify the columns you want either by position or by
+name. Practice both ways. Do you have a preference? If so why?</p></li>
 </ol>
-<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" tabindex="-1"></a><span class="co"># first 10 rows and first 4 columns</span></span>
-<span id="cb5-2"><a href="#cb5-2" tabindex="-1"></a>cardiac_sub <span class="ot">&lt;-</span> cardiac[<span class="dv">1</span><span class="sc">:</span><span class="dv">10</span>, <span class="dv">1</span><span class="sc">:</span><span class="dv">4</span>]                                      </span>
-<span id="cb5-3"><a href="#cb5-3" tabindex="-1"></a></span>
-<span id="cb5-4"><a href="#cb5-4" tabindex="-1"></a><span class="co"># all rows and the columns patno, sex, smoking and tchol</span></span>
-<span id="cb5-5"><a href="#cb5-5" tabindex="-1"></a>cardiac_risk <span class="ot">&lt;-</span> cardiac[, <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">3</span>, <span class="dv">11</span>, <span class="dv">6</span>)] </span>
-<span id="cb5-6"><a href="#cb5-6" tabindex="-1"></a><span class="co"># alternative way of indexing columns with named indexes - much easier to read,</span></span>
-<span id="cb5-7"><a href="#cb5-7" tabindex="-1"></a><span class="co"># and it still works if the column order changes</span></span>
-<span id="cb5-8"><a href="#cb5-8" tabindex="-1"></a>cardiac_risk <span class="ot">&lt;-</span> cardiac[, <span class="fu">c</span>(<span class="st">&quot;patno&quot;</span>, <span class="st">&quot;sex&quot;</span>, <span class="st">&quot;smoking&quot;</span>, <span class="st">&quot;tchol&quot;</span>)]    </span>
-<span id="cb5-9"><a href="#cb5-9" tabindex="-1"></a></span>
-<span id="cb5-10"><a href="#cb5-10" tabindex="-1"></a><span class="co"># first 50 rows and all columns</span></span>
-<span id="cb5-11"><a href="#cb5-11" tabindex="-1"></a>cardiac_50 <span class="ot">&lt;-</span> cardiac[<span class="dv">1</span><span class="sc">:</span><span class="dv">50</span>, ]  </span>
-<span id="cb5-12"><a href="#cb5-12" tabindex="-1"></a></span>
-<span id="cb5-13"><a href="#cb5-13" tabindex="-1"></a><span class="co"># excluding first 10 rows and last column using negative indexing. </span><span class="al">NOTE</span><span class="co">: the</span></span>
-<span id="cb5-14"><a href="#cb5-14" tabindex="-1"></a><span class="co"># last column is now Fsex, the one you created in Q7, not smoking. Adding a</span></span>
-<span id="cb5-15"><a href="#cb5-15" tabindex="-1"></a><span class="co"># column shifted the positions, which is exactly why hard coded numbers are</span></span>
-<span id="cb5-16"><a href="#cb5-16" tabindex="-1"></a><span class="co"># fragile.</span></span>
-<span id="cb5-17"><a href="#cb5-17" tabindex="-1"></a>cardiac_last <span class="ot">&lt;-</span> cardiac[<span class="sc">-</span><span class="fu">c</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">10</span>), <span class="sc">-</span><span class="dv">12</span>]  </span>
-<span id="cb5-18"><a href="#cb5-18" tabindex="-1"></a><span class="co"># more general way, and it stays correct however many columns you add</span></span>
-<span id="cb5-19"><a href="#cb5-19" tabindex="-1"></a>cardiac_last <span class="ot">&lt;-</span> cardiac[<span class="sc">-</span><span class="fu">c</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">10</span>), <span class="sc">-</span><span class="fu">c</span>(<span class="fu">ncol</span>(cardiac))] </span>
-<span id="cb5-20"><a href="#cb5-20" tabindex="-1"></a><span class="co"># </span><span class="al">NOTE</span><span class="co">: negative indexing does NOT work with column names. Uncomment the line</span></span>
-<span id="cb5-21"><a href="#cb5-21" tabindex="-1"></a><span class="co"># below and run it to see the error for yourself:</span></span>
-<span id="cb5-22"><a href="#cb5-22" tabindex="-1"></a><span class="co"># cardiac_last &lt;- cardiac[-c(1:10), -c(&quot;Fsex&quot;)]</span></span></code></pre></div>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" tabindex="-1"></a><span class="co"># all rows and the columns patno, sex, smoking and tchol</span></span>
+<span id="cb5-2"><a href="#cb5-2" tabindex="-1"></a>cardiac_risk <span class="ot">&lt;-</span> cardiac[, <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">3</span>, <span class="dv">11</span>, <span class="dv">6</span>)] </span>
+<span id="cb5-3"><a href="#cb5-3" tabindex="-1"></a><span class="co"># alternative way of indexing columns with named indexes - much easier to read,</span></span>
+<span id="cb5-4"><a href="#cb5-4" tabindex="-1"></a><span class="co"># and it still works if the column order changes</span></span>
+<span id="cb5-5"><a href="#cb5-5" tabindex="-1"></a>cardiac_risk <span class="ot">&lt;-</span> cardiac[, <span class="fu">c</span>(<span class="st">&quot;patno&quot;</span>, <span class="st">&quot;sex&quot;</span>, <span class="st">&quot;smoking&quot;</span>, <span class="st">&quot;tchol&quot;</span>)]    </span>
+<span id="cb5-6"><a href="#cb5-6" tabindex="-1"></a></span>
+<span id="cb5-7"><a href="#cb5-7" tabindex="-1"></a><span class="co"># excluding first 10 rows and last column using negative indexing. </span><span class="al">NOTE</span><span class="co">: the</span></span>
+<span id="cb5-8"><a href="#cb5-8" tabindex="-1"></a><span class="co"># last column is now Fsex, the one you created in Q7, not smoking. Adding a</span></span>
+<span id="cb5-9"><a href="#cb5-9" tabindex="-1"></a><span class="co"># column shifted the positions, which is exactly why hard coded numbers are</span></span>
+<span id="cb5-10"><a href="#cb5-10" tabindex="-1"></a><span class="co"># fragile.</span></span>
+<span id="cb5-11"><a href="#cb5-11" tabindex="-1"></a>cardiac_last <span class="ot">&lt;-</span> cardiac[<span class="sc">-</span><span class="fu">c</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">10</span>), <span class="sc">-</span><span class="dv">12</span>]  </span>
+<span id="cb5-12"><a href="#cb5-12" tabindex="-1"></a><span class="co"># more general way, and it stays correct however many columns you add</span></span>
+<span id="cb5-13"><a href="#cb5-13" tabindex="-1"></a>cardiac_last <span class="ot">&lt;-</span> cardiac[<span class="sc">-</span><span class="fu">c</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">10</span>), <span class="sc">-</span><span class="fu">c</span>(<span class="fu">ncol</span>(cardiac))] </span>
+<span id="cb5-14"><a href="#cb5-14" tabindex="-1"></a><span class="co"># </span><span class="al">NOTE</span><span class="co">: negative indexing does NOT work with column names. Uncomment the line</span></span>
+<span id="cb5-15"><a href="#cb5-15" tabindex="-1"></a><span class="co"># below and run it to see the error for yourself:</span></span>
+<span id="cb5-16"><a href="#cb5-16" tabindex="-1"></a><span class="co"># cardiac_last &lt;- cardiac[-c(1:10), -c(&quot;Fsex&quot;)]</span></span></code></pre></div>
 <p> </p>
 <p>10. In addition to extracting rows and columns from your dataframe by
 position (as you have just been doing) you can also use conditional
@@ -799,53 +766,47 @@ ex-smokers and 3 for those who have never smoked, and that for sex you
 now have a properly labelled <code>Fsex</code> to use:</p>
 <ul>
 <li>systolic blood pressure greater than 160 mmHg</li>
-<li>patients who have never smoked</li>
 <li>male patients who have never smoked and whose diastolic pressure is
 greater than the median diastolic pressure (76 mmHg)</li>
-<li>all patients with a bmi between 25 and 30 and a triglyceride between
-1 and 2 mmol l<sup>-1</sup></li>
 <li>all patients who are not ex-smokers</li>
 </ul>
 <div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" tabindex="-1"></a>cardiac_sys160 <span class="ot">&lt;-</span> cardiac[cardiac<span class="sc">$</span>systolic <span class="sc">&gt;</span> <span class="dv">160</span>, ]</span>
 <span id="cb6-2"><a href="#cb6-2" tabindex="-1"></a></span>
-<span id="cb6-3"><a href="#cb6-3" tabindex="-1"></a>cardiac_never <span class="ot">&lt;-</span> cardiac[cardiac<span class="sc">$</span>smoking <span class="sc">==</span> <span class="dv">3</span>, ]</span>
-<span id="cb6-4"><a href="#cb6-4" tabindex="-1"></a></span>
-<span id="cb6-5"><a href="#cb6-5" tabindex="-1"></a>cardiac_subset <span class="ot">&lt;-</span> cardiac[cardiac<span class="sc">$</span>Fsex <span class="sc">==</span> <span class="st">&quot;Male&quot;</span> <span class="sc">&amp;</span> cardiac<span class="sc">$</span>smoking <span class="sc">==</span> <span class="dv">3</span> <span class="sc">&amp;</span> cardiac<span class="sc">$</span>diastolic <span class="sc">&gt;</span></span>
-<span id="cb6-6"><a href="#cb6-6" tabindex="-1"></a>    <span class="dv">76</span>, ]</span>
-<span id="cb6-7"><a href="#cb6-7" tabindex="-1"></a></span>
-<span id="cb6-8"><a href="#cb6-8" tabindex="-1"></a>cardiac_bmi_trig <span class="ot">&lt;-</span> cardiac[cardiac<span class="sc">$</span>bmi <span class="sc">&gt;</span> <span class="dv">25</span> <span class="sc">&amp;</span> cardiac<span class="sc">$</span>bmi <span class="sc">&lt;</span> <span class="dv">30</span> <span class="sc">&amp;</span> cardiac<span class="sc">$</span>triglyceride <span class="sc">&gt;</span></span>
-<span id="cb6-9"><a href="#cb6-9" tabindex="-1"></a>    <span class="dv">1</span> <span class="sc">&amp;</span> cardiac<span class="sc">$</span>triglyceride <span class="sc">&lt;</span> <span class="dv">2</span>, ]</span>
-<span id="cb6-10"><a href="#cb6-10" tabindex="-1"></a></span>
-<span id="cb6-11"><a href="#cb6-11" tabindex="-1"></a>cardiac_notex <span class="ot">&lt;-</span> cardiac[cardiac<span class="sc">$</span>smoking <span class="sc">!=</span> <span class="dv">2</span>, ]</span></code></pre></div>
+<span id="cb6-3"><a href="#cb6-3" tabindex="-1"></a>cardiac_subset <span class="ot">&lt;-</span> cardiac[cardiac<span class="sc">$</span>Fsex <span class="sc">==</span> <span class="st">&quot;Male&quot;</span> <span class="sc">&amp;</span> cardiac<span class="sc">$</span>smoking <span class="sc">==</span> <span class="dv">3</span> <span class="sc">&amp;</span> cardiac<span class="sc">$</span>diastolic <span class="sc">&gt;</span></span>
+<span id="cb6-4"><a href="#cb6-4" tabindex="-1"></a>    <span class="dv">76</span>, ]</span>
+<span id="cb6-5"><a href="#cb6-5" tabindex="-1"></a></span>
+<span id="cb6-6"><a href="#cb6-6" tabindex="-1"></a>cardiac_notex <span class="ot">&lt;-</span> cardiac[cardiac<span class="sc">$</span>smoking <span class="sc">!=</span> <span class="dv">2</span>, ]</span></code></pre></div>
 <p> </p>
-<p>11. A really neat feature of extracting rows based on conditional
-statements is that you can include R functions within the statement
-itself (see <a
+<p>11. A really neat feature of conditional statements is that you can
+put R functions inside them, so the threshold is worked out from the
+data rather than typed in by hand (see <a
 href="https://intro2r.com/wrangling-data-frames.html#logical-indexes">Section
-3.4.2</a> again). To practice this, modify your answer to the diastolic
-question in Q10 to use the <code>median()</code> function rather than
-hard coding the value 76. Why is this a better idea? (hint: what happens
-to your code if someone adds another twenty patients to the study?)</p>
-<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" tabindex="-1"></a>cardiac_subset <span class="ot">&lt;-</span> cardiac[cardiac<span class="sc">$</span>Fsex <span class="sc">==</span> <span class="st">&quot;Male&quot;</span> <span class="sc">&amp;</span> cardiac<span class="sc">$</span>smoking <span class="sc">==</span> <span class="dv">3</span> <span class="sc">&amp;</span> cardiac<span class="sc">$</span>diastolic <span class="sc">&gt;</span></span>
-<span id="cb7-2"><a href="#cb7-2" tabindex="-1"></a>    <span class="fu">median</span>(cardiac<span class="sc">$</span>diastolic), ]</span></code></pre></div>
-<p> </p>
-<p>12. However, when using functions in conditional statements you need
-to be careful. For example, write some code to extract all rows from the
-dataframe <code>cardiac</code> with a systolic pressure greater than 160
-mmHg and a total cholesterol greater than average (hint: use the
-<code>mean()</code> function in your conditional statement). Can you see
-a problem with the output? Have a look at <a
+3.4.2</a> again). That matters more than it looks. Hard code the median
+as 76, as you did in Q10, and your code becomes silently wrong the
+moment somebody adds another twenty patients to the study, whereas
+<code>median(cardiac$diastolic)</code> is right every time you run
+it.</p>
+<p>Put it into practice on a harder example. Write some code to extract
+all rows from the <code>cardiac</code> dataframe with a systolic
+pressure greater than 160 mmHg and a total cholesterol greater than
+average (hint: use the <code>mean()</code> function inside your
+conditional statement). Now look carefully at what comes back. Can you
+see a problem with it? Have a look at <a
 href="https://intro2r.com/vectors.html#na_vals">Section 2.3</a> of the
 Introduction to R book, discuss the cause of this problem with an
 instructor and explore possible solutions.</p>
-<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" tabindex="-1"></a><span class="co"># results in a dataframe filled with NAs.</span></span>
-<span id="cb8-2"><a href="#cb8-2" tabindex="-1"></a>cardiac_new <span class="ot">&lt;-</span> cardiac[cardiac<span class="sc">$</span>systolic <span class="sc">&gt;</span> <span class="dv">160</span> <span class="sc">&amp;</span> cardiac<span class="sc">$</span>tchol <span class="sc">&gt;</span> <span class="fu">mean</span>(cardiac<span class="sc">$</span>tchol),</span>
-<span id="cb8-3"><a href="#cb8-3" tabindex="-1"></a>    ]</span>
-<span id="cb8-4"><a href="#cb8-4" tabindex="-1"></a></span>
-<span id="cb8-5"><a href="#cb8-5" tabindex="-1"></a><span class="co"># the variable tchol contains 2 NA values. By default the mean function will</span></span>
-<span id="cb8-6"><a href="#cb8-6" tabindex="-1"></a><span class="co"># return an NA.  use the na.rm argument to ignore NAs</span></span>
-<span id="cb8-7"><a href="#cb8-7" tabindex="-1"></a>cardiac_new <span class="ot">&lt;-</span> cardiac[cardiac<span class="sc">$</span>systolic <span class="sc">&gt;</span> <span class="dv">160</span> <span class="sc">&amp;</span> cardiac<span class="sc">$</span>tchol <span class="sc">&gt;</span> <span class="fu">mean</span>(cardiac<span class="sc">$</span>tchol,</span>
-<span id="cb8-8"><a href="#cb8-8" tabindex="-1"></a>    <span class="at">na.rm =</span> <span class="cn">TRUE</span>), ]</span></code></pre></div>
+<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" tabindex="-1"></a><span class="co"># the same idea on the diastolic question from Q10, with nothing hard coded</span></span>
+<span id="cb7-2"><a href="#cb7-2" tabindex="-1"></a>cardiac_subset <span class="ot">&lt;-</span> cardiac[cardiac<span class="sc">$</span>Fsex <span class="sc">==</span> <span class="st">&quot;Male&quot;</span> <span class="sc">&amp;</span> cardiac<span class="sc">$</span>smoking <span class="sc">==</span> <span class="dv">3</span> <span class="sc">&amp;</span> cardiac<span class="sc">$</span>diastolic <span class="sc">&gt;</span></span>
+<span id="cb7-3"><a href="#cb7-3" tabindex="-1"></a>    <span class="fu">median</span>(cardiac<span class="sc">$</span>diastolic), ]</span>
+<span id="cb7-4"><a href="#cb7-4" tabindex="-1"></a></span>
+<span id="cb7-5"><a href="#cb7-5" tabindex="-1"></a><span class="co"># now the harder one. This results in a dataframe filled with NAs.</span></span>
+<span id="cb7-6"><a href="#cb7-6" tabindex="-1"></a>cardiac_new <span class="ot">&lt;-</span> cardiac[cardiac<span class="sc">$</span>systolic <span class="sc">&gt;</span> <span class="dv">160</span> <span class="sc">&amp;</span> cardiac<span class="sc">$</span>tchol <span class="sc">&gt;</span> <span class="fu">mean</span>(cardiac<span class="sc">$</span>tchol),</span>
+<span id="cb7-7"><a href="#cb7-7" tabindex="-1"></a>    ]</span>
+<span id="cb7-8"><a href="#cb7-8" tabindex="-1"></a></span>
+<span id="cb7-9"><a href="#cb7-9" tabindex="-1"></a><span class="co"># the variable tchol contains 2 NA values. By default the mean function will</span></span>
+<span id="cb7-10"><a href="#cb7-10" tabindex="-1"></a><span class="co"># return an NA.  use the na.rm argument to ignore NAs</span></span>
+<span id="cb7-11"><a href="#cb7-11" tabindex="-1"></a>cardiac_new <span class="ot">&lt;-</span> cardiac[cardiac<span class="sc">$</span>systolic <span class="sc">&gt;</span> <span class="dv">160</span> <span class="sc">&amp;</span> cardiac<span class="sc">$</span>tchol <span class="sc">&gt;</span> <span class="fu">mean</span>(cardiac<span class="sc">$</span>tchol,</span>
+<span id="cb7-12"><a href="#cb7-12" tabindex="-1"></a>    <span class="at">na.rm =</span> <span class="cn">TRUE</span>), ]</span></code></pre></div>
 <p> </p>
 <p>End of Exercise 3</p>
 </div>

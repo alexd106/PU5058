@@ -506,10 +506,7 @@ leave the original <code>sex</code> exactly as it was. Do this, then use
 with the two levels you expect, and that <code>sex</code> is still there
 and still an integer.</p>
 <p>Now, why the new variable rather than the tidier looking overwrite?
-Have a think about it, then try this: run your <code>factor()</code>
-line a second time, but writing the result back into <code>sex</code>
-rather than <code>Fsex</code>, and look at what happens to the variable.
-Can you explain it?</p>
+Have a think about it before you reveal the answer.</p>
 <p> </p>
 <p>8. You can get another useful summary of your dataframe by using the
 <code>summary()</code> function. This will provide you with some useful
@@ -540,22 +537,14 @@ href="https://alexd106.github.io/PU5058/howto.html#dataw-vid">video</a>
 for some additional background information and a few examples). Let’s
 practice.</p>
 <ol style="list-style-type: lower-alpha">
-<li><p>Extract all the elements (data) of the first 10 rows and the
-first 4 columns of the <code>cardiac</code> dataframe and assign to a
-new variable called <code>cardiac_sub</code>.</p></li>
-<li><p>Next, extract all observations (remember - rows) from the
+<li><p>Extract all observations (remember - rows) from the
 <code>cardiac</code> dataframe and the columns <code>patno</code>,
 <code>sex</code>, <code>smoking</code> and <code>tchol</code> and assign
 to a variable called <code>cardiac_risk</code>.</p></li>
-<li><p>Now, extract the first 50 rows and all columns from the original
-dataframe and assign to a variable <code>cardiac_50</code> (there’s a
-better way to select rows with conditional statements - you’ll meet it
-in Q10 below).</p></li>
-<li><p>Finally, extract all rows except the first 10 rows and all
-columns except the last column. Careful here: which column is the last
-one now? Remember, for some of these questions you can specify the
-columns you want either by position or by name. Practice both ways. Do
-you have a preference? If so why?</p></li>
+<li><p>Next, extract all rows except the first 10 rows and all columns
+except the last column. Careful here, which column is the last one now?
+Remember, you can specify the columns you want either by position or by
+name. Practice both ways. Do you have a preference? If so why?</p></li>
 </ol>
 <p> </p>
 <p>10. In addition to extracting rows and columns from your dataframe by
@@ -572,29 +561,26 @@ ex-smokers and 3 for those who have never smoked, and that for sex you
 now have a properly labelled <code>Fsex</code> to use:</p>
 <ul>
 <li>systolic blood pressure greater than 160 mmHg</li>
-<li>patients who have never smoked</li>
 <li>male patients who have never smoked and whose diastolic pressure is
 greater than the median diastolic pressure (76 mmHg)</li>
-<li>all patients with a bmi between 25 and 30 and a triglyceride between
-1 and 2 mmol l<sup>-1</sup></li>
 <li>all patients who are not ex-smokers</li>
 </ul>
 <p> </p>
-<p>11. A really neat feature of extracting rows based on conditional
-statements is that you can include R functions within the statement
-itself (see <a
+<p>11. A really neat feature of conditional statements is that you can
+put R functions inside them, so the threshold is worked out from the
+data rather than typed in by hand (see <a
 href="https://intro2r.com/wrangling-data-frames.html#logical-indexes">Section
-3.4.2</a> again). To practice this, modify your answer to the diastolic
-question in Q10 to use the <code>median()</code> function rather than
-hard coding the value 76. Why is this a better idea? (hint: what happens
-to your code if someone adds another twenty patients to the study?)</p>
-<p> </p>
-<p>12. However, when using functions in conditional statements you need
-to be careful. For example, write some code to extract all rows from the
-dataframe <code>cardiac</code> with a systolic pressure greater than 160
-mmHg and a total cholesterol greater than average (hint: use the
-<code>mean()</code> function in your conditional statement). Can you see
-a problem with the output? Have a look at <a
+3.4.2</a> again). That matters more than it looks. Hard code the median
+as 76, as you did in Q10, and your code becomes silently wrong the
+moment somebody adds another twenty patients to the study, whereas
+<code>median(cardiac$diastolic)</code> is right every time you run
+it.</p>
+<p>Put it into practice on a harder example. Write some code to extract
+all rows from the <code>cardiac</code> dataframe with a systolic
+pressure greater than 160 mmHg and a total cholesterol greater than
+average (hint: use the <code>mean()</code> function inside your
+conditional statement). Now look carefully at what comes back. Can you
+see a problem with it? Have a look at <a
 href="https://intro2r.com/vectors.html#na_vals">Section 2.3</a> of the
 Introduction to R book, discuss the cause of this problem with an
 instructor and explore possible solutions.</p>

@@ -528,11 +528,10 @@ from the <strong><a href="data.html"><i class="fa fa-download"></i>
 Data</a></strong> link and save it to your <code>data</code> directory.
 This one is already a tab delimited text file, so there is no conversion
 to do. Import it with <code>read.table()</code>, remembering to write
-out your <code>header</code>, <code>sep</code>, <code>na.strings</code>
-and <code>stringsAsFactors</code> arguments, and assign it to a variable
+out your <code>header</code>, <code>sep</code> and
+<code>stringsAsFactors</code> arguments, and assign it to a variable
 called <code>scotpho</code>.</p>
-<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" tabindex="-1"></a>scotpho <span class="ot">&lt;-</span> <span class="fu">read.table</span>(<span class="st">&#39;data/scotpho_alcohol_admissions.txt&#39;</span>, <span class="at">header =</span> <span class="cn">TRUE</span>, <span class="at">sep =</span> <span class="st">&quot;</span><span class="sc">\t</span><span class="st">&quot;</span>,</span>
-<span id="cb1-2"><a href="#cb1-2" tabindex="-1"></a>                      <span class="at">na.strings =</span> <span class="st">&quot;NA&quot;</span>, <span class="at">stringsAsFactors =</span> <span class="cn">TRUE</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" tabindex="-1"></a>scotpho <span class="ot">&lt;-</span> <span class="fu">read.table</span>(<span class="st">&#39;data/scotpho_alcohol_admissions.txt&#39;</span>, <span class="at">header =</span> <span class="cn">TRUE</span>, <span class="at">sep =</span> <span class="st">&quot;</span><span class="sc">\t</span><span class="st">&quot;</span>, <span class="at">stringsAsFactors =</span> <span class="cn">TRUE</span>)</span></code></pre></div>
 <p> </p>
 <p>3. These data are an extract from the ScotPHO online profiles tool.
 The indicator is <em>alcohol-related hospital admissions</em>, and the

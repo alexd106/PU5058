@@ -1,6 +1,5 @@
 ## ----Q5, echo=SOLUTIONS-------------------------------------------------------
-cardiac <- read.table('data/cardiacdata.txt', header = TRUE, sep = "\t",
-                      na.strings = "NA", stringsAsFactors = TRUE)
+cardiac <- read.table('data/cardiacdata.txt', header = TRUE, sep = "\t", stringsAsFactors = TRUE)
 
 
 ## ----Q6, echo=SOLUTIONS-------------------------------------------------------
@@ -26,8 +25,8 @@ str(cardiac)          # display the structure of the dataframe cardiac
 # R thinks sex and smoking are integers, because that is how they are stored
 # in the file: sex is coded 1 and 2, smoking is coded 1, 2 and 3. But they are
 # not really numbers, they are categories, and R has no way of knowing that.
-# Nothing stops you calculating mean(cardiac$sex) - it returns 1.52 - and that
-# number is meaningless. You will fix sex in the next question.
+# Nothing stops you calculating mean(cardiac$sex) and it returns 1.52 - and that
+# number is mostly meaningless. You will fix the sex variable in the next question.
 
 # patno is a factor with 163 levels, one for every row. A factor with as many
 # levels as there are rows is a good sign that you are looking at an identifier
@@ -45,7 +44,7 @@ str(cardiac)
 #  $ sex         : int  2 2 2 2 2 2 2 1 1 2 ...
 #  $ Fsex        : Factor w/ 2 levels "Female","Male": 2 2 2 2 2 2 2 1 1 2 ...
 
-# Why a new variable rather than overwriting sex?
+# Why a new variable rather than overwriting the sex variable?
 #
 # 1. The raw codes survive. You can always check your recoding against what was
 #    actually in the file, and if you get the labels the wrong way round you can
@@ -55,7 +54,7 @@ str(cardiac)
 # 2. The 'F' prefix says at a glance which variable is the factor version. You
 #    will use the same convention for Fsmoking in Exercise 5.
 
-# and note: sex is still an integer, exactly as it was
+# and note: the sex variable is still an integer, exactly as it was
 str(cardiac$sex)
 
 
@@ -75,8 +74,8 @@ summary(cardiac)
  #              NA's   :2        NA's   :2       NA's   :2                       
 
 # Fsex is a factor, so summary() counts patients: 78 women and 85 men. The
-# untouched sex column is still an integer, so summary() dutifully reports a
-# mean of 1.52 for it, which is exactly the meaningless number from Q6.
+# untouched sex column is still an integer, so summary() reports a
+# mean of 1.52 for it.
 
 # Four variables have missing values: tchol, hdlchol and triglyceride have 2
 # each, and smoking has 7.
@@ -116,10 +115,7 @@ cardiac_notex <- cardiac[cardiac$smoking != 2, ]
 
 
 ## ----Q11, echo=SOLUTIONS, tidy = TRUE-----------------------------------------
-# the same idea on the diastolic question from Q10, with nothing hard coded
-cardiac_subset <- cardiac[cardiac$Fsex == "Male" & cardiac$smoking == 3 & cardiac$diastolic > median(cardiac$diastolic), ]
-
-# now the harder one. This results in a dataframe filled with NAs. 
+# This results in a dataframe filled with NAs. Why?
 cardiac_new <- cardiac[cardiac$systolic > 160 & cardiac$tchol > mean(cardiac$tchol), ]
 
 # the variable tchol contains 2 NA values. By default the mean function will return an NA.

@@ -42,8 +42,7 @@ library(GGally)
 4\. Import the data and recode `sex` and `smoking` as factors. This part is identical whichever plotting system you use: `ggplot2` replaces your graphics code, not your data handling.
 
 ```{r Q4}
-cardiac <- read.table('data/cardiacdata.txt', header = TRUE, sep = "\t",
-                      na.strings = "NA", stringsAsFactors = TRUE)
+cardiac <- read.table('data/cardiacdata.txt', header = TRUE, sep = "\t", stringsAsFactors = TRUE)
 
 cardiac$Fsex <- factor(cardiac$sex, levels = c(1, 2),
                        labels = c("Female", "Male"))

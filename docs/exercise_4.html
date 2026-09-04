@@ -510,31 +510,29 @@ run the two lines below before you go any further. They are the import
 from Exercise 3, Q5 and the <code>Fsex</code> factor from Exercise 3,
 Q7.</p>
 <p>You will notice that <code>smoking</code> is still sitting there as
-an integer. That is deliberate, and there is an optional extension at
-the end of this exercise that deals with it rather more elegantly than
-typing labels out by hand.</p>
-<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" tabindex="-1"></a>cardiac <span class="ot">&lt;-</span> <span class="fu">read.table</span>(<span class="st">&#39;data/cardiacdata.txt&#39;</span>, <span class="at">header =</span> <span class="cn">TRUE</span>, <span class="at">sep =</span> <span class="st">&quot;</span><span class="sc">\t</span><span class="st">&quot;</span>,</span>
-<span id="cb1-2"><a href="#cb1-2" tabindex="-1"></a>                      <span class="at">na.strings =</span> <span class="st">&quot;NA&quot;</span>, <span class="at">stringsAsFactors =</span> <span class="cn">TRUE</span>)</span>
-<span id="cb1-3"><a href="#cb1-3" tabindex="-1"></a></span>
-<span id="cb1-4"><a href="#cb1-4" tabindex="-1"></a>cardiac<span class="sc">$</span>Fsex <span class="ot">&lt;-</span> <span class="fu">factor</span>(cardiac<span class="sc">$</span>sex, <span class="at">levels =</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">2</span>),</span>
-<span id="cb1-5"><a href="#cb1-5" tabindex="-1"></a>                       <span class="at">labels =</span> <span class="fu">c</span>(<span class="st">&quot;Female&quot;</span>, <span class="st">&quot;Male&quot;</span>))</span></code></pre></div>
+an integer. That is deliberate. You will deal with it in Q8, rather more
+elegantly than typing labels out by hand.</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" tabindex="-1"></a>cardiac <span class="ot">&lt;-</span> <span class="fu">read.table</span>(<span class="st">&#39;data/cardiacdata.txt&#39;</span>, <span class="at">header =</span> <span class="cn">TRUE</span>, <span class="at">sep =</span> <span class="st">&quot;</span><span class="sc">\t</span><span class="st">&quot;</span>, <span class="at">stringsAsFactors =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb1-2"><a href="#cb1-2" tabindex="-1"></a></span>
+<span id="cb1-3"><a href="#cb1-3" tabindex="-1"></a>cardiac<span class="sc">$</span>Fsex <span class="ot">&lt;-</span> <span class="fu">factor</span>(cardiac<span class="sc">$</span>sex, <span class="at">levels =</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">2</span>),</span>
+<span id="cb1-4"><a href="#cb1-4" tabindex="-1"></a>                       <span class="at">labels =</span> <span class="fu">c</span>(<span class="st">&quot;Female&quot;</span>, <span class="st">&quot;Male&quot;</span>))</span></code></pre></div>
 <p> </p>
 <p>1. In Exercise 3 you learned how to pick out rows that meet a
 condition. You can use that skill to check whether your data are
-believable. This matters more than it sounds: a value that is simply
-wrong will not stop your code running, will not produce a warning, and
-will quietly change every result you calculate from it. Run
-<code>summary()</code> on your dataframe again and look at the minimum
-and maximum of each numeric variable. Three variables contain values
-that are not merely unusual but impossible. Two are impossibly low and
-one is impossibly high (hint: a body mass index below about 15 or above
-about 60 is essentially unheard of in a living adult, and nobody can
-survive with no cholesterol in their blood at all, so a blood fat
-concentration of exactly 0 is not a low reading, it is an impossible
-one). Find them, work out which patient the impossibly high one belongs
-to, and then set all of the offending values to <code>NA</code> so they
-cannot contaminate anything you calculate later (you will need the
-square bracket <code>[ ]</code> notation from <a
+believable. This matters a lot: a value that is simply wrong will not
+stop your code running, will not produce a warning, and will quietly
+change every result you calculate from it. Run <code>summary()</code> on
+your dataframe again and look at the minimum and maximum of each numeric
+variable. Three variables contain values that are not merely unusual but
+impossible. Two are impossibly low and one is impossibly high (hint: a
+body mass index below about 15 or above about 60 is essentially unheard
+of in a living adult, and nobody can survive with no cholesterol in
+their blood at all, so a blood fat concentration of exactly 0 is not a
+low reading, it is an impossible one). Find them, work out which patient
+the impossibly high one belongs to, and then set all of the offending
+values to <code>NA</code> so they cannot contaminate anything you
+calculate later (you will need the square bracket <code>[ ]</code>
+notation from <a
 href="https://intro2r.com/wrangling-data-frames.html#logical-indexes">Section
 3.4.2</a>, this time on the left hand side of an assignment). Re-run
 <code>summary()</code> afterwards to check it worked. Why is
@@ -577,10 +575,7 @@ calculate the same means for each combination of smoking category and
 sex.</p>
 <p>The grouping variables go inside the <code>by</code> argument wrapped
 in <code>list()</code>, because a list is how <code>aggregate()</code>
-accepts more than one of them at once. Name the elements as you go, as
-in <code>list(smoking = cardiac$smoking)</code>, because those names
-become the column headings in the result and unnamed ones come out as
-<code>Group.1</code>.</p>
+accepts more than one of them at once.</p>
 <p>A word of warning before you start. Remember those missing values you
 have been tripping over since Exercise 3? They have not gone away, and
 <code>tchol</code> still has two of them. Run your first
@@ -599,38 +594,19 @@ display the number of patients for each combination of smoking category
 and sex. Does <code>table()</code> tell you about the patients whose
 smoking status is missing?</p>
 <p> </p>
-<p>5. Your variables are measured on wildly different scales. Systolic
-pressure averages about 143 with a standard deviation of about 22, while
-total cholesterol averages about 7 with a standard deviation of about
-1.3. That makes a question like ‘is this patient more unusual in their
-blood pressure or in their body mass index?’ impossible to answer from
-the raw numbers, because a difference of 10 means something completely
-different in each variable. Standardising fixes this. Subtract the mean
-from every value and divide by the standard deviation, and the variable
-is re-expressed as the number of standard deviations each patient sits
-from the average, whatever units it started in. These are called
-z-scores, and you will meet them again whenever you need to put
-variables on a common footing.</p>
-<ol style="list-style-type: lower-alpha">
-<li><p>Create two new variables in the <code>cardiac</code> dataframe,
-<code>bmi_z</code> and <code>systolic_z</code>, holding the standardised
-versions of <code>bmi</code> and <code>systolic</code>. You will need
-<code>mean()</code> and <code>sd()</code>, and by now you should know
-what to do about the missing values. Adding a column to a dataframe is
-covered in <a
+<p>5. Not every variable is symmetric, and several of the ones here are
+not. Look back at <code>triglyceride</code> in your
+<code>summary()</code> output. The mean sits noticeably above the
+median, which is the signature of a long right hand tail, a few patients
+with much higher values than everybody else pulling the average up.
+Transforming to a log scale pulls that tail in, and it is routine
+practice for blood lipids.</p>
+<p>Create a new variable in the <code>cardiac</code> dataframe called
+<code>log_triglyceride</code>, holding the base 10 logarithm of
+<code>triglyceride</code> (see <code>?log10</code>, and <a
 href="https://intro2r.com/wrangling-data-frames.html#adding-columns-and-rows">Section
-3.4.4</a>. Check your work by confirming that a standardised variable
-has a mean of 0 and a standard deviation of 1.</p></li>
-<li><p>Which patient sits furthest from the average body mass index, and
-how far out are they? (hint: <code>abs()</code> gives you the size of a
-number regardless of its sign, and <code>which.max()</code> tells you
-the position of the largest value). Look at that patient’s
-<code>systolic_z</code> as well. Are they equally unusual on both
-measures?</p></li>
-<li><p>Now the important part. You set an impossible <code>bmi</code> of
-514.6 to <code>NA</code> back in Q1. What would this standardisation
-have looked like if you had skipped that step?</p></li>
-</ol>
+3.4.4</a> for adding a column). Compare the mean and the median before
+and after. What has happened to the gap between them?</p>
 <p> </p>
 <div id="data-linkage" class="section level3">
 <h3>Data linkage</h3>
@@ -638,16 +614,16 @@ have looked like if you had skipped that step?</p></li>
 you want are usually spread across several sources and you have to bring
 them together first. When those sources hold records about the same
 people, combining them into one dataset is called data linkage, and it
-is one of the defining techniques of health data science. Hospital
-admissions linked to prescribing records, a birth cohort linked to
-school attainment, a patient list linked to the death register. Each
-linkage answers a question that neither source could answer on its own,
-and this is the term we will use for it throughout the course.</p>
-<p>The idea is simple enough. You match records on something that
-identifies the same person in both sources, usually an identifier such
-as a patient number. The details are where analyses quietly go wrong,
-which is what the next three questions are about. In R the function that
-does the work is <code>merge()</code> (see <a
+is an important technique in health data science. Hospital admissions
+linked to prescribing records, a birth cohort linked to school
+attainment, a patient list linked to the death register. Each linkage
+answers a question that neither source could answer on its own, and this
+is the term we will use for it throughout the course.</p>
+<p>The idea is simple. You match records on something that identifies
+the same person in both sources, usually an identifier such as a patient
+number. However, if implemented carelessly, analyses can go quietly
+wrong, which is what the next three questions are about. In R the
+function that does the work is <code>merge()</code> (see <a
 href="https://intro2r.com/wrangling-data-frames.html#merging-data-frames">Section
 3.4.5</a> of the Introduction to R book), and the operation it performs
 is called a join.</p>
@@ -659,25 +635,53 @@ separate file. Download <em>‘cardiac_followup.txt’</em> from the
 Data</a></strong> link, save it to your <code>data</code> directory and
 import it with <code>read.table()</code> into a variable called
 <code>followup</code>. How many rows does it have, and how does that
-compare with <code>cardiac</code>? Now use the <code>merge()</code>
-function to link the two together on the patient number, and assign the
-result to <code>cardiac_fu</code>. How many rows does the linked
-dataframe have, and can you explain why?</p>
+compare with <code>cardiac</code>?</p>
+<p>Now use the <code>merge()</code> function to link the two together on
+the patient number, and assign the result to <code>cardiac_fu</code>.
+Left to its own devices <code>merge()</code> performs what is called an
+inner join, which keeps only the patients who appear in both sources.
+How many rows does the linked dataframe have, and can you explain
+why?</p>
 <p> </p>
 <p>7. Losing 55 patients without being told is exactly the sort of thing
-that ruins an analysis, and it is why you check row counts every single
-time you link two sources. Often what you actually want is to keep every
-patient from the first dataframe whether or not they have a match in the
-second. Look at <a
+that can ruin an analysis, and it is why you check row counts every
+single time you link two sources. Often what you actually want is a left
+join, which keeps every patient from the first dataframe whether or not
+they have a match in the second. Look at <a
 href="https://intro2r.com/wrangling-data-frames.html#merging-data-frames">Section
 3.4.5</a> and the help file for <code>merge()</code>, and find the
-argument that does this. Redo the linkage keeping all 163 patients,
-assign it to <code>cardiac_all</code>, and check how many of them have a
-missing follow-up systolic pressure. Finally, try running
-<code>merge(cardiac, followup)</code> without the <code>by</code>
-argument at all. It works. Why is relying on that a bad habit?</p>
+argument that switches <code>merge()</code> from an inner join to a left
+join. Redo the linkage keeping all 163 patients, assign it to
+<code>cardiac_all</code>, and check how many of them have a missing
+follow-up systolic pressure.</p>
 <p> </p>
-<p>8. Ok, we have spent quite a bit of time (and energy) learning how to
+<p>8. There is one more linkage worth knowing, and it solves the
+<code>smoking</code> problem that has been hanging over you since
+Exercise 3. Rather than typing the labels out by hand as you did for
+<code>Fsex</code>, you can keep the codes and their meanings in their
+own small file and link them on. This is a left join again, exactly as
+in Q7, but onto a small lookup table rather than onto a second set of
+measurements.</p>
+<p>Download <em>‘smoking_lookup.txt’</em> from the <strong><a
+href="data.html"><i class="fa fa-download"></i> Data</a></strong> link,
+save it to your <code>data</code> directory and import it into a
+variable called <code>smoke_codes</code>. Take a look at it. Notice that
+the column holding the code is called <code>code</code>, not
+<code>smoking</code>, so the two dataframes have no column name in
+common and <code>by</code> on its own will not work.</p>
+<p>Look at <a
+href="https://intro2r.com/wrangling-data-frames.html#merging-data-frames">Section
+3.4.5</a> and the help file for <code>merge()</code> again to find the
+arguments you need (hint: <code>by</code> has a pair of siblings that
+let you name a different key in each dataframe. <code>merge()</code>
+calls its two dataframes <code>x</code> and <code>y</code>, in the order
+you supply them, so look for the two arguments whose names end in
+<code>.x</code> and <code>.y</code>). Link the labels onto
+<code>cardiac_all</code>, keeping all patients, and then check with
+<code>table()</code> that every patient has ended up with the right
+label.</p>
+<p> </p>
+<p>9. Ok, we have spent quite a bit of time (and energy) learning how to
 clean, summarise and link dataframes. The last thing we need to cover is
 how to export a dataframe from R to an external file (see <a
 href="https://intro2r.com/exporting-data.html#exporting-data">Section
@@ -694,38 +698,6 @@ listing every change you made to the data and why. Which values did you
 set to <code>NA</code>, in which variables, and which patients did they
 belong to? Someone reading your work in six months, including you, needs
 to be able to answer that without re-running anything.</p>
-<p> </p>
-</div>
-<div id="optional-extension-linking-a-lookup-table"
-class="section level3">
-<h3>Optional extension: linking a lookup table</h3>
-<p>Only start this if you have finished everything above and have time
-to spare. It is not assessed, and nothing in the later exercises depends
-on it, but it is the most realistic linkage of the three and worth doing
-if you can.</p>
-<p>There is one more kind of linkage worth knowing, and it solves the
-<code>smoking</code> problem that has been hanging over you since
-Exercise 3. Rather than typing the labels out by hand as you did for
-<code>Fsex</code>, you can keep the codes and their meanings in their
-own small file and link them on. Download <em>‘smoking_lookup.txt’</em>
-from the <strong><a href="data.html"><i class="fa fa-download"></i>
-Data</a></strong> link, save it to your <code>data</code> directory and
-import it into a variable called <code>smoke_codes</code>. Take a look
-at it. Notice that the column holding the code is called
-<code>code</code>, not <code>smoking</code>, so the two dataframes have
-no column name in common and <code>by</code> on its own will not
-work.</p>
-<p>Look at <a
-href="https://intro2r.com/wrangling-data-frames.html#merging-data-frames">Section
-3.4.5</a> and the help file for <code>merge()</code> again to find the
-arguments you need (hint: <code>by</code> has a pair of siblings that
-let you name a different key in each dataframe. <code>merge()</code>
-calls its two dataframes <code>x</code> and <code>y</code>, in the order
-you supply them, so look for the two arguments whose names end in
-<code>.x</code> and <code>.y</code>). Link the labels onto
-<code>cardiac_all</code>, keeping all patients, re-export it as you did
-in Q8, and then check with <code>table()</code> that every patient has
-ended up with the right label.</p>
 <p> </p>
 <p>End of Exercise 4</p>
 </div>

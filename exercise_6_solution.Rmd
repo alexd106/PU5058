@@ -33,11 +33,10 @@ You will also switch datasets. From here on the course uses data from the [Scott
 
 \  
 
-2\. Download the data file *'scotpho_alcohol_admissions.txt'* from the **[<i class="fa fa-download"></i> Data](data.html)** link and save it to your `data` directory. This one is already a tab delimited text file, so there is no conversion to do. Import it with `read.table()`, remembering to write out your `header`, `sep`, `na.strings` and `stringsAsFactors` arguments, and assign it to a variable called `scotpho`.
+2\. Download the data file *'scotpho_alcohol_admissions.txt'* from the **[<i class="fa fa-download"></i> Data](data.html)** link and save it to your `data` directory. This one is already a tab delimited text file, so there is no conversion to do. Import it with `read.table()`, remembering to write out your `header`, `sep` and `stringsAsFactors` arguments, and assign it to a variable called `scotpho`.
 
 ```{r Q2, echo=SOLUTIONS}
-scotpho <- read.table('data/scotpho_alcohol_admissions.txt', header = TRUE, sep = "\t",
-                      na.strings = "NA", stringsAsFactors = TRUE)
+scotpho <- read.table('data/scotpho_alcohol_admissions.txt', header = TRUE, sep = "\t", stringsAsFactors = TRUE)
 ```
 
 \  

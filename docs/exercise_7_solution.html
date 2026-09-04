@@ -634,9 +634,8 @@ nothing and makes them far easier to find when something goes wrong.</p>
 <p>Inside the chunk, import <code>cardiacdata.txt</code> exactly as you
 did in <strong>Exercise 3, Q5</strong>: with the
 <code>read.table()</code> function, writing out the <code>header</code>,
-<code>sep</code>, <code>na.strings</code> and
-<code>stringsAsFactors</code> arguments, and assigning the result to
-<code>cardiac</code>.</p>
+<code>sep</code> and <code>stringsAsFactors</code> arguments, and
+assigning the result to <code>cardiac</code>.</p>
 <p>Then insert a second chunk, name it <code>structure</code>, and put
 <code>str(cardiac)</code> in it.</p>
 <p>Run each chunk in the editor with the small green arrow at its top
@@ -646,13 +645,12 @@ does not exist when the document knits, which is exactly what makes the
 document reproducible. It also means the chunk that imports the data has
 to come before any chunk that uses it.</p>
 <div class="sourceCode" id="cb4"><pre class="sourceCode md"><code class="sourceCode markdown"><span id="cb4-1"><a href="#cb4-1" tabindex="-1"></a><span class="in">```{r import}</span></span>
-<span id="cb4-2"><a href="#cb4-2" tabindex="-1"></a><span class="in">cardiac &lt;- read.table(&#39;data/cardiacdata.txt&#39;, header = TRUE, sep = &quot;\t&quot;,</span></span>
-<span id="cb4-3"><a href="#cb4-3" tabindex="-1"></a><span class="in">                      na.strings = &quot;NA&quot;, stringsAsFactors = TRUE)</span></span>
-<span id="cb4-4"><a href="#cb4-4" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb4-5"><a href="#cb4-5" tabindex="-1"></a></span>
-<span id="cb4-6"><a href="#cb4-6" tabindex="-1"></a><span class="in">```{r structure}</span></span>
-<span id="cb4-7"><a href="#cb4-7" tabindex="-1"></a><span class="in">str(cardiac)</span></span>
-<span id="cb4-8"><a href="#cb4-8" tabindex="-1"></a><span class="in">```</span></span></code></pre></div>
+<span id="cb4-2"><a href="#cb4-2" tabindex="-1"></a><span class="in">cardiac &lt;- read.table(&#39;data/cardiacdata.txt&#39;, header = TRUE, sep = &quot;\t&quot;, stringsAsFactors = TRUE)</span></span>
+<span id="cb4-3"><a href="#cb4-3" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb4-4"><a href="#cb4-4" tabindex="-1"></a></span>
+<span id="cb4-5"><a href="#cb4-5" tabindex="-1"></a><span class="in">```{r structure}</span></span>
+<span id="cb4-6"><a href="#cb4-6" tabindex="-1"></a><span class="in">str(cardiac)</span></span>
+<span id="cb4-7"><a href="#cb4-7" tabindex="-1"></a><span class="in">```</span></span></code></pre></div>
 <p> </p>
 <p>6. Add a figure. Insert another chunk, name it
 <code>chol-plot</code>, and use it to redraw the boxplot of total

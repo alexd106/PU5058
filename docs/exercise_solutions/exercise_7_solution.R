@@ -17,8 +17,7 @@
 
 ## ````md
 ## ```{r import}
-## cardiac <- read.table('data/cardiacdata.txt', header = TRUE, sep = "\t",
-##                       na.strings = "NA", stringsAsFactors = TRUE)
+## cardiac <- read.table('data/cardiacdata.txt', header = TRUE, sep = "\t", stringsAsFactors = TRUE)
 ## ```
 ## 
 ## ```{r structure}

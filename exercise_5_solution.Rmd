@@ -38,8 +38,7 @@ Read [Chapter 4](https://intro2r.com/graphics_r.html) to help you complete the q
 4\. Import the *'cardiacdata.txt'* file into R using the `read.table()` function and assign it to a variable named `cardiac`. Use the `str()` function to display the structure of the dataset and the `summary()` function to summarise it. As you found in Exercise 3, the `sex` and `smoking` variables are coded as integers, but they are really categories. Create a new variable in the `cardiac` dataframe for each of them, recoded as a factor with meaningful labels (`sex` is 1 for Female and 2 for Male; `smoking` is 1 for Current, 2 for Ex and 3 for Never). Use the `str()` function again to check the coding of these new variables. Almost every plotting function in this exercise treats a factor differently from a number, so this step is not optional housekeeping - get it wrong and your boxplots will come out as nonsense.
 
 ```{r Q4, echo=SOLUTIONS}
-cardiac <- read.table('data/cardiacdata.txt', header = TRUE, sep = "\t",
-                      na.strings = "NA", stringsAsFactors = TRUE)
+cardiac <- read.table('data/cardiacdata.txt', header = TRUE, sep = "\t", stringsAsFactors = TRUE)
 
 str(cardiac)
 summary(cardiac)

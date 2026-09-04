@@ -118,7 +118,7 @@ The variables we will look at are:
 
 Give the chunk a name by typing it straight after the `r`, so the first line reads ```` ```{r import} ````. Naming chunks costs nothing and makes them far easier to find when something goes wrong.
 
-Inside the chunk, import `cardiacdata.txt` exactly as you did in **Exercise 3, Q5**: with the `read.table()` function, writing out the `header`, `sep`, `na.strings` and `stringsAsFactors` arguments, and assigning the result to `cardiac`.
+Inside the chunk, import `cardiacdata.txt` exactly as you did in **Exercise 3, Q5**: with the `read.table()` function, writing out the `header`, `sep` and `stringsAsFactors` arguments, and assigning the result to `cardiac`.
 
 Then insert a second chunk, name it `structure`, and put `str(cardiac)` in it.
 
@@ -127,8 +127,7 @@ Run each chunk in the editor with the small green arrow at its top right, then k
 `````{asis, echo=SOLUTIONS}
 ````md
 ```{r import}
-cardiac <- read.table('data/cardiacdata.txt', header = TRUE, sep = "\t",
-                      na.strings = "NA", stringsAsFactors = TRUE)
+cardiac <- read.table('data/cardiacdata.txt', header = TRUE, sep = "\t", stringsAsFactors = TRUE)
 ```
 
 ```{r structure}

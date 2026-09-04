@@ -1,6 +1,5 @@
 ## ----Q2, echo=SOLUTIONS-------------------------------------------------------
-scotpho <- read.table('data/scotpho_alcohol_admissions.txt', header = TRUE, sep = "\t",
-                      na.strings = "NA", stringsAsFactors = TRUE)
+scotpho <- read.table('data/scotpho_alcohol_admissions.txt', header = TRUE, sep = "\t", stringsAsFactors = TRUE)
 
 
 ## ----Q4, echo=SOLUTIONS-------------------------------------------------------

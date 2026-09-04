@@ -169,28 +169,11 @@ nrow(cardiac_all)                        # 163 - everybody is still here
 sum(is.na(cardiac_all$n_admissions))     # 53 patients have no admissions record
 
 # b)
-mean(cardiac_all$n_admissions, na.rm = TRUE)   # 1.77
-
 # Those 53 NAs do NOT mean 'we do not know'. Those patients are absent from the
 # admissions file because they were never admitted, so the right number for them
 # is 0, and we know that for certain. The NA is an artefact of how a left join
 # fills gaps, not a statement about our knowledge.
-
-# The obvious way to fix it is a conditional statement, exactly as in Q1. Run
-# this and then check the column: it has done nothing, and said nothing.
-cardiac_all$n_admissions[cardiac_all$n_admissions == NA] <- 0
-
-# NA means 'unknown'. Asking whether an unknown value equals an unknown value
-# gives you another unknown, so the comparison returns NA rather than TRUE and
-# nothing gets selected. You cannot test for NA with == , which is exactly why
-# is.na() exists. You already used it above to count them.
 cardiac_all$n_admissions[is.na(cardiac_all$n_admissions)] <- 0
-
-mean(cardiac_all$n_admissions)                 # 1.20
-
-# So na.rm = TRUE, the habit this exercise has been drilling into you all along,
-# overstates the admission rate by nearly 50% here, because it throws away every
-# patient who was never admitted. 1.20 is the number to report.
 
 # Always ask what a missing value means before you decide how to handle it. The
 # answer is not always the same.

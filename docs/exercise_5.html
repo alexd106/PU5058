@@ -420,17 +420,17 @@ cleaning in a script, is what makes an analysis reproducible.</p>
 <p>4. Import the <em>‘cardiacdata.txt’</em> file into R using the
 <code>read.table()</code> function and assign it to a variable named
 <code>cardiac</code>. Use the <code>str()</code> function to display the
-structure of the dataset and the <code>summary()</code> function to
-summarise it. As you found in Exercise 3, the <code>sex</code> and
-<code>smoking</code> variables are coded as integers, but they are
-really categories. Create a new variable in the <code>cardiac</code>
-dataframe for each of them, recoded as a factor with meaningful labels
-(<code>sex</code> is 1 for Female and 2 for Male; <code>smoking</code>
-is 1 for Current, 2 for Ex and 3 for Never). Use the <code>str()</code>
-function again to check the coding of these new variables. Almost every
-plotting function in this exercise treats a factor differently from a
-number, so this step is not optional housekeeping - get it wrong and
-your boxplots will come out as nonsense.</p>
+structure of the dataset. As you found in Exercise 3, the
+<code>sex</code> and <code>smoking</code> variables are coded as
+integers, but they are really categories. Create a new variable in the
+<code>cardiac</code> dataframe for each of them, recoded as a factor
+with meaningful labels (<code>sex</code> is 1 for Female and 2 for Male;
+<code>smoking</code> is 1 for Current, 2 for Ex and 3 for Never). Use
+the <code>str()</code> function again to check the coding of these new
+variables. Almost every plotting function in this exercise treats a
+factor differently from a number, so this step is not optional
+housekeeping - get it wrong and your boxplots will come out as
+nonsense.</p>
 <p> </p>
 <p>5. How many patients are there in each combination of smoking status
 and sex (hint: remember the <code>table()</code> function?)? Don’t
@@ -449,43 +449,33 @@ any unusually large or small observations? Don’t forget, if you prefer
 to create a single figure with all 4 plots you can always split your
 plotting device into 2 rows and 2 columns (see <a
 href="https://intro2r.com/mult_graphs.html#mult_graphs">Section 4.4</a>
-of the book). Use the <code>pdf()</code> function to save a pdf version
-of your plot(s) in the <code>output</code> directory you created in
-Exercise 1 (see <a
-href="https://intro2r.com/export_plots.html#export_plots">Section
-4.5</a> of the book to see how the <code>pdf()</code> function
-works).</p>
+of the book).</p>
 <p> </p>
 <p>7. You met that extreme <code>bmi</code> value in Exercise 4, when
 you checked the ranges with <code>summary()</code> and found a maximum
 of 514.60. A body mass index of 514 is not possible: it is 51.46 with
 the decimal point in the wrong place. What the dotplot adds is not the
-discovery, but the damage: one bad value has made the plot useless for
+discovery, but the damage. One bad value has made the plot useless for
 looking at the other 162 patients. Use the <code>which()</code> function
 to identify which observation it is, confirm the value with the square
 bracket <code>[ ]</code> notation, set it to <code>NA</code> as you did
-in Exercise 4, and then redo the dotchart. Now look again at all four
-plots. Several points still sit well away from the rest. Which ones, and
-what should you do about them?</p>
+in Exercise 4, and then redraw the <code>bmi</code> dotchart. Now look
+again at all four plots from Q6. Several points still sit well away from
+the rest. Which ones, and what should you do about them?</p>
 <p> </p>
-<p>8. When exploring your data it is often useful to visualise the
-distribution of continuous variables. Take a look at <a
+<p>8. Histograms are the standard way of looking at the distribution of
+a continuous variable (see <a
 href="https://intro2r.com/simple-base-r-plots.html#histograms">Section
-4.2.2</a> and then create histograms for the variables;
-<code>bmi</code>, <code>systolic</code>, <code>tchol</code> and
-<code>alcohol</code>. Again, it’s up to you if you want to plot all 4
-plots separately or in the same figure. Export your plot(s) as pdf
-file(s) to the <code>output</code> directory. One potential problem with
-histograms is that the distribution of data can look quite different
-depending on the number of ‘breaks’ used. The <code>hist()</code>
-function does its best to create appropriate ‘breaks’ for your plots (it
-uses the <a href="https://en.wikipedia.org/wiki/Histogram">Sturges
-algorithm</a> for those that want to know) but experiment with changing
-the number of breaks for the <code>systolic</code> variable to see how
-the shape of the distribution changes (see <a
-href="https://intro2r.com/simple-base-r-plots.html#histograms">Section
-4.2.2</a> of the book for further details of how to change the
-breaks).</p>
+4.2.2</a>). Create histograms for <code>bmi</code>,
+<code>systolic</code>, <code>tchol</code> and <code>alcohol</code>,
+either separately or in one figure as you did in Q6.</p>
+<p>One thing to be careful of is that a histogram can look quite
+different depending on the number of ‘breaks’ used. The
+<code>hist()</code> function chooses breaks for you, but they are only a
+suggestion. Redraw the histogram of <code>systolic</code> twice, once
+with wide bins and once with narrow ones, and compare them. Which one
+would you show somebody, and what does the difference tell you about how
+much you should trust the shape of a histogram?</p>
 <p> </p>
 <p>9. Scatterplots are great for visualising relationships between two
 continuous variables (<a
@@ -494,58 +484,72 @@ href="https://intro2r.com/simple-base-r-plots.html#scatterplot">Section
 axis and <code>diastolic</code> on the y axis. How would you describe
 this relationship? Now plot <code>hdlchol</code> on the x axis against
 <code>triglyceride</code> on the y axis. Which way does that one go, and
-does that make clinical sense to you? Finally, take a look at
-<code>alcohol</code>. It is badly skewed, and skew is a nuisance in a
-plot because most of the points end up squashed into a corner. One
-approach is to apply a transformation. Create new variables in the
-<code>cardiac</code> dataframe holding the square root
-(<code>sqrt()</code>) and natural log (<code>log()</code>) of
-<code>alcohol</code> and plot histograms of each. One of the two
-transformations goes badly wrong. Which one, and why? (hint: what is the
-smallest value of <code>alcohol</code>, and what is the log of it?) Save
-your plots as a pdf file, or try jpeg or png format using the
-<code>jpeg()</code> or <code>png()</code> functions (<a
-href="https://intro2r.com/export_plots.html#export_plots">Section
-4.5</a>) if you feel the need for a change.</p>
+does that make clinical sense to you?</p>
+<p>Finally, look at <code>alcohol</code>. It is badly skewed, and skew
+is a nuisance in a plot because most of the points end up squashed into
+a corner. In Exercise 4 Q5 you took logs of <code>triglyceride</code>
+and it worked nicely. Try two transformations here, a square root with
+<code>sqrt()</code> and a natural log with <code>log()</code>, storing
+each as a new variable in the dataframe, then plot histograms of
+<code>alcohol</code> alongside both. One of the two goes badly wrong.
+Which one, and why? (hint: what is the smallest value of
+<code>alcohol</code>?)</p>
 <p> </p>
 <p>10. When visualising differences in a continuous variable between
 levels of a factor (categorical variable) then a boxplot is your friend
 (avoid using bar plots - Google ‘bar plots are evil’ for more info).
 Create a boxplot to visualise the differences in total cholesterol at
 each level of smoking status (don’t forget to use the recoded version of
-this variable you created in Q4). Include x and y axes labels in your
+this variable you created in Q4). Include x and y axis labels in your
 plot. Make sure you understand the anatomy of a boxplot before moving on
 - please ask if you’re not sure (also see <a
 href="https://intro2r.com/simple-base-r-plots.html#box-and-violin-plots">Section
-4.2.3</a> of the book). An alternative to the boxplot is the violin
-plot. A violin plot is a combination of a boxplot and a <a
+4.2.3</a> of the book).</p>
+<p>An alternative to the boxplot is the violin plot, which combines a
+boxplot with a <a
 href="https://www.statmethods.net/graphs/density.html">kernel density
-plot</a> and is great at visualising the distribution of a variable. To
-create a violin plot you will first need to install the
-<code>vioplot</code> package from CRAN and make it available using
-<code>library(vioplot)</code>. You can now use the
-<code>vioplot()</code> function in pretty much the same way as you
-created your boxplot (again <a
-href="https://intro2r.com/simple-base-r-plots.html#box-and-violin-plots">Section
-4.2.3</a> of the book walks you through this).</p>
+plot</a> and shows you the shape of the distribution rather than just
+its quartiles. You will first need to install the <code>vioplot</code>
+package from CRAN and make it available with
+<code>library(vioplot)</code>. The <code>vioplot()</code> function then
+works in much the same way as <code>boxplot()</code>. Draw the same
+comparison as a violin plot and compare the two.</p>
 <p> </p>
-<p>11. To explore the relationships between multiple continuous
-variables it’s hard to beat a pairs plot. Create a pairs plot for the
+<p>11. To explore the relationships between several continuous variables
+at once it’s hard to beat a pairs plot. Create a pairs plot for the
 variables; <code>age</code>, <code>systolic</code>,
 <code>diastolic</code>, <code>tchol</code>, <code>hdlchol</code>,
 <code>triglyceride</code> and <code>bmi</code> (see <a
 href="https://intro2r.com/simple-base-r-plots.html#pairs-plots">Section
 4.2.5</a> of the book for more details). If it looks a little cramped in
 RStudio then click on the ‘zoom’ button in the plot viewer to see a
-larger version. One of the great things about the <code>pairs()</code>
-function is that you can customise what goes into each panel. Modify
-your pairs plot to include a histogram of the variables on the diagonal
-panel and include a correlation coefficient for each relationship on the
-upper triangle panels. Also include a smoother (wiggly line) in the
-lower triangle panels to help visualise these relationships. Take a look
-at the Introduction to R book to see how to do all this (or
-<code>?pairs</code>). Which pair of variables is most strongly related,
+larger version.</p>
+<p>One of the useful things about <code>pairs()</code> is that you can
+choose what goes into each panel. Modify your plot to add a smoother (a
+wiggly line) to the lower triangle, which makes the shape of each
+relationship much easier to see. The book and <code>?pairs</code> show
+you how. Then get the correlation coefficients themselves with the
+<code>cor()</code> function, which takes a whole dataframe and returns a
+matrix of them (you will need its <code>use</code> argument to cope with
+the missing values). Which pair of variables is most strongly related,
 and which variable is related to almost nothing?</p>
+<p> </p>
+<p>12. Every plot so far has appeared in the RStudio plot pane, which is
+fine while you are exploring but no use at all when you need a figure in
+a Word document, a PowerPoint slide or a report. Getting a plot out of R
+is a three step sandwich. You open a graphics device that is a file
+rather than a window, you draw the plot exactly as you have been doing,
+and then you close the device with <code>dev.off()</code>. Nothing
+appears on screen while you do it, and if you forget the
+<code>dev.off()</code> your file will be unreadable (see <a
+href="https://intro2r.com/export_plots.html#export_plots">Section
+4.5</a> of the book).</p>
+<p>Redraw your boxplot from Q10 and save it twice into the
+<code>output</code> directory you created in Exercise 1, once as a pdf
+using <code>pdf()</code> and once as a png using <code>png()</code>.
+Open both files outside RStudio and try dropping the png into a Word
+document. Which format would you use for what, and why? (hint: enlarge
+each of them a long way and see what happens)</p>
 <p> </p>
 <p>End of Exercise 5</p>
 </div>

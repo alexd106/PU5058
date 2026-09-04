@@ -496,20 +496,26 @@ $(document).ready(function () {
 
 
 <p> </p>
-<div id="exercise-5-optional-visualising-data-using-ggplot"
+<div id="exercise-5-alternative-solutions-using-ggplot2"
 class="section level2">
-<h2>Exercise 5 (optional): Visualising data using ggplot</h2>
+<h2>Exercise 5: alternative solutions using ggplot2</h2>
 <p> </p>
-<p>Alternative (optional) solutions to Exercise 5 for those who use (or
-are interested in using) the <code>ggplot</code> approach to plotting
-data. See <a href="https://intro2r.com/graphics_r.html">Chapter 5</a> of
-the Introduction to R book for more information about how to use
-<code>ggplot</code>.</p>
-<p><strong>Base R graphics are what is taught and what you will be
-assessed on.</strong> Nothing here is required, and you can ignore this
-page entirely without missing anything. It is here because some of you
-will already know <code>ggplot2</code>, or will want to learn it, and it
-is worth seeing the same plots built both ways.</p>
+<blockquote>
+<p><strong>This page is an alternative, not an addition.</strong> It
+answers exactly the same questions as the <a
+href="exercise_5_solution.html">Exercise 5 solutions</a>, using
+<code>ggplot2</code> instead of base R graphics. There is no extra work
+here. If you are happy with the base R solutions you can ignore this
+page entirely and you will not have missed anything.</p>
+<p>Base R graphics are what this course teaches and what your assessment
+expects. This page exists because some of you will already know
+<code>ggplot2</code>, or will want to learn it, and it is useful to see
+the same plots built both ways. See <a
+href="https://intro2r.com/graphics_r.html">Chapter 5</a> of the
+Introduction to R book for more on <code>ggplot2</code>.</p>
+</blockquote>
+<p>The question numbers match the base R solutions, so you can read the
+two side by side.</p>
 <p> </p>
 <div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" tabindex="-1"></a><span class="co"># make ggplot2, gridExtra and GGally packages available</span></span>
 <span id="cb1-2"><a href="#cb1-2" tabindex="-1"></a><span class="co"># Note: you may need to install these packages first</span></span>
@@ -621,8 +627,9 @@ silently.</p>
 <span id="cb7-19"><a href="#cb7-19" tabindex="-1"></a><span class="co"># them. The warning is the useful part - do not learn to ignore it.</span></span></code></pre></div>
 <p> </p>
 <p>10. Boxplots and violin plots by smoking status. Here
-<code>ggplot2</code> has a real advantage: the violin plot needs no
-extra package, and you can lay the boxplot on top of it.</p>
+<code>ggplot2</code> has a real advantage over base R: the violin plot
+needs no extra package, so no <code>vioplot</code> install, and you can
+lay the boxplot on top of it in the same figure.</p>
 <div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data =</span> cardiac, <span class="fu">aes</span>(<span class="at">x =</span> Fsmoking, <span class="at">y =</span> tchol)) <span class="sc">+</span></span>
 <span id="cb8-2"><a href="#cb8-2" tabindex="-1"></a>  <span class="fu">geom_boxplot</span>() <span class="sc">+</span></span>
 <span id="cb8-3"><a href="#cb8-3" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">&quot;smoking status&quot;</span>, <span class="at">y =</span> <span class="st">&quot;total cholesterol (mmol/l)&quot;</span>)</span>
@@ -646,6 +653,17 @@ functions.</p>
 <p>The <code>ggplot2</code> version of the Exercise 6 communication plot
 is at the end of <a href="exercise_6.html" target="_blank">Exercise
 6</a> itself.</p>
+<p> </p>
+<p>12. Exporting a plot. <code>ggsave()</code> replaces the
+<code>pdf()</code> / <code>dev.off()</code> sandwich, works out the
+format from the file extension, and saves the last plot you drew unless
+you hand it one.</p>
+<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" tabindex="-1"></a>chol_plot <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(<span class="at">data =</span> cardiac, <span class="fu">aes</span>(<span class="at">x =</span> Fsmoking, <span class="at">y =</span> tchol)) <span class="sc">+</span></span>
+<span id="cb10-2"><a href="#cb10-2" tabindex="-1"></a>  <span class="fu">geom_boxplot</span>() <span class="sc">+</span></span>
+<span id="cb10-3"><a href="#cb10-3" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">&quot;smoking status&quot;</span>, <span class="at">y =</span> <span class="st">&quot;total cholesterol (mmol/l)&quot;</span>)</span>
+<span id="cb10-4"><a href="#cb10-4" tabindex="-1"></a></span>
+<span id="cb10-5"><a href="#cb10-5" tabindex="-1"></a><span class="fu">ggsave</span>(<span class="st">&#39;output/ex5_cholesterol_ggplot.pdf&#39;</span>, chol_plot, <span class="at">width =</span> <span class="dv">7</span>, <span class="at">height =</span> <span class="dv">5</span>)</span>
+<span id="cb10-6"><a href="#cb10-6" tabindex="-1"></a><span class="fu">ggsave</span>(<span class="st">&#39;output/ex5_cholesterol_ggplot.png&#39;</span>, chol_plot, <span class="at">width =</span> <span class="dv">7</span>, <span class="at">height =</span> <span class="dv">5</span>, <span class="at">dpi =</span> <span class="dv">300</span>)</span></code></pre></div>
 <p> </p>
 <p>End of Exercise 5 (optional)</p>
 </div>

@@ -14,13 +14,15 @@ options(width = 80)
 
 \  
 
-## Exercise 5 (optional): Visualising data using ggplot
+## Exercise 5: alternative solutions using ggplot2
 
 \  
 
-Alternative (optional) solutions to Exercise 5 for those who use (or are interested in using) the `ggplot` approach to plotting data. See [Chapter 5](https://intro2r.com/graphics_r.html) of the Introduction to R book for more information about how to use `ggplot`.
+> **This page is an alternative, not an addition.** It answers exactly the same questions as the [Exercise 5 solutions](exercise_5_solution.html), using `ggplot2` instead of base R graphics. There is no extra work here. If you are happy with the base R solutions you can ignore this page entirely and you will not have missed anything.
+>
+> Base R graphics are what this course teaches and what your assessment expects. This page exists because some of you will already know `ggplot2`, or will want to learn it, and it is useful to see the same plots built both ways. See [Chapter 5](https://intro2r.com/graphics_r.html) of the Introduction to R book for more on `ggplot2`.
 
-**Base R graphics are what is taught and what you will be assessed on.** Nothing here is required, and you can ignore this page entirely without missing anything. It is here because some of you will already know `ggplot2`, or will want to learn it, and it is worth seeing the same plots built both ways.
+The question numbers match the base R solutions, so you can read the two side by side.
 
 \  
 
@@ -156,7 +158,7 @@ grid.arrange(h1, h2, h3, nrow = 1)
 
 \  
 
-10\. Boxplots and violin plots by smoking status. Here `ggplot2` has a real advantage: the violin plot needs no extra package, and you can lay the boxplot on top of it.
+10\. Boxplots and violin plots by smoking status. Here `ggplot2` has a real advantage over base R: the violin plot needs no extra package, so no `vioplot` install, and you can lay the boxplot on top of it in the same figure.
 
 ```{r Q10}
 ggplot(data = cardiac, aes(x = Fsmoking, y = tchol)) +
@@ -185,6 +187,19 @@ ggpairs(cardiac[, c("systolic", "diastolic", "tchol", "bmi", "Fsex")],
 \  
 
 The `ggplot2` version of the Exercise 6 communication plot is at the end of [Exercise 6](exercise_6.html){target="_blank"} itself.
+
+\  
+
+12\. Exporting a plot. `ggsave()` replaces the `pdf()` / `dev.off()` sandwich, works out the format from the file extension, and saves the last plot you drew unless you hand it one.
+
+```{r Q12}
+chol_plot <- ggplot(data = cardiac, aes(x = Fsmoking, y = tchol)) +
+  geom_boxplot() +
+  labs(x = "smoking status", y = "total cholesterol (mmol/l)")
+
+ggsave('output/ex5_cholesterol_ggplot.pdf', chol_plot, width = 7, height = 5)
+ggsave('output/ex5_cholesterol_ggplot.png', chol_plot, width = 7, height = 5, dpi = 300)
+```
 
 \  
 

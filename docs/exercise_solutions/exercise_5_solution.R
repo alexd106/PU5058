@@ -1,8 +1,7 @@
-## ----Q4, echo=SOLUTIONS-------------------------------------------------------
+## ----Q4, echo=SOLUTIONS, eval=SOLUTIONS---------------------------------------
 cardiac <- read.table('data/cardiacdata.txt', header = TRUE, sep = "\t", stringsAsFactors = TRUE)
 
 str(cardiac)
-summary(cardiac)
 
 # recode the two categorical variables as factors, keeping the originals
 cardiac$Fsex <- factor(cardiac$sex, levels = c(1, 2),
@@ -17,7 +16,7 @@ str(cardiac)
 #  $ Fsmoking: Factor w/ 3 levels "Current","Ex",..: NA NA NA NA NA NA NA 1 1 1 ...
 
 
-## ----Q5, echo=SOLUTIONS-------------------------------------------------------
+## ----Q5, echo=SOLUTIONS, eval=SOLUTIONS---------------------------------------
 table(cardiac$Fsmoking, cardiac$Fsex)
 
   #           Female Male
@@ -33,14 +32,12 @@ table(cardiac$Fsmoking, cardiac$Fsex)
 table(cardiac$Fsmoking, cardiac$Fsex, useNA = "ifany")
 
 
-## ----Q6, echo=SOLUTIONS-------------------------------------------------------
-pdf('output/ex5_dotplots.pdf')
+## ----Q6, echo=SOLUTIONS, eval=SOLUTIONS, fig.width=8, fig.height=8------------
 par(mfrow = c(2, 2))
 dotchart(cardiac$bmi, main = "bmi")
 dotchart(cardiac$systolic, main = "systolic")
 dotchart(cardiac$tchol, main = "total cholesterol")
 dotchart(cardiac$alcohol, main = "alcohol")
-dev.off()
 
 # the bmi plot is the striking one: a single point sits so far to the right
 # that every other patient is squashed into a narrow strip on the left. You
@@ -48,18 +45,12 @@ dev.off()
 # setting the scale for all 163.
 
 
-## ----Q7, echo=SOLUTIONS-------------------------------------------------------
+## ----Q7, echo=SOLUTIONS, eval=SOLUTIONS---------------------------------------
 which(cardiac$bmi > 100)
-# [1] 161
 cardiac$bmi[161]
-# [1] 514.6
 cardiac$bmi[cardiac$bmi > 100] <- NA
 
-par(mfrow = c(2, 2))
 dotchart(cardiac$bmi, main = "bmi")
-dotchart(cardiac$systolic, main = "systolic")
-dotchart(cardiac$tchol, main = "total cholesterol")
-dotchart(cardiac$alcohol, main = "alcohol")
 
 # Now the bmi plot is readable, and you can see the distribution properly:
 # most patients between about 20 and 30, thinning out to a handful above 35,
@@ -79,40 +70,31 @@ dotchart(cardiac$alcohol, main = "alcohol")
 # looks untidy is scientific fraud.
 
 
-## ----Q8, echo=SOLUTIONS-------------------------------------------------------
-pdf('output/ex5_hist.pdf')
+## ----Q8, echo=SOLUTIONS, eval=SOLUTIONS, fig.width=8, fig.height=8------------
 par(mfrow = c(2, 2))
 hist(cardiac$bmi, main = "", xlab = "bmi")
 hist(cardiac$systolic, main = "", xlab = "systolic")
 hist(cardiac$tchol, main = "", xlab = "total cholesterol")
 hist(cardiac$alcohol, main = "", xlab = "alcohol (units/week)")
-dev.off()
 
-# need the min and max of systolic to work out the limits for the breaks
-summary(cardiac$systolic)
-# Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
-#  104     127     140   142.9     156     230 
 
-# experimenting with different breaks
-par(mfrow = c(2, 2))
-brk1 <- seq(from = 100, to = 240, by = 20)
-hist(cardiac$systolic, xlab = "systolic", breaks = brk1, main = "brk: 20")
-
-brk2 <- seq(from = 100, to = 240, by = 10)
-hist(cardiac$systolic, xlab = "systolic", breaks = brk2, main = "brk: 10")
-
-brk3 <- seq(from = 100, to = 240, by = 5)
-hist(cardiac$systolic, xlab = "systolic", breaks = brk3, main = "brk: 5")
-
-brk4 <- seq(from = 100, to = 240, by = 2)
-hist(cardiac$systolic, xlab = "systolic", breaks = brk4, main = "brk: 2")
+## ----Q8b, echo=SOLUTIONS, eval=SOLUTIONS, fig.width=8, fig.height=4-----------
+# wide bins and narrow bins, from the same 163 numbers
+par(mfrow = c(1, 2))
+hist(cardiac$systolic, xlab = "systolic", main = "bins of 20 mmHg",
+     breaks = seq(from = 100, to = 240, by = 20))
+hist(cardiac$systolic, xlab = "systolic", main = "bins of 2 mmHg",
+     breaks = seq(from = 100, to = 240, by = 2))
 
 # with 20 mmHg bins the distribution looks smooth and roughly symmetric; with
 # 2 mmHg bins it looks spiky and full of gaps, because blood pressure is
 # recorded in whole even numbers. The data have not changed, only the picture.
+# Treat the shape of a histogram as a rough guide, not as evidence.
 
 
-## ----Q9, echo=SOLUTIONS-------------------------------------------------------
+## ----Q9, echo=SOLUTIONS, eval=SOLUTIONS, fig.width=8, fig.height=4------------
+par(mfrow = c(1, 2))
+
 # a clear positive relationship, as you would expect: the two numbers are
 # measurements of the same thing at different points in the heartbeat
 plot(cardiac$systolic, cardiac$diastolic,
@@ -123,7 +105,8 @@ plot(cardiac$systolic, cardiac$diastolic,
 plot(cardiac$hdlchol, cardiac$triglyceride,
      xlab = "HDL cholesterol (mmol/l)", ylab = "triglyceride (mmol/l)")
 
-# transforming alcohol
+
+## ----Q9b, echo=SOLUTIONS, eval=SOLUTIONS, fig.width=9, fig.height=3.5---------
 cardiac$alcohol_sqrt <- sqrt(cardiac$alcohol)
 cardiac$alcohol_log  <- log(cardiac$alcohol)
 
@@ -132,27 +115,22 @@ hist(cardiac$alcohol, main = "untransformed", xlab = "alcohol")
 hist(cardiac$alcohol_sqrt, main = "square root", xlab = "sqrt(alcohol)")
 hist(cardiac$alcohol_log, main = "natural log", xlab = "log(alcohol)")
 
-# The log transformation fails. 58 of the 163 patients reported drinking no
-# alcohol at all, and log(0) is -Inf, not a number. R does not stop, it just
-# quietly drops those 58 patients from the plot - more than a third of your
-# data gone, with nothing more than a warning about non-finite values.
-min(cardiac$alcohol)          # 0
-log(0)                        # -Inf
-sum(is.infinite(cardiac$alcohol_log))   # 58
+sum(cardiac$alcohol == 0)   # 58
 
-# The square root works, because sqrt(0) is 0, and it pulls the long tail in
-# nicely. If you did need a log, the usual dodge is log(x + 1).
+# The log fails. 58 of the 163 patients reported drinking no alcohol at all, and
+# log(0) is -Inf, so R quietly drops more than a third of your data from the
+# plot with nothing more than a warning. The square root works, because sqrt(0)
+# is 0, and it pulls the long tail in nicely.
 
-jpeg('output/ex5_alcohol.jpeg')
-hist(cardiac$alcohol_sqrt, main = "", xlab = "sqrt(alcohol)")
-dev.off()
+# Triglyceride logged cleanly in Exercise 4 because it has no zeros in it.
+# Alcohol does. Check the minimum before you take the log of anything.
 
 
-## ----Q10, echo=SOLUTIONS, tidy = TRUE-----------------------------------------
+## ----Q10, echo=SOLUTIONS, eval=SOLUTIONS, tidy = TRUE-------------------------
 # note: Fsmoking is the recoded smoking variable created in Q4
 boxplot(tchol ~ Fsmoking, data = cardiac, xlab = "smoking status", ylab = "total cholesterol (mmol/l)")
 
-# violin plot
+# violin plot. install.packages("vioplot") first if you have not already
 library(vioplot)
 vioplot(tchol ~ Fsmoking, data = cardiac, xlab = "smoking status", ylab = "total cholesterol (mmol/l)", col = "lightblue")
 
@@ -162,38 +140,50 @@ vioplot(tchol ~ Fsmoking, data = cardiac, xlab = "smoking status", ylab = "total
 # show a difference.
 
 
-## ----Q11, echo=SOLUTIONS, tidy = TRUE-----------------------------------------
+## ----Q11, echo=SOLUTIONS, eval=SOLUTIONS, fig.width=9, fig.height=9, tidy = TRUE----
+plot_vars <- c("age", "systolic", "diastolic", "tchol", "hdlchol", "triglyceride", "bmi")
+
 # vanilla pairs plot
-pairs(cardiac[, c("age", "systolic", "diastolic", "tchol", "hdlchol", "triglyceride", "bmi")])
+pairs(cardiac[, plot_vars])
 
-# customise the plot. You need to define the panel_hist and panel_cor functions
-# first. These are adapted from the ?pairs help file, renamed to use underscores
-# like every other object you have created. Note that panel.smooth, on the last
-# line, keeps its dot: it is a base R function, not something you made.
-panel_hist <- function(x, ...) {
-  usr <- par("usr"); on.exit(par(usr = usr))
-  par(usr = c(usr[1:2], 0, 1.5))
-  h <- hist(x, plot = FALSE)
-  breaks <- h$breaks; nB <- length(breaks)
-  y <- h$counts; y <- y / max(y)
-  rect(breaks[-nB], 0, breaks[-1], y, col = "grey85", ...)
-}
+# panel.smooth adds the wiggly line. Note that it keeps its dot: it is a base R
+# function, not something you wrote
+pairs(cardiac[, plot_vars], lower.panel = panel.smooth)
 
-panel_cor <- function(x, y, digits = 2, ...) {
-  usr <- par("usr"); on.exit(par(usr = usr))
-  par(usr = c(0, 1, 0, 1))
-  r <- cor(x, y, use = "pairwise.complete.obs")
-  txt <- format(c(r, 0.123456789), digits = digits)[1]
-  text(0.5, 0.5, txt, cex = 1.2)
-}
-
-pairs(cardiac[, c("age", "systolic", "diastolic", "tchol", "hdlchol", "triglyceride", "bmi")],
-      diag.panel = panel_hist, upper.panel = panel_cor, lower.panel = panel.smooth)
+# and the correlations themselves, in one line
+round(cor(cardiac[, plot_vars], use = "pairwise.complete.obs"), 2)
 
 # systolic and diastolic are the most strongly related pair (r = 0.56), which
 # is no surprise. hdlchol and triglyceride are the next strongest (r = -0.43)
-# and negative. age is related to almost nothing here, and that is worth
-# thinking about: everyone in this study is between 55 and 75, so there simply
-# is not enough spread in age for a relationship to show itself. A variable can
-# look unimportant purely because of who was recruited.
+# and negative. age is related to almost nothing here, its largest correlation
+# with anything being 0.21, and that is worth thinking about: everyone in this
+# study is between 55 and 75, so there simply is not enough spread in age for a
+# relationship to show itself. A variable can look unimportant purely because of
+# who was recruited.
+
+
+## ----Q12, echo=SOLUTIONS, eval=SOLUTIONS--------------------------------------
+# pdf is a vector format: the file stores the instructions for drawing the plot,
+# so it stays perfectly sharp however far you enlarge it. Sizes are in inches.
+pdf('output/ex5_cholesterol.pdf', width = 7, height = 5)
+boxplot(tchol ~ Fsmoking, data = cardiac,
+        xlab = "smoking status", ylab = "total cholesterol (mmol/l)")
+dev.off()
+
+# png is a bitmap: a grid of pixels, which goes blurry when enlarged. Word and
+# PowerPoint handle it happily though. Always set res, because the default of
+# 72 dpi looks fine on screen and disappointing on a slide or on paper.
+png('output/ex5_cholesterol.png', width = 7, height = 5, units = "in", res = 300)
+boxplot(tchol ~ Fsmoking, data = cardiac,
+        xlab = "smoking status", ylab = "total cholesterol (mmol/l)")
+dev.off()
+
+list.files('output')
+
+# tiff() works in exactly the same way and is what journals usually ask for.
+
+# Rule of thumb: pdf if it is going to be printed or enlarged, png at 300 dpi
+# if it is going into Word or PowerPoint, tiff if a journal asks for it.
+# Whichever you choose, save it from R. Never screenshot the plot pane, and
+# never paste a plot in at 72 dpi and hope nobody notices.
 

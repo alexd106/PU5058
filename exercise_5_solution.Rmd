@@ -8,7 +8,8 @@ output:
 
 
 ```{r setup, echo=FALSE, purl = FALSE}
-knitr::opts_chunk$set(echo=TRUE, message = FALSE, warning = FALSE, eval = FALSE, cache = FALSE)
+knitr::opts_chunk$set(echo=TRUE, message = FALSE, warning = FALSE, eval = FALSE, cache = FALSE,
+                      results = 'hold', fig.show = 'hold')
 options(width = 80)
 SOLUTIONS <- TRUE
 ```
@@ -146,17 +147,15 @@ dotchart(cardiac$bmi, main = "bmi")
 
 One thing to be careful of is that a histogram can look quite different depending on the number of 'breaks' used. The `hist()` function chooses breaks for you, but they are only a suggestion. Redraw the histogram of `systolic` twice, once with wide bins and once with narrow ones, and compare them. Which one would you show somebody, and what does the difference tell you about how much you should trust the shape of a histogram?
 
-```{r Q8, echo=SOLUTIONS, eval=SOLUTIONS, fig.width=8, fig.height=8}
+```{r Q8, echo=SOLUTIONS, eval=SOLUTIONS, fig.width=8, fig.height=7}
 par(mfrow = c(2, 2))
 hist(cardiac$bmi, main = "", xlab = "bmi")
 hist(cardiac$systolic, main = "", xlab = "systolic")
 hist(cardiac$tchol, main = "", xlab = "total cholesterol")
 hist(cardiac$alcohol, main = "", xlab = "alcohol (units/week)")
-```
 
-```{r Q8b, echo=SOLUTIONS, eval=SOLUTIONS, fig.width=8, fig.height=4}
-# wide bins and narrow bins, from the same 163 numbers
-par(mfrow = c(1, 2))
+# wide bins and narrow bins, drawn from exactly the same 163 numbers
+par(mfrow = c(2, 1))
 hist(cardiac$systolic, xlab = "systolic", main = "bins of 20 mmHg",
      breaks = seq(from = 100, to = 240, by = 20))
 hist(cardiac$systolic, xlab = "systolic", main = "bins of 2 mmHg",
@@ -170,25 +169,33 @@ hist(cardiac$systolic, xlab = "systolic", main = "bins of 2 mmHg",
 
 \  
 
-9\. Scatterplots are great for visualising relationships between two continuous variables ([Section 4.2.1](https://intro2r.com/simple-base-r-plots.html#scatterplot)). Plot the relationship between `systolic` on the x axis and `diastolic` on the y axis. How would you describe this relationship? Now plot `hdlchol` on the x axis against `triglyceride` on the y axis. Which way does that one go, and does that make clinical sense to you?
+9\. Scatterplots are great for visualising relationships between two continuous variables ([Section 4.2.1](https://intro2r.com/simple-base-r-plots.html#scatterplot)). Before you draw one, stop and think about which variable belongs on which axis. The convention is that the explanatory variable goes on the x axis and the response goes on the y axis, so the choice is not cosmetic. Put them the wrong way round and you have quietly told your reader something you did not mean.
+
+Start with `systolic` and `diastolic` blood pressure. Which would you put where, and why is that a harder question than it first looks? Now plot HDL cholesterol and triglyceride. Which of those two is the more sensible candidate for the x axis, and does the relationship you get make clinical sense to you?
 
 Finally, look at `alcohol`. It is badly skewed, and skew is a nuisance in a plot because most of the points end up squashed into a corner. In Exercise 4 Q5 you took logs of `triglyceride` and it worked nicely. Try two transformations here, a square root with `sqrt()` and a natural log with `log()`, storing each as a new variable in the dataframe, then plot histograms of `alcohol` alongside both. One of the two goes badly wrong. Which one, and why? (hint: what is the smallest value of `alcohol`?)
 
-```{r Q9, echo=SOLUTIONS, eval=SOLUTIONS, fig.width=8, fig.height=4}
+```{r Q9, echo=SOLUTIONS, eval=SOLUTIONS, fig.width=9, fig.height=4}
 par(mfrow = c(1, 2))
 
-# a clear positive relationship, as you would expect: the two numbers are
-# measurements of the same thing at different points in the heartbeat
+# systolic and diastolic: a clear positive relationship, which is no surprise
+# because the two numbers are the same measurement taken at two points in the
+# heartbeat. Neither one explains the other, so there is no response variable
+# here and the choice of axes really is arbitrary. The honest description is
+# 'these two go together', not 'this one drives that one'.
 plot(cardiac$systolic, cardiac$diastolic,
      xlab = "systolic (mmHg)", ylab = "diastolic (mmHg)")
 
-# this one slopes the other way: patients with high HDL cholesterol tend to
-# have low triglyceride. That is a real and well known pattern
-plot(cardiac$hdlchol, cardiac$triglyceride,
-     xlab = "HDL cholesterol (mmol/l)", ylab = "triglyceride (mmol/l)")
-```
+# triglyceride and HDL cholesterol: negative, and a well known pattern. If you
+# are going to treat one as explanatory it should be triglyceride, because a
+# raised triglyceride is generally understood to drive HDL down rather than the
+# other way round, so triglyceride belongs on the x axis. Do not lean on that
+# too hard though. This is a cross sectional study, both are markers of the same
+# underlying metabolic state, and no scatterplot can tell you which came first.
+plot(cardiac$triglyceride, cardiac$hdlchol,
+     xlab = "triglyceride (mmol/l)", ylab = "HDL cholesterol (mmol/l)")
 
-```{r Q9b, echo=SOLUTIONS, eval=SOLUTIONS, fig.width=9, fig.height=3.5}
+# transforming a skewed variable
 cardiac$alcohol_sqrt <- sqrt(cardiac$alcohol)
 cardiac$alcohol_log  <- log(cardiac$alcohol)
 
@@ -232,7 +239,7 @@ vioplot(tchol ~ Fsmoking, data = cardiac, xlab = "smoking status", ylab = "total
 
 11\. To explore the relationships between several continuous variables at once it's hard to beat a pairs plot. Create a pairs plot for the variables; `age`, `systolic`, `diastolic`, `tchol`, `hdlchol`, `triglyceride` and `bmi` (see [Section 4.2.5](https://intro2r.com/simple-base-r-plots.html#pairs-plots) of the book for more details). If it looks a little cramped in RStudio then click on the 'zoom' button in the plot viewer to see a larger version.
 
-One of the useful things about `pairs()` is that you can choose what goes into each panel. Modify your plot to add a smoother (a wiggly line) to the lower triangle, which makes the shape of each relationship much easier to see. The book and `?pairs` show you how. Then get the correlation coefficients themselves with the `cor()` function, which takes a whole dataframe and returns a matrix of them (you will need its `use` argument to cope with the missing values). Which pair of variables is most strongly related, and which variable is related to almost nothing?
+One of the useful things about `pairs()` is that you can choose what goes into each panel. Modify your plot to add a smoother (a wiggly line) to the lower triangle, which makes the shape of each relationship much easier to see. The book and `?pairs` show you how. Then, just by looking, which pair of variables is most strongly related, and which variable is related to almost nothing?
 
 ```{r Q11, echo=SOLUTIONS, eval=SOLUTIONS, fig.width=9, fig.height=9, tidy = TRUE}
 plot_vars <- c("age", "systolic", "diastolic", "tchol", "hdlchol", "triglyceride", "bmi")
@@ -244,16 +251,31 @@ pairs(cardiac[, plot_vars])
 # function, not something you wrote
 pairs(cardiac[, plot_vars], lower.panel = panel.smooth)
 
-# and the correlations themselves, in one line
-round(cor(cardiac[, plot_vars], use = "pairwise.complete.obs"), 2)
+# systolic and diastolic are the most strongly related pair, which is no
+# surprise, and hdlchol against triglyceride is the next most obvious, sloping
+# the other way. age is related to almost nothing here, and that is worth
+# thinking about: everyone in this study is between 55 and 75, so there simply
+# is not enough spread in age for a relationship to show itself. A variable can
+# look unimportant purely because of who was recruited.
+```
 
-# systolic and diastolic are the most strongly related pair (r = 0.56), which
-# is no surprise. hdlchol and triglyceride are the next strongest (r = -0.43)
-# and negative. age is related to almost nothing here, its largest correlation
-# with anything being 0.21, and that is worth thinking about: everyone in this
-# study is between 55 and 75, so there simply is not enough spread in age for a
-# relationship to show itself. A variable can look unimportant purely because of
-# who was recruited.
+\  
+
+11\. (optional) `pairs()` will put whatever you like in the upper triangle, including the correlation coefficients themselves, but there is no ready made function for it so you have to write one. If you fancy a go, `?pairs` has an example you can adapt. Do the numbers agree with what you concluded by eye?
+
+```{r Q11b, echo=SOLUTIONS, eval=SOLUTIONS, fig.width=9, fig.height=9, tidy = TRUE}
+panel_cor <- function(x, y, digits = 2, ...) {
+  usr <- par("usr"); on.exit(par(usr = usr))
+  par(usr = c(0, 1, 0, 1))
+  r <- cor(x, y, use = "pairwise.complete.obs")
+  text(0.5, 0.5, format(r, digits = digits), cex = 1.4)
+}
+
+pairs(cardiac[, plot_vars], upper.panel = panel_cor, lower.panel = panel.smooth)
+
+# systolic with diastolic is the strongest at r = 0.56, hdlchol with
+# triglyceride the next at r = -0.43, and age never gets above 0.21 with
+# anything. The eye had it right.
 ```
 
 \  
@@ -262,7 +284,7 @@ round(cor(cardiac[, plot_vars], use = "pairwise.complete.obs"), 2)
 
 Redraw your boxplot from Q10 and save it twice into the `output` directory you created in Exercise 1, once as a pdf using `pdf()` and once as a png using `png()`. Open both files outside RStudio and try dropping the png into a Word document. Which format would you use for what, and why? (hint: enlarge each of them a long way and see what happens)
 
-```{r Q12, echo=SOLUTIONS, eval=SOLUTIONS}
+```{r Q12, echo=SOLUTIONS, eval=SOLUTIONS, results='hide'}
 # pdf is a vector format: the file stores the instructions for drawing the plot,
 # so it stays perfectly sharp however far you enlarge it. Sizes are in inches.
 pdf('output/ex5_cholesterol.pdf', width = 7, height = 5)
@@ -278,6 +300,8 @@ boxplot(tchol ~ Fsmoking, data = cardiac,
         xlab = "smoking status", ylab = "total cholesterol (mmol/l)")
 dev.off()
 
+# check they are really there. Your output directory should now contain
+# ex5_cholesterol.pdf and ex5_cholesterol.png
 list.files('output')
 
 # tiff() works in exactly the same way and is what journals usually ask for.

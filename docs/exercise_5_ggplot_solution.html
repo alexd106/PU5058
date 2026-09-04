@@ -610,21 +610,23 @@ silently.</p>
 <span id="cb7-2"><a href="#cb7-2" tabindex="-1"></a>  <span class="fu">geom_point</span>() <span class="sc">+</span></span>
 <span id="cb7-3"><a href="#cb7-3" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">&quot;systolic (mmHg)&quot;</span>, <span class="at">y =</span> <span class="st">&quot;diastolic (mmHg)&quot;</span>)</span>
 <span id="cb7-4"><a href="#cb7-4" tabindex="-1"></a></span>
-<span id="cb7-5"><a href="#cb7-5" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data =</span> cardiac, <span class="fu">aes</span>(<span class="at">x =</span> hdlchol, <span class="at">y =</span> triglyceride)) <span class="sc">+</span></span>
-<span id="cb7-6"><a href="#cb7-6" tabindex="-1"></a>  <span class="fu">geom_point</span>() <span class="sc">+</span></span>
-<span id="cb7-7"><a href="#cb7-7" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">&quot;HDL cholesterol (mmol/l)&quot;</span>, <span class="at">y =</span> <span class="st">&quot;triglyceride (mmol/l)&quot;</span>)</span>
-<span id="cb7-8"><a href="#cb7-8" tabindex="-1"></a></span>
-<span id="cb7-9"><a href="#cb7-9" tabindex="-1"></a>cardiac<span class="sc">$</span>alcohol_sqrt <span class="ot">&lt;-</span> <span class="fu">sqrt</span>(cardiac<span class="sc">$</span>alcohol)</span>
-<span id="cb7-10"><a href="#cb7-10" tabindex="-1"></a>cardiac<span class="sc">$</span>alcohol_log  <span class="ot">&lt;-</span> <span class="fu">log</span>(cardiac<span class="sc">$</span>alcohol)</span>
-<span id="cb7-11"><a href="#cb7-11" tabindex="-1"></a></span>
-<span id="cb7-12"><a href="#cb7-12" tabindex="-1"></a>h1 <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(<span class="at">data =</span> cardiac) <span class="sc">+</span> <span class="fu">geom_histogram</span>(<span class="fu">aes</span>(alcohol)) <span class="sc">+</span> <span class="fu">ggtitle</span>(<span class="st">&quot;untransformed&quot;</span>)</span>
-<span id="cb7-13"><a href="#cb7-13" tabindex="-1"></a>h2 <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(<span class="at">data =</span> cardiac) <span class="sc">+</span> <span class="fu">geom_histogram</span>(<span class="fu">aes</span>(alcohol_sqrt)) <span class="sc">+</span> <span class="fu">ggtitle</span>(<span class="st">&quot;square root&quot;</span>)</span>
-<span id="cb7-14"><a href="#cb7-14" tabindex="-1"></a>h3 <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(<span class="at">data =</span> cardiac) <span class="sc">+</span> <span class="fu">geom_histogram</span>(<span class="fu">aes</span>(alcohol_log)) <span class="sc">+</span> <span class="fu">ggtitle</span>(<span class="st">&quot;natural log&quot;</span>)</span>
-<span id="cb7-15"><a href="#cb7-15" tabindex="-1"></a><span class="fu">grid.arrange</span>(h1, h2, h3, <span class="at">nrow =</span> <span class="dv">1</span>)</span>
-<span id="cb7-16"><a href="#cb7-16" tabindex="-1"></a></span>
-<span id="cb7-17"><a href="#cb7-17" tabindex="-1"></a><span class="co"># ggplot2 is more explicit than base R about the log problem: it prints</span></span>
-<span id="cb7-18"><a href="#cb7-18" tabindex="-1"></a><span class="co"># &quot;Removed 58 rows containing non-finite values&quot; rather than quietly dropping</span></span>
-<span id="cb7-19"><a href="#cb7-19" tabindex="-1"></a><span class="co"># them. The warning is the useful part - do not learn to ignore it.</span></span></code></pre></div>
+<span id="cb7-5"><a href="#cb7-5" tabindex="-1"></a><span class="co"># triglyceride on the x axis, as in the base R solutions: if either is to be</span></span>
+<span id="cb7-6"><a href="#cb7-6" tabindex="-1"></a><span class="co"># treated as explanatory it is triglyceride</span></span>
+<span id="cb7-7"><a href="#cb7-7" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data =</span> cardiac, <span class="fu">aes</span>(<span class="at">x =</span> triglyceride, <span class="at">y =</span> hdlchol)) <span class="sc">+</span></span>
+<span id="cb7-8"><a href="#cb7-8" tabindex="-1"></a>  <span class="fu">geom_point</span>() <span class="sc">+</span></span>
+<span id="cb7-9"><a href="#cb7-9" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">&quot;triglyceride (mmol/l)&quot;</span>, <span class="at">y =</span> <span class="st">&quot;HDL cholesterol (mmol/l)&quot;</span>)</span>
+<span id="cb7-10"><a href="#cb7-10" tabindex="-1"></a></span>
+<span id="cb7-11"><a href="#cb7-11" tabindex="-1"></a>cardiac<span class="sc">$</span>alcohol_sqrt <span class="ot">&lt;-</span> <span class="fu">sqrt</span>(cardiac<span class="sc">$</span>alcohol)</span>
+<span id="cb7-12"><a href="#cb7-12" tabindex="-1"></a>cardiac<span class="sc">$</span>alcohol_log  <span class="ot">&lt;-</span> <span class="fu">log</span>(cardiac<span class="sc">$</span>alcohol)</span>
+<span id="cb7-13"><a href="#cb7-13" tabindex="-1"></a></span>
+<span id="cb7-14"><a href="#cb7-14" tabindex="-1"></a>h1 <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(<span class="at">data =</span> cardiac) <span class="sc">+</span> <span class="fu">geom_histogram</span>(<span class="fu">aes</span>(alcohol)) <span class="sc">+</span> <span class="fu">ggtitle</span>(<span class="st">&quot;untransformed&quot;</span>)</span>
+<span id="cb7-15"><a href="#cb7-15" tabindex="-1"></a>h2 <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(<span class="at">data =</span> cardiac) <span class="sc">+</span> <span class="fu">geom_histogram</span>(<span class="fu">aes</span>(alcohol_sqrt)) <span class="sc">+</span> <span class="fu">ggtitle</span>(<span class="st">&quot;square root&quot;</span>)</span>
+<span id="cb7-16"><a href="#cb7-16" tabindex="-1"></a>h3 <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(<span class="at">data =</span> cardiac) <span class="sc">+</span> <span class="fu">geom_histogram</span>(<span class="fu">aes</span>(alcohol_log)) <span class="sc">+</span> <span class="fu">ggtitle</span>(<span class="st">&quot;natural log&quot;</span>)</span>
+<span id="cb7-17"><a href="#cb7-17" tabindex="-1"></a><span class="fu">grid.arrange</span>(h1, h2, h3, <span class="at">nrow =</span> <span class="dv">1</span>)</span>
+<span id="cb7-18"><a href="#cb7-18" tabindex="-1"></a></span>
+<span id="cb7-19"><a href="#cb7-19" tabindex="-1"></a><span class="co"># ggplot2 is more explicit than base R about the log problem: it prints</span></span>
+<span id="cb7-20"><a href="#cb7-20" tabindex="-1"></a><span class="co"># &quot;Removed 58 rows containing non-finite values&quot; rather than quietly dropping</span></span>
+<span id="cb7-21"><a href="#cb7-21" tabindex="-1"></a><span class="co"># them. The warning is the useful part - do not learn to ignore it.</span></span></code></pre></div>
 <p> </p>
 <p>10. Boxplots and violin plots by smoking status. Here
 <code>ggplot2</code> has a real advantage over base R: the violin plot

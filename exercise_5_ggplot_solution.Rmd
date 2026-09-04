@@ -139,9 +139,11 @@ ggplot(data = cardiac, aes(x = systolic, y = diastolic)) +
   geom_point() +
   labs(x = "systolic (mmHg)", y = "diastolic (mmHg)")
 
-ggplot(data = cardiac, aes(x = hdlchol, y = triglyceride)) +
+# triglyceride on the x axis, as in the base R solutions: if either is to be
+# treated as explanatory it is triglyceride
+ggplot(data = cardiac, aes(x = triglyceride, y = hdlchol)) +
   geom_point() +
-  labs(x = "HDL cholesterol (mmol/l)", y = "triglyceride (mmol/l)")
+  labs(x = "triglyceride (mmol/l)", y = "HDL cholesterol (mmol/l)")
 
 cardiac$alcohol_sqrt <- sqrt(cardiac$alcohol)
 cardiac$alcohol_log  <- log(cardiac$alcohol)

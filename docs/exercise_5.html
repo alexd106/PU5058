@@ -480,11 +480,16 @@ much you should trust the shape of a histogram?</p>
 <p>9. Scatterplots are great for visualising relationships between two
 continuous variables (<a
 href="https://intro2r.com/simple-base-r-plots.html#scatterplot">Section
-4.2.1</a>). Plot the relationship between <code>systolic</code> on the x
-axis and <code>diastolic</code> on the y axis. How would you describe
-this relationship? Now plot <code>hdlchol</code> on the x axis against
-<code>triglyceride</code> on the y axis. Which way does that one go, and
-does that make clinical sense to you?</p>
+4.2.1</a>). Before you draw one, stop and think about which variable
+belongs on which axis. The convention is that the explanatory variable
+goes on the x axis and the response goes on the y axis, so the choice is
+not cosmetic. Put them the wrong way round and you have quietly told
+your reader something you did not mean.</p>
+<p>Start with <code>systolic</code> and <code>diastolic</code> blood
+pressure. Which would you put where, and why is that a harder question
+than it first looks? Now plot HDL cholesterol and triglyceride. Which of
+those two is the more sensible candidate for the x axis, and does the
+relationship you get make clinical sense to you?</p>
 <p>Finally, look at <code>alcohol</code>. It is badly skewed, and skew
 is a nuisance in a plot because most of the points end up squashed into
 a corner. In Exercise 4 Q5 you took logs of <code>triglyceride</code>
@@ -528,11 +533,14 @@ larger version.</p>
 choose what goes into each panel. Modify your plot to add a smoother (a
 wiggly line) to the lower triangle, which makes the shape of each
 relationship much easier to see. The book and <code>?pairs</code> show
-you how. Then get the correlation coefficients themselves with the
-<code>cor()</code> function, which takes a whole dataframe and returns a
-matrix of them (you will need its <code>use</code> argument to cope with
-the missing values). Which pair of variables is most strongly related,
-and which variable is related to almost nothing?</p>
+you how. Then, just by looking, which pair of variables is most strongly
+related, and which variable is related to almost nothing?</p>
+<p> </p>
+<p>11. (optional) <code>pairs()</code> will put whatever you like in the
+upper triangle, including the correlation coefficients themselves, but
+there is no ready made function for it so you have to write one. If you
+fancy a go, <code>?pairs</code> has an example you can adapt. Do the
+numbers agree with what you concluded by eye?</p>
 <p> </p>
 <p>12. Every plot so far has appeared in the RStudio plot pane, which is
 fine while you are exploring but no use at all when you need a figure in

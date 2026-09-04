@@ -70,17 +70,15 @@ dotchart(cardiac$bmi, main = "bmi")
 # looks untidy is scientific fraud.
 
 
-## ----Q8, echo=SOLUTIONS, eval=SOLUTIONS, fig.width=8, fig.height=8------------
+## ----Q8, echo=SOLUTIONS, eval=SOLUTIONS, fig.width=8, fig.height=7------------
 par(mfrow = c(2, 2))
 hist(cardiac$bmi, main = "", xlab = "bmi")
 hist(cardiac$systolic, main = "", xlab = "systolic")
 hist(cardiac$tchol, main = "", xlab = "total cholesterol")
 hist(cardiac$alcohol, main = "", xlab = "alcohol (units/week)")
 
-
-## ----Q8b, echo=SOLUTIONS, eval=SOLUTIONS, fig.width=8, fig.height=4-----------
-# wide bins and narrow bins, from the same 163 numbers
-par(mfrow = c(1, 2))
+# wide bins and narrow bins, drawn from exactly the same 163 numbers
+par(mfrow = c(2, 1))
 hist(cardiac$systolic, xlab = "systolic", main = "bins of 20 mmHg",
      breaks = seq(from = 100, to = 240, by = 20))
 hist(cardiac$systolic, xlab = "systolic", main = "bins of 2 mmHg",
@@ -92,21 +90,27 @@ hist(cardiac$systolic, xlab = "systolic", main = "bins of 2 mmHg",
 # Treat the shape of a histogram as a rough guide, not as evidence.
 
 
-## ----Q9, echo=SOLUTIONS, eval=SOLUTIONS, fig.width=8, fig.height=4------------
+## ----Q9, echo=SOLUTIONS, eval=SOLUTIONS, fig.width=9, fig.height=4------------
 par(mfrow = c(1, 2))
 
-# a clear positive relationship, as you would expect: the two numbers are
-# measurements of the same thing at different points in the heartbeat
+# systolic and diastolic: a clear positive relationship, which is no surprise
+# because the two numbers are the same measurement taken at two points in the
+# heartbeat. Neither one explains the other, so there is no response variable
+# here and the choice of axes really is arbitrary. The honest description is
+# 'these two go together', not 'this one drives that one'.
 plot(cardiac$systolic, cardiac$diastolic,
      xlab = "systolic (mmHg)", ylab = "diastolic (mmHg)")
 
-# this one slopes the other way: patients with high HDL cholesterol tend to
-# have low triglyceride. That is a real and well known pattern
-plot(cardiac$hdlchol, cardiac$triglyceride,
-     xlab = "HDL cholesterol (mmol/l)", ylab = "triglyceride (mmol/l)")
+# triglyceride and HDL cholesterol: negative, and a well known pattern. If you
+# are going to treat one as explanatory it should be triglyceride, because a
+# raised triglyceride is generally understood to drive HDL down rather than the
+# other way round, so triglyceride belongs on the x axis. Do not lean on that
+# too hard though. This is a cross sectional study, both are markers of the same
+# underlying metabolic state, and no scatterplot can tell you which came first.
+plot(cardiac$triglyceride, cardiac$hdlchol,
+     xlab = "triglyceride (mmol/l)", ylab = "HDL cholesterol (mmol/l)")
 
-
-## ----Q9b, echo=SOLUTIONS, eval=SOLUTIONS, fig.width=9, fig.height=3.5---------
+# transforming a skewed variable
 cardiac$alcohol_sqrt <- sqrt(cardiac$alcohol)
 cardiac$alcohol_log  <- log(cardiac$alcohol)
 
@@ -150,19 +154,30 @@ pairs(cardiac[, plot_vars])
 # function, not something you wrote
 pairs(cardiac[, plot_vars], lower.panel = panel.smooth)
 
-# and the correlations themselves, in one line
-round(cor(cardiac[, plot_vars], use = "pairwise.complete.obs"), 2)
-
-# systolic and diastolic are the most strongly related pair (r = 0.56), which
-# is no surprise. hdlchol and triglyceride are the next strongest (r = -0.43)
-# and negative. age is related to almost nothing here, its largest correlation
-# with anything being 0.21, and that is worth thinking about: everyone in this
-# study is between 55 and 75, so there simply is not enough spread in age for a
-# relationship to show itself. A variable can look unimportant purely because of
-# who was recruited.
+# systolic and diastolic are the most strongly related pair, which is no
+# surprise, and hdlchol against triglyceride is the next most obvious, sloping
+# the other way. age is related to almost nothing here, and that is worth
+# thinking about: everyone in this study is between 55 and 75, so there simply
+# is not enough spread in age for a relationship to show itself. A variable can
+# look unimportant purely because of who was recruited.
 
 
-## ----Q12, echo=SOLUTIONS, eval=SOLUTIONS--------------------------------------
+## ----Q11b, echo=SOLUTIONS, eval=SOLUTIONS, fig.width=9, fig.height=9, tidy = TRUE----
+panel_cor <- function(x, y, digits = 2, ...) {
+  usr <- par("usr"); on.exit(par(usr = usr))
+  par(usr = c(0, 1, 0, 1))
+  r <- cor(x, y, use = "pairwise.complete.obs")
+  text(0.5, 0.5, format(r, digits = digits), cex = 1.4)
+}
+
+pairs(cardiac[, plot_vars], upper.panel = panel_cor, lower.panel = panel.smooth)
+
+# systolic with diastolic is the strongest at r = 0.56, hdlchol with
+# triglyceride the next at r = -0.43, and age never gets above 0.21 with
+# anything. The eye had it right.
+
+
+## ----Q12, echo=SOLUTIONS, eval=SOLUTIONS, results='hide'----------------------
 # pdf is a vector format: the file stores the instructions for drawing the plot,
 # so it stays perfectly sharp however far you enlarge it. Sizes are in inches.
 pdf('output/ex5_cholesterol.pdf', width = 7, height = 5)
@@ -178,6 +193,8 @@ boxplot(tchol ~ Fsmoking, data = cardiac,
         xlab = "smoking status", ylab = "total cholesterol (mmol/l)")
 dev.off()
 
+# check they are really there. Your output directory should now contain
+# ex5_cholesterol.pdf and ex5_cholesterol.png
 list.files('output')
 
 # tiff() works in exactly the same way and is what journals usually ask for.

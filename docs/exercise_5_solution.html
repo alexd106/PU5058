@@ -544,7 +544,19 @@ housekeeping - get it wrong and your boxplots will come out as
 nonsense.</p>
 <div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" tabindex="-1"></a>cardiac <span class="ot">&lt;-</span> <span class="fu">read.table</span>(<span class="st">&#39;data/cardiacdata.txt&#39;</span>, <span class="at">header =</span> <span class="cn">TRUE</span>, <span class="at">sep =</span> <span class="st">&quot;</span><span class="sc">\t</span><span class="st">&quot;</span>, <span class="at">stringsAsFactors =</span> <span class="cn">TRUE</span>)</span>
 <span id="cb1-2"><a href="#cb1-2" tabindex="-1"></a></span>
-<span id="cb1-3"><a href="#cb1-3" tabindex="-1"></a><span class="fu">str</span>(cardiac)</span></code></pre></div>
+<span id="cb1-3"><a href="#cb1-3" tabindex="-1"></a><span class="fu">str</span>(cardiac)</span>
+<span id="cb1-4"><a href="#cb1-4" tabindex="-1"></a></span>
+<span id="cb1-5"><a href="#cb1-5" tabindex="-1"></a><span class="co"># recode the two categorical variables as factors, keeping the originals</span></span>
+<span id="cb1-6"><a href="#cb1-6" tabindex="-1"></a>cardiac<span class="sc">$</span>Fsex <span class="ot">&lt;-</span> <span class="fu">factor</span>(cardiac<span class="sc">$</span>sex, <span class="at">levels =</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">2</span>),</span>
+<span id="cb1-7"><a href="#cb1-7" tabindex="-1"></a>                       <span class="at">labels =</span> <span class="fu">c</span>(<span class="st">&quot;Female&quot;</span>, <span class="st">&quot;Male&quot;</span>))</span>
+<span id="cb1-8"><a href="#cb1-8" tabindex="-1"></a></span>
+<span id="cb1-9"><a href="#cb1-9" tabindex="-1"></a>cardiac<span class="sc">$</span>Fsmoking <span class="ot">&lt;-</span> <span class="fu">factor</span>(cardiac<span class="sc">$</span>smoking, <span class="at">levels =</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">3</span>),</span>
+<span id="cb1-10"><a href="#cb1-10" tabindex="-1"></a>                           <span class="at">labels =</span> <span class="fu">c</span>(<span class="st">&quot;Current&quot;</span>, <span class="st">&quot;Ex&quot;</span>, <span class="st">&quot;Never&quot;</span>))</span>
+<span id="cb1-11"><a href="#cb1-11" tabindex="-1"></a></span>
+<span id="cb1-12"><a href="#cb1-12" tabindex="-1"></a><span class="fu">str</span>(cardiac)</span>
+<span id="cb1-13"><a href="#cb1-13" tabindex="-1"></a></span>
+<span id="cb1-14"><a href="#cb1-14" tabindex="-1"></a><span class="co">#  $ Fsex    : Factor w/ 2 levels &quot;Female&quot;,&quot;Male&quot;: 2 2 2 2 2 2 2 1 1 2 ...</span></span>
+<span id="cb1-15"><a href="#cb1-15" tabindex="-1"></a><span class="co">#  $ Fsmoking: Factor w/ 3 levels &quot;Current&quot;,&quot;Ex&quot;,..: NA NA NA NA NA NA NA 1 1 1 ...</span></span></code></pre></div>
 <pre><code>## &#39;data.frame&#39;:    163 obs. of  11 variables:
 ##  $ patno       : Factor w/ 163 levels &quot;0049B&quot;,&quot;0052H&quot;,..: 6 54 65 69 101 115 116 2 3 4 ...
 ##  $ age         : num  71 68.2 62.9 69.9 65 ...
@@ -556,16 +568,8 @@ nonsense.</p>
 ##  $ triglyceride: num  0.81 3.4 4.67 2.53 1.76 0.73 1.11 0.69 1.29 1.16 ...
 ##  $ bmi         : num  24.7 26 26.6 26.2 26.1 ...
 ##  $ alcohol     : int  9 2 7 24 14 8 0 2 0 0 ...
-##  $ smoking     : int  NA NA NA NA NA NA NA 1 1 1 ...</code></pre>
-<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" tabindex="-1"></a><span class="co"># recode the two categorical variables as factors, keeping the originals</span></span>
-<span id="cb3-2"><a href="#cb3-2" tabindex="-1"></a>cardiac<span class="sc">$</span>Fsex <span class="ot">&lt;-</span> <span class="fu">factor</span>(cardiac<span class="sc">$</span>sex, <span class="at">levels =</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">2</span>),</span>
-<span id="cb3-3"><a href="#cb3-3" tabindex="-1"></a>                       <span class="at">labels =</span> <span class="fu">c</span>(<span class="st">&quot;Female&quot;</span>, <span class="st">&quot;Male&quot;</span>))</span>
-<span id="cb3-4"><a href="#cb3-4" tabindex="-1"></a></span>
-<span id="cb3-5"><a href="#cb3-5" tabindex="-1"></a>cardiac<span class="sc">$</span>Fsmoking <span class="ot">&lt;-</span> <span class="fu">factor</span>(cardiac<span class="sc">$</span>smoking, <span class="at">levels =</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">3</span>),</span>
-<span id="cb3-6"><a href="#cb3-6" tabindex="-1"></a>                           <span class="at">labels =</span> <span class="fu">c</span>(<span class="st">&quot;Current&quot;</span>, <span class="st">&quot;Ex&quot;</span>, <span class="st">&quot;Never&quot;</span>))</span>
-<span id="cb3-7"><a href="#cb3-7" tabindex="-1"></a></span>
-<span id="cb3-8"><a href="#cb3-8" tabindex="-1"></a><span class="fu">str</span>(cardiac)</span></code></pre></div>
-<pre><code>## &#39;data.frame&#39;:    163 obs. of  13 variables:
+##  $ smoking     : int  NA NA NA NA NA NA NA 1 1 1 ...
+## &#39;data.frame&#39;:    163 obs. of  13 variables:
 ##  $ patno       : Factor w/ 163 levels &quot;0049B&quot;,&quot;0052H&quot;,..: 6 54 65 69 101 115 116 2 3 4 ...
 ##  $ age         : num  71 68.2 62.9 69.9 65 ...
 ##  $ sex         : int  2 2 2 2 2 2 2 1 1 2 ...
@@ -579,8 +583,6 @@ nonsense.</p>
 ##  $ smoking     : int  NA NA NA NA NA NA NA 1 1 1 ...
 ##  $ Fsex        : Factor w/ 2 levels &quot;Female&quot;,&quot;Male&quot;: 2 2 2 2 2 2 2 1 1 2 ...
 ##  $ Fsmoking    : Factor w/ 3 levels &quot;Current&quot;,&quot;Ex&quot;,..: NA NA NA NA NA NA NA 1 1 1 ...</code></pre>
-<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" tabindex="-1"></a><span class="co">#  $ Fsex    : Factor w/ 2 levels &quot;Female&quot;,&quot;Male&quot;: 2 2 2 2 2 2 2 1 1 2 ...</span></span>
-<span id="cb5-2"><a href="#cb5-2" tabindex="-1"></a><span class="co">#  $ Fsmoking: Factor w/ 3 levels &quot;Current&quot;,&quot;Ex&quot;,..: NA NA NA NA NA NA NA 1 1 1 ...</span></span></code></pre></div>
 <p> </p>
 <p>5. How many patients are there in each combination of smoking status
 and sex (hint: remember the <code>table()</code> function?)? Don’t
@@ -588,24 +590,25 @@ forget to use the factor recoded versions of these variables. Is the
 split between the smoking categories similar for women and men? Are any
 of the combinations small enough to worry about if you wanted to compare
 them?</p>
-<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" tabindex="-1"></a><span class="fu">table</span>(cardiac<span class="sc">$</span>Fsmoking, cardiac<span class="sc">$</span>Fsex)</span></code></pre></div>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" tabindex="-1"></a><span class="fu">table</span>(cardiac<span class="sc">$</span>Fsmoking, cardiac<span class="sc">$</span>Fsex)</span>
+<span id="cb3-2"><a href="#cb3-2" tabindex="-1"></a></span>
+<span id="cb3-3"><a href="#cb3-3" tabindex="-1"></a>  <span class="co">#           Female Male</span></span>
+<span id="cb3-4"><a href="#cb3-4" tabindex="-1"></a>  <span class="co"># Current       26   24</span></span>
+<span id="cb3-5"><a href="#cb3-5" tabindex="-1"></a>  <span class="co"># Ex            15   37</span></span>
+<span id="cb3-6"><a href="#cb3-6" tabindex="-1"></a>  <span class="co"># Never         37   17</span></span>
+<span id="cb3-7"><a href="#cb3-7" tabindex="-1"></a></span>
+<span id="cb3-8"><a href="#cb3-8" tabindex="-1"></a><span class="co"># the pattern is almost reversed between the sexes: most of the men are</span></span>
+<span id="cb3-9"><a href="#cb3-9" tabindex="-1"></a><span class="co"># ex-smokers, most of the women have never smoked. The smallest cell has 15</span></span>
+<span id="cb3-10"><a href="#cb3-10" tabindex="-1"></a><span class="co"># patients, which is small but not unusable.</span></span>
+<span id="cb3-11"><a href="#cb3-11" tabindex="-1"></a></span>
+<span id="cb3-12"><a href="#cb3-12" tabindex="-1"></a><span class="co"># and don&#39;t forget the 7 patients with no smoking status recorded</span></span>
+<span id="cb3-13"><a href="#cb3-13" tabindex="-1"></a><span class="fu">table</span>(cardiac<span class="sc">$</span>Fsmoking, cardiac<span class="sc">$</span>Fsex, <span class="at">useNA =</span> <span class="st">&quot;ifany&quot;</span>)</span></code></pre></div>
 <pre><code>##          
 ##           Female Male
 ##   Current     26   24
 ##   Ex          15   37
-##   Never       37   17</code></pre>
-<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" tabindex="-1"></a>  <span class="co">#           Female Male</span></span>
-<span id="cb8-2"><a href="#cb8-2" tabindex="-1"></a>  <span class="co"># Current       26   24</span></span>
-<span id="cb8-3"><a href="#cb8-3" tabindex="-1"></a>  <span class="co"># Ex            15   37</span></span>
-<span id="cb8-4"><a href="#cb8-4" tabindex="-1"></a>  <span class="co"># Never         37   17</span></span>
-<span id="cb8-5"><a href="#cb8-5" tabindex="-1"></a></span>
-<span id="cb8-6"><a href="#cb8-6" tabindex="-1"></a><span class="co"># the pattern is almost reversed between the sexes: most of the men are</span></span>
-<span id="cb8-7"><a href="#cb8-7" tabindex="-1"></a><span class="co"># ex-smokers, most of the women have never smoked. The smallest cell has 15</span></span>
-<span id="cb8-8"><a href="#cb8-8" tabindex="-1"></a><span class="co"># patients, which is small but not unusable.</span></span>
-<span id="cb8-9"><a href="#cb8-9" tabindex="-1"></a></span>
-<span id="cb8-10"><a href="#cb8-10" tabindex="-1"></a><span class="co"># and don&#39;t forget the 7 patients with no smoking status recorded</span></span>
-<span id="cb8-11"><a href="#cb8-11" tabindex="-1"></a><span class="fu">table</span>(cardiac<span class="sc">$</span>Fsmoking, cardiac<span class="sc">$</span>Fsex, <span class="at">useNA =</span> <span class="st">&quot;ifany&quot;</span>)</span></code></pre></div>
-<pre><code>##          
+##   Never       37   17
+##          
 ##           Female Male
 ##   Current     26   24
 ##   Ex          15   37
@@ -623,16 +626,17 @@ to create a single figure with all 4 plots you can always split your
 plotting device into 2 rows and 2 columns (see <a
 href="https://intro2r.com/mult_graphs.html#mult_graphs">Section 4.4</a>
 of the book).</p>
-<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" tabindex="-1"></a><span class="fu">par</span>(<span class="at">mfrow =</span> <span class="fu">c</span>(<span class="dv">2</span>, <span class="dv">2</span>))</span>
-<span id="cb10-2"><a href="#cb10-2" tabindex="-1"></a><span class="fu">dotchart</span>(cardiac<span class="sc">$</span>bmi, <span class="at">main =</span> <span class="st">&quot;bmi&quot;</span>)</span>
-<span id="cb10-3"><a href="#cb10-3" tabindex="-1"></a><span class="fu">dotchart</span>(cardiac<span class="sc">$</span>systolic, <span class="at">main =</span> <span class="st">&quot;systolic&quot;</span>)</span>
-<span id="cb10-4"><a href="#cb10-4" tabindex="-1"></a><span class="fu">dotchart</span>(cardiac<span class="sc">$</span>tchol, <span class="at">main =</span> <span class="st">&quot;total cholesterol&quot;</span>)</span>
-<span id="cb10-5"><a href="#cb10-5" tabindex="-1"></a><span class="fu">dotchart</span>(cardiac<span class="sc">$</span>alcohol, <span class="at">main =</span> <span class="st">&quot;alcohol&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" tabindex="-1"></a><span class="fu">par</span>(<span class="at">mfrow =</span> <span class="fu">c</span>(<span class="dv">2</span>, <span class="dv">2</span>))</span>
+<span id="cb5-2"><a href="#cb5-2" tabindex="-1"></a><span class="fu">dotchart</span>(cardiac<span class="sc">$</span>bmi, <span class="at">main =</span> <span class="st">&quot;bmi&quot;</span>)</span>
+<span id="cb5-3"><a href="#cb5-3" tabindex="-1"></a><span class="fu">dotchart</span>(cardiac<span class="sc">$</span>systolic, <span class="at">main =</span> <span class="st">&quot;systolic&quot;</span>)</span>
+<span id="cb5-4"><a href="#cb5-4" tabindex="-1"></a><span class="fu">dotchart</span>(cardiac<span class="sc">$</span>tchol, <span class="at">main =</span> <span class="st">&quot;total cholesterol&quot;</span>)</span>
+<span id="cb5-5"><a href="#cb5-5" tabindex="-1"></a><span class="fu">dotchart</span>(cardiac<span class="sc">$</span>alcohol, <span class="at">main =</span> <span class="st">&quot;alcohol&quot;</span>)</span>
+<span id="cb5-6"><a href="#cb5-6" tabindex="-1"></a></span>
+<span id="cb5-7"><a href="#cb5-7" tabindex="-1"></a><span class="co"># the bmi plot is the striking one: a single point sits so far to the right</span></span>
+<span id="cb5-8"><a href="#cb5-8" tabindex="-1"></a><span class="co"># that every other patient is squashed into a narrow strip on the left. You</span></span>
+<span id="cb5-9"><a href="#cb5-9" tabindex="-1"></a><span class="co"># cannot see the shape of the bmi distribution at all, because one value is</span></span>
+<span id="cb5-10"><a href="#cb5-10" tabindex="-1"></a><span class="co"># setting the scale for all 163.</span></span></code></pre></div>
 <p><img src="exercise_5_solution_files/figure-html/Q6-1.png" alt="" width="768" /></p>
-<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" tabindex="-1"></a><span class="co"># the bmi plot is the striking one: a single point sits so far to the right</span></span>
-<span id="cb11-2"><a href="#cb11-2" tabindex="-1"></a><span class="co"># that every other patient is squashed into a narrow strip on the left. You</span></span>
-<span id="cb11-3"><a href="#cb11-3" tabindex="-1"></a><span class="co"># cannot see the shape of the bmi distribution at all, because one value is</span></span>
-<span id="cb11-4"><a href="#cb11-4" tabindex="-1"></a><span class="co"># setting the scale for all 163.</span></span></code></pre></div>
 <p> </p>
 <p>7. You met that extreme <code>bmi</code> value in Exercise 4, when
 you checked the ranges with <code>summary()</code> and found a maximum
@@ -645,30 +649,31 @@ bracket <code>[ ]</code> notation, set it to <code>NA</code> as you did
 in Exercise 4, and then redraw the <code>bmi</code> dotchart. Now look
 again at all four plots from Q6. Several points still sit well away from
 the rest. Which ones, and what should you do about them?</p>
-<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" tabindex="-1"></a><span class="fu">which</span>(cardiac<span class="sc">$</span>bmi <span class="sc">&gt;</span> <span class="dv">100</span>)</span></code></pre></div>
-<pre><code>## [1] 161</code></pre>
-<div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" tabindex="-1"></a>cardiac<span class="sc">$</span>bmi[<span class="dv">161</span>]</span></code></pre></div>
-<pre><code>## [1] 514.6</code></pre>
-<div class="sourceCode" id="cb16"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" tabindex="-1"></a>cardiac<span class="sc">$</span>bmi[cardiac<span class="sc">$</span>bmi <span class="sc">&gt;</span> <span class="dv">100</span>] <span class="ot">&lt;-</span> <span class="cn">NA</span></span>
-<span id="cb16-2"><a href="#cb16-2" tabindex="-1"></a></span>
-<span id="cb16-3"><a href="#cb16-3" tabindex="-1"></a><span class="fu">dotchart</span>(cardiac<span class="sc">$</span>bmi, <span class="at">main =</span> <span class="st">&quot;bmi&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" tabindex="-1"></a><span class="fu">which</span>(cardiac<span class="sc">$</span>bmi <span class="sc">&gt;</span> <span class="dv">100</span>)</span>
+<span id="cb6-2"><a href="#cb6-2" tabindex="-1"></a>cardiac<span class="sc">$</span>bmi[<span class="dv">161</span>]</span>
+<span id="cb6-3"><a href="#cb6-3" tabindex="-1"></a>cardiac<span class="sc">$</span>bmi[cardiac<span class="sc">$</span>bmi <span class="sc">&gt;</span> <span class="dv">100</span>] <span class="ot">&lt;-</span> <span class="cn">NA</span></span>
+<span id="cb6-4"><a href="#cb6-4" tabindex="-1"></a></span>
+<span id="cb6-5"><a href="#cb6-5" tabindex="-1"></a><span class="fu">dotchart</span>(cardiac<span class="sc">$</span>bmi, <span class="at">main =</span> <span class="st">&quot;bmi&quot;</span>)</span>
+<span id="cb6-6"><a href="#cb6-6" tabindex="-1"></a></span>
+<span id="cb6-7"><a href="#cb6-7" tabindex="-1"></a><span class="co"># Now the bmi plot is readable, and you can see the distribution properly:</span></span>
+<span id="cb6-8"><a href="#cb6-8" tabindex="-1"></a><span class="co"># most patients between about 20 and 30, thinning out to a handful above 35,</span></span>
+<span id="cb6-9"><a href="#cb6-9" tabindex="-1"></a><span class="co"># with one patient at 51.46.</span></span>
+<span id="cb6-10"><a href="#cb6-10" tabindex="-1"></a></span>
+<span id="cb6-11"><a href="#cb6-11" tabindex="-1"></a><span class="co"># What else stands out? One patient with a bmi of 51.46, one with a systolic</span></span>
+<span id="cb6-12"><a href="#cb6-12" tabindex="-1"></a><span class="co"># pressure of 230 mmHg, and in the alcohol plot a handful of patients reporting</span></span>
+<span id="cb6-13"><a href="#cb6-13" tabindex="-1"></a><span class="co"># 41, 64 and 82 units in a week when the median is 2.</span></span>
+<span id="cb6-14"><a href="#cb6-14" tabindex="-1"></a></span>
+<span id="cb6-15"><a href="#cb6-15" tabindex="-1"></a><span class="co"># What should you do about them? NOTHING. Every one of those values is</span></span>
+<span id="cb6-16"><a href="#cb6-16" tabindex="-1"></a><span class="co"># perfectly possible. A BMI of 51 is severe obesity, a systolic pressure of 230</span></span>
+<span id="cb6-17"><a href="#cb6-17" tabindex="-1"></a><span class="co"># is a hypertensive crisis, and 82 units a week is a great deal of alcohol but</span></span>
+<span id="cb6-18"><a href="#cb6-18" tabindex="-1"></a><span class="co"># people really do drink that much. These are not errors, they are patients.</span></span>
+<span id="cb6-19"><a href="#cb6-19" tabindex="-1"></a><span class="co"># The difference between this question and the last one is the difference</span></span>
+<span id="cb6-20"><a href="#cb6-20" tabindex="-1"></a><span class="co"># between a value that CANNOT be right and a value you did not expect, and only</span></span>
+<span id="cb6-21"><a href="#cb6-21" tabindex="-1"></a><span class="co"># the first of those is yours to change. Deleting inconvenient data because it</span></span>
+<span id="cb6-22"><a href="#cb6-22" tabindex="-1"></a><span class="co"># looks untidy is scientific fraud.</span></span></code></pre></div>
+<pre><code>## [1] 161
+## [1] 514.6</code></pre>
 <p><img src="exercise_5_solution_files/figure-html/Q7-1.png" alt="" width="672" /></p>
-<div class="sourceCode" id="cb17"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" tabindex="-1"></a><span class="co"># Now the bmi plot is readable, and you can see the distribution properly:</span></span>
-<span id="cb17-2"><a href="#cb17-2" tabindex="-1"></a><span class="co"># most patients between about 20 and 30, thinning out to a handful above 35,</span></span>
-<span id="cb17-3"><a href="#cb17-3" tabindex="-1"></a><span class="co"># with one patient at 51.46.</span></span>
-<span id="cb17-4"><a href="#cb17-4" tabindex="-1"></a></span>
-<span id="cb17-5"><a href="#cb17-5" tabindex="-1"></a><span class="co"># What else stands out? One patient with a bmi of 51.46, one with a systolic</span></span>
-<span id="cb17-6"><a href="#cb17-6" tabindex="-1"></a><span class="co"># pressure of 230 mmHg, and in the alcohol plot a handful of patients reporting</span></span>
-<span id="cb17-7"><a href="#cb17-7" tabindex="-1"></a><span class="co"># 41, 64 and 82 units in a week when the median is 2.</span></span>
-<span id="cb17-8"><a href="#cb17-8" tabindex="-1"></a></span>
-<span id="cb17-9"><a href="#cb17-9" tabindex="-1"></a><span class="co"># What should you do about them? NOTHING. Every one of those values is</span></span>
-<span id="cb17-10"><a href="#cb17-10" tabindex="-1"></a><span class="co"># perfectly possible. A BMI of 51 is severe obesity, a systolic pressure of 230</span></span>
-<span id="cb17-11"><a href="#cb17-11" tabindex="-1"></a><span class="co"># is a hypertensive crisis, and 82 units a week is a great deal of alcohol but</span></span>
-<span id="cb17-12"><a href="#cb17-12" tabindex="-1"></a><span class="co"># people really do drink that much. These are not errors, they are patients.</span></span>
-<span id="cb17-13"><a href="#cb17-13" tabindex="-1"></a><span class="co"># The difference between this question and the last one is the difference</span></span>
-<span id="cb17-14"><a href="#cb17-14" tabindex="-1"></a><span class="co"># between a value that CANNOT be right and a value you did not expect, and only</span></span>
-<span id="cb17-15"><a href="#cb17-15" tabindex="-1"></a><span class="co"># the first of those is yours to change. Deleting inconvenient data because it</span></span>
-<span id="cb17-16"><a href="#cb17-16" tabindex="-1"></a><span class="co"># looks untidy is scientific fraud.</span></span></code></pre></div>
 <p> </p>
 <p>8. Histograms are the standard way of looking at the distribution of
 a continuous variable (see <a
@@ -683,32 +688,38 @@ suggestion. Redraw the histogram of <code>systolic</code> twice, once
 with wide bins and once with narrow ones, and compare them. Which one
 would you show somebody, and what does the difference tell you about how
 much you should trust the shape of a histogram?</p>
-<div class="sourceCode" id="cb18"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" tabindex="-1"></a><span class="fu">par</span>(<span class="at">mfrow =</span> <span class="fu">c</span>(<span class="dv">2</span>, <span class="dv">2</span>))</span>
-<span id="cb18-2"><a href="#cb18-2" tabindex="-1"></a><span class="fu">hist</span>(cardiac<span class="sc">$</span>bmi, <span class="at">main =</span> <span class="st">&quot;&quot;</span>, <span class="at">xlab =</span> <span class="st">&quot;bmi&quot;</span>)</span>
-<span id="cb18-3"><a href="#cb18-3" tabindex="-1"></a><span class="fu">hist</span>(cardiac<span class="sc">$</span>systolic, <span class="at">main =</span> <span class="st">&quot;&quot;</span>, <span class="at">xlab =</span> <span class="st">&quot;systolic&quot;</span>)</span>
-<span id="cb18-4"><a href="#cb18-4" tabindex="-1"></a><span class="fu">hist</span>(cardiac<span class="sc">$</span>tchol, <span class="at">main =</span> <span class="st">&quot;&quot;</span>, <span class="at">xlab =</span> <span class="st">&quot;total cholesterol&quot;</span>)</span>
-<span id="cb18-5"><a href="#cb18-5" tabindex="-1"></a><span class="fu">hist</span>(cardiac<span class="sc">$</span>alcohol, <span class="at">main =</span> <span class="st">&quot;&quot;</span>, <span class="at">xlab =</span> <span class="st">&quot;alcohol (units/week)&quot;</span>)</span></code></pre></div>
-<p><img src="exercise_5_solution_files/figure-html/Q8-1.png" alt="" width="768" /></p>
-<div class="sourceCode" id="cb19"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" tabindex="-1"></a><span class="co"># wide bins and narrow bins, from the same 163 numbers</span></span>
-<span id="cb19-2"><a href="#cb19-2" tabindex="-1"></a><span class="fu">par</span>(<span class="at">mfrow =</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">2</span>))</span>
-<span id="cb19-3"><a href="#cb19-3" tabindex="-1"></a><span class="fu">hist</span>(cardiac<span class="sc">$</span>systolic, <span class="at">xlab =</span> <span class="st">&quot;systolic&quot;</span>, <span class="at">main =</span> <span class="st">&quot;bins of 20 mmHg&quot;</span>,</span>
-<span id="cb19-4"><a href="#cb19-4" tabindex="-1"></a>     <span class="at">breaks =</span> <span class="fu">seq</span>(<span class="at">from =</span> <span class="dv">100</span>, <span class="at">to =</span> <span class="dv">240</span>, <span class="at">by =</span> <span class="dv">20</span>))</span>
-<span id="cb19-5"><a href="#cb19-5" tabindex="-1"></a><span class="fu">hist</span>(cardiac<span class="sc">$</span>systolic, <span class="at">xlab =</span> <span class="st">&quot;systolic&quot;</span>, <span class="at">main =</span> <span class="st">&quot;bins of 2 mmHg&quot;</span>,</span>
-<span id="cb19-6"><a href="#cb19-6" tabindex="-1"></a>     <span class="at">breaks =</span> <span class="fu">seq</span>(<span class="at">from =</span> <span class="dv">100</span>, <span class="at">to =</span> <span class="dv">240</span>, <span class="at">by =</span> <span class="dv">2</span>))</span></code></pre></div>
-<p><img src="exercise_5_solution_files/figure-html/Q8b-1.png" alt="" width="768" /></p>
-<div class="sourceCode" id="cb20"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" tabindex="-1"></a><span class="co"># with 20 mmHg bins the distribution looks smooth and roughly symmetric; with</span></span>
-<span id="cb20-2"><a href="#cb20-2" tabindex="-1"></a><span class="co"># 2 mmHg bins it looks spiky and full of gaps, because blood pressure is</span></span>
-<span id="cb20-3"><a href="#cb20-3" tabindex="-1"></a><span class="co"># recorded in whole even numbers. The data have not changed, only the picture.</span></span>
-<span id="cb20-4"><a href="#cb20-4" tabindex="-1"></a><span class="co"># Treat the shape of a histogram as a rough guide, not as evidence.</span></span></code></pre></div>
+<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" tabindex="-1"></a><span class="fu">par</span>(<span class="at">mfrow =</span> <span class="fu">c</span>(<span class="dv">2</span>, <span class="dv">2</span>))</span>
+<span id="cb8-2"><a href="#cb8-2" tabindex="-1"></a><span class="fu">hist</span>(cardiac<span class="sc">$</span>bmi, <span class="at">main =</span> <span class="st">&quot;&quot;</span>, <span class="at">xlab =</span> <span class="st">&quot;bmi&quot;</span>)</span>
+<span id="cb8-3"><a href="#cb8-3" tabindex="-1"></a><span class="fu">hist</span>(cardiac<span class="sc">$</span>systolic, <span class="at">main =</span> <span class="st">&quot;&quot;</span>, <span class="at">xlab =</span> <span class="st">&quot;systolic&quot;</span>)</span>
+<span id="cb8-4"><a href="#cb8-4" tabindex="-1"></a><span class="fu">hist</span>(cardiac<span class="sc">$</span>tchol, <span class="at">main =</span> <span class="st">&quot;&quot;</span>, <span class="at">xlab =</span> <span class="st">&quot;total cholesterol&quot;</span>)</span>
+<span id="cb8-5"><a href="#cb8-5" tabindex="-1"></a><span class="fu">hist</span>(cardiac<span class="sc">$</span>alcohol, <span class="at">main =</span> <span class="st">&quot;&quot;</span>, <span class="at">xlab =</span> <span class="st">&quot;alcohol (units/week)&quot;</span>)</span>
+<span id="cb8-6"><a href="#cb8-6" tabindex="-1"></a></span>
+<span id="cb8-7"><a href="#cb8-7" tabindex="-1"></a><span class="co"># wide bins and narrow bins, drawn from exactly the same 163 numbers</span></span>
+<span id="cb8-8"><a href="#cb8-8" tabindex="-1"></a><span class="fu">par</span>(<span class="at">mfrow =</span> <span class="fu">c</span>(<span class="dv">2</span>, <span class="dv">1</span>))</span>
+<span id="cb8-9"><a href="#cb8-9" tabindex="-1"></a><span class="fu">hist</span>(cardiac<span class="sc">$</span>systolic, <span class="at">xlab =</span> <span class="st">&quot;systolic&quot;</span>, <span class="at">main =</span> <span class="st">&quot;bins of 20 mmHg&quot;</span>,</span>
+<span id="cb8-10"><a href="#cb8-10" tabindex="-1"></a>     <span class="at">breaks =</span> <span class="fu">seq</span>(<span class="at">from =</span> <span class="dv">100</span>, <span class="at">to =</span> <span class="dv">240</span>, <span class="at">by =</span> <span class="dv">20</span>))</span>
+<span id="cb8-11"><a href="#cb8-11" tabindex="-1"></a><span class="fu">hist</span>(cardiac<span class="sc">$</span>systolic, <span class="at">xlab =</span> <span class="st">&quot;systolic&quot;</span>, <span class="at">main =</span> <span class="st">&quot;bins of 2 mmHg&quot;</span>,</span>
+<span id="cb8-12"><a href="#cb8-12" tabindex="-1"></a>     <span class="at">breaks =</span> <span class="fu">seq</span>(<span class="at">from =</span> <span class="dv">100</span>, <span class="at">to =</span> <span class="dv">240</span>, <span class="at">by =</span> <span class="dv">2</span>))</span>
+<span id="cb8-13"><a href="#cb8-13" tabindex="-1"></a></span>
+<span id="cb8-14"><a href="#cb8-14" tabindex="-1"></a><span class="co"># with 20 mmHg bins the distribution looks smooth and roughly symmetric; with</span></span>
+<span id="cb8-15"><a href="#cb8-15" tabindex="-1"></a><span class="co"># 2 mmHg bins it looks spiky and full of gaps, because blood pressure is</span></span>
+<span id="cb8-16"><a href="#cb8-16" tabindex="-1"></a><span class="co"># recorded in whole even numbers. The data have not changed, only the picture.</span></span>
+<span id="cb8-17"><a href="#cb8-17" tabindex="-1"></a><span class="co"># Treat the shape of a histogram as a rough guide, not as evidence.</span></span></code></pre></div>
+<p><img src="exercise_5_solution_files/figure-html/Q8-1.png" alt="" width="768" /><img src="exercise_5_solution_files/figure-html/Q8-2.png" alt="" width="768" /></p>
 <p> </p>
 <p>9. Scatterplots are great for visualising relationships between two
 continuous variables (<a
 href="https://intro2r.com/simple-base-r-plots.html#scatterplot">Section
-4.2.1</a>). Plot the relationship between <code>systolic</code> on the x
-axis and <code>diastolic</code> on the y axis. How would you describe
-this relationship? Now plot <code>hdlchol</code> on the x axis against
-<code>triglyceride</code> on the y axis. Which way does that one go, and
-does that make clinical sense to you?</p>
+4.2.1</a>). Before you draw one, stop and think about which variable
+belongs on which axis. The convention is that the explanatory variable
+goes on the x axis and the response goes on the y axis, so the choice is
+not cosmetic. Put them the wrong way round and you have quietly told
+your reader something you did not mean.</p>
+<p>Start with <code>systolic</code> and <code>diastolic</code> blood
+pressure. Which would you put where, and why is that a harder question
+than it first looks? Now plot HDL cholesterol and triglyceride. Which of
+those two is the more sensible candidate for the x axis, and does the
+relationship you get make clinical sense to you?</p>
 <p>Finally, look at <code>alcohol</code>. It is badly skewed, and skew
 is a nuisance in a plot because most of the points end up squashed into
 a corner. In Exercise 4 Q5 you took logs of <code>triglyceride</code>
@@ -718,35 +729,45 @@ each as a new variable in the dataframe, then plot histograms of
 <code>alcohol</code> alongside both. One of the two goes badly wrong.
 Which one, and why? (hint: what is the smallest value of
 <code>alcohol</code>?)</p>
-<div class="sourceCode" id="cb21"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" tabindex="-1"></a><span class="fu">par</span>(<span class="at">mfrow =</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">2</span>))</span>
-<span id="cb21-2"><a href="#cb21-2" tabindex="-1"></a></span>
-<span id="cb21-3"><a href="#cb21-3" tabindex="-1"></a><span class="co"># a clear positive relationship, as you would expect: the two numbers are</span></span>
-<span id="cb21-4"><a href="#cb21-4" tabindex="-1"></a><span class="co"># measurements of the same thing at different points in the heartbeat</span></span>
-<span id="cb21-5"><a href="#cb21-5" tabindex="-1"></a><span class="fu">plot</span>(cardiac<span class="sc">$</span>systolic, cardiac<span class="sc">$</span>diastolic,</span>
-<span id="cb21-6"><a href="#cb21-6" tabindex="-1"></a>     <span class="at">xlab =</span> <span class="st">&quot;systolic (mmHg)&quot;</span>, <span class="at">ylab =</span> <span class="st">&quot;diastolic (mmHg)&quot;</span>)</span>
-<span id="cb21-7"><a href="#cb21-7" tabindex="-1"></a></span>
-<span id="cb21-8"><a href="#cb21-8" tabindex="-1"></a><span class="co"># this one slopes the other way: patients with high HDL cholesterol tend to</span></span>
-<span id="cb21-9"><a href="#cb21-9" tabindex="-1"></a><span class="co"># have low triglyceride. That is a real and well known pattern</span></span>
-<span id="cb21-10"><a href="#cb21-10" tabindex="-1"></a><span class="fu">plot</span>(cardiac<span class="sc">$</span>hdlchol, cardiac<span class="sc">$</span>triglyceride,</span>
-<span id="cb21-11"><a href="#cb21-11" tabindex="-1"></a>     <span class="at">xlab =</span> <span class="st">&quot;HDL cholesterol (mmol/l)&quot;</span>, <span class="at">ylab =</span> <span class="st">&quot;triglyceride (mmol/l)&quot;</span>)</span></code></pre></div>
-<p><img src="exercise_5_solution_files/figure-html/Q9-1.png" alt="" width="768" /></p>
-<div class="sourceCode" id="cb22"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" tabindex="-1"></a>cardiac<span class="sc">$</span>alcohol_sqrt <span class="ot">&lt;-</span> <span class="fu">sqrt</span>(cardiac<span class="sc">$</span>alcohol)</span>
-<span id="cb22-2"><a href="#cb22-2" tabindex="-1"></a>cardiac<span class="sc">$</span>alcohol_log  <span class="ot">&lt;-</span> <span class="fu">log</span>(cardiac<span class="sc">$</span>alcohol)</span>
-<span id="cb22-3"><a href="#cb22-3" tabindex="-1"></a></span>
-<span id="cb22-4"><a href="#cb22-4" tabindex="-1"></a><span class="fu">par</span>(<span class="at">mfrow =</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">3</span>))</span>
-<span id="cb22-5"><a href="#cb22-5" tabindex="-1"></a><span class="fu">hist</span>(cardiac<span class="sc">$</span>alcohol, <span class="at">main =</span> <span class="st">&quot;untransformed&quot;</span>, <span class="at">xlab =</span> <span class="st">&quot;alcohol&quot;</span>)</span>
-<span id="cb22-6"><a href="#cb22-6" tabindex="-1"></a><span class="fu">hist</span>(cardiac<span class="sc">$</span>alcohol_sqrt, <span class="at">main =</span> <span class="st">&quot;square root&quot;</span>, <span class="at">xlab =</span> <span class="st">&quot;sqrt(alcohol)&quot;</span>)</span>
-<span id="cb22-7"><a href="#cb22-7" tabindex="-1"></a><span class="fu">hist</span>(cardiac<span class="sc">$</span>alcohol_log, <span class="at">main =</span> <span class="st">&quot;natural log&quot;</span>, <span class="at">xlab =</span> <span class="st">&quot;log(alcohol)&quot;</span>)</span></code></pre></div>
-<p><img src="exercise_5_solution_files/figure-html/Q9b-1.png" alt="" width="864" /></p>
-<div class="sourceCode" id="cb23"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" tabindex="-1"></a><span class="fu">sum</span>(cardiac<span class="sc">$</span>alcohol <span class="sc">==</span> <span class="dv">0</span>)   <span class="co"># 58</span></span></code></pre></div>
+<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" tabindex="-1"></a><span class="fu">par</span>(<span class="at">mfrow =</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">2</span>))</span>
+<span id="cb9-2"><a href="#cb9-2" tabindex="-1"></a></span>
+<span id="cb9-3"><a href="#cb9-3" tabindex="-1"></a><span class="co"># systolic and diastolic: a clear positive relationship, which is no surprise</span></span>
+<span id="cb9-4"><a href="#cb9-4" tabindex="-1"></a><span class="co"># because the two numbers are the same measurement taken at two points in the</span></span>
+<span id="cb9-5"><a href="#cb9-5" tabindex="-1"></a><span class="co"># heartbeat. Neither one explains the other, so there is no response variable</span></span>
+<span id="cb9-6"><a href="#cb9-6" tabindex="-1"></a><span class="co"># here and the choice of axes really is arbitrary. The honest description is</span></span>
+<span id="cb9-7"><a href="#cb9-7" tabindex="-1"></a><span class="co"># &#39;these two go together&#39;, not &#39;this one drives that one&#39;.</span></span>
+<span id="cb9-8"><a href="#cb9-8" tabindex="-1"></a><span class="fu">plot</span>(cardiac<span class="sc">$</span>systolic, cardiac<span class="sc">$</span>diastolic,</span>
+<span id="cb9-9"><a href="#cb9-9" tabindex="-1"></a>     <span class="at">xlab =</span> <span class="st">&quot;systolic (mmHg)&quot;</span>, <span class="at">ylab =</span> <span class="st">&quot;diastolic (mmHg)&quot;</span>)</span>
+<span id="cb9-10"><a href="#cb9-10" tabindex="-1"></a></span>
+<span id="cb9-11"><a href="#cb9-11" tabindex="-1"></a><span class="co"># triglyceride and HDL cholesterol: negative, and a well known pattern. If you</span></span>
+<span id="cb9-12"><a href="#cb9-12" tabindex="-1"></a><span class="co"># are going to treat one as explanatory it should be triglyceride, because a</span></span>
+<span id="cb9-13"><a href="#cb9-13" tabindex="-1"></a><span class="co"># raised triglyceride is generally understood to drive HDL down rather than the</span></span>
+<span id="cb9-14"><a href="#cb9-14" tabindex="-1"></a><span class="co"># other way round, so triglyceride belongs on the x axis. Do not lean on that</span></span>
+<span id="cb9-15"><a href="#cb9-15" tabindex="-1"></a><span class="co"># too hard though. This is a cross sectional study, both are markers of the same</span></span>
+<span id="cb9-16"><a href="#cb9-16" tabindex="-1"></a><span class="co"># underlying metabolic state, and no scatterplot can tell you which came first.</span></span>
+<span id="cb9-17"><a href="#cb9-17" tabindex="-1"></a><span class="fu">plot</span>(cardiac<span class="sc">$</span>triglyceride, cardiac<span class="sc">$</span>hdlchol,</span>
+<span id="cb9-18"><a href="#cb9-18" tabindex="-1"></a>     <span class="at">xlab =</span> <span class="st">&quot;triglyceride (mmol/l)&quot;</span>, <span class="at">ylab =</span> <span class="st">&quot;HDL cholesterol (mmol/l)&quot;</span>)</span>
+<span id="cb9-19"><a href="#cb9-19" tabindex="-1"></a></span>
+<span id="cb9-20"><a href="#cb9-20" tabindex="-1"></a><span class="co"># transforming a skewed variable</span></span>
+<span id="cb9-21"><a href="#cb9-21" tabindex="-1"></a>cardiac<span class="sc">$</span>alcohol_sqrt <span class="ot">&lt;-</span> <span class="fu">sqrt</span>(cardiac<span class="sc">$</span>alcohol)</span>
+<span id="cb9-22"><a href="#cb9-22" tabindex="-1"></a>cardiac<span class="sc">$</span>alcohol_log  <span class="ot">&lt;-</span> <span class="fu">log</span>(cardiac<span class="sc">$</span>alcohol)</span>
+<span id="cb9-23"><a href="#cb9-23" tabindex="-1"></a></span>
+<span id="cb9-24"><a href="#cb9-24" tabindex="-1"></a><span class="fu">par</span>(<span class="at">mfrow =</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">3</span>))</span>
+<span id="cb9-25"><a href="#cb9-25" tabindex="-1"></a><span class="fu">hist</span>(cardiac<span class="sc">$</span>alcohol, <span class="at">main =</span> <span class="st">&quot;untransformed&quot;</span>, <span class="at">xlab =</span> <span class="st">&quot;alcohol&quot;</span>)</span>
+<span id="cb9-26"><a href="#cb9-26" tabindex="-1"></a><span class="fu">hist</span>(cardiac<span class="sc">$</span>alcohol_sqrt, <span class="at">main =</span> <span class="st">&quot;square root&quot;</span>, <span class="at">xlab =</span> <span class="st">&quot;sqrt(alcohol)&quot;</span>)</span>
+<span id="cb9-27"><a href="#cb9-27" tabindex="-1"></a><span class="fu">hist</span>(cardiac<span class="sc">$</span>alcohol_log, <span class="at">main =</span> <span class="st">&quot;natural log&quot;</span>, <span class="at">xlab =</span> <span class="st">&quot;log(alcohol)&quot;</span>)</span>
+<span id="cb9-28"><a href="#cb9-28" tabindex="-1"></a></span>
+<span id="cb9-29"><a href="#cb9-29" tabindex="-1"></a><span class="fu">sum</span>(cardiac<span class="sc">$</span>alcohol <span class="sc">==</span> <span class="dv">0</span>)   <span class="co"># 58</span></span>
+<span id="cb9-30"><a href="#cb9-30" tabindex="-1"></a></span>
+<span id="cb9-31"><a href="#cb9-31" tabindex="-1"></a><span class="co"># The log fails. 58 of the 163 patients reported drinking no alcohol at all, and</span></span>
+<span id="cb9-32"><a href="#cb9-32" tabindex="-1"></a><span class="co"># log(0) is -Inf, so R quietly drops more than a third of your data from the</span></span>
+<span id="cb9-33"><a href="#cb9-33" tabindex="-1"></a><span class="co"># plot with nothing more than a warning. The square root works, because sqrt(0)</span></span>
+<span id="cb9-34"><a href="#cb9-34" tabindex="-1"></a><span class="co"># is 0, and it pulls the long tail in nicely.</span></span>
+<span id="cb9-35"><a href="#cb9-35" tabindex="-1"></a></span>
+<span id="cb9-36"><a href="#cb9-36" tabindex="-1"></a><span class="co"># Triglyceride logged cleanly in Exercise 4 because it has no zeros in it.</span></span>
+<span id="cb9-37"><a href="#cb9-37" tabindex="-1"></a><span class="co"># Alcohol does. Check the minimum before you take the log of anything.</span></span></code></pre></div>
 <pre><code>## [1] 58</code></pre>
-<div class="sourceCode" id="cb25"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" tabindex="-1"></a><span class="co"># The log fails. 58 of the 163 patients reported drinking no alcohol at all, and</span></span>
-<span id="cb25-2"><a href="#cb25-2" tabindex="-1"></a><span class="co"># log(0) is -Inf, so R quietly drops more than a third of your data from the</span></span>
-<span id="cb25-3"><a href="#cb25-3" tabindex="-1"></a><span class="co"># plot with nothing more than a warning. The square root works, because sqrt(0)</span></span>
-<span id="cb25-4"><a href="#cb25-4" tabindex="-1"></a><span class="co"># is 0, and it pulls the long tail in nicely.</span></span>
-<span id="cb25-5"><a href="#cb25-5" tabindex="-1"></a></span>
-<span id="cb25-6"><a href="#cb25-6" tabindex="-1"></a><span class="co"># Triglyceride logged cleanly in Exercise 4 because it has no zeros in it.</span></span>
-<span id="cb25-7"><a href="#cb25-7" tabindex="-1"></a><span class="co"># Alcohol does. Check the minimum before you take the log of anything.</span></span></code></pre></div>
+<p><img src="exercise_5_solution_files/figure-html/Q9-1.png" alt="" width="864" /><img src="exercise_5_solution_files/figure-html/Q9-2.png" alt="" width="864" /></p>
 <p> </p>
 <p>10. When visualising differences in a continuous variable between
 levels of a factor (categorical variable) then a boxplot is your friend
@@ -767,18 +788,19 @@ package from CRAN and make it available with
 <code>library(vioplot)</code>. The <code>vioplot()</code> function then
 works in much the same way as <code>boxplot()</code>. Draw the same
 comparison as a violin plot and compare the two.</p>
-<div class="sourceCode" id="cb26"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" tabindex="-1"></a><span class="co"># note: Fsmoking is the recoded smoking variable created in Q4</span></span>
-<span id="cb26-2"><a href="#cb26-2" tabindex="-1"></a><span class="fu">boxplot</span>(tchol <span class="sc">~</span> Fsmoking, <span class="at">data =</span> cardiac, <span class="at">xlab =</span> <span class="st">&quot;smoking status&quot;</span>, <span class="at">ylab =</span> <span class="st">&quot;total cholesterol (mmol/l)&quot;</span>)</span></code></pre></div>
-<p><img src="exercise_5_solution_files/figure-html/Q10-1.png" alt="" width="672" /></p>
-<div class="sourceCode" id="cb27"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1" tabindex="-1"></a><span class="co"># violin plot. install.packages(&#39;vioplot&#39;) first if you have not already</span></span>
-<span id="cb27-2"><a href="#cb27-2" tabindex="-1"></a><span class="fu">library</span>(vioplot)</span>
-<span id="cb27-3"><a href="#cb27-3" tabindex="-1"></a><span class="fu">vioplot</span>(tchol <span class="sc">~</span> Fsmoking, <span class="at">data =</span> cardiac, <span class="at">xlab =</span> <span class="st">&quot;smoking status&quot;</span>, <span class="at">ylab =</span> <span class="st">&quot;total cholesterol (mmol/l)&quot;</span>,</span>
-<span id="cb27-4"><a href="#cb27-4" tabindex="-1"></a>    <span class="at">col =</span> <span class="st">&quot;lightblue&quot;</span>)</span></code></pre></div>
-<p><img src="exercise_5_solution_files/figure-html/Q10-2.png" alt="" width="672" /></p>
-<div class="sourceCode" id="cb28"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1" tabindex="-1"></a><span class="co"># the three groups look remarkably similar. That is a perfectly good result: a</span></span>
-<span id="cb28-2"><a href="#cb28-2" tabindex="-1"></a><span class="co"># plot that shows you there is nothing much to see has still told you</span></span>
-<span id="cb28-3"><a href="#cb28-3" tabindex="-1"></a><span class="co"># something, and is a lot more honest than hunting for a variable that does</span></span>
-<span id="cb28-4"><a href="#cb28-4" tabindex="-1"></a><span class="co"># show a difference.</span></span></code></pre></div>
+<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" tabindex="-1"></a><span class="co"># note: Fsmoking is the recoded smoking variable created in Q4</span></span>
+<span id="cb11-2"><a href="#cb11-2" tabindex="-1"></a><span class="fu">boxplot</span>(tchol <span class="sc">~</span> Fsmoking, <span class="at">data =</span> cardiac, <span class="at">xlab =</span> <span class="st">&quot;smoking status&quot;</span>, <span class="at">ylab =</span> <span class="st">&quot;total cholesterol (mmol/l)&quot;</span>)</span>
+<span id="cb11-3"><a href="#cb11-3" tabindex="-1"></a></span>
+<span id="cb11-4"><a href="#cb11-4" tabindex="-1"></a><span class="co"># violin plot. install.packages(&#39;vioplot&#39;) first if you have not already</span></span>
+<span id="cb11-5"><a href="#cb11-5" tabindex="-1"></a><span class="fu">library</span>(vioplot)</span>
+<span id="cb11-6"><a href="#cb11-6" tabindex="-1"></a><span class="fu">vioplot</span>(tchol <span class="sc">~</span> Fsmoking, <span class="at">data =</span> cardiac, <span class="at">xlab =</span> <span class="st">&quot;smoking status&quot;</span>, <span class="at">ylab =</span> <span class="st">&quot;total cholesterol (mmol/l)&quot;</span>,</span>
+<span id="cb11-7"><a href="#cb11-7" tabindex="-1"></a>    <span class="at">col =</span> <span class="st">&quot;lightblue&quot;</span>)</span>
+<span id="cb11-8"><a href="#cb11-8" tabindex="-1"></a></span>
+<span id="cb11-9"><a href="#cb11-9" tabindex="-1"></a><span class="co"># the three groups look remarkably similar. That is a perfectly good result: a</span></span>
+<span id="cb11-10"><a href="#cb11-10" tabindex="-1"></a><span class="co"># plot that shows you there is nothing much to see has still told you</span></span>
+<span id="cb11-11"><a href="#cb11-11" tabindex="-1"></a><span class="co"># something, and is a lot more honest than hunting for a variable that does</span></span>
+<span id="cb11-12"><a href="#cb11-12" tabindex="-1"></a><span class="co"># show a difference.</span></span></code></pre></div>
+<p><img src="exercise_5_solution_files/figure-html/Q10-1.png" alt="" width="672" /><img src="exercise_5_solution_files/figure-html/Q10-2.png" alt="" width="672" /></p>
 <p> </p>
 <p>11. To explore the relationships between several continuous variables
 at once it’s hard to beat a pairs plot. Create a pairs plot for the
@@ -793,38 +815,45 @@ larger version.</p>
 choose what goes into each panel. Modify your plot to add a smoother (a
 wiggly line) to the lower triangle, which makes the shape of each
 relationship much easier to see. The book and <code>?pairs</code> show
-you how. Then get the correlation coefficients themselves with the
-<code>cor()</code> function, which takes a whole dataframe and returns a
-matrix of them (you will need its <code>use</code> argument to cope with
-the missing values). Which pair of variables is most strongly related,
-and which variable is related to almost nothing?</p>
-<div class="sourceCode" id="cb29"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb29-1"><a href="#cb29-1" tabindex="-1"></a>plot_vars <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;age&quot;</span>, <span class="st">&quot;systolic&quot;</span>, <span class="st">&quot;diastolic&quot;</span>, <span class="st">&quot;tchol&quot;</span>, <span class="st">&quot;hdlchol&quot;</span>, <span class="st">&quot;triglyceride&quot;</span>,</span>
-<span id="cb29-2"><a href="#cb29-2" tabindex="-1"></a>    <span class="st">&quot;bmi&quot;</span>)</span>
-<span id="cb29-3"><a href="#cb29-3" tabindex="-1"></a></span>
-<span id="cb29-4"><a href="#cb29-4" tabindex="-1"></a><span class="co"># vanilla pairs plot</span></span>
-<span id="cb29-5"><a href="#cb29-5" tabindex="-1"></a><span class="fu">pairs</span>(cardiac[, plot_vars])</span></code></pre></div>
-<p><img src="exercise_5_solution_files/figure-html/Q11-1.png" alt="" width="864" /></p>
-<div class="sourceCode" id="cb30"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb30-1"><a href="#cb30-1" tabindex="-1"></a><span class="co"># panel.smooth adds the wiggly line. Note that it keeps its dot: it is a base R</span></span>
-<span id="cb30-2"><a href="#cb30-2" tabindex="-1"></a><span class="co"># function, not something you wrote</span></span>
-<span id="cb30-3"><a href="#cb30-3" tabindex="-1"></a><span class="fu">pairs</span>(cardiac[, plot_vars], <span class="at">lower.panel =</span> panel.smooth)</span></code></pre></div>
-<p><img src="exercise_5_solution_files/figure-html/Q11-2.png" alt="" width="864" /></p>
-<div class="sourceCode" id="cb31"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb31-1"><a href="#cb31-1" tabindex="-1"></a><span class="co"># and the correlations themselves, in one line</span></span>
-<span id="cb31-2"><a href="#cb31-2" tabindex="-1"></a><span class="fu">round</span>(<span class="fu">cor</span>(cardiac[, plot_vars], <span class="at">use =</span> <span class="st">&quot;pairwise.complete.obs&quot;</span>), <span class="dv">2</span>)</span></code></pre></div>
-<pre><code>##                age systolic diastolic tchol hdlchol triglyceride   bmi
-## age           1.00     0.21     -0.03 -0.03    0.02        -0.07  0.03
-## systolic      0.21     1.00      0.56 -0.08   -0.05         0.11  0.23
-## diastolic    -0.03     0.56      1.00 -0.02    0.02         0.14  0.25
-## tchol        -0.03    -0.08     -0.02  1.00    0.32         0.18 -0.07
-## hdlchol       0.02    -0.05      0.02  0.32    1.00        -0.43 -0.20
-## triglyceride -0.07     0.11      0.14  0.18   -0.43         1.00  0.25
-## bmi           0.03     0.23      0.25 -0.07   -0.20         0.25  1.00</code></pre>
-<div class="sourceCode" id="cb33"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb33-1"><a href="#cb33-1" tabindex="-1"></a><span class="co"># systolic and diastolic are the most strongly related pair (r = 0.56), which</span></span>
-<span id="cb33-2"><a href="#cb33-2" tabindex="-1"></a><span class="co"># is no surprise. hdlchol and triglyceride are the next strongest (r = -0.43)</span></span>
-<span id="cb33-3"><a href="#cb33-3" tabindex="-1"></a><span class="co"># and negative. age is related to almost nothing here, its largest correlation</span></span>
-<span id="cb33-4"><a href="#cb33-4" tabindex="-1"></a><span class="co"># with anything being 0.21, and that is worth thinking about: everyone in this</span></span>
-<span id="cb33-5"><a href="#cb33-5" tabindex="-1"></a><span class="co"># study is between 55 and 75, so there simply is not enough spread in age for a</span></span>
-<span id="cb33-6"><a href="#cb33-6" tabindex="-1"></a><span class="co"># relationship to show itself. A variable can look unimportant purely because</span></span>
-<span id="cb33-7"><a href="#cb33-7" tabindex="-1"></a><span class="co"># of who was recruited.</span></span></code></pre></div>
+you how. Then, just by looking, which pair of variables is most strongly
+related, and which variable is related to almost nothing?</p>
+<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" tabindex="-1"></a>plot_vars <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;age&quot;</span>, <span class="st">&quot;systolic&quot;</span>, <span class="st">&quot;diastolic&quot;</span>, <span class="st">&quot;tchol&quot;</span>, <span class="st">&quot;hdlchol&quot;</span>, <span class="st">&quot;triglyceride&quot;</span>,</span>
+<span id="cb12-2"><a href="#cb12-2" tabindex="-1"></a>    <span class="st">&quot;bmi&quot;</span>)</span>
+<span id="cb12-3"><a href="#cb12-3" tabindex="-1"></a></span>
+<span id="cb12-4"><a href="#cb12-4" tabindex="-1"></a><span class="co"># vanilla pairs plot</span></span>
+<span id="cb12-5"><a href="#cb12-5" tabindex="-1"></a><span class="fu">pairs</span>(cardiac[, plot_vars])</span>
+<span id="cb12-6"><a href="#cb12-6" tabindex="-1"></a></span>
+<span id="cb12-7"><a href="#cb12-7" tabindex="-1"></a><span class="co"># panel.smooth adds the wiggly line. Note that it keeps its dot: it is a base R</span></span>
+<span id="cb12-8"><a href="#cb12-8" tabindex="-1"></a><span class="co"># function, not something you wrote</span></span>
+<span id="cb12-9"><a href="#cb12-9" tabindex="-1"></a><span class="fu">pairs</span>(cardiac[, plot_vars], <span class="at">lower.panel =</span> panel.smooth)</span>
+<span id="cb12-10"><a href="#cb12-10" tabindex="-1"></a></span>
+<span id="cb12-11"><a href="#cb12-11" tabindex="-1"></a><span class="co"># systolic and diastolic are the most strongly related pair, which is no</span></span>
+<span id="cb12-12"><a href="#cb12-12" tabindex="-1"></a><span class="co"># surprise, and hdlchol against triglyceride is the next most obvious, sloping</span></span>
+<span id="cb12-13"><a href="#cb12-13" tabindex="-1"></a><span class="co"># the other way. age is related to almost nothing here, and that is worth</span></span>
+<span id="cb12-14"><a href="#cb12-14" tabindex="-1"></a><span class="co"># thinking about: everyone in this study is between 55 and 75, so there simply</span></span>
+<span id="cb12-15"><a href="#cb12-15" tabindex="-1"></a><span class="co"># is not enough spread in age for a relationship to show itself. A variable can</span></span>
+<span id="cb12-16"><a href="#cb12-16" tabindex="-1"></a><span class="co"># look unimportant purely because of who was recruited.</span></span></code></pre></div>
+<p><img src="exercise_5_solution_files/figure-html/Q11-1.png" alt="" width="864" /><img src="exercise_5_solution_files/figure-html/Q11-2.png" alt="" width="864" /></p>
+<p> </p>
+<p>11. (optional) <code>pairs()</code> will put whatever you like in the
+upper triangle, including the correlation coefficients themselves, but
+there is no ready made function for it so you have to write one. If you
+fancy a go, <code>?pairs</code> has an example you can adapt. Do the
+numbers agree with what you concluded by eye?</p>
+<div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" tabindex="-1"></a>panel_cor <span class="ot">&lt;-</span> <span class="cf">function</span>(x, y, <span class="at">digits =</span> <span class="dv">2</span>, ...) {</span>
+<span id="cb13-2"><a href="#cb13-2" tabindex="-1"></a>    usr <span class="ot">&lt;-</span> <span class="fu">par</span>(<span class="st">&quot;usr&quot;</span>)</span>
+<span id="cb13-3"><a href="#cb13-3" tabindex="-1"></a>    <span class="fu">on.exit</span>(<span class="fu">par</span>(<span class="at">usr =</span> usr))</span>
+<span id="cb13-4"><a href="#cb13-4" tabindex="-1"></a>    <span class="fu">par</span>(<span class="at">usr =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">1</span>, <span class="dv">0</span>, <span class="dv">1</span>))</span>
+<span id="cb13-5"><a href="#cb13-5" tabindex="-1"></a>    r <span class="ot">&lt;-</span> <span class="fu">cor</span>(x, y, <span class="at">use =</span> <span class="st">&quot;pairwise.complete.obs&quot;</span>)</span>
+<span id="cb13-6"><a href="#cb13-6" tabindex="-1"></a>    <span class="fu">text</span>(<span class="fl">0.5</span>, <span class="fl">0.5</span>, <span class="fu">format</span>(r, <span class="at">digits =</span> digits), <span class="at">cex =</span> <span class="fl">1.4</span>)</span>
+<span id="cb13-7"><a href="#cb13-7" tabindex="-1"></a>}</span>
+<span id="cb13-8"><a href="#cb13-8" tabindex="-1"></a></span>
+<span id="cb13-9"><a href="#cb13-9" tabindex="-1"></a><span class="fu">pairs</span>(cardiac[, plot_vars], <span class="at">upper.panel =</span> panel_cor, <span class="at">lower.panel =</span> panel.smooth)</span>
+<span id="cb13-10"><a href="#cb13-10" tabindex="-1"></a></span>
+<span id="cb13-11"><a href="#cb13-11" tabindex="-1"></a><span class="co"># systolic with diastolic is the strongest at r = 0.56, hdlchol with</span></span>
+<span id="cb13-12"><a href="#cb13-12" tabindex="-1"></a><span class="co"># triglyceride the next at r = -0.43, and age never gets above 0.21 with</span></span>
+<span id="cb13-13"><a href="#cb13-13" tabindex="-1"></a><span class="co"># anything. The eye had it right.</span></span></code></pre></div>
+<p><img src="exercise_5_solution_files/figure-html/Q11b-1.png" alt="" width="864" /></p>
 <p> </p>
 <p>12. Every plot so far has appeared in the RStudio plot pane, which is
 fine while you are exploring but no use at all when you need a figure in
@@ -842,31 +871,31 @@ using <code>pdf()</code> and once as a png using <code>png()</code>.
 Open both files outside RStudio and try dropping the png into a Word
 document. Which format would you use for what, and why? (hint: enlarge
 each of them a long way and see what happens)</p>
-<div class="sourceCode" id="cb34"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb34-1"><a href="#cb34-1" tabindex="-1"></a><span class="co"># pdf is a vector format: the file stores the instructions for drawing the plot,</span></span>
-<span id="cb34-2"><a href="#cb34-2" tabindex="-1"></a><span class="co"># so it stays perfectly sharp however far you enlarge it. Sizes are in inches.</span></span>
-<span id="cb34-3"><a href="#cb34-3" tabindex="-1"></a><span class="fu">pdf</span>(<span class="st">&#39;output/ex5_cholesterol.pdf&#39;</span>, <span class="at">width =</span> <span class="dv">7</span>, <span class="at">height =</span> <span class="dv">5</span>)</span>
-<span id="cb34-4"><a href="#cb34-4" tabindex="-1"></a><span class="fu">boxplot</span>(tchol <span class="sc">~</span> Fsmoking, <span class="at">data =</span> cardiac,</span>
-<span id="cb34-5"><a href="#cb34-5" tabindex="-1"></a>        <span class="at">xlab =</span> <span class="st">&quot;smoking status&quot;</span>, <span class="at">ylab =</span> <span class="st">&quot;total cholesterol (mmol/l)&quot;</span>)</span>
-<span id="cb34-6"><a href="#cb34-6" tabindex="-1"></a><span class="fu">dev.off</span>()</span></code></pre></div>
-<pre><code>## quartz_off_screen 
-##                 2</code></pre>
-<div class="sourceCode" id="cb36"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb36-1"><a href="#cb36-1" tabindex="-1"></a><span class="co"># png is a bitmap: a grid of pixels, which goes blurry when enlarged. Word and</span></span>
-<span id="cb36-2"><a href="#cb36-2" tabindex="-1"></a><span class="co"># PowerPoint handle it happily though. Always set res, because the default of</span></span>
-<span id="cb36-3"><a href="#cb36-3" tabindex="-1"></a><span class="co"># 72 dpi looks fine on screen and disappointing on a slide or on paper.</span></span>
-<span id="cb36-4"><a href="#cb36-4" tabindex="-1"></a><span class="fu">png</span>(<span class="st">&#39;output/ex5_cholesterol.png&#39;</span>, <span class="at">width =</span> <span class="dv">7</span>, <span class="at">height =</span> <span class="dv">5</span>, <span class="at">units =</span> <span class="st">&quot;in&quot;</span>, <span class="at">res =</span> <span class="dv">300</span>)</span>
-<span id="cb36-5"><a href="#cb36-5" tabindex="-1"></a><span class="fu">boxplot</span>(tchol <span class="sc">~</span> Fsmoking, <span class="at">data =</span> cardiac,</span>
-<span id="cb36-6"><a href="#cb36-6" tabindex="-1"></a>        <span class="at">xlab =</span> <span class="st">&quot;smoking status&quot;</span>, <span class="at">ylab =</span> <span class="st">&quot;total cholesterol (mmol/l)&quot;</span>)</span>
-<span id="cb36-7"><a href="#cb36-7" tabindex="-1"></a><span class="fu">dev.off</span>()</span></code></pre></div>
-<pre><code>## quartz_off_screen 
-##                 2</code></pre>
-<div class="sourceCode" id="cb38"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb38-1"><a href="#cb38-1" tabindex="-1"></a><span class="fu">list.files</span>(<span class="st">&#39;output&#39;</span>)</span></code></pre></div>
-<pre><code>## [1] &quot;ex5_cholesterol.pdf&quot; &quot;ex5_cholesterol.png&quot;</code></pre>
-<div class="sourceCode" id="cb40"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb40-1"><a href="#cb40-1" tabindex="-1"></a><span class="co"># tiff() works in exactly the same way and is what journals usually ask for.</span></span>
-<span id="cb40-2"><a href="#cb40-2" tabindex="-1"></a></span>
-<span id="cb40-3"><a href="#cb40-3" tabindex="-1"></a><span class="co"># Rule of thumb: pdf if it is going to be printed or enlarged, png at 300 dpi</span></span>
-<span id="cb40-4"><a href="#cb40-4" tabindex="-1"></a><span class="co"># if it is going into Word or PowerPoint, tiff if a journal asks for it.</span></span>
-<span id="cb40-5"><a href="#cb40-5" tabindex="-1"></a><span class="co"># Whichever you choose, save it from R. Never screenshot the plot pane, and</span></span>
-<span id="cb40-6"><a href="#cb40-6" tabindex="-1"></a><span class="co"># never paste a plot in at 72 dpi and hope nobody notices.</span></span></code></pre></div>
+<div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" tabindex="-1"></a><span class="co"># pdf is a vector format: the file stores the instructions for drawing the plot,</span></span>
+<span id="cb14-2"><a href="#cb14-2" tabindex="-1"></a><span class="co"># so it stays perfectly sharp however far you enlarge it. Sizes are in inches.</span></span>
+<span id="cb14-3"><a href="#cb14-3" tabindex="-1"></a><span class="fu">pdf</span>(<span class="st">&#39;output/ex5_cholesterol.pdf&#39;</span>, <span class="at">width =</span> <span class="dv">7</span>, <span class="at">height =</span> <span class="dv">5</span>)</span>
+<span id="cb14-4"><a href="#cb14-4" tabindex="-1"></a><span class="fu">boxplot</span>(tchol <span class="sc">~</span> Fsmoking, <span class="at">data =</span> cardiac,</span>
+<span id="cb14-5"><a href="#cb14-5" tabindex="-1"></a>        <span class="at">xlab =</span> <span class="st">&quot;smoking status&quot;</span>, <span class="at">ylab =</span> <span class="st">&quot;total cholesterol (mmol/l)&quot;</span>)</span>
+<span id="cb14-6"><a href="#cb14-6" tabindex="-1"></a><span class="fu">dev.off</span>()</span>
+<span id="cb14-7"><a href="#cb14-7" tabindex="-1"></a></span>
+<span id="cb14-8"><a href="#cb14-8" tabindex="-1"></a><span class="co"># png is a bitmap: a grid of pixels, which goes blurry when enlarged. Word and</span></span>
+<span id="cb14-9"><a href="#cb14-9" tabindex="-1"></a><span class="co"># PowerPoint handle it happily though. Always set res, because the default of</span></span>
+<span id="cb14-10"><a href="#cb14-10" tabindex="-1"></a><span class="co"># 72 dpi looks fine on screen and disappointing on a slide or on paper.</span></span>
+<span id="cb14-11"><a href="#cb14-11" tabindex="-1"></a><span class="fu">png</span>(<span class="st">&#39;output/ex5_cholesterol.png&#39;</span>, <span class="at">width =</span> <span class="dv">7</span>, <span class="at">height =</span> <span class="dv">5</span>, <span class="at">units =</span> <span class="st">&quot;in&quot;</span>, <span class="at">res =</span> <span class="dv">300</span>)</span>
+<span id="cb14-12"><a href="#cb14-12" tabindex="-1"></a><span class="fu">boxplot</span>(tchol <span class="sc">~</span> Fsmoking, <span class="at">data =</span> cardiac,</span>
+<span id="cb14-13"><a href="#cb14-13" tabindex="-1"></a>        <span class="at">xlab =</span> <span class="st">&quot;smoking status&quot;</span>, <span class="at">ylab =</span> <span class="st">&quot;total cholesterol (mmol/l)&quot;</span>)</span>
+<span id="cb14-14"><a href="#cb14-14" tabindex="-1"></a><span class="fu">dev.off</span>()</span>
+<span id="cb14-15"><a href="#cb14-15" tabindex="-1"></a></span>
+<span id="cb14-16"><a href="#cb14-16" tabindex="-1"></a><span class="co"># check they are really there. Your output directory should now contain</span></span>
+<span id="cb14-17"><a href="#cb14-17" tabindex="-1"></a><span class="co"># ex5_cholesterol.pdf and ex5_cholesterol.png</span></span>
+<span id="cb14-18"><a href="#cb14-18" tabindex="-1"></a><span class="fu">list.files</span>(<span class="st">&#39;output&#39;</span>)</span>
+<span id="cb14-19"><a href="#cb14-19" tabindex="-1"></a></span>
+<span id="cb14-20"><a href="#cb14-20" tabindex="-1"></a><span class="co"># tiff() works in exactly the same way and is what journals usually ask for.</span></span>
+<span id="cb14-21"><a href="#cb14-21" tabindex="-1"></a></span>
+<span id="cb14-22"><a href="#cb14-22" tabindex="-1"></a><span class="co"># Rule of thumb: pdf if it is going to be printed or enlarged, png at 300 dpi</span></span>
+<span id="cb14-23"><a href="#cb14-23" tabindex="-1"></a><span class="co"># if it is going into Word or PowerPoint, tiff if a journal asks for it.</span></span>
+<span id="cb14-24"><a href="#cb14-24" tabindex="-1"></a><span class="co"># Whichever you choose, save it from R. Never screenshot the plot pane, and</span></span>
+<span id="cb14-25"><a href="#cb14-25" tabindex="-1"></a><span class="co"># never paste a plot in at 72 dpi and hope nobody notices.</span></span></code></pre></div>
 <p> </p>
 <p>End of Exercise 5</p>
 </div>

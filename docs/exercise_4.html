@@ -675,6 +675,10 @@ actually tells you about that patient, then calculate the mean number of
 admissions per patient two ways, once with <code>na.rm = TRUE</code> and
 once after doing something about it. Which would you report?</p></li>
 </ol>
+<p>One warning before you start. The conditional statement you will
+reach for first, <code>n_admissions == NA</code>, runs without any error
+and changes nothing at all. Work out why before you go looking for
+another way.</p>
 <p> </p>
 <p>9. Ok, we have spent quite a bit of time (and energy) learning how to
 clean, summarise and link dataframes. The last thing we need to cover is

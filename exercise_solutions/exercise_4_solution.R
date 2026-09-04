@@ -175,6 +175,15 @@ mean(cardiac_all$n_admissions, na.rm = TRUE)   # 1.77
 # admissions file because they were never admitted, so the right number for them
 # is 0, and we know that for certain. The NA is an artefact of how a left join
 # fills gaps, not a statement about our knowledge.
+
+# The obvious way to fix it is a conditional statement, exactly as in Q1. Run
+# this and then check the column: it has done nothing, and said nothing.
+cardiac_all$n_admissions[cardiac_all$n_admissions == NA] <- 0
+
+# NA means 'unknown'. Asking whether an unknown value equals an unknown value
+# gives you another unknown, so the comparison returns NA rather than TRUE and
+# nothing gets selected. You cannot test for NA with == , which is exactly why
+# is.na() exists. You already used it above to count them.
 cardiac_all$n_admissions[is.na(cardiac_all$n_admissions)] <- 0
 
 mean(cardiac_all$n_admissions)                 # 1.20

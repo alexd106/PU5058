@@ -795,6 +795,10 @@ actually tells you about that patient, then calculate the mean number of
 admissions per patient two ways, once with <code>na.rm = TRUE</code> and
 once after doing something about it. Which would you report?</p></li>
 </ol>
+<p>One warning before you start. The conditional statement you will
+reach for first, <code>n_admissions == NA</code>, runs without any error
+and changes nothing at all. Work out why before you go looking for
+another way.</p>
 <div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" tabindex="-1"></a>admissions <span class="ot">&lt;-</span> <span class="fu">read.table</span>(<span class="st">&quot;data/cardiac_admissions.txt&quot;</span>, <span class="at">header =</span> <span class="cn">TRUE</span>, <span class="at">sep =</span> <span class="st">&quot;</span><span class="sc">\t</span><span class="st">&quot;</span>,</span>
 <span id="cb10-2"><a href="#cb10-2" tabindex="-1"></a>    <span class="at">stringsAsFactors =</span> <span class="cn">TRUE</span>)</span>
 <span id="cb10-3"><a href="#cb10-3" tabindex="-1"></a></span>
@@ -811,16 +815,25 @@ once after doing something about it. Which would you report?</p></li>
 <span id="cb10-14"><a href="#cb10-14" tabindex="-1"></a><span class="co"># admissions file because they were never admitted, so the right number for</span></span>
 <span id="cb10-15"><a href="#cb10-15" tabindex="-1"></a><span class="co"># them is 0, and we know that for certain. The NA is an artefact of how a left</span></span>
 <span id="cb10-16"><a href="#cb10-16" tabindex="-1"></a><span class="co"># join fills gaps, not a statement about our knowledge.</span></span>
-<span id="cb10-17"><a href="#cb10-17" tabindex="-1"></a>cardiac_all<span class="sc">$</span>n_admissions[<span class="fu">is.na</span>(cardiac_all<span class="sc">$</span>n_admissions)] <span class="ot">&lt;-</span> <span class="dv">0</span></span>
-<span id="cb10-18"><a href="#cb10-18" tabindex="-1"></a></span>
-<span id="cb10-19"><a href="#cb10-19" tabindex="-1"></a><span class="fu">mean</span>(cardiac_all<span class="sc">$</span>n_admissions)  <span class="co"># 1.20</span></span>
-<span id="cb10-20"><a href="#cb10-20" tabindex="-1"></a></span>
-<span id="cb10-21"><a href="#cb10-21" tabindex="-1"></a><span class="co"># So na.rm = TRUE, the habit this exercise has been drilling into you all</span></span>
-<span id="cb10-22"><a href="#cb10-22" tabindex="-1"></a><span class="co"># along, overstates the admission rate by nearly 50% here, because it throws</span></span>
-<span id="cb10-23"><a href="#cb10-23" tabindex="-1"></a><span class="co"># away every patient who was never admitted. 1.20 is the number to report.</span></span>
-<span id="cb10-24"><a href="#cb10-24" tabindex="-1"></a></span>
-<span id="cb10-25"><a href="#cb10-25" tabindex="-1"></a><span class="co"># Always ask what a missing value means before you decide how to handle it. The</span></span>
-<span id="cb10-26"><a href="#cb10-26" tabindex="-1"></a><span class="co"># answer is not always the same.</span></span></code></pre></div>
+<span id="cb10-17"><a href="#cb10-17" tabindex="-1"></a></span>
+<span id="cb10-18"><a href="#cb10-18" tabindex="-1"></a><span class="co"># The obvious way to fix it is a conditional statement, exactly as in Q1. Run</span></span>
+<span id="cb10-19"><a href="#cb10-19" tabindex="-1"></a><span class="co"># this and then check the column: it has done nothing, and said nothing.</span></span>
+<span id="cb10-20"><a href="#cb10-20" tabindex="-1"></a>cardiac_all<span class="sc">$</span>n_admissions[cardiac_all<span class="sc">$</span>n_admissions <span class="sc">==</span> <span class="cn">NA</span>] <span class="ot">&lt;-</span> <span class="dv">0</span></span>
+<span id="cb10-21"><a href="#cb10-21" tabindex="-1"></a></span>
+<span id="cb10-22"><a href="#cb10-22" tabindex="-1"></a><span class="co"># NA means &#39;unknown&#39;. Asking whether an unknown value equals an unknown value</span></span>
+<span id="cb10-23"><a href="#cb10-23" tabindex="-1"></a><span class="co"># gives you another unknown, so the comparison returns NA rather than TRUE and</span></span>
+<span id="cb10-24"><a href="#cb10-24" tabindex="-1"></a><span class="co"># nothing gets selected. You cannot test for NA with == , which is exactly why</span></span>
+<span id="cb10-25"><a href="#cb10-25" tabindex="-1"></a><span class="co"># is.na() exists. You already used it above to count them.</span></span>
+<span id="cb10-26"><a href="#cb10-26" tabindex="-1"></a>cardiac_all<span class="sc">$</span>n_admissions[<span class="fu">is.na</span>(cardiac_all<span class="sc">$</span>n_admissions)] <span class="ot">&lt;-</span> <span class="dv">0</span></span>
+<span id="cb10-27"><a href="#cb10-27" tabindex="-1"></a></span>
+<span id="cb10-28"><a href="#cb10-28" tabindex="-1"></a><span class="fu">mean</span>(cardiac_all<span class="sc">$</span>n_admissions)  <span class="co"># 1.20</span></span>
+<span id="cb10-29"><a href="#cb10-29" tabindex="-1"></a></span>
+<span id="cb10-30"><a href="#cb10-30" tabindex="-1"></a><span class="co"># So na.rm = TRUE, the habit this exercise has been drilling into you all</span></span>
+<span id="cb10-31"><a href="#cb10-31" tabindex="-1"></a><span class="co"># along, overstates the admission rate by nearly 50% here, because it throws</span></span>
+<span id="cb10-32"><a href="#cb10-32" tabindex="-1"></a><span class="co"># away every patient who was never admitted. 1.20 is the number to report.</span></span>
+<span id="cb10-33"><a href="#cb10-33" tabindex="-1"></a></span>
+<span id="cb10-34"><a href="#cb10-34" tabindex="-1"></a><span class="co"># Always ask what a missing value means before you decide how to handle it. The</span></span>
+<span id="cb10-35"><a href="#cb10-35" tabindex="-1"></a><span class="co"># answer is not always the same.</span></span></code></pre></div>
 <p> </p>
 <p>9. Ok, we have spent quite a bit of time (and energy) learning how to
 clean, summarise and link dataframes. The last thing we need to cover is

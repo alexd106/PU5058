@@ -163,89 +163,56 @@ sum(is.na(cardiac_all$systolic10))     # 55 patients have no follow-up
 admissions <- read.table('data/cardiac_admissions.txt', header = TRUE, sep = "\t", stringsAsFactors = TRUE)
 
 str(admissions)
-nrow(admissions)                        # 200 admissions
-length(unique(admissions$patno))        # belonging to 115 different patients
 
-# check the key in BOTH directions, every time
-sum(!cardiac$patno %in% admissions$patno)      # 53 patients were never admitted
-sum(!unique(admissions$patno) %in% cardiac$patno)   # 5 patients are not in the cohort
+# a)
+nrow(admissions)     # 115 rows, but there are 163 patients in the study
 
-unique(admissions$patno[!admissions$patno %in% cardiac$patno])
-# 2841P 3167C 3402R 3775T 3918M
+# b)
+cardiac_all <- merge(cardiac_all, admissions, by = "patno", all.x = TRUE)
+nrow(cardiac_all)                        # 163 - everybody is still here
 
-# Those five are not an error. A hospital extract covers everybody treated, not
-# just the people in your study, so admissions for patients outside the cohort
-# are exactly what you should expect. What matters is that you knew they were
-# there before you joined, rather than after.
+sum(is.na(cardiac_all$n_admissions))     # 53 with no admissions record
 
-cardiac_adm <- merge(cardiac, admissions, by = "patno")
-nrow(cardiac_adm)                       # 195, up from 163
+# 53 patients have no count and 110 do, which adds up to the full 163. But the
+# admissions file had 115 rows, so 5 of its rows matched nobody. They are
+# admissions for people who are not in this study, which is exactly what a
+# hospital extract looks like: it covers everyone treated, not just your
+# patients. all.x = TRUE quietly dropped them, which is what you wanted here,
+# but you only know that because you checked.
 
-mean(cardiac$age)                       # 64.98
-mean(cardiac_adm$age)                   # 66.00
+# c)
+mean(cardiac_all$n_admissions, na.rm = TRUE)   # 1.77
 
-# What went wrong? The row count went UP, which neither of the previous joins
-# did. Because a patient can have several admissions, each patient now appears
-# once per admission: a patient admitted four times appears four times, and the
-# 53 patients never admitted have disappeared altogether.
-#
-# So cardiac_adm is no longer one row per patient. It is one row per admission,
-# and every patient characteristic in it is now weighted by how often that
-# patient was admitted. The mean age has risen by a full year, not because
-# anybody aged, but because older patients are admitted more often and are
-# therefore counted more often. Every mean, count and table you calculate from
-# this dataframe is wrong in the same quiet way.
-
-
-## ----Q9, echo=SOLUTIONS, tidy = TRUE------------------------------------------
-# a) one row per patient, from 200 rows of admissions
-n_adm <- aggregate(cbind(n_admissions = los) ~ patno, data = admissions, FUN = length)
-bed   <- aggregate(cbind(bed_days = los) ~ patno, data = admissions, FUN = sum)
-adm_summary <- merge(n_adm, bed, by = "patno")
-
-nrow(adm_summary)      # 115 - the 110 cohort patients admitted, plus the 5 outsiders
-
-# b) link it on, keeping everybody
-cardiac_all <- merge(cardiac_all, adm_summary, by = "patno", all.x = TRUE)
-nrow(cardiac_all)      # 163 - check every time
-
-# c) what did the never-admitted patients get?
-sum(is.na(cardiac_all$n_admissions))    # 53
-
-# Everywhere else in this course an NA has meant 'there should be a value here
-# and we do not have it'. Here it means something completely different. These
-# patients were not admitted, so the correct number of admissions is 0, and we
-# know that for certain. The NA is an artefact of how a left join fills gaps,
-# not a statement about our knowledge.
-
-mean(cardiac_all$n_admissions, na.rm = TRUE)   # 1.77 - WRONG
-
+# Those 53 NAs do NOT mean 'we do not know'. These patients are missing from the
+# admissions file because they were never admitted, so the right number is 0,
+# and we know it for certain. The NA is an artefact of how a left join fills
+# gaps, not a statement about our knowledge.
 cardiac_all$n_admissions[is.na(cardiac_all$n_admissions)] <- 0
 cardiac_all$bed_days[is.na(cardiac_all$bed_days)] <- 0
 
-mean(cardiac_all$n_admissions)                 # 1.20 - right
+mean(cardiac_all$n_admissions)                 # 1.20
 
-# Using na.rm = TRUE here, the habit the rest of this exercise has been drilling
-# into you, overstates the admission rate by nearly 50%, because it silently
-# throws away every patient who was never admitted. Always ask what a missing
-# value means before you decide how to handle it. The answer is not always the
-# same.
+# So na.rm = TRUE, the habit this exercise has been drilling into you all along,
+# overstates the admission rate by nearly 50% here, because it throws away every
+# patient who was never admitted. Always ask what a missing value means before
+# you decide how to handle it. The answer is not always the same.
 
-# d) the question the linkage was for
-aggregate(cbind(n_admissions, bed_days) ~ Fsmoking, data = cardiac_all, FUN = mean)
+# d)
+aggregate(cardiac_all[, c("n_admissions", "bed_days")],
+          by = list(smoking = cardiac_all$Fsmoking), FUN = mean)
 
-#   Fsmoking n_admissions bed_days
-# 1  Current     1.320000 5.540000
-# 2       Ex     1.307692 4.692308
-# 3    Never     1.037037 4.148148
+#   smoking n_admissions bed_days
+# 1 Current     1.320000 5.540000
+# 2      Ex     1.307692 4.692308
+# 3   Never     1.037037 4.148148
 
 # Smokers and ex-smokers average about a quarter more admissions than those who
 # have never smoked, and rather more days in hospital. Remember that these
-# admission records are simulated, so this is a demonstration of how to get the
-# answer, not a finding about the real cohort.
+# admission records are simulated, so this shows you how to get the answer
+# rather than being a finding about the real cohort.
 
 
-## ----Q10, echo=SOLUTIONS, tidy = TRUE-----------------------------------------
+## ----Q9, echo=SOLUTIONS, tidy = TRUE------------------------------------------
 write.table(cardiac_all, "output/cardiac_clean.txt", col.names = TRUE, row.names = FALSE, sep = "\t")
 
 # Decision log - the sort of thing that belongs at the top of your script:
@@ -265,9 +232,8 @@ write.table(cardiac_all, "output/cardiac_clean.txt", col.names = TRUE, row.names
 #    cleaning in step 3.
 # 6. Ten year follow-up measurements linked on from data/cardiac_followup.txt,
 #    keeping all 163 patients; 55 have no follow-up data.
-# 7. Admissions summarised to one row per patient from data/cardiac_admissions.txt
-#    (SIMULATED data) and linked on, keeping all 163 patients. n_admissions and
-#    bed_days set to 0, not left as NA, for the 53 patients never admitted,
-#    because a patient with no admission record has zero admissions rather than
-#    an unknown number.
+# 7. Admissions linked on from data/cardiac_admissions.txt (SIMULATED data),
+#    keeping all 163 patients. n_admissions and bed_days set to 0, not left as
+#    NA, for the 53 patients with no admission record, because a patient who was
+#    never admitted has zero admissions rather than an unknown number.
 

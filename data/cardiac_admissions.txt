@@ -1,201 +1,116 @@
-patno	admission_year	specialty	los
-0060V	2007	Other	1
-0060V	2009	Cardiology	4
-0083W	2004	Surgery	2
-0100W	2002	Cardiology	6
-0100W	2003	Surgery	6
-0110E	2006	Respiratory	3
-0110E	2007	General medicine	2
-0166V	2010	Surgery	1
-0197H	2006	Respiratory	3
-0200B	2003	Cardiology	11
-0200B	2008	Cardiology	5
-0212K	2004	Cardiology	2
-0214H	2003	Respiratory	2
-0214H	2005	General medicine	7
-0215V	2005	Cardiology	2
-0215V	2005	Cardiology	2
-0215V	2005	Surgery	2
-0215V	2009	Surgery	4
-0216E	2002	Other	2
-0216E	2002	Respiratory	4
-0216E	2006	General medicine	2
-0219M	2002	Other	5
-0219M	2006	Cardiology	3
-0220W	2008	Other	6
-0240M	2002	General medicine	13
-0240M	2003	General medicine	3
-0240M	2006	Surgery	2
-0273A	2005	Surgery	1
-0273A	2005	Surgery	6
-0273A	2007	Cardiology	2
-0288R	2001	Other	4
-0293V	2009	Cardiology	1
-0300K	2001	Respiratory	1
-0308A	2002	Cardiology	2
-0319W	2004	Respiratory	2
-0331X	2002	Other	2
-0331X	2004	Respiratory	1
-0331X	2006	Respiratory	2
-0332K	2009	Surgery	5
-0355L	2003	Respiratory	10
-0362L	2004	Other	1
-0379A	2009	Other	1
-0382E	2004	General medicine	6
-0382E	2007	Surgery	6
-0382E	2010	Other	6
-0383R	2004	General medicine	1
-0387L	2005	Respiratory	1
-0387L	2009	General medicine	2
-0397W	2004	Respiratory	3
-0397W	2007	Respiratory	4
-0416V	2002	Surgery	5
-0416V	2009	Cardiology	1
-0435A	2009	Surgery	8
-0438K	2008	Cardiology	4
-0441M	2001	Respiratory	11
-0441M	2001	Respiratory	10
-0463E	2010	General medicine	12
-0479H	2004	Cardiology	2
-0479H	2007	Surgery	7
-0497B	2008	Cardiology	13
-0523A	2005	General medicine	5
-0547M	2007	General medicine	2
-0568V	2004	Respiratory	2
-0599H	2006	Surgery	4
-0599H	2008	Other	7
-0619R	2001	General medicine	1
-0619R	2008	Cardiology	2
-0619R	2008	Respiratory	3
-0651L	2002	Surgery	3
-0677X	2002	Respiratory	1
-0677X	2004	General medicine	2
-0682A	2002	Other	3
-0682A	2008	Respiratory	2
-0721R	2010	General medicine	10
-0722B	2003	General medicine	5
-0722B	2005	Respiratory	4
-0768H	2002	General medicine	2
-0768H	2004	General medicine	3
-0768H	2006	Cardiology	46
-0768H	2010	Cardiology	3
-0782H	2005	General medicine	10
-0782H	2006	Respiratory	8
-0782H	2010	Cardiology	3
-0835B	2003	Cardiology	1
-0835B	2004	General medicine	4
-0849H	2003	General medicine	3
-0849H	2007	Cardiology	1
-0849H	2009	General medicine	1
-0854K	2001	Surgery	1
-0854K	2003	Cardiology	2
-0854K	2004	General medicine	2
-0869A	2009	Surgery	2
-0890A	2009	General medicine	2
-0890A	2009	Respiratory	2
-0913V	2005	Respiratory	1
-0916B	2001	General medicine	4
-0916B	2004	General medicine	4
-0916B	2005	Surgery	8
-0916B	2009	Cardiology	2
-0916B	2010	Other	2
-0916B	2010	Cardiology	6
-0943W	2007	General medicine	3
-0949M	2009	General medicine	1
-0969H	2004	Respiratory	6
-0969H	2006	General medicine	3
-0977V	2004	Surgery	1
-0977V	2010	General medicine	7
-0977V	2010	Respiratory	2
-0997L	2010	Cardiology	2
-0999K	2010	Surgery	2
-1018V	2007	Other	4
-1019E	2001	Cardiology	1
-1019E	2005	Cardiology	1
-1030W	2004	Cardiology	1
-1042B	2002	Cardiology	12
-1048W	2006	Other	3
-1072E	2001	Respiratory	3
-1072E	2006	Surgery	3
-1072E	2007	General medicine	6
-1076A	2007	Respiratory	5
-1077L	2001	Cardiology	4
-1077L	2010	Other	2
-1121E	2003	Other	2
-1121E	2009	Cardiology	3
-1121E	2010	Cardiology	7
-1126L	2005	Cardiology	2
-1143W	2002	General medicine	4
-1143W	2003	Cardiology	2
-1144H	2006	Cardiology	1
-1151H	2002	General medicine	1
-1151H	2004	Other	7
-1170M	2005	General medicine	10
-1197L	2006	General medicine	6
-1197L	2007	Surgery	7
-1213A	2002	Other	2
-1213A	2004	Surgery	3
-1216K	2004	General medicine	3
-1224W	2006	General medicine	2
-1224W	2010	Surgery	9
-1271H	2002	Surgery	13
-1271H	2004	General medicine	6
-1320H	2002	Cardiology	1
-1322E	2008	Surgery	10
-1325M	2002	Cardiology	1
-1325M	2003	Cardiology	1
-1325M	2009	Cardiology	4
-1361E	2002	Cardiology	1
-1367X	2001	Cardiology	1
-1367X	2007	General medicine	8
-1367X	2010	Other	12
-1371M	2007	General medicine	2
-1371M	2009	Other	1
-1374X	2009	General medicine	3
-1398L	2009	Cardiology	1
-1398L	2010	Respiratory	2
-1401H	2009	Respiratory	2
-1425W	2005	General medicine	4
-1432W	2003	Cardiology	3
-1432W	2006	Cardiology	2
-1438M	2010	Surgery	3
-1447L	2004	Cardiology	4
-1447L	2009	Other	1
-1459V	2008	Cardiology	2
-1471W	2001	Surgery	8
-1479L	2005	Other	8
-1479L	2010	General medicine	1
-1479L	2010	General medicine	4
-1505K	2008	Cardiology	10
-1514H	2005	Respiratory	3
-1514H	2006	Respiratory	2
-1520W	2001	Cardiology	6
-1523E	2001	Cardiology	1
-1523E	2001	General medicine	1
-1531R	2001	Respiratory	1
-1531R	2003	Cardiology	3
-1531R	2003	Surgery	2
-1531R	2004	Surgery	4
-1538W	2003	Surgery	5
-1538W	2006	General medicine	1
-1542L	2003	Cardiology	5
-1542L	2008	Cardiology	9
-1626W	2004	Other	1
-1626W	2004	General medicine	6
-1626W	2006	Surgery	4
-1626W	2007	Cardiology	1
-1630L	2010	Cardiology	2
-1634H	2002	Cardiology	1
-1634H	2003	Cardiology	3
-1634H	2008	Respiratory	1
-1634H	2010	Respiratory	12
-1637R	2003	General medicine	1
-1645B	2008	General medicine	4
-1645B	2010	Surgery	1
-1674V	2001	Cardiology	1
-1677B	2007	General medicine	1
-2841P	2004	Cardiology	3
-3167C	2007	General medicine	2
-3402R	2005	Cardiology	4
-3775T	2006	General medicine	5
-3918M	2001	General medicine	4
+patno	n_admissions	bed_days
+0060V	2	5
+0083W	1	2
+0100W	2	12
+0110E	2	5
+0166V	1	1
+0197H	1	3
+0200B	2	16
+0212K	1	2
+0214H	2	9
+0215V	4	10
+0216E	3	8
+0219M	2	8
+0220W	1	6
+0240M	3	18
+0273A	3	9
+0288R	1	4
+0293V	1	1
+0300K	1	1
+0308A	1	2
+0319W	1	2
+0331X	3	5
+0332K	1	5
+0355L	1	10
+0362L	1	1
+0379A	1	1
+0382E	3	18
+0383R	1	1
+0387L	2	3
+0397W	2	7
+0416V	2	6
+0435A	1	8
+0438K	1	4
+0441M	2	21
+0463E	1	12
+0479H	2	9
+0497B	1	13
+0523A	1	5
+0547M	1	2
+0568V	1	2
+0599H	2	11
+0619R	3	6
+0651L	1	3
+0677X	2	3
+0682A	2	5
+0721R	1	10
+0722B	2	9
+0768H	4	54
+0782H	3	21
+0835B	2	5
+0849H	3	5
+0854K	3	5
+0869A	1	2
+0890A	2	4
+0913V	1	1
+0916B	6	26
+0943W	1	3
+0949M	1	1
+0969H	2	9
+0977V	3	10
+0997L	1	2
+0999K	1	2
+1018V	1	4
+1019E	2	2
+1030W	1	1
+1042B	1	12
+1048W	1	3
+1072E	3	12
+1076A	1	5
+1077L	2	6
+1121E	3	12
+1126L	1	2
+1143W	2	6
+1144H	1	1
+1151H	2	8
+1170M	1	10
+1197L	2	13
+1213A	2	5
+1216K	1	3
+1224W	2	11
+1271H	2	19
+1320H	1	1
+1322E	1	10
+1325M	3	6
+1361E	1	1
+1367X	3	21
+1371M	2	3
+1374X	1	3
+1398L	2	3
+1401H	1	2
+1425W	1	4
+1432W	2	5
+1438M	1	3
+1447L	2	5
+1459V	1	2
+1471W	1	8
+1479L	3	13
+1505K	1	10
+1514H	2	5
+1520W	1	6
+1523E	2	2
+1531R	4	10
+1538W	2	6
+1542L	2	14
+1626W	4	12
+1630L	1	2
+1634H	4	17
+1637R	1	1
+1645B	2	5
+1674V	1	1
+1677B	1	1
+2841P	1	3
+3167C	1	2
+3402R	1	4
+3775T	1	5
+3918M	1	4

@@ -55,11 +55,19 @@ outside <- data.frame(
 stopifnot(!any(outside$patno %in% cardiac$patno))
 
 adm <- rbind(adm, outside)
-adm <- adm[order(adm$patno, adm$admission_year), ]
 
-write.table(adm, "data/cardiac_admissions.txt", sep = "\t",
+# Summarise to ONE ROW PER PATIENT before publishing. A per-admission file would
+# force students to aggregate before linking, and to use %in% to check the key,
+# which is several new functions in service of one idea. The published file is a
+# summarised extract of the kind a data linkage team would actually hand you.
+n_adm <- aggregate(cbind(n_admissions = los) ~ patno, data = adm, FUN = length)
+bed   <- aggregate(cbind(bed_days = los) ~ patno, data = adm, FUN = sum)
+out   <- merge(n_adm, bed, by = "patno")
+out   <- out[order(out$patno), ]
+
+write.table(out, "data/cardiac_admissions.txt", sep = "\t",
             row.names = FALSE, quote = FALSE)
 
-cat("rows:", nrow(adm), "\n")
-cat("patients with at least one admission:", length(unique(adm$patno)) - 5, "\n")
-cat("patients with none:", nrow(cardiac) - (length(unique(adm$patno)) - 5), "\n")
+cat("rows in published file:", nrow(out), "\n")
+cat("  of which in the cohort:", sum(out$patno %in% cardiac$patno), "\n")
+cat("  cohort patients absent:", nrow(cardiac) - sum(out$patno %in% cardiac$patno), "\n")

@@ -496,9 +496,9 @@ $(document).ready(function () {
 
 
 <p> </p>
-<div id="exercise-3-importing-and-inspecting-data"
+<div id="exercise-3-importing-inspecting-and-subsetting-data"
 class="section level2">
-<h2>Exercise 3: Importing and inspecting data</h2>
+<h2>Exercise 3: Importing, inspecting and subsetting data</h2>
 <p> </p>
 <p>Read <a href="https://intro2r.com/data_r.html">Chapter 3</a> to help
 you complete the questions in this exercise.</p>
@@ -516,11 +516,10 @@ and save it to the <code>data</code> directory you created in Exercise 1
 in your RStudio project. You will use this same dataset for the next
 three practicals, so it is worth putting it somewhere sensible now.</p>
 <p> </p>
-<p>3. Notice that the file you have just downloaded is a spreadsheet,
-not a data file. A spreadsheet is a program’s own format, and R would
-much rather be given plain text. Open the <em>‘cardiacdata.xlsx’</em>
-file in Microsoft Excel (or even better use an open source equivalent -
-<a
+<p>3. Notice that the file you have just downloaded is a spreadsheet. A
+spreadsheet is a program’s own format, and R would much rather be given
+plain text. Open the <em>‘cardiacdata.xlsx’</em> file in Microsoft Excel
+(or even better use an open source equivalent - <a
 href="https://www.libreoffice.org/download/download-libreoffice/">LibreOffice</a>
 is a good free alternative) and save it as a tab delimited file type
 (see <a
@@ -546,9 +545,9 @@ and each column is one of those measurements. As well as their age in
 years (<code>age</code>) and sex (<code>sex</code>), the study recorded
 blood pressure as the usual pair of numbers, systolic and diastolic, in
 mmHg (<code>systolic</code>, <code>diastolic</code>); body mass index in
-kg/m<sup>2</sup> (<code>bmi</code>); three fats measured in a blood
-sample, all in mmol/l, namely total cholesterol, HDL cholesterol and
-triglyceride (<code>tchol</code>, <code>hdlchol</code>,
+kg m<sup>-2</sup> (<code>bmi</code>); three fats measured in a blood
+sample, all in mmol l<sup>-1</sup>, namely total cholesterol, HDL
+cholesterol and triglyceride (<code>tchol</code>, <code>hdlchol</code>,
 <code>triglyceride</code>); how many units of alcohol each person drank
 in the previous week (<code>alcohol</code>); and whether they were a
 current smoker, an ex-smoker or had never smoked (<code>smoking</code>).
@@ -596,10 +595,11 @@ much better option is to use the <code>str()</code> function to display
 the structure of the dataset and a neat summary of your variables.
 Another advantage is that you can copy this information from the console
 and paste it into your R script (making sure it’s commented) for later
-reference. How many observations does this dataset have? How many
-variables? And now the important question: what type of variable does R
-think <code>sex</code> and <code>smoking</code> are, and is it
-right?</p>
+reference.</p>
+<p>So, from the output of the <code>str()</code> function, how many
+observations does this dataset have? How many variables? And now the
+important question: what type of variable does R think <code>sex</code>
+and <code>smoking</code> are, and is it right?</p>
 <div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" tabindex="-1"></a><span class="fu">head</span>(cardiac)         <span class="co"># display the first few rows </span></span>
 <span id="cb2-2"><a href="#cb2-2" tabindex="-1"></a><span class="fu">names</span>(cardiac)        <span class="co"># display the variable names</span></span>
 <span id="cb2-3"><a href="#cb2-3" tabindex="-1"></a><span class="fu">str</span>(cardiac)          <span class="co"># display the structure of the dataframe cardiac</span></span>
@@ -623,45 +623,116 @@ right?</p>
 <span id="cb2-21"><a href="#cb2-21" tabindex="-1"></a><span class="co"># in the file: sex is coded 1 and 2, smoking is coded 1, 2 and 3. But they are</span></span>
 <span id="cb2-22"><a href="#cb2-22" tabindex="-1"></a><span class="co"># not really numbers, they are categories, and R has no way of knowing that.</span></span>
 <span id="cb2-23"><a href="#cb2-23" tabindex="-1"></a><span class="co"># Nothing stops you calculating mean(cardiac$sex) - it returns 1.52 - and that</span></span>
-<span id="cb2-24"><a href="#cb2-24" tabindex="-1"></a><span class="co"># number is meaningless. You will convert these to factors in Exercise 4.</span></span>
+<span id="cb2-24"><a href="#cb2-24" tabindex="-1"></a><span class="co"># number is meaningless. You will fix sex in the next question.</span></span>
 <span id="cb2-25"><a href="#cb2-25" tabindex="-1"></a></span>
 <span id="cb2-26"><a href="#cb2-26" tabindex="-1"></a><span class="co"># patno is a factor with 163 levels, one for every row. A factor with as many</span></span>
 <span id="cb2-27"><a href="#cb2-27" tabindex="-1"></a><span class="co"># levels as there are rows is a good sign that you are looking at an identifier</span></span>
 <span id="cb2-28"><a href="#cb2-28" tabindex="-1"></a><span class="co"># rather than a variable.</span></span></code></pre></div>
 <p> </p>
-<p>7. You can get another useful summary of your dataframe by using the
+<p>7. Let’s do something about <code>sex</code>. The way to tell R that
+a variable holds categories rather than quantities is to make it a
+<strong>factor</strong>, using the <code>factor()</code> function (see
+<code>?factor</code>, and <a
+href="https://intro2r.com/data-types.html#data-types">Section 3.1</a> of
+the Introduction to R book for where factors sit among R’s data types).
+You give <code>factor()</code> the codes that appear in the data with
+the <code>levels</code> argument, and what each code means with the
+<code>labels</code> argument. For <code>sex</code>, 1 is Female and 2 is
+Male.</p>
+<p>Here is the important part. Do <strong>not</strong> overwrite
+<code>sex</code>. Create a <strong>new</strong> variable in the
+<code>cardiac</code> dataframe called <code>Fsex</code> instead, and
+leave the original <code>sex</code> exactly as it was. Do this, then use
+<code>str()</code> to check that <code>Fsex</code> really is a factor
+with the two levels you expect, and that <code>sex</code> is still there
+and still an integer.</p>
+<p>Now, why the new variable rather than the tidier looking overwrite?
+Have a think about it, then try this: run your <code>factor()</code>
+line a second time, but writing the result back into <code>sex</code>
+rather than <code>Fsex</code>, and look at what happens to the variable.
+Can you explain it?</p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" tabindex="-1"></a><span class="co"># 1 = Female and 2 = Male. Writing the labels out means you never have to</span></span>
+<span id="cb3-2"><a href="#cb3-2" tabindex="-1"></a><span class="co"># remember the codes again, and your output reads properly.</span></span>
+<span id="cb3-3"><a href="#cb3-3" tabindex="-1"></a>cardiac<span class="sc">$</span>Fsex <span class="ot">&lt;-</span> <span class="fu">factor</span>(cardiac<span class="sc">$</span>sex, <span class="at">levels =</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">2</span>),</span>
+<span id="cb3-4"><a href="#cb3-4" tabindex="-1"></a>                       <span class="at">labels =</span> <span class="fu">c</span>(<span class="st">&quot;Female&quot;</span>, <span class="st">&quot;Male&quot;</span>))</span>
+<span id="cb3-5"><a href="#cb3-5" tabindex="-1"></a></span>
+<span id="cb3-6"><a href="#cb3-6" tabindex="-1"></a><span class="fu">str</span>(cardiac)</span>
+<span id="cb3-7"><a href="#cb3-7" tabindex="-1"></a></span>
+<span id="cb3-8"><a href="#cb3-8" tabindex="-1"></a><span class="co">#  $ sex         : int  2 2 2 2 2 2 2 1 1 2 ...</span></span>
+<span id="cb3-9"><a href="#cb3-9" tabindex="-1"></a><span class="co">#  $ Fsex        : Factor w/ 2 levels &quot;Female&quot;,&quot;Male&quot;: 2 2 2 2 2 2 2 1 1 2 ...</span></span>
+<span id="cb3-10"><a href="#cb3-10" tabindex="-1"></a></span>
+<span id="cb3-11"><a href="#cb3-11" tabindex="-1"></a><span class="co"># Why a new variable rather than overwriting sex?</span></span>
+<span id="cb3-12"><a href="#cb3-12" tabindex="-1"></a><span class="co">#</span></span>
+<span id="cb3-13"><a href="#cb3-13" tabindex="-1"></a><span class="co"># 1. The raw codes survive. You can always check your recoding against what was</span></span>
+<span id="cb3-14"><a href="#cb3-14" tabindex="-1"></a><span class="co">#    actually in the file, and if you get the labels the wrong way round you can</span></span>
+<span id="cb3-15"><a href="#cb3-15" tabindex="-1"></a><span class="co">#    simply redo it. Overwrite, and the codes are gone from your session.</span></span>
+<span id="cb3-16"><a href="#cb3-16" tabindex="-1"></a><span class="co">#</span></span>
+<span id="cb3-17"><a href="#cb3-17" tabindex="-1"></a><span class="co"># 2. Overwriting is not repeatable, and this is the one that bites people. Run</span></span>
+<span id="cb3-18"><a href="#cb3-18" tabindex="-1"></a><span class="co">#    the line below twice and look at the result:</span></span>
+<span id="cb3-19"><a href="#cb3-19" tabindex="-1"></a><span class="co">#</span></span>
+<span id="cb3-20"><a href="#cb3-20" tabindex="-1"></a><span class="co">#    cardiac$sex &lt;- factor(cardiac$sex, levels = c(1, 2),</span></span>
+<span id="cb3-21"><a href="#cb3-21" tabindex="-1"></a><span class="co">#                          labels = c(&quot;Female&quot;, &quot;Male&quot;))</span></span>
+<span id="cb3-22"><a href="#cb3-22" tabindex="-1"></a><span class="co">#</span></span>
+<span id="cb3-23"><a href="#cb3-23" tabindex="-1"></a><span class="co">#    The first run works. On the second run, sex no longer contains 1 and 2, it</span></span>
+<span id="cb3-24"><a href="#cb3-24" tabindex="-1"></a><span class="co">#    contains &quot;Female&quot; and &quot;Male&quot;, so factor() goes looking for levels 1 and 2,</span></span>
+<span id="cb3-25"><a href="#cb3-25" tabindex="-1"></a><span class="co">#    finds neither, and quietly turns every single value into NA:</span></span>
+<span id="cb3-26"><a href="#cb3-26" tabindex="-1"></a><span class="co">#</span></span>
+<span id="cb3-27"><a href="#cb3-27" tabindex="-1"></a><span class="co">#    Female   Male   &lt;NA&gt;</span></span>
+<span id="cb3-28"><a href="#cb3-28" tabindex="-1"></a><span class="co">#         0      0    163</span></span>
+<span id="cb3-29"><a href="#cb3-29" tabindex="-1"></a><span class="co">#</span></span>
+<span id="cb3-30"><a href="#cb3-30" tabindex="-1"></a><span class="co">#    No error, no warning, all 163 patients lost. Scripts get re-run constantly,</span></span>
+<span id="cb3-31"><a href="#cb3-31" tabindex="-1"></a><span class="co">#    so a line that only works once is a line waiting to ruin your afternoon.</span></span>
+<span id="cb3-32"><a href="#cb3-32" tabindex="-1"></a><span class="co">#    Writing to Fsex is safe to re-run as many times as you like.</span></span>
+<span id="cb3-33"><a href="#cb3-33" tabindex="-1"></a><span class="co">#</span></span>
+<span id="cb3-34"><a href="#cb3-34" tabindex="-1"></a><span class="co"># 3. The &#39;F&#39; prefix says at a glance which variable is the factor version. You</span></span>
+<span id="cb3-35"><a href="#cb3-35" tabindex="-1"></a><span class="co">#    will use the same convention for Fsmoking in Exercise 5.</span></span>
+<span id="cb3-36"><a href="#cb3-36" tabindex="-1"></a></span>
+<span id="cb3-37"><a href="#cb3-37" tabindex="-1"></a><span class="co"># and note: sex is still an integer, exactly as it was</span></span>
+<span id="cb3-38"><a href="#cb3-38" tabindex="-1"></a><span class="fu">str</span>(cardiac<span class="sc">$</span>sex)</span></code></pre></div>
+<p> </p>
+<p>8. You can get another useful summary of your dataframe by using the
 <code>summary()</code> function. This will provide you with some useful
 summary statistics for each variable. Notice how the type of output
-depends on whether the variable is a factor or a number. Another useful
+depends on whether the variable is a factor or a number: for
+<code>Fsex</code>, the factor you have just created, you get a count of
+patients in each level, whereas for a numeric variable you get the
+minimum, maximum, mean, median and quartiles. Compare <code>sex</code>
+and <code>Fsex</code> in the output and you will see the same
+information summarised in two very different ways. Another useful
 feature of the <code>summary()</code> function is that it will also
 count the number of missing values in each variable. Which variables
 have missing values, and how many? While you are looking at this output,
 check the maximum value of <code>bmi</code>. Does that look like a
 plausible body mass index to you? Make a note of it and hang on to that
 thought until Exercise 4.</p>
-<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" tabindex="-1"></a><span class="fu">summary</span>(cardiac)</span>
-<span id="cb3-2"><a href="#cb3-2" tabindex="-1"></a></span>
-<span id="cb3-3"><a href="#cb3-3" tabindex="-1"></a><span class="co"># </span><span class="al">NOTE</span><span class="co">: only some of the columns are shown here, to save space</span></span>
-<span id="cb3-4"><a href="#cb3-4" tabindex="-1"></a></span>
-<span id="cb3-5"><a href="#cb3-5" tabindex="-1"></a> <span class="co">#     tchol           hdlchol       triglyceride        bmi        </span></span>
-<span id="cb3-6"><a href="#cb3-6" tabindex="-1"></a> <span class="co">#  Min.   : 4.120   Min.   :0.000   Min.   :0.000   Min.   : 17.57  </span></span>
-<span id="cb3-7"><a href="#cb3-7" tabindex="-1"></a> <span class="co">#  1st Qu.: 6.140   1st Qu.:1.080   1st Qu.:1.040   1st Qu.: 22.88  </span></span>
-<span id="cb3-8"><a href="#cb3-8" tabindex="-1"></a> <span class="co">#  Median : 6.830   Median :1.360   Median :1.380   Median : 25.20  </span></span>
-<span id="cb3-9"><a href="#cb3-9" tabindex="-1"></a> <span class="co">#  Mean   : 6.978   Mean   :1.404   Mean   :1.547   Mean   : 28.72  </span></span>
-<span id="cb3-10"><a href="#cb3-10" tabindex="-1"></a> <span class="co">#  3rd Qu.: 7.720   3rd Qu.:1.700   3rd Qu.:1.870   3rd Qu.: 28.24  </span></span>
-<span id="cb3-11"><a href="#cb3-11" tabindex="-1"></a> <span class="co">#  Max.   :11.660   Max.   :3.000   Max.   :4.670   Max.   :514.60  </span></span>
-<span id="cb3-12"><a href="#cb3-12" tabindex="-1"></a> <span class="co">#  NA&#39;s   :2        NA&#39;s   :2       NA&#39;s   :2                       </span></span>
-<span id="cb3-13"><a href="#cb3-13" tabindex="-1"></a></span>
-<span id="cb3-14"><a href="#cb3-14" tabindex="-1"></a><span class="co"># Four variables have missing values: tchol, hdlchol and triglyceride have 2</span></span>
-<span id="cb3-15"><a href="#cb3-15" tabindex="-1"></a><span class="co"># each, and smoking has 7.</span></span>
-<span id="cb3-16"><a href="#cb3-16" tabindex="-1"></a></span>
-<span id="cb3-17"><a href="#cb3-17" tabindex="-1"></a><span class="co"># The maximum bmi is 514.60. A body mass index of 514 is not possible; the</span></span>
-<span id="cb3-18"><a href="#cb3-18" tabindex="-1"></a><span class="co"># heaviest person ever recorded had a BMI of around 200. Notice that nothing</span></span>
-<span id="cb3-19"><a href="#cb3-19" tabindex="-1"></a><span class="co"># went wrong when you imported the file, and R will happily calculate a mean</span></span>
-<span id="cb3-20"><a href="#cb3-20" tabindex="-1"></a><span class="co"># from it (28.72, when the median is 25.20). It is simply a wrong number sitting</span></span>
-<span id="cb3-21"><a href="#cb3-21" tabindex="-1"></a><span class="co"># quietly in a column of right ones. You will deal with it in Exercise 4.</span></span></code></pre></div>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" tabindex="-1"></a><span class="fu">summary</span>(cardiac)</span>
+<span id="cb4-2"><a href="#cb4-2" tabindex="-1"></a></span>
+<span id="cb4-3"><a href="#cb4-3" tabindex="-1"></a><span class="co"># </span><span class="al">NOTE</span><span class="co">: only some of the columns are shown here, and not in their original</span></span>
+<span id="cb4-4"><a href="#cb4-4" tabindex="-1"></a><span class="co"># order, to save space</span></span>
+<span id="cb4-5"><a href="#cb4-5" tabindex="-1"></a></span>
+<span id="cb4-6"><a href="#cb4-6" tabindex="-1"></a> <span class="co">#     Fsex        tchol           hdlchol       triglyceride        bmi        </span></span>
+<span id="cb4-7"><a href="#cb4-7" tabindex="-1"></a> <span class="co">#  Female:78   Min.   : 4.120   Min.   :0.000   Min.   :0.000   Min.   : 17.57  </span></span>
+<span id="cb4-8"><a href="#cb4-8" tabindex="-1"></a> <span class="co">#  Male  :85   1st Qu.: 6.140   1st Qu.:1.080   1st Qu.:1.040   1st Qu.: 22.88  </span></span>
+<span id="cb4-9"><a href="#cb4-9" tabindex="-1"></a> <span class="co">#              Median : 6.830   Median :1.360   Median :1.380   Median : 25.20  </span></span>
+<span id="cb4-10"><a href="#cb4-10" tabindex="-1"></a> <span class="co">#              Mean   : 6.978   Mean   :1.404   Mean   :1.547   Mean   : 28.72  </span></span>
+<span id="cb4-11"><a href="#cb4-11" tabindex="-1"></a> <span class="co">#              3rd Qu.: 7.720   3rd Qu.:1.700   3rd Qu.:1.870   3rd Qu.: 28.24  </span></span>
+<span id="cb4-12"><a href="#cb4-12" tabindex="-1"></a> <span class="co">#              Max.   :11.660   Max.   :3.000   Max.   :4.670   Max.   :514.60  </span></span>
+<span id="cb4-13"><a href="#cb4-13" tabindex="-1"></a> <span class="co">#              NA&#39;s   :2        NA&#39;s   :2       NA&#39;s   :2                       </span></span>
+<span id="cb4-14"><a href="#cb4-14" tabindex="-1"></a></span>
+<span id="cb4-15"><a href="#cb4-15" tabindex="-1"></a><span class="co"># Fsex is a factor, so summary() counts patients: 78 women and 85 men. The</span></span>
+<span id="cb4-16"><a href="#cb4-16" tabindex="-1"></a><span class="co"># untouched sex column is still an integer, so summary() dutifully reports a</span></span>
+<span id="cb4-17"><a href="#cb4-17" tabindex="-1"></a><span class="co"># mean of 1.52 for it, which is exactly the meaningless number from Q6.</span></span>
+<span id="cb4-18"><a href="#cb4-18" tabindex="-1"></a></span>
+<span id="cb4-19"><a href="#cb4-19" tabindex="-1"></a><span class="co"># Four variables have missing values: tchol, hdlchol and triglyceride have 2</span></span>
+<span id="cb4-20"><a href="#cb4-20" tabindex="-1"></a><span class="co"># each, and smoking has 7.</span></span>
+<span id="cb4-21"><a href="#cb4-21" tabindex="-1"></a></span>
+<span id="cb4-22"><a href="#cb4-22" tabindex="-1"></a><span class="co"># The maximum bmi is 514.60. A body mass index of 514 is not possible; the</span></span>
+<span id="cb4-23"><a href="#cb4-23" tabindex="-1"></a><span class="co"># heaviest person ever recorded had a BMI of around 200. Notice that nothing</span></span>
+<span id="cb4-24"><a href="#cb4-24" tabindex="-1"></a><span class="co"># went wrong when you imported the file, and R will happily calculate a mean</span></span>
+<span id="cb4-25"><a href="#cb4-25" tabindex="-1"></a><span class="co"># from it (28.72, when the median is 25.20). It is simply a wrong number sitting</span></span>
+<span id="cb4-26"><a href="#cb4-26" tabindex="-1"></a><span class="co"># quietly in a column of right ones. You will deal with it in Exercise 4.</span></span></code></pre></div>
 <p> </p>
-<p>8. Summarising and manipulating dataframes is a key skill to acquire
+<p>9. Summarising and manipulating dataframes is a key skill to acquire
 when learning R. Although there are many ways to do this, we will
 concentrate on using the square bracket <code>[ ]</code> notation which
 you used previously with vectors. The key thing to remember when using
@@ -674,9 +745,9 @@ href="https://alexd106.github.io/PU5058/howto.html#dataw-vid">video</a>
 for some additional background information and a few examples). Let’s
 practice.</p>
 <ol style="list-style-type: lower-alpha">
-<li><p>Extract all the elements of the first 10 rows and the first 4
-columns of the <code>cardiac</code> dataframe and assign to a new
-variable called <code>cardiac_sub</code>.</p></li>
+<li><p>Extract all the elements (data) of the first 10 rows and the
+first 4 columns of the <code>cardiac</code> dataframe and assign to a
+new variable called <code>cardiac_sub</code>.</p></li>
 <li><p>Next, extract all observations (remember - rows) from the
 <code>cardiac</code> dataframe and the columns <code>patno</code>,
 <code>sex</code>, <code>smoking</code> and <code>tchol</code> and assign
@@ -684,31 +755,97 @@ to a variable called <code>cardiac_risk</code>.</p></li>
 <li><p>Now, extract the first 50 rows and all columns from the original
 dataframe and assign to a variable <code>cardiac_50</code> (there’s a
 better way to select rows with conditional statements - you’ll meet it
-in Exercise 4).</p></li>
+in Q10 below).</p></li>
 <li><p>Finally, extract all rows except the first 10 rows and all
-columns except the last column. Remember, for some of these questions
-you can specify the columns you want either by position or by name.
-Practice both ways. Do you have a preference? If so why?</p></li>
+columns except the last column. Careful here: which column is the last
+one now? Remember, for some of these questions you can specify the
+columns you want either by position or by name. Practice both ways. Do
+you have a preference? If so why?</p></li>
 </ol>
-<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" tabindex="-1"></a><span class="co"># first 10 rows and first 4 columns</span></span>
-<span id="cb4-2"><a href="#cb4-2" tabindex="-1"></a>cardiac_sub <span class="ot">&lt;-</span> cardiac[<span class="dv">1</span><span class="sc">:</span><span class="dv">10</span>, <span class="dv">1</span><span class="sc">:</span><span class="dv">4</span>]                                      </span>
-<span id="cb4-3"><a href="#cb4-3" tabindex="-1"></a></span>
-<span id="cb4-4"><a href="#cb4-4" tabindex="-1"></a><span class="co"># all rows and the columns patno, sex, smoking and tchol</span></span>
-<span id="cb4-5"><a href="#cb4-5" tabindex="-1"></a>cardiac_risk <span class="ot">&lt;-</span> cardiac[, <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">3</span>, <span class="dv">11</span>, <span class="dv">6</span>)] </span>
-<span id="cb4-6"><a href="#cb4-6" tabindex="-1"></a><span class="co"># alternative way of indexing columns with named indexes - much easier to read,</span></span>
-<span id="cb4-7"><a href="#cb4-7" tabindex="-1"></a><span class="co"># and it still works if the column order changes</span></span>
-<span id="cb4-8"><a href="#cb4-8" tabindex="-1"></a>cardiac_risk <span class="ot">&lt;-</span> cardiac[, <span class="fu">c</span>(<span class="st">&quot;patno&quot;</span>, <span class="st">&quot;sex&quot;</span>, <span class="st">&quot;smoking&quot;</span>, <span class="st">&quot;tchol&quot;</span>)]    </span>
-<span id="cb4-9"><a href="#cb4-9" tabindex="-1"></a></span>
-<span id="cb4-10"><a href="#cb4-10" tabindex="-1"></a><span class="co"># first 50 rows and all columns</span></span>
-<span id="cb4-11"><a href="#cb4-11" tabindex="-1"></a>cardiac_50 <span class="ot">&lt;-</span> cardiac[<span class="dv">1</span><span class="sc">:</span><span class="dv">50</span>, ]  </span>
-<span id="cb4-12"><a href="#cb4-12" tabindex="-1"></a></span>
-<span id="cb4-13"><a href="#cb4-13" tabindex="-1"></a><span class="co"># excluding first 10 rows and last column using negative indexing</span></span>
-<span id="cb4-14"><a href="#cb4-14" tabindex="-1"></a>cardiac_last <span class="ot">&lt;-</span> cardiac[<span class="sc">-</span><span class="fu">c</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">10</span>), <span class="sc">-</span><span class="dv">11</span>]  </span>
-<span id="cb4-15"><a href="#cb4-15" tabindex="-1"></a><span class="co"># more general way if you have lots of columns</span></span>
-<span id="cb4-16"><a href="#cb4-16" tabindex="-1"></a>cardiac_last <span class="ot">&lt;-</span> cardiac[<span class="sc">-</span><span class="fu">c</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">10</span>), <span class="sc">-</span><span class="fu">c</span>(<span class="fu">ncol</span>(cardiac))] </span>
-<span id="cb4-17"><a href="#cb4-17" tabindex="-1"></a><span class="co"># </span><span class="al">NOTE</span><span class="co">: negative indexing does NOT work with column names. Uncomment the line</span></span>
-<span id="cb4-18"><a href="#cb4-18" tabindex="-1"></a><span class="co"># below and run it to see the error for yourself:</span></span>
-<span id="cb4-19"><a href="#cb4-19" tabindex="-1"></a><span class="co"># cardiac_last &lt;- cardiac[-c(1:10), -c(&quot;smoking&quot;)]</span></span></code></pre></div>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" tabindex="-1"></a><span class="co"># first 10 rows and first 4 columns</span></span>
+<span id="cb5-2"><a href="#cb5-2" tabindex="-1"></a>cardiac_sub <span class="ot">&lt;-</span> cardiac[<span class="dv">1</span><span class="sc">:</span><span class="dv">10</span>, <span class="dv">1</span><span class="sc">:</span><span class="dv">4</span>]                                      </span>
+<span id="cb5-3"><a href="#cb5-3" tabindex="-1"></a></span>
+<span id="cb5-4"><a href="#cb5-4" tabindex="-1"></a><span class="co"># all rows and the columns patno, sex, smoking and tchol</span></span>
+<span id="cb5-5"><a href="#cb5-5" tabindex="-1"></a>cardiac_risk <span class="ot">&lt;-</span> cardiac[, <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">3</span>, <span class="dv">11</span>, <span class="dv">6</span>)] </span>
+<span id="cb5-6"><a href="#cb5-6" tabindex="-1"></a><span class="co"># alternative way of indexing columns with named indexes - much easier to read,</span></span>
+<span id="cb5-7"><a href="#cb5-7" tabindex="-1"></a><span class="co"># and it still works if the column order changes</span></span>
+<span id="cb5-8"><a href="#cb5-8" tabindex="-1"></a>cardiac_risk <span class="ot">&lt;-</span> cardiac[, <span class="fu">c</span>(<span class="st">&quot;patno&quot;</span>, <span class="st">&quot;sex&quot;</span>, <span class="st">&quot;smoking&quot;</span>, <span class="st">&quot;tchol&quot;</span>)]    </span>
+<span id="cb5-9"><a href="#cb5-9" tabindex="-1"></a></span>
+<span id="cb5-10"><a href="#cb5-10" tabindex="-1"></a><span class="co"># first 50 rows and all columns</span></span>
+<span id="cb5-11"><a href="#cb5-11" tabindex="-1"></a>cardiac_50 <span class="ot">&lt;-</span> cardiac[<span class="dv">1</span><span class="sc">:</span><span class="dv">50</span>, ]  </span>
+<span id="cb5-12"><a href="#cb5-12" tabindex="-1"></a></span>
+<span id="cb5-13"><a href="#cb5-13" tabindex="-1"></a><span class="co"># excluding first 10 rows and last column using negative indexing. </span><span class="al">NOTE</span><span class="co">: the</span></span>
+<span id="cb5-14"><a href="#cb5-14" tabindex="-1"></a><span class="co"># last column is now Fsex, the one you created in Q7, not smoking. Adding a</span></span>
+<span id="cb5-15"><a href="#cb5-15" tabindex="-1"></a><span class="co"># column shifted the positions, which is exactly why hard coded numbers are</span></span>
+<span id="cb5-16"><a href="#cb5-16" tabindex="-1"></a><span class="co"># fragile.</span></span>
+<span id="cb5-17"><a href="#cb5-17" tabindex="-1"></a>cardiac_last <span class="ot">&lt;-</span> cardiac[<span class="sc">-</span><span class="fu">c</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">10</span>), <span class="sc">-</span><span class="dv">12</span>]  </span>
+<span id="cb5-18"><a href="#cb5-18" tabindex="-1"></a><span class="co"># more general way, and it stays correct however many columns you add</span></span>
+<span id="cb5-19"><a href="#cb5-19" tabindex="-1"></a>cardiac_last <span class="ot">&lt;-</span> cardiac[<span class="sc">-</span><span class="fu">c</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">10</span>), <span class="sc">-</span><span class="fu">c</span>(<span class="fu">ncol</span>(cardiac))] </span>
+<span id="cb5-20"><a href="#cb5-20" tabindex="-1"></a><span class="co"># </span><span class="al">NOTE</span><span class="co">: negative indexing does NOT work with column names. Uncomment the line</span></span>
+<span id="cb5-21"><a href="#cb5-21" tabindex="-1"></a><span class="co"># below and run it to see the error for yourself:</span></span>
+<span id="cb5-22"><a href="#cb5-22" tabindex="-1"></a><span class="co"># cardiac_last &lt;- cardiac[-c(1:10), -c(&quot;Fsex&quot;)]</span></span></code></pre></div>
+<p> </p>
+<p>10. In addition to extracting rows and columns from your dataframe by
+position (as you have just been doing) you can also use conditional
+statements to select particular rows based on some logical criteria.
+This is very useful but takes a bit of practice to get used to (see <a
+href="https://intro2r.com/wrangling-data-frames.html#logical-indexes">Section
+3.4.2</a> for an introduction). Extract rows from your dataframe (all
+columns by default) based on the following criteria (note: you will need
+to assign the results of these statements to appropriately named
+variables, I’ll leave it up to you to use informative names!). Remember
+that <code>smoking</code> is coded 1 for current smokers, 2 for
+ex-smokers and 3 for those who have never smoked, and that for sex you
+now have a properly labelled <code>Fsex</code> to use:</p>
+<ul>
+<li>systolic blood pressure greater than 160 mmHg</li>
+<li>patients who have never smoked</li>
+<li>male patients who have never smoked and whose diastolic pressure is
+greater than the median diastolic pressure (76 mmHg)</li>
+<li>all patients with a bmi between 25 and 30 and a triglyceride between
+1 and 2 mmol l<sup>-1</sup></li>
+<li>all patients who are not ex-smokers</li>
+</ul>
+<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" tabindex="-1"></a>cardiac_sys160 <span class="ot">&lt;-</span> cardiac[cardiac<span class="sc">$</span>systolic <span class="sc">&gt;</span> <span class="dv">160</span>, ]</span>
+<span id="cb6-2"><a href="#cb6-2" tabindex="-1"></a></span>
+<span id="cb6-3"><a href="#cb6-3" tabindex="-1"></a>cardiac_never <span class="ot">&lt;-</span> cardiac[cardiac<span class="sc">$</span>smoking <span class="sc">==</span> <span class="dv">3</span>, ]</span>
+<span id="cb6-4"><a href="#cb6-4" tabindex="-1"></a></span>
+<span id="cb6-5"><a href="#cb6-5" tabindex="-1"></a>cardiac_subset <span class="ot">&lt;-</span> cardiac[cardiac<span class="sc">$</span>Fsex <span class="sc">==</span> <span class="st">&quot;Male&quot;</span> <span class="sc">&amp;</span> cardiac<span class="sc">$</span>smoking <span class="sc">==</span> <span class="dv">3</span> <span class="sc">&amp;</span> cardiac<span class="sc">$</span>diastolic <span class="sc">&gt;</span></span>
+<span id="cb6-6"><a href="#cb6-6" tabindex="-1"></a>    <span class="dv">76</span>, ]</span>
+<span id="cb6-7"><a href="#cb6-7" tabindex="-1"></a></span>
+<span id="cb6-8"><a href="#cb6-8" tabindex="-1"></a>cardiac_bmi_trig <span class="ot">&lt;-</span> cardiac[cardiac<span class="sc">$</span>bmi <span class="sc">&gt;</span> <span class="dv">25</span> <span class="sc">&amp;</span> cardiac<span class="sc">$</span>bmi <span class="sc">&lt;</span> <span class="dv">30</span> <span class="sc">&amp;</span> cardiac<span class="sc">$</span>triglyceride <span class="sc">&gt;</span></span>
+<span id="cb6-9"><a href="#cb6-9" tabindex="-1"></a>    <span class="dv">1</span> <span class="sc">&amp;</span> cardiac<span class="sc">$</span>triglyceride <span class="sc">&lt;</span> <span class="dv">2</span>, ]</span>
+<span id="cb6-10"><a href="#cb6-10" tabindex="-1"></a></span>
+<span id="cb6-11"><a href="#cb6-11" tabindex="-1"></a>cardiac_notex <span class="ot">&lt;-</span> cardiac[cardiac<span class="sc">$</span>smoking <span class="sc">!=</span> <span class="dv">2</span>, ]</span></code></pre></div>
+<p> </p>
+<p>11. A really neat feature of extracting rows based on conditional
+statements is that you can include R functions within the statement
+itself (see <a
+href="https://intro2r.com/wrangling-data-frames.html#logical-indexes">Section
+3.4.2</a> again). To practice this, modify your answer to the diastolic
+question in Q10 to use the <code>median()</code> function rather than
+hard coding the value 76. Why is this a better idea? (hint: what happens
+to your code if someone adds another twenty patients to the study?)</p>
+<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" tabindex="-1"></a>cardiac_subset <span class="ot">&lt;-</span> cardiac[cardiac<span class="sc">$</span>Fsex <span class="sc">==</span> <span class="st">&quot;Male&quot;</span> <span class="sc">&amp;</span> cardiac<span class="sc">$</span>smoking <span class="sc">==</span> <span class="dv">3</span> <span class="sc">&amp;</span> cardiac<span class="sc">$</span>diastolic <span class="sc">&gt;</span></span>
+<span id="cb7-2"><a href="#cb7-2" tabindex="-1"></a>    <span class="fu">median</span>(cardiac<span class="sc">$</span>diastolic), ]</span></code></pre></div>
+<p> </p>
+<p>12. However, when using functions in conditional statements you need
+to be careful. For example, write some code to extract all rows from the
+dataframe <code>cardiac</code> with a systolic pressure greater than 160
+mmHg and a total cholesterol greater than average (hint: use the
+<code>mean()</code> function in your conditional statement). Can you see
+a problem with the output? Have a look at <a
+href="https://intro2r.com/vectors.html#na_vals">Section 2.3</a> of the
+Introduction to R book, discuss the cause of this problem with an
+instructor and explore possible solutions.</p>
+<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" tabindex="-1"></a><span class="co"># results in a dataframe filled with NAs.</span></span>
+<span id="cb8-2"><a href="#cb8-2" tabindex="-1"></a>cardiac_new <span class="ot">&lt;-</span> cardiac[cardiac<span class="sc">$</span>systolic <span class="sc">&gt;</span> <span class="dv">160</span> <span class="sc">&amp;</span> cardiac<span class="sc">$</span>tchol <span class="sc">&gt;</span> <span class="fu">mean</span>(cardiac<span class="sc">$</span>tchol),</span>
+<span id="cb8-3"><a href="#cb8-3" tabindex="-1"></a>    ]</span>
+<span id="cb8-4"><a href="#cb8-4" tabindex="-1"></a></span>
+<span id="cb8-5"><a href="#cb8-5" tabindex="-1"></a><span class="co"># the variable tchol contains 2 NA values. By default the mean function will</span></span>
+<span id="cb8-6"><a href="#cb8-6" tabindex="-1"></a><span class="co"># return an NA.  use the na.rm argument to ignore NAs</span></span>
+<span id="cb8-7"><a href="#cb8-7" tabindex="-1"></a>cardiac_new <span class="ot">&lt;-</span> cardiac[cardiac<span class="sc">$</span>systolic <span class="sc">&gt;</span> <span class="dv">160</span> <span class="sc">&amp;</span> cardiac<span class="sc">$</span>tchol <span class="sc">&gt;</span> <span class="fu">mean</span>(cardiac<span class="sc">$</span>tchol,</span>
+<span id="cb8-8"><a href="#cb8-8" tabindex="-1"></a>    <span class="at">na.rm =</span> <span class="cn">TRUE</span>), ]</span></code></pre></div>
 <p> </p>
 <p>End of Exercise 3</p>
 </div>

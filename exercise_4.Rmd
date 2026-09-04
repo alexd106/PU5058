@@ -15,7 +15,7 @@ SOLUTIONS <- FALSE
 
 \  
 
-## Exercise 4: Cleaning, validation and joining
+## Exercise 4: Cleaning, summarising and joining data
 
 \  
 
@@ -23,77 +23,23 @@ Read [Chapter 3](https://intro2r.com/data_r.html) to help you complete the quest
 
 \  
 
-This exercise picks up exactly where Exercise 3 left off and uses the same `cardiac` dataframe. If you are starting a fresh R session, either continue with the R script you wrote for Exercise 3 or import the data again before you go any further.
+This exercise picks up exactly where Exercise 3 left off and uses the same `cardiac` dataframe. If you are starting a fresh R session, either continue with the R script you wrote for Exercise 3 or run the two lines below before you go any further. They are the import from Exercise 3, Q5 and the `Fsex` factor from Exercise 3, Q7.
 
-In Exercise 3 you noticed that R had imported `sex` and `smoking` as integers, even though they are really categories. Let's fix `sex` now, by telling R what the codes 1 and 2 actually mean. You will deal with `smoking` differently, and rather more elegantly, in Q13.
+You will notice that `smoking` is still sitting there as an integer. That is deliberate. You will deal with it differently, and rather more elegantly, in Q9.
 
 ```{r Q0, echo=TRUE}
 cardiac <- read.table('data/cardiacdata.txt', header = TRUE, sep = "\t",
                       na.strings = "NA", stringsAsFactors = TRUE)
 
-# 1 = Female and 2 = Male. Writing the labels out means you never have to
-# remember the codes again, and your output reads properly.
-cardiac$sex <- factor(cardiac$sex, levels = c(1, 2), labels = c("Female", "Male"))
+cardiac$Fsex <- factor(cardiac$sex, levels = c(1, 2),
+                       labels = c("Female", "Male"))
 ```
 
 \  
 
-1\. In addition to extracting rows and columns from your dataframe by position you can also use conditional statements to select particular rows based on some logical criteria. This is very useful but takes a bit of practice to get used to (see [Section 3.4.2](https://intro2r.com/wrangling-data-frames.html#logical-indexes) for an introduction). Extract rows from your dataframe (all columns by default) based on the following criteria (note: you will need to assign the results of these statements to appropriately named variables, I'll leave it up to you to use informative names!). Remember that `smoking` is coded 1 for current smokers, 2 for ex-smokers and 3 for those who have never smoked:  
-
-- systolic blood pressure greater than 160 mmHg
-- patients who have never smoked
-- male patients who have never smoked and whose diastolic pressure is greater than the median diastolic pressure (76 mmHg)
-- all patients with a bmi between 25 and 30 and a triglyceride between 1 and 2 mmol/l
-- all patients who are not ex-smokers
+1\. In Exercise 3 you learned how to pick out rows that meet a condition. You can use that skill to check whether your data are believable. This matters more than it sounds: a value that is simply wrong will not stop your code running, will not produce a warning, and will quietly change every result you calculate from it. Run `summary()` on your dataframe again and look at the minimum and maximum of each numeric variable. Three variables contain values that are not merely unusual but impossible. Two are impossibly low and one is impossibly high. Find them, work out which patient the impossibly high one belongs to, and then set all of the offending values to `NA` so they cannot contaminate anything you calculate later (you will need the square bracket `[ ]` notation from [Section 3.4.2](https://intro2r.com/wrangling-data-frames.html#logical-indexes), this time on the left hand side of an assignment). Re-run `summary()` afterwards to check it worked. Why is `NA` the right answer here, rather than deleting the whole patient record or guessing what the value should have been?
 
 ```{r Q1, echo=SOLUTIONS, tidy = TRUE}
-cardiac_sys160 <- cardiac[cardiac$systolic > 160, ]
-
-cardiac_never <- cardiac[cardiac$smoking == 3, ]
-
-cardiac_subset <- cardiac[cardiac$sex == "Male" & cardiac$smoking == 3 & cardiac$diastolic > 76, ]
-
-cardiac_bmi_trig <- cardiac[cardiac$bmi > 25 & cardiac$bmi < 30 & cardiac$triglyceride > 1 & cardiac$triglyceride < 2, ]
-
-cardiac_notex <- cardiac[cardiac$smoking != 2, ]
-```
-
-\  
-
-2\. A really neat feature of extracting rows based on conditional statements is that you can include R functions within the statement itself. To practice this, modify your answer to the diastolic question in Q1 to use the `median()` function rather than hard coding the value 76. Why is this a better idea? (hint: what happens to your code if someone adds another twenty patients to the study?)
-
-```{r Q2, echo=SOLUTIONS, tidy = TRUE}
-cardiac_subset <- cardiac[cardiac$sex == "Male" & cardiac$smoking == 3 & cardiac$diastolic > median(cardiac$diastolic), ]
-```
-
-\  
-
-3\. However, when using functions in conditional statements you need to be careful. For example, write some code to extract all rows from the dataframe `cardiac` with a systolic pressure greater than 160 mmHg and a total cholesterol greater than average (hint: use the `mean()` function in your conditional statement). Can you see a problem with the output? Discuss the cause of this problem with an instructor and explore possible solutions.
-
-```{r Q3, echo=SOLUTIONS, tidy = TRUE}
-# results in a dataframe filled with NAs. 
-cardiac_new <- cardiac[cardiac$systolic > 160 & cardiac$tchol > mean(cardiac$tchol), ]
-
-# the variable tchol contains 2 NA values. By default the mean function will return an NA.
-# use the na.rm argument to ignore NAs
-cardiac_new <- cardiac[cardiac$systolic > 160 & cardiac$tchol > mean(cardiac$tchol, na.rm = TRUE), ]  
-```
-
-\  
-
-4\. Although you have concentrated on using the square bracket `[ ]` notation to extract rows and columns from your dataframe, there are of course many other approaches. One such approach is to use the `subset()` function (see `?subset` or search for the `subset` function in the Introduction to R book to find more information). Use the `subset()` function to extract all female patients under 65 years of age with a systolic pressure greater than 140 mmHg. Also use `subset()` to extract all male patients with a bmi greater than 30 but only include the columns `patno`, `sex`, `bmi`, `systolic` and `tchol`.
-
-```{r Q4, echo=SOLUTIONS, tidy = TRUE}
-subset(cardiac, sex == "Female" & age < 65 & systolic > 140)
-
-subset(cardiac, sex == "Male" & bmi > 30, select = c("patno", "sex", "bmi", "systolic", "tchol"))
-```
-
-\  
-
-5\. Now that you can pick out rows that meet a condition, you can use that skill to check whether your data are believable. This matters more than it sounds: a value that is simply wrong will not stop your code running, will not produce a warning, and will quietly change every result you calculate from it. Run `summary()` on your dataframe again and look at the minimum and maximum of each numeric variable. Three of them contain values that are not merely unusual but impossible. Two are impossibly low and one is impossibly high. Find them, work out which patients they belong to, and then set those particular values to `NA` so they cannot contaminate anything you calculate later. Why is `NA` the right answer here, rather than deleting the whole patient record or guessing what the value should have been?
-
-```{r Q5, echo=SOLUTIONS, tidy = TRUE}
 summary(cardiac)
 
 # hdlchol has a minimum of 0.000, triglyceride has a minimum of 0.000, and
@@ -103,17 +49,28 @@ summary(cardiac)
 # a very large person, it is a decimal point in the wrong place: 51.46 typed
 # as 514.6.
 
-# which patients are they?
-cardiac[cardiac$hdlchol == 0 & !is.na(cardiac$hdlchol), ]
-cardiac[cardiac$triglyceride == 0 & !is.na(cardiac$triglyceride), ]
-cardiac[cardiac$bmi > 100, ]
+# which patient has the impossible bmi?
+cardiac[cardiac$bmi > 100, ]     # patient 1630L
 
-# set the impossible values to NA
-cardiac$hdlchol[cardiac$hdlchol == 0] <- NA
-cardiac$triglyceride[cardiac$triglyceride == 0] <- NA
-cardiac$bmi[cardiac$bmi > 100] <- NA
+# set the impossible values to NA. Putting the condition inside [ ] on the left
+# of the arrow means 'the elements that match this condition become NA', and
+# every other value is left alone.
+cardiac$hdlchol[cardiac$hdlchol == 0] <- NA          # 2 patients
+cardiac$triglyceride[cardiac$triglyceride == 0] <- NA # 1 patient
+cardiac$bmi[cardiac$bmi > 100] <- NA                  # 1 patient
 
 summary(cardiac)   # check: the minima and maximum are now sensible
+
+#      tchol           hdlchol       triglyceride        bmi       
+#  Min.   : 4.120   Min.   :0.720   Min.   :0.520   Min.   :17.57  
+#  Median : 6.830   Median :1.360   Median :1.380   Median :25.20  
+#  Mean   : 6.978   Mean   :1.421   Mean   :1.556   Mean   :25.72  
+#  Max.   :11.660   Max.   :3.000   Max.   :4.670   Max.   :44.44  
+#  NA's   :2        NA's   :4       NA's   :3       NA's   :1      
+
+# Notice what that one bmi value was doing to the mean: 28.72 before, 25.72
+# after. The median barely moved. One wrong number in 163 shifted the mean by
+# three units.
 
 # Why NA and not something else? Deleting the whole record throws away all the
 # other measurements for that patient, which are perfectly good. Guessing the
@@ -131,31 +88,31 @@ summary(cardiac)   # check: the minima and maximum are now sensible
 
 \  
 
-6\. Another useful way to manipulate your dataframes is to sort the rows based on the value of a variable (or combinations of variables). Rather counter-intuitively you should use the `order()` function to sort your dataframes, not the `sort()` function (see [Section 3.4.3](https://intro2r.com/wrangling-data-frames.html#ordering-data-frames) of the Introduction to R book for an explanation). Ordering dataframes uses the same logic you practised in Q12 in Exercise 2. Let's practice with a straight forward example. Use the `order()` function to sort all rows in the `cardiac` dataframe in ascending order of systolic blood pressure (lowest to highest). Store this sorted dataframe in a variable called `cardiac_sys_sort`.
+2\. Another useful way to manipulate your dataframes is to sort the rows based on the value of a variable (or combinations of variables). Rather counter-intuitively you should use the `order()` function to sort your dataframes, not the `sort()` function (see [Section 3.4.3](https://intro2r.com/wrangling-data-frames.html#ordering-data-frames) of the Introduction to R book for an explanation). Ordering dataframes uses the same logic you practised in Q12 in Exercise 2. Let's practice with a straight forward example. Use the `order()` function to sort all rows in the `cardiac` dataframe in ascending order of systolic blood pressure (lowest to highest). Store this sorted dataframe in a variable called `cardiac_sys_sort`.
 
-```{r Q6, echo=SOLUTIONS}
+```{r Q2, echo=SOLUTIONS}
 cardiac_sys_sort <- cardiac[order(cardiac$systolic), ]
 ```
 
 \  
 
-7\. Now for something a little more complicated. Sort all rows in the `cardiac` dataframe by ascending order of systolic pressure within each level of smoking status. The trick here is to remember that you can order by more than one variable when using the `order()` function (see [Section 3.4.3](https://intro2r.com/wrangling-data-frames.html#ordering-data-frames) again). Don't forget to assign your sorted dataframe to a new variable with a sensible name. Repeat the previous ordering but this time order by **descending** order of systolic pressure within each level of smoking status.  
+3\. Now for something a little more complicated. Sort all rows in the `cardiac` dataframe by ascending order of systolic pressure within each level of smoking status. The trick here is to remember that you can order by more than one variable when using the `order()` function (see [Section 3.4.3](https://intro2r.com/wrangling-data-frames.html#ordering-data-frames) again). Don't forget to assign your sorted dataframe to a new variable with a sensible name. Take a look at the bottom of the sorted dataframe: where have the patients with a missing smoking status ended up, and why?
 
-```{r Q7, echo=SOLUTIONS}
-# notice where the patients with a missing smoking status end up - and why
-cardiac_sorted <- cardiac[order(cardiac$smoking, cardiac$systolic), ]        
+```{r Q3, echo=SOLUTIONS}
+cardiac_sorted <- cardiac[order(cardiac$smoking, cardiac$systolic), ]
 
-# use '-' to reverse the order of systolic
-cardiac_rev_sorted <- cardiac[order(cardiac$smoking, -cardiac$systolic), ]   
+# order() puts NAs last by default, so the 7 patients with no smoking status
+# are all at the bottom rather than mixed in with the ones you can interpret.
+tail(cardiac_sorted)
 ```
 
 \    
 
-8\. Often, we would like to summarise variables by, for example, calculating a mean, median or counting the number of observations. To do this for a single variable it's fairly straight forward : 
+4\. Often, we would like to summarise variables by, for example, calculating a mean, median or counting the number of observations. To do this for a single variable it's fairly straight forward : 
 
 \  
 
-```{r Q8a, echo=TRUE}
+```{r Q4a, echo=TRUE}
 mean(cardiac$age)          # mean age
 median(cardiac$systolic)   # median systolic blood pressure
 length(cardiac$tchol)      # number of observations
@@ -163,39 +120,57 @@ length(cardiac$tchol)      # number of observations
 
 \  
 
-8\. (cont) Perhaps more interestingly, you might want to summarise one variable conditional on the level of another categorical variable. For example, write some R code to calculate the mean total cholesterol for each of the three smoking categories (see [Section 3.5](https://intro2r.com/summarising-data-frames.html#summarising-data-frames) for a few hints). Next, calculate the median total cholesterol for each smoking category and for each sex.
+4\. (cont) Perhaps more interestingly, you might want to summarise one variable conditional on the level of another categorical variable. For example, write some R code to calculate the mean total cholesterol for each of the three smoking categories (see [Section 3.5](https://intro2r.com/summarising-data-frames.html#summarising-data-frames) of the Introduction to R book for a few hints). Next, calculate the median total cholesterol for each smoking category and for each sex.
 
-```{r Q8b, echo=SOLUTIONS}
+```{r Q4b, echo=SOLUTIONS}
 tapply(cardiac$tchol, cardiac$smoking, mean)      # notice the NAs?
 
 # use the na.rm argument again
 tapply(cardiac$tchol, cardiac$smoking, mean, na.rm = TRUE)    
 
+#        1        2        3 
+# 6.927143 6.820000 7.157170 
+
 # alternative method using the with() function. see ?with
 with(cardiac, tapply(tchol, smoking, mean, na.rm = TRUE))   
 
 # when using multiple grouping variables these need to be supplied as a list
-tapply(cardiac$tchol, list(cardiac$smoking, cardiac$sex), median, na.rm = TRUE)
+tapply(cardiac$tchol, list(cardiac$smoking, cardiac$Fsex), median, na.rm = TRUE)
+
+#   Female Male
+# 1  7.090 6.46
+# 2  7.560 6.28
+# 3  7.025 7.03
 ```
 
 \  
 
-9\. Another useful function for summarising dataframes is `aggregate()`. Search in the R book for the function aggregate to see how to use this function (or see `?aggregate`). Use the `aggregate()` function to calculate the mean age, systolic pressure, diastolic pressure and total cholesterol for each smoking category (don't forget about those sneaky NA values). Next calculate the same means for each smoking category and each sex.
+5\. Another useful function for summarising dataframes is `aggregate()` (see [Section 3.5](https://intro2r.com/summarising-data-frames.html#summarising-data-frames) again, or `?aggregate`). Use the `aggregate()` function to calculate the mean age, systolic pressure, diastolic pressure and total cholesterol for each smoking category (don't forget about those sneaky NA values). Next calculate the same means for each smoking category and each sex.
 
-```{r Q9, echo=SOLUTIONS, tidy = TRUE}
+```{r Q5, echo=SOLUTIONS, tidy = TRUE}
 aggregate(cardiac[, c(2, 4, 5, 6)], by = list(smoking = cardiac$smoking), mean, na.rm = TRUE)
 
-aggregate(cardiac[, c(2, 4, 5, 6)], by = list(smoking = cardiac$smoking, sex = cardiac$sex), mean, na.rm = TRUE)
+#   smoking      age systolic diastolic    tchol
+# 1       1 63.10060 143.5400  76.40000 6.927143
+# 2       2 66.40769 145.0385  77.48077 6.820000
+# 3       3 64.82019 139.2778  77.50000 7.157170
+
+aggregate(cardiac[, c(2, 4, 5, 6)], by = list(smoking = cardiac$smoking, sex = cardiac$Fsex), mean, na.rm = TRUE)
 ```
 
 \  
 
-10\. Knowing how many observations are present for each category (or combinations of categories) is useful to determine whether you have an adequate sample size (for subsequent modelling for example). Use the `table()` function to determine the number of patients in each smoking category (see [Section 3.5](https://intro2r.com/summarising-data-frames.html#summarising-data-frames) again for more information). Next use the same function to display the number of patients for each combination of smoking category and sex. Does `table()` tell you about the patients whose smoking status is missing?
+6\. Knowing how many observations are present for each category (or combinations of categories) is useful to determine whether you have an adequate sample size (for subsequent modelling for example). Use the `table()` function to determine the number of patients in each smoking category (see [Section 3.5](https://intro2r.com/summarising-data-frames.html#summarising-data-frames) again for more information). Next use the same function to display the number of patients for each combination of smoking category and sex. Does `table()` tell you about the patients whose smoking status is missing?
 
-```{r Q10, echo=SOLUTIONS}
+```{r Q6, echo=SOLUTIONS}
 # using table
 table(cardiac$smoking)
-table(cardiac$smoking, cardiac$sex)
+table(cardiac$smoking, cardiac$Fsex)
+
+#     Female Male
+#   1     26   24
+#   2     15   37
+#   3     37   17
 
 # by default table() silently drops the missing values - 50 + 52 + 54 = 156,
 # not 163. Ask for them explicitly:
@@ -204,9 +179,9 @@ table(cardiac$smoking, useNA = "ifany")
 
 \  
 
-11\. Real analyses almost never involve a single file. The measurements you want are usually spread across several tables and you have to put them together first. The patients in this study were followed up ten years after their first examination, and those follow-up measurements are in a separate file. Download *'cardiac_followup.txt'* from the **[<i class="fa fa-download"></i> Data](data.html)** link, save it to your `data` directory and import it with `read.table()` into a variable called `followup`. How many rows does it have, and how does that compare with `cardiac`? Now use the `merge()` function to join the two together on the patient number, and assign the result to `cardiac_fu`. How many rows does the joined dataframe have, and can you explain why?
+7\. Real analyses almost never involve a single file. The measurements you want are usually spread across several tables and you have to put them together first (see [Section 3.4.5](https://intro2r.com/wrangling-data-frames.html#merging-data-frames) of the Introduction to R book). The patients in this study were followed up ten years after their first examination, and those follow-up measurements are in a separate file. Download *'cardiac_followup.txt'* from the **[<i class="fa fa-download"></i> Data](data.html)** link, save it to your `data` directory and import it with `read.table()` into a variable called `followup`. How many rows does it have, and how does that compare with `cardiac`? Now use the `merge()` function to join the two together on the patient number, and assign the result to `cardiac_fu`. How many rows does the joined dataframe have, and can you explain why?
 
-```{r Q11, echo=SOLUTIONS, tidy = TRUE}
+```{r Q7, echo=SOLUTIONS, tidy = TRUE}
 followup <- read.table('data/cardiac_followup.txt', header = TRUE, sep = "\t",
                        na.strings = "NA", stringsAsFactors = TRUE)
 
@@ -224,9 +199,9 @@ nrow(cardiac_fu)  # 108
 
 \  
 
-12\. Losing 55 patients without being told is exactly the sort of thing that ruins an analysis, and it is why you check row counts every single time you join. Often what you actually want is to keep every patient from the first dataframe whether or not they have a match in the second. Look at the help file for `merge()` and find the argument that does this. Redo the join keeping all 163 patients, assign it to `cardiac_all`, and check how many of them have a missing follow-up systolic pressure. Finally, try running `merge(cardiac, followup)` without the `by` argument at all. It works. Why is relying on that a bad habit?
+8\. Losing 55 patients without being told is exactly the sort of thing that ruins an analysis, and it is why you check row counts every single time you join. Often what you actually want is to keep every patient from the first dataframe whether or not they have a match in the second. Look at [Section 3.4.5](https://intro2r.com/wrangling-data-frames.html#merging-data-frames) and the help file for `merge()`, and find the argument that does this. Redo the join keeping all 163 patients, assign it to `cardiac_all`, and check how many of them have a missing follow-up systolic pressure. Finally, try running `merge(cardiac, followup)` without the `by` argument at all. It works. Why is relying on that a bad habit?
 
-```{r Q12, echo=SOLUTIONS, tidy = TRUE}
+```{r Q8, echo=SOLUTIONS, tidy = TRUE}
 cardiac_all <- merge(cardiac, followup, by = "patno", all.x = TRUE)
 nrow(cardiac_all)                      # 163 - everybody is kept
 
@@ -244,9 +219,9 @@ sum(is.na(cardiac_all$systolic10))     # 55 patients have no follow-up
 
 \  
 
-13\. There is one more join worth knowing, and it solves the `smoking` problem left over from Q0. Rather than typing the labels out by hand, you can keep the codes and their meanings in their own small file and join them on. Download *'smoking_lookup.txt'* from the **[<i class="fa fa-download"></i> Data](data.html)** link, save it to your `data` directory and import it into a variable called `smoke_codes`. Take a look at it. Notice that the column holding the code is called `code`, not `smoking`, so the two dataframes have no column name in common and `by` on its own will not work. Look at the help file for `merge()` again and find the two arguments that let you name a different key in each dataframe. Join the labels onto `cardiac_all`, keeping all patients, and then check with `table()` that every patient has ended up with the right label.
+9\. There is one more join worth knowing, and it solves the `smoking` problem that has been hanging over you since Exercise 3. Rather than typing the labels out by hand as you did for `Fsex`, you can keep the codes and their meanings in their own small file and join them on. Download *'smoking_lookup.txt'* from the **[<i class="fa fa-download"></i> Data](data.html)** link, save it to your `data` directory and import it into a variable called `smoke_codes`. Take a look at it. Notice that the column holding the code is called `code`, not `smoking`, so the two dataframes have no column name in common and `by` on its own will not work. Look at [Section 3.4.5](https://intro2r.com/wrangling-data-frames.html#merging-data-frames) and the help file for `merge()` again and find the two arguments that let you name a different key in each dataframe. Join the labels onto `cardiac_all`, keeping all patients, and then check with `table()` that every patient has ended up with the right label.
 
-```{r Q13, echo=SOLUTIONS, tidy = TRUE}
+```{r Q9, echo=SOLUTIONS, tidy = TRUE}
 smoke_codes <- read.table('data/smoking_lookup.txt', header = TRUE, sep = "\t",
                           na.strings = "NA", stringsAsFactors = TRUE)
 smoke_codes
@@ -274,22 +249,23 @@ table(cardiac_all$smoking_status, useNA = "ifany")
 
 \  
 
-14\. Ok, we have spent quite a bit of time (and energy) learning how to clean, check and join dataframes. The last thing we need to cover is how to export a dataframe from R to an external file (see [Section 3.6](https://intro2r.com/exporting-data.html#exporting-data) of the book for more details). Export your cleaned and joined dataframe `cardiac_all` to a file called 'cardiac_clean.txt' in the `output` directory you created in Exercise 1. To do this you will need to use the `write.table()` function. You want to include the variable names in the first row of the file, but you don't want to include the row names. Also, make sure the file is a tab delimited file. Once you have created your file, try to open it in Microsoft Excel (or open source equivalent). Finally, and this is the part people forget: add a comment block at the top of your R script listing every change you made to the data and why. Which three values did you set to `NA`, and which patients did they belong to? Someone reading your work in six months, including you, needs to be able to answer that without re-running anything.
+10\. Ok, we have spent quite a bit of time (and energy) learning how to clean, summarise and join dataframes. The last thing we need to cover is how to export a dataframe from R to an external file (see [Section 3.6](https://intro2r.com/exporting-data.html#exporting-data) of the book for more details). Export your cleaned and joined dataframe `cardiac_all` to a file called 'cardiac_clean.txt' in the `output` directory you created in Exercise 1. To do this you will need to use the `write.table()` function. You want to include the variable names in the first row of the file, but you don't want to include the row names. Also, make sure the file is a tab delimited file. Once you have created your file, try to open it in Microsoft Excel (or open source equivalent). Finally, and this is the part people forget: add a comment block at the top of your R script listing every change you made to the data and why. Which values did you set to `NA`, in which variables, and which patients did they belong to? Someone reading your work in six months, including you, needs to be able to answer that without re-running anything.
 
-```{r Q14, echo=SOLUTIONS, tidy = TRUE}
+```{r Q10, echo=SOLUTIONS, tidy = TRUE}
 write.table(cardiac_all, "output/cardiac_clean.txt", col.names = TRUE, row.names = FALSE, sep = "\t")
 
 # Decision log - the sort of thing that belongs at the top of your script:
 #
 # Data: data/cardiacdata.txt, 163 patients, imported unchanged.
-# 1. hdlchol of 0.00 set to NA (2 patients). A HDL cholesterol of zero is
+# 1. Fsex created as a factor version of sex, labelled Female (1) and Male (2).
+#    The original sex column was left untouched.
+# 2. hdlchol of 0.00 set to NA (2 patients). A HDL cholesterol of zero is
 #    physiologically impossible and is almost certainly a missing value that
 #    was recorded as 0.
-# 2. triglyceride of 0.00 set to NA (1 patient). Same reasoning.
-# 3. bmi of 514.60 set to NA (1 patient). Almost certainly 51.46 with the
+# 3. triglyceride of 0.00 set to NA (1 patient). Same reasoning.
+# 4. bmi of 514.60 set to NA (patient 1630L). Almost certainly 51.46 with the
 #    decimal point misplaced, but as we cannot confirm that, NA rather than
 #    a correction.
-# 4. sex converted to a factor with labels Female (1) and Male (2).
 # 5. smoking labels joined on from data/smoking_lookup.txt.
 # 6. Ten year follow-up measurements joined on from data/cardiac_followup.txt,
 #    keeping all 163 patients; 55 have no follow-up data.

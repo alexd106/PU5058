@@ -496,9 +496,9 @@ $(document).ready(function () {
 
 
 <p> </p>
-<div id="exercise-4-cleaning-validation-and-joining"
+<div id="exercise-4-cleaning-summarising-and-joining-data"
 class="section level2">
-<h2>Exercise 4: Cleaning, validation and joining</h2>
+<h2>Exercise 4: Cleaning, summarising and joining data</h2>
 <p> </p>
 <p>Read <a href="https://intro2r.com/data_r.html">Chapter 3</a> to help
 you complete the questions in this exercise.</p>
@@ -506,82 +506,37 @@ you complete the questions in this exercise.</p>
 <p>This exercise picks up exactly where Exercise 3 left off and uses the
 same <code>cardiac</code> dataframe. If you are starting a fresh R
 session, either continue with the R script you wrote for Exercise 3 or
-import the data again before you go any further.</p>
-<p>In Exercise 3 you noticed that R had imported <code>sex</code> and
-<code>smoking</code> as integers, even though they are really
-categories. Let’s fix <code>sex</code> now, by telling R what the codes
-1 and 2 actually mean. You will deal with <code>smoking</code>
-differently, and rather more elegantly, in Q13.</p>
+run the two lines below before you go any further. They are the import
+from Exercise 3, Q5 and the <code>Fsex</code> factor from Exercise 3,
+Q7.</p>
+<p>You will notice that <code>smoking</code> is still sitting there as
+an integer. That is deliberate. You will deal with it differently, and
+rather more elegantly, in Q9.</p>
 <div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" tabindex="-1"></a>cardiac <span class="ot">&lt;-</span> <span class="fu">read.table</span>(<span class="st">&#39;data/cardiacdata.txt&#39;</span>, <span class="at">header =</span> <span class="cn">TRUE</span>, <span class="at">sep =</span> <span class="st">&quot;</span><span class="sc">\t</span><span class="st">&quot;</span>,</span>
 <span id="cb1-2"><a href="#cb1-2" tabindex="-1"></a>                      <span class="at">na.strings =</span> <span class="st">&quot;NA&quot;</span>, <span class="at">stringsAsFactors =</span> <span class="cn">TRUE</span>)</span>
 <span id="cb1-3"><a href="#cb1-3" tabindex="-1"></a></span>
-<span id="cb1-4"><a href="#cb1-4" tabindex="-1"></a><span class="co"># 1 = Female and 2 = Male. Writing the labels out means you never have to</span></span>
-<span id="cb1-5"><a href="#cb1-5" tabindex="-1"></a><span class="co"># remember the codes again, and your output reads properly.</span></span>
-<span id="cb1-6"><a href="#cb1-6" tabindex="-1"></a>cardiac<span class="sc">$</span>sex <span class="ot">&lt;-</span> <span class="fu">factor</span>(cardiac<span class="sc">$</span>sex, <span class="at">levels =</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">2</span>), <span class="at">labels =</span> <span class="fu">c</span>(<span class="st">&quot;Female&quot;</span>, <span class="st">&quot;Male&quot;</span>))</span></code></pre></div>
+<span id="cb1-4"><a href="#cb1-4" tabindex="-1"></a>cardiac<span class="sc">$</span>Fsex <span class="ot">&lt;-</span> <span class="fu">factor</span>(cardiac<span class="sc">$</span>sex, <span class="at">levels =</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">2</span>),</span>
+<span id="cb1-5"><a href="#cb1-5" tabindex="-1"></a>                       <span class="at">labels =</span> <span class="fu">c</span>(<span class="st">&quot;Female&quot;</span>, <span class="st">&quot;Male&quot;</span>))</span></code></pre></div>
 <p> </p>
-<p>1. In addition to extracting rows and columns from your dataframe by
-position you can also use conditional statements to select particular
-rows based on some logical criteria. This is very useful but takes a bit
-of practice to get used to (see <a
+<p>1. In Exercise 3 you learned how to pick out rows that meet a
+condition. You can use that skill to check whether your data are
+believable. This matters more than it sounds: a value that is simply
+wrong will not stop your code running, will not produce a warning, and
+will quietly change every result you calculate from it. Run
+<code>summary()</code> on your dataframe again and look at the minimum
+and maximum of each numeric variable. Three variables contain values
+that are not merely unusual but impossible. Two are impossibly low and
+one is impossibly high. Find them, work out which patient the impossibly
+high one belongs to, and then set all of the offending values to
+<code>NA</code> so they cannot contaminate anything you calculate later
+(you will need the square bracket <code>[ ]</code> notation from <a
 href="https://intro2r.com/wrangling-data-frames.html#logical-indexes">Section
-3.4.2</a> for an introduction). Extract rows from your dataframe (all
-columns by default) based on the following criteria (note: you will need
-to assign the results of these statements to appropriately named
-variables, I’ll leave it up to you to use informative names!). Remember
-that <code>smoking</code> is coded 1 for current smokers, 2 for
-ex-smokers and 3 for those who have never smoked:</p>
-<ul>
-<li>systolic blood pressure greater than 160 mmHg</li>
-<li>patients who have never smoked</li>
-<li>male patients who have never smoked and whose diastolic pressure is
-greater than the median diastolic pressure (76 mmHg)</li>
-<li>all patients with a bmi between 25 and 30 and a triglyceride between
-1 and 2 mmol/l</li>
-<li>all patients who are not ex-smokers</li>
-</ul>
+3.4.2</a>, this time on the left hand side of an assignment). Re-run
+<code>summary()</code> afterwards to check it worked. Why is
+<code>NA</code> the right answer here, rather than deleting the whole
+patient record or guessing what the value should have been?</p>
 <p> </p>
-<p>2. A really neat feature of extracting rows based on conditional
-statements is that you can include R functions within the statement
-itself. To practice this, modify your answer to the diastolic question
-in Q1 to use the <code>median()</code> function rather than hard coding
-the value 76. Why is this a better idea? (hint: what happens to your
-code if someone adds another twenty patients to the study?)</p>
-<p> </p>
-<p>3. However, when using functions in conditional statements you need
-to be careful. For example, write some code to extract all rows from the
-dataframe <code>cardiac</code> with a systolic pressure greater than 160
-mmHg and a total cholesterol greater than average (hint: use the
-<code>mean()</code> function in your conditional statement). Can you see
-a problem with the output? Discuss the cause of this problem with an
-instructor and explore possible solutions.</p>
-<p> </p>
-<p>4. Although you have concentrated on using the square bracket
-<code>[ ]</code> notation to extract rows and columns from your
-dataframe, there are of course many other approaches. One such approach
-is to use the <code>subset()</code> function (see <code>?subset</code>
-or search for the <code>subset</code> function in the Introduction to R
-book to find more information). Use the <code>subset()</code> function
-to extract all female patients under 65 years of age with a systolic
-pressure greater than 140 mmHg. Also use <code>subset()</code> to
-extract all male patients with a bmi greater than 30 but only include
-the columns <code>patno</code>, <code>sex</code>, <code>bmi</code>,
-<code>systolic</code> and <code>tchol</code>.</p>
-<p> </p>
-<p>5. Now that you can pick out rows that meet a condition, you can use
-that skill to check whether your data are believable. This matters more
-than it sounds: a value that is simply wrong will not stop your code
-running, will not produce a warning, and will quietly change every
-result you calculate from it. Run <code>summary()</code> on your
-dataframe again and look at the minimum and maximum of each numeric
-variable. Three of them contain values that are not merely unusual but
-impossible. Two are impossibly low and one is impossibly high. Find
-them, work out which patients they belong to, and then set those
-particular values to <code>NA</code> so they cannot contaminate anything
-you calculate later. Why is <code>NA</code> the right answer here,
-rather than deleting the whole patient record or guessing what the value
-should have been?</p>
-<p> </p>
-<p>6. Another useful way to manipulate your dataframes is to sort the
+<p>2. Another useful way to manipulate your dataframes is to sort the
 rows based on the value of a variable (or combinations of variables).
 Rather counter-intuitively you should use the <code>order()</code>
 function to sort your dataframes, not the <code>sort()</code> function
@@ -595,18 +550,18 @@ ascending order of systolic blood pressure (lowest to highest). Store
 this sorted dataframe in a variable called
 <code>cardiac_sys_sort</code>.</p>
 <p> </p>
-<p>7. Now for something a little more complicated. Sort all rows in the
+<p>3. Now for something a little more complicated. Sort all rows in the
 <code>cardiac</code> dataframe by ascending order of systolic pressure
 within each level of smoking status. The trick here is to remember that
 you can order by more than one variable when using the
 <code>order()</code> function (see <a
 href="https://intro2r.com/wrangling-data-frames.html#ordering-data-frames">Section
 3.4.3</a> again). Don’t forget to assign your sorted dataframe to a new
-variable with a sensible name. Repeat the previous ordering but this
-time order by <strong>descending</strong> order of systolic pressure
-within each level of smoking status.</p>
+variable with a sensible name. Take a look at the bottom of the sorted
+dataframe: where have the patients with a missing smoking status ended
+up, and why?</p>
 <p> </p>
-<p>8. Often, we would like to summarise variables by, for example,
+<p>4. Often, we would like to summarise variables by, for example,
 calculating a mean, median or counting the number of observations. To do
 this for a single variable it’s fairly straight forward :</p>
 <p> </p>
@@ -614,24 +569,25 @@ this for a single variable it’s fairly straight forward :</p>
 <span id="cb2-2"><a href="#cb2-2" tabindex="-1"></a><span class="fu">median</span>(cardiac<span class="sc">$</span>systolic)   <span class="co"># median systolic blood pressure</span></span>
 <span id="cb2-3"><a href="#cb2-3" tabindex="-1"></a><span class="fu">length</span>(cardiac<span class="sc">$</span>tchol)      <span class="co"># number of observations</span></span></code></pre></div>
 <p> </p>
-<p>8. (cont) Perhaps more interestingly, you might want to summarise one
+<p>4. (cont) Perhaps more interestingly, you might want to summarise one
 variable conditional on the level of another categorical variable. For
 example, write some R code to calculate the mean total cholesterol for
 each of the three smoking categories (see <a
 href="https://intro2r.com/summarising-data-frames.html#summarising-data-frames">Section
-3.5</a> for a few hints). Next, calculate the median total cholesterol
-for each smoking category and for each sex.</p>
+3.5</a> of the Introduction to R book for a few hints). Next, calculate
+the median total cholesterol for each smoking category and for each
+sex.</p>
 <p> </p>
-<p>9. Another useful function for summarising dataframes is
-<code>aggregate()</code>. Search in the R book for the function
-aggregate to see how to use this function (or see
-<code>?aggregate</code>). Use the <code>aggregate()</code> function to
-calculate the mean age, systolic pressure, diastolic pressure and total
-cholesterol for each smoking category (don’t forget about those sneaky
-NA values). Next calculate the same means for each smoking category and
-each sex.</p>
+<p>5. Another useful function for summarising dataframes is
+<code>aggregate()</code> (see <a
+href="https://intro2r.com/summarising-data-frames.html#summarising-data-frames">Section
+3.5</a> again, or <code>?aggregate</code>). Use the
+<code>aggregate()</code> function to calculate the mean age, systolic
+pressure, diastolic pressure and total cholesterol for each smoking
+category (don’t forget about those sneaky NA values). Next calculate the
+same means for each smoking category and each sex.</p>
 <p> </p>
-<p>10. Knowing how many observations are present for each category (or
+<p>6. Knowing how many observations are present for each category (or
 combinations of categories) is useful to determine whether you have an
 adequate sample size (for subsequent modelling for example). Use the
 <code>table()</code> function to determine the number of patients in
@@ -642,11 +598,13 @@ display the number of patients for each combination of smoking category
 and sex. Does <code>table()</code> tell you about the patients whose
 smoking status is missing?</p>
 <p> </p>
-<p>11. Real analyses almost never involve a single file. The
-measurements you want are usually spread across several tables and you
-have to put them together first. The patients in this study were
-followed up ten years after their first examination, and those follow-up
-measurements are in a separate file. Download
+<p>7. Real analyses almost never involve a single file. The measurements
+you want are usually spread across several tables and you have to put
+them together first (see <a
+href="https://intro2r.com/wrangling-data-frames.html#merging-data-frames">Section
+3.4.5</a> of the Introduction to R book). The patients in this study
+were followed up ten years after their first examination, and those
+follow-up measurements are in a separate file. Download
 <em>‘cardiac_followup.txt’</em> from the <strong><a
 href="data.html"><i class="fa fa-download"></i> Data</a></strong> link,
 save it to your <code>data</code> directory and import it with
@@ -657,20 +615,23 @@ the two together on the patient number, and assign the result to
 <code>cardiac_fu</code>. How many rows does the joined dataframe have,
 and can you explain why?</p>
 <p> </p>
-<p>12. Losing 55 patients without being told is exactly the sort of
-thing that ruins an analysis, and it is why you check row counts every
-single time you join. Often what you actually want is to keep every
-patient from the first dataframe whether or not they have a match in the
-second. Look at the help file for <code>merge()</code> and find the
+<p>8. Losing 55 patients without being told is exactly the sort of thing
+that ruins an analysis, and it is why you check row counts every single
+time you join. Often what you actually want is to keep every patient
+from the first dataframe whether or not they have a match in the second.
+Look at <a
+href="https://intro2r.com/wrangling-data-frames.html#merging-data-frames">Section
+3.4.5</a> and the help file for <code>merge()</code>, and find the
 argument that does this. Redo the join keeping all 163 patients, assign
 it to <code>cardiac_all</code>, and check how many of them have a
 missing follow-up systolic pressure. Finally, try running
 <code>merge(cardiac, followup)</code> without the <code>by</code>
 argument at all. It works. Why is relying on that a bad habit?</p>
 <p> </p>
-<p>13. There is one more join worth knowing, and it solves the
-<code>smoking</code> problem left over from Q0. Rather than typing the
-labels out by hand, you can keep the codes and their meanings in their
+<p>9. There is one more join worth knowing, and it solves the
+<code>smoking</code> problem that has been hanging over you since
+Exercise 3. Rather than typing the labels out by hand as you did for
+<code>Fsex</code>, you can keep the codes and their meanings in their
 own small file and join them on. Download <em>‘smoking_lookup.txt’</em>
 from the <strong><a href="data.html"><i class="fa fa-download"></i>
 Data</a></strong> link, save it to your <code>data</code> directory and
@@ -678,15 +639,17 @@ import it into a variable called <code>smoke_codes</code>. Take a look
 at it. Notice that the column holding the code is called
 <code>code</code>, not <code>smoking</code>, so the two dataframes have
 no column name in common and <code>by</code> on its own will not work.
-Look at the help file for <code>merge()</code> again and find the two
-arguments that let you name a different key in each dataframe. Join the
-labels onto <code>cardiac_all</code>, keeping all patients, and then
+Look at <a
+href="https://intro2r.com/wrangling-data-frames.html#merging-data-frames">Section
+3.4.5</a> and the help file for <code>merge()</code> again and find the
+two arguments that let you name a different key in each dataframe. Join
+the labels onto <code>cardiac_all</code>, keeping all patients, and then
 check with <code>table()</code> that every patient has ended up with the
 right label.</p>
 <p> </p>
-<p>14. Ok, we have spent quite a bit of time (and energy) learning how
-to clean, check and join dataframes. The last thing we need to cover is
-how to export a dataframe from R to an external file (see <a
+<p>10. Ok, we have spent quite a bit of time (and energy) learning how
+to clean, summarise and join dataframes. The last thing we need to cover
+is how to export a dataframe from R to an external file (see <a
 href="https://intro2r.com/exporting-data.html#exporting-data">Section
 3.6</a> of the book for more details). Export your cleaned and joined
 dataframe <code>cardiac_all</code> to a file called ‘cardiac_clean.txt’
@@ -697,10 +660,10 @@ don’t want to include the row names. Also, make sure the file is a tab
 delimited file. Once you have created your file, try to open it in
 Microsoft Excel (or open source equivalent). Finally, and this is the
 part people forget: add a comment block at the top of your R script
-listing every change you made to the data and why. Which three values
-did you set to <code>NA</code>, and which patients did they belong to?
-Someone reading your work in six months, including you, needs to be able
-to answer that without re-running anything.</p>
+listing every change you made to the data and why. Which values did you
+set to <code>NA</code>, in which variables, and which patients did they
+belong to? Someone reading your work in six months, including you, needs
+to be able to answer that without re-running anything.</p>
 <p> </p>
 <p>End of Exercise 4</p>
 </div>

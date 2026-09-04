@@ -27,7 +27,7 @@ str(cardiac)          # display the structure of the dataframe cardiac
 # in the file: sex is coded 1 and 2, smoking is coded 1, 2 and 3. But they are
 # not really numbers, they are categories, and R has no way of knowing that.
 # Nothing stops you calculating mean(cardiac$sex) - it returns 1.52 - and that
-# number is meaningless. You will convert these to factors in Exercise 4.
+# number is meaningless. You will fix sex in the next question.
 
 # patno is a factor with 163 levels, one for every row. A factor with as many
 # levels as there are rows is a good sign that you are looking at an identifier
@@ -35,18 +35,64 @@ str(cardiac)          # display the structure of the dataframe cardiac
 
 
 ## ----Q7, echo=SOLUTIONS-------------------------------------------------------
+# 1 = Female and 2 = Male. Writing the labels out means you never have to
+# remember the codes again, and your output reads properly.
+cardiac$Fsex <- factor(cardiac$sex, levels = c(1, 2),
+                       labels = c("Female", "Male"))
+
+str(cardiac)
+
+#  $ sex         : int  2 2 2 2 2 2 2 1 1 2 ...
+#  $ Fsex        : Factor w/ 2 levels "Female","Male": 2 2 2 2 2 2 2 1 1 2 ...
+
+# Why a new variable rather than overwriting sex?
+#
+# 1. The raw codes survive. You can always check your recoding against what was
+#    actually in the file, and if you get the labels the wrong way round you can
+#    simply redo it. Overwrite, and the codes are gone from your session.
+#
+# 2. Overwriting is not repeatable, and this is the one that bites people. Run
+#    the line below twice and look at the result:
+#
+#    cardiac$sex <- factor(cardiac$sex, levels = c(1, 2),
+#                          labels = c("Female", "Male"))
+#
+#    The first run works. On the second run, sex no longer contains 1 and 2, it
+#    contains "Female" and "Male", so factor() goes looking for levels 1 and 2,
+#    finds neither, and quietly turns every single value into NA:
+#
+#    Female   Male   <NA>
+#         0      0    163
+#
+#    No error, no warning, all 163 patients lost. Scripts get re-run constantly,
+#    so a line that only works once is a line waiting to ruin your afternoon.
+#    Writing to Fsex is safe to re-run as many times as you like.
+#
+# 3. The 'F' prefix says at a glance which variable is the factor version. You
+#    will use the same convention for Fsmoking in Exercise 5.
+
+# and note: sex is still an integer, exactly as it was
+str(cardiac$sex)
+
+
+## ----Q8, echo=SOLUTIONS-------------------------------------------------------
 summary(cardiac)
 
-# NOTE: only some of the columns are shown here, to save space
+# NOTE: only some of the columns are shown here, and not in their original
+# order, to save space
 
- #     tchol           hdlchol       triglyceride        bmi        
- #  Min.   : 4.120   Min.   :0.000   Min.   :0.000   Min.   : 17.57  
- #  1st Qu.: 6.140   1st Qu.:1.080   1st Qu.:1.040   1st Qu.: 22.88  
- #  Median : 6.830   Median :1.360   Median :1.380   Median : 25.20  
- #  Mean   : 6.978   Mean   :1.404   Mean   :1.547   Mean   : 28.72  
- #  3rd Qu.: 7.720   3rd Qu.:1.700   3rd Qu.:1.870   3rd Qu.: 28.24  
- #  Max.   :11.660   Max.   :3.000   Max.   :4.670   Max.   :514.60  
- #  NA's   :2        NA's   :2       NA's   :2                       
+ #     Fsex        tchol           hdlchol       triglyceride        bmi        
+ #  Female:78   Min.   : 4.120   Min.   :0.000   Min.   :0.000   Min.   : 17.57  
+ #  Male  :85   1st Qu.: 6.140   1st Qu.:1.080   1st Qu.:1.040   1st Qu.: 22.88  
+ #              Median : 6.830   Median :1.360   Median :1.380   Median : 25.20  
+ #              Mean   : 6.978   Mean   :1.404   Mean   :1.547   Mean   : 28.72  
+ #              3rd Qu.: 7.720   3rd Qu.:1.700   3rd Qu.:1.870   3rd Qu.: 28.24  
+ #              Max.   :11.660   Max.   :3.000   Max.   :4.670   Max.   :514.60  
+ #              NA's   :2        NA's   :2       NA's   :2                       
+
+# Fsex is a factor, so summary() counts patients: 78 women and 85 men. The
+# untouched sex column is still an integer, so summary() dutifully reports a
+# mean of 1.52 for it, which is exactly the meaningless number from Q6.
 
 # Four variables have missing values: tchol, hdlchol and triglyceride have 2
 # each, and smoking has 7.
@@ -58,7 +104,7 @@ summary(cardiac)
 # quietly in a column of right ones. You will deal with it in Exercise 4.
 
 
-## ----Q8, echo=SOLUTIONS-------------------------------------------------------
+## ----Q9, echo=SOLUTIONS-------------------------------------------------------
 # first 10 rows and first 4 columns
 cardiac_sub <- cardiac[1:10, 1:4]                                      
 
@@ -71,11 +117,39 @@ cardiac_risk <- cardiac[, c("patno", "sex", "smoking", "tchol")]
 # first 50 rows and all columns
 cardiac_50 <- cardiac[1:50, ]  
 
-# excluding first 10 rows and last column using negative indexing
-cardiac_last <- cardiac[-c(1:10), -11]  
-# more general way if you have lots of columns
+# excluding first 10 rows and last column using negative indexing. NOTE: the
+# last column is now Fsex, the one you created in Q7, not smoking. Adding a
+# column shifted the positions, which is exactly why hard coded numbers are
+# fragile.
+cardiac_last <- cardiac[-c(1:10), -12]  
+# more general way, and it stays correct however many columns you add
 cardiac_last <- cardiac[-c(1:10), -c(ncol(cardiac))] 
 # NOTE: negative indexing does NOT work with column names. Uncomment the line
 # below and run it to see the error for yourself:
-# cardiac_last <- cardiac[-c(1:10), -c("smoking")]
+# cardiac_last <- cardiac[-c(1:10), -c("Fsex")]
+
+
+## ----Q10, echo=SOLUTIONS, tidy = TRUE-----------------------------------------
+cardiac_sys160 <- cardiac[cardiac$systolic > 160, ]
+
+cardiac_never <- cardiac[cardiac$smoking == 3, ]
+
+cardiac_subset <- cardiac[cardiac$Fsex == "Male" & cardiac$smoking == 3 & cardiac$diastolic > 76, ]
+
+cardiac_bmi_trig <- cardiac[cardiac$bmi > 25 & cardiac$bmi < 30 & cardiac$triglyceride > 1 & cardiac$triglyceride < 2, ]
+
+cardiac_notex <- cardiac[cardiac$smoking != 2, ]
+
+
+## ----Q11, echo=SOLUTIONS, tidy = TRUE-----------------------------------------
+cardiac_subset <- cardiac[cardiac$Fsex == "Male" & cardiac$smoking == 3 & cardiac$diastolic > median(cardiac$diastolic), ]
+
+
+## ----Q12, echo=SOLUTIONS, tidy = TRUE-----------------------------------------
+# results in a dataframe filled with NAs. 
+cardiac_new <- cardiac[cardiac$systolic > 160 & cardiac$tchol > mean(cardiac$tchol), ]
+
+# the variable tchol contains 2 NA values. By default the mean function will return an NA.
+# use the na.rm argument to ignore NAs
+cardiac_new <- cardiac[cardiac$systolic > 160 & cardiac$tchol > mean(cardiac$tchol, na.rm = TRUE), ]  
 

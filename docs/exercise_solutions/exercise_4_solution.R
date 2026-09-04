@@ -2,43 +2,11 @@
 cardiac <- read.table('data/cardiacdata.txt', header = TRUE, sep = "\t",
                       na.strings = "NA", stringsAsFactors = TRUE)
 
-# 1 = Female and 2 = Male. Writing the labels out means you never have to
-# remember the codes again, and your output reads properly.
-cardiac$sex <- factor(cardiac$sex, levels = c(1, 2), labels = c("Female", "Male"))
+cardiac$Fsex <- factor(cardiac$sex, levels = c(1, 2),
+                       labels = c("Female", "Male"))
 
 
 ## ----Q1, echo=SOLUTIONS, tidy = TRUE------------------------------------------
-cardiac_sys160 <- cardiac[cardiac$systolic > 160, ]
-
-cardiac_never <- cardiac[cardiac$smoking == 3, ]
-
-cardiac_subset <- cardiac[cardiac$sex == "Male" & cardiac$smoking == 3 & cardiac$diastolic > 76, ]
-
-cardiac_bmi_trig <- cardiac[cardiac$bmi > 25 & cardiac$bmi < 30 & cardiac$triglyceride > 1 & cardiac$triglyceride < 2, ]
-
-cardiac_notex <- cardiac[cardiac$smoking != 2, ]
-
-
-## ----Q2, echo=SOLUTIONS, tidy = TRUE------------------------------------------
-cardiac_subset <- cardiac[cardiac$sex == "Male" & cardiac$smoking == 3 & cardiac$diastolic > median(cardiac$diastolic), ]
-
-
-## ----Q3, echo=SOLUTIONS, tidy = TRUE------------------------------------------
-# results in a dataframe filled with NAs. 
-cardiac_new <- cardiac[cardiac$systolic > 160 & cardiac$tchol > mean(cardiac$tchol), ]
-
-# the variable tchol contains 2 NA values. By default the mean function will return an NA.
-# use the na.rm argument to ignore NAs
-cardiac_new <- cardiac[cardiac$systolic > 160 & cardiac$tchol > mean(cardiac$tchol, na.rm = TRUE), ]  
-
-
-## ----Q4, echo=SOLUTIONS, tidy = TRUE------------------------------------------
-subset(cardiac, sex == "Female" & age < 65 & systolic > 140)
-
-subset(cardiac, sex == "Male" & bmi > 30, select = c("patno", "sex", "bmi", "systolic", "tchol"))
-
-
-## ----Q5, echo=SOLUTIONS, tidy = TRUE------------------------------------------
 summary(cardiac)
 
 # hdlchol has a minimum of 0.000, triglyceride has a minimum of 0.000, and
@@ -48,17 +16,28 @@ summary(cardiac)
 # a very large person, it is a decimal point in the wrong place: 51.46 typed
 # as 514.6.
 
-# which patients are they?
-cardiac[cardiac$hdlchol == 0 & !is.na(cardiac$hdlchol), ]
-cardiac[cardiac$triglyceride == 0 & !is.na(cardiac$triglyceride), ]
-cardiac[cardiac$bmi > 100, ]
+# which patient has the impossible bmi?
+cardiac[cardiac$bmi > 100, ]     # patient 1630L
 
-# set the impossible values to NA
-cardiac$hdlchol[cardiac$hdlchol == 0] <- NA
-cardiac$triglyceride[cardiac$triglyceride == 0] <- NA
-cardiac$bmi[cardiac$bmi > 100] <- NA
+# set the impossible values to NA. Putting the condition inside [ ] on the left
+# of the arrow means 'the elements that match this condition become NA', and
+# every other value is left alone.
+cardiac$hdlchol[cardiac$hdlchol == 0] <- NA          # 2 patients
+cardiac$triglyceride[cardiac$triglyceride == 0] <- NA # 1 patient
+cardiac$bmi[cardiac$bmi > 100] <- NA                  # 1 patient
 
 summary(cardiac)   # check: the minima and maximum are now sensible
+
+#      tchol           hdlchol       triglyceride        bmi       
+#  Min.   : 4.120   Min.   :0.720   Min.   :0.520   Min.   :17.57  
+#  Median : 6.830   Median :1.360   Median :1.380   Median :25.20  
+#  Mean   : 6.978   Mean   :1.421   Mean   :1.556   Mean   :25.72  
+#  Max.   :11.660   Max.   :3.000   Max.   :4.670   Max.   :44.44  
+#  NA's   :2        NA's   :4       NA's   :3       NA's   :1      
+
+# Notice what that one bmi value was doing to the mean: 28.72 before, 25.72
+# after. The median barely moved. One wrong number in 163 shifted the mean by
+# three units.
 
 # Why NA and not something else? Deleting the whole record throws away all the
 # other measurements for that patient, which are perfectly good. Guessing the
@@ -74,54 +53,72 @@ summary(cardiac)   # check: the minima and maximum are now sensible
 # record of what you changed.
 
 
-## ----Q6, echo=SOLUTIONS-------------------------------------------------------
+## ----Q2, echo=SOLUTIONS-------------------------------------------------------
 cardiac_sys_sort <- cardiac[order(cardiac$systolic), ]
 
 
-## ----Q7, echo=SOLUTIONS-------------------------------------------------------
-# notice where the patients with a missing smoking status end up - and why
-cardiac_sorted <- cardiac[order(cardiac$smoking, cardiac$systolic), ]        
+## ----Q3, echo=SOLUTIONS-------------------------------------------------------
+cardiac_sorted <- cardiac[order(cardiac$smoking, cardiac$systolic), ]
 
-# use '-' to reverse the order of systolic
-cardiac_rev_sorted <- cardiac[order(cardiac$smoking, -cardiac$systolic), ]   
+# order() puts NAs last by default, so the 7 patients with no smoking status
+# are all at the bottom rather than mixed in with the ones you can interpret.
+tail(cardiac_sorted)
 
 
-## ----Q8a, echo=TRUE-----------------------------------------------------------
+## ----Q4a, echo=TRUE-----------------------------------------------------------
 mean(cardiac$age)          # mean age
 median(cardiac$systolic)   # median systolic blood pressure
 length(cardiac$tchol)      # number of observations
 
 
-## ----Q8b, echo=SOLUTIONS------------------------------------------------------
+## ----Q4b, echo=SOLUTIONS------------------------------------------------------
 tapply(cardiac$tchol, cardiac$smoking, mean)      # notice the NAs?
 
 # use the na.rm argument again
 tapply(cardiac$tchol, cardiac$smoking, mean, na.rm = TRUE)    
 
+#        1        2        3 
+# 6.927143 6.820000 7.157170 
+
 # alternative method using the with() function. see ?with
 with(cardiac, tapply(tchol, smoking, mean, na.rm = TRUE))   
 
 # when using multiple grouping variables these need to be supplied as a list
-tapply(cardiac$tchol, list(cardiac$smoking, cardiac$sex), median, na.rm = TRUE)
+tapply(cardiac$tchol, list(cardiac$smoking, cardiac$Fsex), median, na.rm = TRUE)
+
+#   Female Male
+# 1  7.090 6.46
+# 2  7.560 6.28
+# 3  7.025 7.03
 
 
-## ----Q9, echo=SOLUTIONS, tidy = TRUE------------------------------------------
+## ----Q5, echo=SOLUTIONS, tidy = TRUE------------------------------------------
 aggregate(cardiac[, c(2, 4, 5, 6)], by = list(smoking = cardiac$smoking), mean, na.rm = TRUE)
 
-aggregate(cardiac[, c(2, 4, 5, 6)], by = list(smoking = cardiac$smoking, sex = cardiac$sex), mean, na.rm = TRUE)
+#   smoking      age systolic diastolic    tchol
+# 1       1 63.10060 143.5400  76.40000 6.927143
+# 2       2 66.40769 145.0385  77.48077 6.820000
+# 3       3 64.82019 139.2778  77.50000 7.157170
+
+aggregate(cardiac[, c(2, 4, 5, 6)], by = list(smoking = cardiac$smoking, sex = cardiac$Fsex), mean, na.rm = TRUE)
 
 
-## ----Q10, echo=SOLUTIONS------------------------------------------------------
+## ----Q6, echo=SOLUTIONS-------------------------------------------------------
 # using table
 table(cardiac$smoking)
-table(cardiac$smoking, cardiac$sex)
+table(cardiac$smoking, cardiac$Fsex)
+
+#     Female Male
+#   1     26   24
+#   2     15   37
+#   3     37   17
 
 # by default table() silently drops the missing values - 50 + 52 + 54 = 156,
 # not 163. Ask for them explicitly:
 table(cardiac$smoking, useNA = "ifany")
 
 
-## ----Q11, echo=SOLUTIONS, tidy = TRUE-----------------------------------------
+## ----Q7, echo=SOLUTIONS, tidy = TRUE------------------------------------------
 followup <- read.table('data/cardiac_followup.txt', header = TRUE, sep = "\t",
                        na.strings = "NA", stringsAsFactors = TRUE)
 
@@ -137,7 +134,7 @@ nrow(cardiac_fu)  # 108
 # ALWAYS check the number of rows before and after a join.
 
 
-## ----Q12, echo=SOLUTIONS, tidy = TRUE-----------------------------------------
+## ----Q8, echo=SOLUTIONS, tidy = TRUE------------------------------------------
 cardiac_all <- merge(cardiac, followup, by = "patno", all.x = TRUE)
 nrow(cardiac_all)                      # 163 - everybody is kept
 
@@ -153,7 +150,7 @@ sum(is.na(cardiac_all$systolic10))     # 55 patients have no follow-up
 # warning, and no clue as to why. Always name your key.
 
 
-## ----Q13, echo=SOLUTIONS, tidy = TRUE-----------------------------------------
+## ----Q9, echo=SOLUTIONS, tidy = TRUE------------------------------------------
 smoke_codes <- read.table('data/smoking_lookup.txt', header = TRUE, sep = "\t",
                           na.strings = "NA", stringsAsFactors = TRUE)
 smoke_codes
@@ -179,20 +176,21 @@ table(cardiac_all$smoking_status, useNA = "ifany")
 # hunting through your scripts for hard coded labels.
 
 
-## ----Q14, echo=SOLUTIONS, tidy = TRUE-----------------------------------------
+## ----Q10, echo=SOLUTIONS, tidy = TRUE-----------------------------------------
 write.table(cardiac_all, "output/cardiac_clean.txt", col.names = TRUE, row.names = FALSE, sep = "\t")
 
 # Decision log - the sort of thing that belongs at the top of your script:
 #
 # Data: data/cardiacdata.txt, 163 patients, imported unchanged.
-# 1. hdlchol of 0.00 set to NA (2 patients). A HDL cholesterol of zero is
+# 1. Fsex created as a factor version of sex, labelled Female (1) and Male (2).
+#    The original sex column was left untouched.
+# 2. hdlchol of 0.00 set to NA (2 patients). A HDL cholesterol of zero is
 #    physiologically impossible and is almost certainly a missing value that
 #    was recorded as 0.
-# 2. triglyceride of 0.00 set to NA (1 patient). Same reasoning.
-# 3. bmi of 514.60 set to NA (1 patient). Almost certainly 51.46 with the
+# 3. triglyceride of 0.00 set to NA (1 patient). Same reasoning.
+# 4. bmi of 514.60 set to NA (patient 1630L). Almost certainly 51.46 with the
 #    decimal point misplaced, but as we cannot confirm that, NA rather than
 #    a correction.
-# 4. sex converted to a factor with labels Female (1) and Male (2).
 # 5. smoking labels joined on from data/smoking_lookup.txt.
 # 6. Ten year follow-up measurements joined on from data/cardiac_followup.txt,
 #    keeping all 163 patients; 55 have no follow-up data.

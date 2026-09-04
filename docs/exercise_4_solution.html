@@ -496,9 +496,9 @@ $(document).ready(function () {
 
 
 <p> </p>
-<div id="exercise-4-cleaning-validation-and-joining"
+<div id="exercise-4-cleaning-summarising-and-joining-data"
 class="section level2">
-<h2>Exercise 4: Cleaning, validation and joining</h2>
+<h2>Exercise 4: Cleaning, summarising and joining data</h2>
 <p> </p>
 <p>Read <a href="https://intro2r.com/data_r.html">Chapter 3</a> to help
 you complete the questions in this exercise.</p>
@@ -506,139 +506,78 @@ you complete the questions in this exercise.</p>
 <p>This exercise picks up exactly where Exercise 3 left off and uses the
 same <code>cardiac</code> dataframe. If you are starting a fresh R
 session, either continue with the R script you wrote for Exercise 3 or
-import the data again before you go any further.</p>
-<p>In Exercise 3 you noticed that R had imported <code>sex</code> and
-<code>smoking</code> as integers, even though they are really
-categories. Let’s fix <code>sex</code> now, by telling R what the codes
-1 and 2 actually mean. You will deal with <code>smoking</code>
-differently, and rather more elegantly, in Q13.</p>
+run the two lines below before you go any further. They are the import
+from Exercise 3, Q5 and the <code>Fsex</code> factor from Exercise 3,
+Q7.</p>
+<p>You will notice that <code>smoking</code> is still sitting there as
+an integer. That is deliberate. You will deal with it differently, and
+rather more elegantly, in Q9.</p>
 <div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" tabindex="-1"></a>cardiac <span class="ot">&lt;-</span> <span class="fu">read.table</span>(<span class="st">&#39;data/cardiacdata.txt&#39;</span>, <span class="at">header =</span> <span class="cn">TRUE</span>, <span class="at">sep =</span> <span class="st">&quot;</span><span class="sc">\t</span><span class="st">&quot;</span>,</span>
 <span id="cb1-2"><a href="#cb1-2" tabindex="-1"></a>                      <span class="at">na.strings =</span> <span class="st">&quot;NA&quot;</span>, <span class="at">stringsAsFactors =</span> <span class="cn">TRUE</span>)</span>
 <span id="cb1-3"><a href="#cb1-3" tabindex="-1"></a></span>
-<span id="cb1-4"><a href="#cb1-4" tabindex="-1"></a><span class="co"># 1 = Female and 2 = Male. Writing the labels out means you never have to</span></span>
-<span id="cb1-5"><a href="#cb1-5" tabindex="-1"></a><span class="co"># remember the codes again, and your output reads properly.</span></span>
-<span id="cb1-6"><a href="#cb1-6" tabindex="-1"></a>cardiac<span class="sc">$</span>sex <span class="ot">&lt;-</span> <span class="fu">factor</span>(cardiac<span class="sc">$</span>sex, <span class="at">levels =</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">2</span>), <span class="at">labels =</span> <span class="fu">c</span>(<span class="st">&quot;Female&quot;</span>, <span class="st">&quot;Male&quot;</span>))</span></code></pre></div>
+<span id="cb1-4"><a href="#cb1-4" tabindex="-1"></a>cardiac<span class="sc">$</span>Fsex <span class="ot">&lt;-</span> <span class="fu">factor</span>(cardiac<span class="sc">$</span>sex, <span class="at">levels =</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">2</span>),</span>
+<span id="cb1-5"><a href="#cb1-5" tabindex="-1"></a>                       <span class="at">labels =</span> <span class="fu">c</span>(<span class="st">&quot;Female&quot;</span>, <span class="st">&quot;Male&quot;</span>))</span></code></pre></div>
 <p> </p>
-<p>1. In addition to extracting rows and columns from your dataframe by
-position you can also use conditional statements to select particular
-rows based on some logical criteria. This is very useful but takes a bit
-of practice to get used to (see <a
+<p>1. In Exercise 3 you learned how to pick out rows that meet a
+condition. You can use that skill to check whether your data are
+believable. This matters more than it sounds: a value that is simply
+wrong will not stop your code running, will not produce a warning, and
+will quietly change every result you calculate from it. Run
+<code>summary()</code> on your dataframe again and look at the minimum
+and maximum of each numeric variable. Three variables contain values
+that are not merely unusual but impossible. Two are impossibly low and
+one is impossibly high. Find them, work out which patient the impossibly
+high one belongs to, and then set all of the offending values to
+<code>NA</code> so they cannot contaminate anything you calculate later
+(you will need the square bracket <code>[ ]</code> notation from <a
 href="https://intro2r.com/wrangling-data-frames.html#logical-indexes">Section
-3.4.2</a> for an introduction). Extract rows from your dataframe (all
-columns by default) based on the following criteria (note: you will need
-to assign the results of these statements to appropriately named
-variables, I’ll leave it up to you to use informative names!). Remember
-that <code>smoking</code> is coded 1 for current smokers, 2 for
-ex-smokers and 3 for those who have never smoked:</p>
-<ul>
-<li>systolic blood pressure greater than 160 mmHg</li>
-<li>patients who have never smoked</li>
-<li>male patients who have never smoked and whose diastolic pressure is
-greater than the median diastolic pressure (76 mmHg)</li>
-<li>all patients with a bmi between 25 and 30 and a triglyceride between
-1 and 2 mmol/l</li>
-<li>all patients who are not ex-smokers</li>
-</ul>
-<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" tabindex="-1"></a>cardiac_sys160 <span class="ot">&lt;-</span> cardiac[cardiac<span class="sc">$</span>systolic <span class="sc">&gt;</span> <span class="dv">160</span>, ]</span>
+3.4.2</a>, this time on the left hand side of an assignment). Re-run
+<code>summary()</code> afterwards to check it worked. Why is
+<code>NA</code> the right answer here, rather than deleting the whole
+patient record or guessing what the value should have been?</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" tabindex="-1"></a><span class="fu">summary</span>(cardiac)</span>
 <span id="cb2-2"><a href="#cb2-2" tabindex="-1"></a></span>
-<span id="cb2-3"><a href="#cb2-3" tabindex="-1"></a>cardiac_never <span class="ot">&lt;-</span> cardiac[cardiac<span class="sc">$</span>smoking <span class="sc">==</span> <span class="dv">3</span>, ]</span>
-<span id="cb2-4"><a href="#cb2-4" tabindex="-1"></a></span>
-<span id="cb2-5"><a href="#cb2-5" tabindex="-1"></a>cardiac_subset <span class="ot">&lt;-</span> cardiac[cardiac<span class="sc">$</span>sex <span class="sc">==</span> <span class="st">&quot;Male&quot;</span> <span class="sc">&amp;</span> cardiac<span class="sc">$</span>smoking <span class="sc">==</span> <span class="dv">3</span> <span class="sc">&amp;</span> cardiac<span class="sc">$</span>diastolic <span class="sc">&gt;</span></span>
-<span id="cb2-6"><a href="#cb2-6" tabindex="-1"></a>    <span class="dv">76</span>, ]</span>
-<span id="cb2-7"><a href="#cb2-7" tabindex="-1"></a></span>
-<span id="cb2-8"><a href="#cb2-8" tabindex="-1"></a>cardiac_bmi_trig <span class="ot">&lt;-</span> cardiac[cardiac<span class="sc">$</span>bmi <span class="sc">&gt;</span> <span class="dv">25</span> <span class="sc">&amp;</span> cardiac<span class="sc">$</span>bmi <span class="sc">&lt;</span> <span class="dv">30</span> <span class="sc">&amp;</span> cardiac<span class="sc">$</span>triglyceride <span class="sc">&gt;</span></span>
-<span id="cb2-9"><a href="#cb2-9" tabindex="-1"></a>    <span class="dv">1</span> <span class="sc">&amp;</span> cardiac<span class="sc">$</span>triglyceride <span class="sc">&lt;</span> <span class="dv">2</span>, ]</span>
-<span id="cb2-10"><a href="#cb2-10" tabindex="-1"></a></span>
-<span id="cb2-11"><a href="#cb2-11" tabindex="-1"></a>cardiac_notex <span class="ot">&lt;-</span> cardiac[cardiac<span class="sc">$</span>smoking <span class="sc">!=</span> <span class="dv">2</span>, ]</span></code></pre></div>
+<span id="cb2-3"><a href="#cb2-3" tabindex="-1"></a><span class="co"># hdlchol has a minimum of 0.000, triglyceride has a minimum of 0.000, and bmi</span></span>
+<span id="cb2-4"><a href="#cb2-4" tabindex="-1"></a><span class="co"># has a maximum of 514.60. A blood concentration of zero is not a low reading,</span></span>
+<span id="cb2-5"><a href="#cb2-5" tabindex="-1"></a><span class="co"># it is impossible; you cannot have no cholesterol in your blood and still be</span></span>
+<span id="cb2-6"><a href="#cb2-6" tabindex="-1"></a><span class="co"># alive to take part in a study. And a body mass index of 514 is not a very</span></span>
+<span id="cb2-7"><a href="#cb2-7" tabindex="-1"></a><span class="co"># large person, it is a decimal point in the wrong place: 51.46 typed as 514.6.</span></span>
+<span id="cb2-8"><a href="#cb2-8" tabindex="-1"></a></span>
+<span id="cb2-9"><a href="#cb2-9" tabindex="-1"></a><span class="co"># which patient has the impossible bmi?</span></span>
+<span id="cb2-10"><a href="#cb2-10" tabindex="-1"></a>cardiac[cardiac<span class="sc">$</span>bmi <span class="sc">&gt;</span> <span class="dv">100</span>, ]  <span class="co"># patient 1630L</span></span>
+<span id="cb2-11"><a href="#cb2-11" tabindex="-1"></a></span>
+<span id="cb2-12"><a href="#cb2-12" tabindex="-1"></a><span class="co"># set the impossible values to NA. Putting the condition inside [ ] on the left</span></span>
+<span id="cb2-13"><a href="#cb2-13" tabindex="-1"></a><span class="co"># of the arrow means &#39;the elements that match this condition become NA&#39;, and</span></span>
+<span id="cb2-14"><a href="#cb2-14" tabindex="-1"></a><span class="co"># every other value is left alone.</span></span>
+<span id="cb2-15"><a href="#cb2-15" tabindex="-1"></a>cardiac<span class="sc">$</span>hdlchol[cardiac<span class="sc">$</span>hdlchol <span class="sc">==</span> <span class="dv">0</span>] <span class="ot">&lt;-</span> <span class="cn">NA</span>  <span class="co"># 2 patients</span></span>
+<span id="cb2-16"><a href="#cb2-16" tabindex="-1"></a>cardiac<span class="sc">$</span>triglyceride[cardiac<span class="sc">$</span>triglyceride <span class="sc">==</span> <span class="dv">0</span>] <span class="ot">&lt;-</span> <span class="cn">NA</span>  <span class="co"># 1 patient</span></span>
+<span id="cb2-17"><a href="#cb2-17" tabindex="-1"></a>cardiac<span class="sc">$</span>bmi[cardiac<span class="sc">$</span>bmi <span class="sc">&gt;</span> <span class="dv">100</span>] <span class="ot">&lt;-</span> <span class="cn">NA</span>  <span class="co"># 1 patient</span></span>
+<span id="cb2-18"><a href="#cb2-18" tabindex="-1"></a></span>
+<span id="cb2-19"><a href="#cb2-19" tabindex="-1"></a><span class="fu">summary</span>(cardiac)  <span class="co"># check: the minima and maximum are now sensible</span></span>
+<span id="cb2-20"><a href="#cb2-20" tabindex="-1"></a></span>
+<span id="cb2-21"><a href="#cb2-21" tabindex="-1"></a><span class="co"># tchol hdlchol triglyceride bmi Min.  : 4.120 Min.  :0.720 Min.  :0.520 Min.</span></span>
+<span id="cb2-22"><a href="#cb2-22" tabindex="-1"></a><span class="co"># :17.57 Median : 6.830 Median :1.360 Median :1.380 Median :25.20 Mean : 6.978</span></span>
+<span id="cb2-23"><a href="#cb2-23" tabindex="-1"></a><span class="co"># Mean :1.421 Mean :1.556 Mean :25.72 Max.  :11.660 Max.  :3.000 Max.  :4.670</span></span>
+<span id="cb2-24"><a href="#cb2-24" tabindex="-1"></a><span class="co"># Max.  :44.44 NA&#39;s :2 NA&#39;s :4 NA&#39;s :3 NA&#39;s :1</span></span>
+<span id="cb2-25"><a href="#cb2-25" tabindex="-1"></a></span>
+<span id="cb2-26"><a href="#cb2-26" tabindex="-1"></a><span class="co"># Notice what that one bmi value was doing to the mean: 28.72 before, 25.72</span></span>
+<span id="cb2-27"><a href="#cb2-27" tabindex="-1"></a><span class="co"># after. The median barely moved. One wrong number in 163 shifted the mean by</span></span>
+<span id="cb2-28"><a href="#cb2-28" tabindex="-1"></a><span class="co"># three units.</span></span>
+<span id="cb2-29"><a href="#cb2-29" tabindex="-1"></a></span>
+<span id="cb2-30"><a href="#cb2-30" tabindex="-1"></a><span class="co"># Why NA and not something else? Deleting the whole record throws away all the</span></span>
+<span id="cb2-31"><a href="#cb2-31" tabindex="-1"></a><span class="co"># other measurements for that patient, which are perfectly good. Guessing the</span></span>
+<span id="cb2-32"><a href="#cb2-32" tabindex="-1"></a><span class="co"># value - even a very reasonable guess like 51.46 - means inventing data, and</span></span>
+<span id="cb2-33"><a href="#cb2-33" tabindex="-1"></a><span class="co"># nobody reading your results afterwards could tell which numbers you measured</span></span>
+<span id="cb2-34"><a href="#cb2-34" tabindex="-1"></a><span class="co"># and which you made up. NA says exactly what you know: there should be a value</span></span>
+<span id="cb2-35"><a href="#cb2-35" tabindex="-1"></a><span class="co"># here, and it isn&#39;t usable. Every R function that matters has an na.rm</span></span>
+<span id="cb2-36"><a href="#cb2-36" tabindex="-1"></a><span class="co"># argument to cope with it.</span></span>
+<span id="cb2-37"><a href="#cb2-37" tabindex="-1"></a></span>
+<span id="cb2-38"><a href="#cb2-38" tabindex="-1"></a><span class="co"># Note that you have changed the dataframe in your R session, not the file on</span></span>
+<span id="cb2-39"><a href="#cb2-39" tabindex="-1"></a><span class="co"># disk. data/cardiacdata.txt still contains the original values, which is</span></span>
+<span id="cb2-40"><a href="#cb2-40" tabindex="-1"></a><span class="co"># exactly as it should be: your raw data stays raw, and your script is the</span></span>
+<span id="cb2-41"><a href="#cb2-41" tabindex="-1"></a><span class="co"># record of what you changed.</span></span></code></pre></div>
 <p> </p>
-<p>2. A really neat feature of extracting rows based on conditional
-statements is that you can include R functions within the statement
-itself. To practice this, modify your answer to the diastolic question
-in Q1 to use the <code>median()</code> function rather than hard coding
-the value 76. Why is this a better idea? (hint: what happens to your
-code if someone adds another twenty patients to the study?)</p>
-<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" tabindex="-1"></a>cardiac_subset <span class="ot">&lt;-</span> cardiac[cardiac<span class="sc">$</span>sex <span class="sc">==</span> <span class="st">&quot;Male&quot;</span> <span class="sc">&amp;</span> cardiac<span class="sc">$</span>smoking <span class="sc">==</span> <span class="dv">3</span> <span class="sc">&amp;</span> cardiac<span class="sc">$</span>diastolic <span class="sc">&gt;</span></span>
-<span id="cb3-2"><a href="#cb3-2" tabindex="-1"></a>    <span class="fu">median</span>(cardiac<span class="sc">$</span>diastolic), ]</span></code></pre></div>
-<p> </p>
-<p>3. However, when using functions in conditional statements you need
-to be careful. For example, write some code to extract all rows from the
-dataframe <code>cardiac</code> with a systolic pressure greater than 160
-mmHg and a total cholesterol greater than average (hint: use the
-<code>mean()</code> function in your conditional statement). Can you see
-a problem with the output? Discuss the cause of this problem with an
-instructor and explore possible solutions.</p>
-<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" tabindex="-1"></a><span class="co"># results in a dataframe filled with NAs.</span></span>
-<span id="cb4-2"><a href="#cb4-2" tabindex="-1"></a>cardiac_new <span class="ot">&lt;-</span> cardiac[cardiac<span class="sc">$</span>systolic <span class="sc">&gt;</span> <span class="dv">160</span> <span class="sc">&amp;</span> cardiac<span class="sc">$</span>tchol <span class="sc">&gt;</span> <span class="fu">mean</span>(cardiac<span class="sc">$</span>tchol),</span>
-<span id="cb4-3"><a href="#cb4-3" tabindex="-1"></a>    ]</span>
-<span id="cb4-4"><a href="#cb4-4" tabindex="-1"></a></span>
-<span id="cb4-5"><a href="#cb4-5" tabindex="-1"></a><span class="co"># the variable tchol contains 2 NA values. By default the mean function will</span></span>
-<span id="cb4-6"><a href="#cb4-6" tabindex="-1"></a><span class="co"># return an NA.  use the na.rm argument to ignore NAs</span></span>
-<span id="cb4-7"><a href="#cb4-7" tabindex="-1"></a>cardiac_new <span class="ot">&lt;-</span> cardiac[cardiac<span class="sc">$</span>systolic <span class="sc">&gt;</span> <span class="dv">160</span> <span class="sc">&amp;</span> cardiac<span class="sc">$</span>tchol <span class="sc">&gt;</span> <span class="fu">mean</span>(cardiac<span class="sc">$</span>tchol,</span>
-<span id="cb4-8"><a href="#cb4-8" tabindex="-1"></a>    <span class="at">na.rm =</span> <span class="cn">TRUE</span>), ]</span></code></pre></div>
-<p> </p>
-<p>4. Although you have concentrated on using the square bracket
-<code>[ ]</code> notation to extract rows and columns from your
-dataframe, there are of course many other approaches. One such approach
-is to use the <code>subset()</code> function (see <code>?subset</code>
-or search for the <code>subset</code> function in the Introduction to R
-book to find more information). Use the <code>subset()</code> function
-to extract all female patients under 65 years of age with a systolic
-pressure greater than 140 mmHg. Also use <code>subset()</code> to
-extract all male patients with a bmi greater than 30 but only include
-the columns <code>patno</code>, <code>sex</code>, <code>bmi</code>,
-<code>systolic</code> and <code>tchol</code>.</p>
-<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" tabindex="-1"></a><span class="fu">subset</span>(cardiac, sex <span class="sc">==</span> <span class="st">&quot;Female&quot;</span> <span class="sc">&amp;</span> age <span class="sc">&lt;</span> <span class="dv">65</span> <span class="sc">&amp;</span> systolic <span class="sc">&gt;</span> <span class="dv">140</span>)</span>
-<span id="cb5-2"><a href="#cb5-2" tabindex="-1"></a></span>
-<span id="cb5-3"><a href="#cb5-3" tabindex="-1"></a><span class="fu">subset</span>(cardiac, sex <span class="sc">==</span> <span class="st">&quot;Male&quot;</span> <span class="sc">&amp;</span> bmi <span class="sc">&gt;</span> <span class="dv">30</span>, <span class="at">select =</span> <span class="fu">c</span>(<span class="st">&quot;patno&quot;</span>, <span class="st">&quot;sex&quot;</span>, <span class="st">&quot;bmi&quot;</span>, <span class="st">&quot;systolic&quot;</span>,</span>
-<span id="cb5-4"><a href="#cb5-4" tabindex="-1"></a>    <span class="st">&quot;tchol&quot;</span>))</span></code></pre></div>
-<p> </p>
-<p>5. Now that you can pick out rows that meet a condition, you can use
-that skill to check whether your data are believable. This matters more
-than it sounds: a value that is simply wrong will not stop your code
-running, will not produce a warning, and will quietly change every
-result you calculate from it. Run <code>summary()</code> on your
-dataframe again and look at the minimum and maximum of each numeric
-variable. Three of them contain values that are not merely unusual but
-impossible. Two are impossibly low and one is impossibly high. Find
-them, work out which patients they belong to, and then set those
-particular values to <code>NA</code> so they cannot contaminate anything
-you calculate later. Why is <code>NA</code> the right answer here,
-rather than deleting the whole patient record or guessing what the value
-should have been?</p>
-<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" tabindex="-1"></a><span class="fu">summary</span>(cardiac)</span>
-<span id="cb6-2"><a href="#cb6-2" tabindex="-1"></a></span>
-<span id="cb6-3"><a href="#cb6-3" tabindex="-1"></a><span class="co"># hdlchol has a minimum of 0.000, triglyceride has a minimum of 0.000, and bmi</span></span>
-<span id="cb6-4"><a href="#cb6-4" tabindex="-1"></a><span class="co"># has a maximum of 514.60. A blood concentration of zero is not a low reading,</span></span>
-<span id="cb6-5"><a href="#cb6-5" tabindex="-1"></a><span class="co"># it is impossible; you cannot have no cholesterol in your blood and still be</span></span>
-<span id="cb6-6"><a href="#cb6-6" tabindex="-1"></a><span class="co"># alive to take part in a study. And a body mass index of 514 is not a very</span></span>
-<span id="cb6-7"><a href="#cb6-7" tabindex="-1"></a><span class="co"># large person, it is a decimal point in the wrong place: 51.46 typed as 514.6.</span></span>
-<span id="cb6-8"><a href="#cb6-8" tabindex="-1"></a></span>
-<span id="cb6-9"><a href="#cb6-9" tabindex="-1"></a><span class="co"># which patients are they?</span></span>
-<span id="cb6-10"><a href="#cb6-10" tabindex="-1"></a>cardiac[cardiac<span class="sc">$</span>hdlchol <span class="sc">==</span> <span class="dv">0</span> <span class="sc">&amp;</span> <span class="sc">!</span><span class="fu">is.na</span>(cardiac<span class="sc">$</span>hdlchol), ]</span>
-<span id="cb6-11"><a href="#cb6-11" tabindex="-1"></a>cardiac[cardiac<span class="sc">$</span>triglyceride <span class="sc">==</span> <span class="dv">0</span> <span class="sc">&amp;</span> <span class="sc">!</span><span class="fu">is.na</span>(cardiac<span class="sc">$</span>triglyceride), ]</span>
-<span id="cb6-12"><a href="#cb6-12" tabindex="-1"></a>cardiac[cardiac<span class="sc">$</span>bmi <span class="sc">&gt;</span> <span class="dv">100</span>, ]</span>
-<span id="cb6-13"><a href="#cb6-13" tabindex="-1"></a></span>
-<span id="cb6-14"><a href="#cb6-14" tabindex="-1"></a><span class="co"># set the impossible values to NA</span></span>
-<span id="cb6-15"><a href="#cb6-15" tabindex="-1"></a>cardiac<span class="sc">$</span>hdlchol[cardiac<span class="sc">$</span>hdlchol <span class="sc">==</span> <span class="dv">0</span>] <span class="ot">&lt;-</span> <span class="cn">NA</span></span>
-<span id="cb6-16"><a href="#cb6-16" tabindex="-1"></a>cardiac<span class="sc">$</span>triglyceride[cardiac<span class="sc">$</span>triglyceride <span class="sc">==</span> <span class="dv">0</span>] <span class="ot">&lt;-</span> <span class="cn">NA</span></span>
-<span id="cb6-17"><a href="#cb6-17" tabindex="-1"></a>cardiac<span class="sc">$</span>bmi[cardiac<span class="sc">$</span>bmi <span class="sc">&gt;</span> <span class="dv">100</span>] <span class="ot">&lt;-</span> <span class="cn">NA</span></span>
-<span id="cb6-18"><a href="#cb6-18" tabindex="-1"></a></span>
-<span id="cb6-19"><a href="#cb6-19" tabindex="-1"></a><span class="fu">summary</span>(cardiac)  <span class="co"># check: the minima and maximum are now sensible</span></span>
-<span id="cb6-20"><a href="#cb6-20" tabindex="-1"></a></span>
-<span id="cb6-21"><a href="#cb6-21" tabindex="-1"></a><span class="co"># Why NA and not something else? Deleting the whole record throws away all the</span></span>
-<span id="cb6-22"><a href="#cb6-22" tabindex="-1"></a><span class="co"># other measurements for that patient, which are perfectly good. Guessing the</span></span>
-<span id="cb6-23"><a href="#cb6-23" tabindex="-1"></a><span class="co"># value - even a very reasonable guess like 51.46 - means inventing data, and</span></span>
-<span id="cb6-24"><a href="#cb6-24" tabindex="-1"></a><span class="co"># nobody reading your results afterwards could tell which numbers you measured</span></span>
-<span id="cb6-25"><a href="#cb6-25" tabindex="-1"></a><span class="co"># and which you made up. NA says exactly what you know: there should be a value</span></span>
-<span id="cb6-26"><a href="#cb6-26" tabindex="-1"></a><span class="co"># here, and it isn&#39;t usable. Every R function that matters has an na.rm</span></span>
-<span id="cb6-27"><a href="#cb6-27" tabindex="-1"></a><span class="co"># argument to cope with it.</span></span>
-<span id="cb6-28"><a href="#cb6-28" tabindex="-1"></a></span>
-<span id="cb6-29"><a href="#cb6-29" tabindex="-1"></a><span class="co"># Note that you have changed the dataframe in your R session, not the file on</span></span>
-<span id="cb6-30"><a href="#cb6-30" tabindex="-1"></a><span class="co"># disk. data/cardiacdata.txt still contains the original values, which is</span></span>
-<span id="cb6-31"><a href="#cb6-31" tabindex="-1"></a><span class="co"># exactly as it should be: your raw data stays raw, and your script is the</span></span>
-<span id="cb6-32"><a href="#cb6-32" tabindex="-1"></a><span class="co"># record of what you changed.</span></span></code></pre></div>
-<p> </p>
-<p>6. Another useful way to manipulate your dataframes is to sort the
+<p>2. Another useful way to manipulate your dataframes is to sort the
 rows based on the value of a variable (or combinations of variables).
 Rather counter-intuitively you should use the <code>order()</code>
 function to sort your dataframes, not the <code>sort()</code> function
@@ -651,64 +590,77 @@ function to sort all rows in the <code>cardiac</code> dataframe in
 ascending order of systolic blood pressure (lowest to highest). Store
 this sorted dataframe in a variable called
 <code>cardiac_sys_sort</code>.</p>
-<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" tabindex="-1"></a>cardiac_sys_sort <span class="ot">&lt;-</span> cardiac[<span class="fu">order</span>(cardiac<span class="sc">$</span>systolic), ]</span></code></pre></div>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" tabindex="-1"></a>cardiac_sys_sort <span class="ot">&lt;-</span> cardiac[<span class="fu">order</span>(cardiac<span class="sc">$</span>systolic), ]</span></code></pre></div>
 <p> </p>
-<p>7. Now for something a little more complicated. Sort all rows in the
+<p>3. Now for something a little more complicated. Sort all rows in the
 <code>cardiac</code> dataframe by ascending order of systolic pressure
 within each level of smoking status. The trick here is to remember that
 you can order by more than one variable when using the
 <code>order()</code> function (see <a
 href="https://intro2r.com/wrangling-data-frames.html#ordering-data-frames">Section
 3.4.3</a> again). Don’t forget to assign your sorted dataframe to a new
-variable with a sensible name. Repeat the previous ordering but this
-time order by <strong>descending</strong> order of systolic pressure
-within each level of smoking status.</p>
-<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" tabindex="-1"></a><span class="co"># notice where the patients with a missing smoking status end up - and why</span></span>
-<span id="cb8-2"><a href="#cb8-2" tabindex="-1"></a>cardiac_sorted <span class="ot">&lt;-</span> cardiac[<span class="fu">order</span>(cardiac<span class="sc">$</span>smoking, cardiac<span class="sc">$</span>systolic), ]        </span>
-<span id="cb8-3"><a href="#cb8-3" tabindex="-1"></a></span>
-<span id="cb8-4"><a href="#cb8-4" tabindex="-1"></a><span class="co"># use &#39;-&#39; to reverse the order of systolic</span></span>
-<span id="cb8-5"><a href="#cb8-5" tabindex="-1"></a>cardiac_rev_sorted <span class="ot">&lt;-</span> cardiac[<span class="fu">order</span>(cardiac<span class="sc">$</span>smoking, <span class="sc">-</span>cardiac<span class="sc">$</span>systolic), ]   </span></code></pre></div>
+variable with a sensible name. Take a look at the bottom of the sorted
+dataframe: where have the patients with a missing smoking status ended
+up, and why?</p>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" tabindex="-1"></a>cardiac_sorted <span class="ot">&lt;-</span> cardiac[<span class="fu">order</span>(cardiac<span class="sc">$</span>smoking, cardiac<span class="sc">$</span>systolic), ]</span>
+<span id="cb4-2"><a href="#cb4-2" tabindex="-1"></a></span>
+<span id="cb4-3"><a href="#cb4-3" tabindex="-1"></a><span class="co"># order() puts NAs last by default, so the 7 patients with no smoking status</span></span>
+<span id="cb4-4"><a href="#cb4-4" tabindex="-1"></a><span class="co"># are all at the bottom rather than mixed in with the ones you can interpret.</span></span>
+<span id="cb4-5"><a href="#cb4-5" tabindex="-1"></a><span class="fu">tail</span>(cardiac_sorted)</span></code></pre></div>
 <p> </p>
-<p>8. Often, we would like to summarise variables by, for example,
+<p>4. Often, we would like to summarise variables by, for example,
 calculating a mean, median or counting the number of observations. To do
 this for a single variable it’s fairly straight forward :</p>
 <p> </p>
-<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" tabindex="-1"></a><span class="fu">mean</span>(cardiac<span class="sc">$</span>age)          <span class="co"># mean age</span></span>
-<span id="cb9-2"><a href="#cb9-2" tabindex="-1"></a><span class="fu">median</span>(cardiac<span class="sc">$</span>systolic)   <span class="co"># median systolic blood pressure</span></span>
-<span id="cb9-3"><a href="#cb9-3" tabindex="-1"></a><span class="fu">length</span>(cardiac<span class="sc">$</span>tchol)      <span class="co"># number of observations</span></span></code></pre></div>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" tabindex="-1"></a><span class="fu">mean</span>(cardiac<span class="sc">$</span>age)          <span class="co"># mean age</span></span>
+<span id="cb5-2"><a href="#cb5-2" tabindex="-1"></a><span class="fu">median</span>(cardiac<span class="sc">$</span>systolic)   <span class="co"># median systolic blood pressure</span></span>
+<span id="cb5-3"><a href="#cb5-3" tabindex="-1"></a><span class="fu">length</span>(cardiac<span class="sc">$</span>tchol)      <span class="co"># number of observations</span></span></code></pre></div>
 <p> </p>
-<p>8. (cont) Perhaps more interestingly, you might want to summarise one
+<p>4. (cont) Perhaps more interestingly, you might want to summarise one
 variable conditional on the level of another categorical variable. For
 example, write some R code to calculate the mean total cholesterol for
 each of the three smoking categories (see <a
 href="https://intro2r.com/summarising-data-frames.html#summarising-data-frames">Section
-3.5</a> for a few hints). Next, calculate the median total cholesterol
-for each smoking category and for each sex.</p>
-<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" tabindex="-1"></a><span class="fu">tapply</span>(cardiac<span class="sc">$</span>tchol, cardiac<span class="sc">$</span>smoking, mean)      <span class="co"># notice the NAs?</span></span>
-<span id="cb10-2"><a href="#cb10-2" tabindex="-1"></a></span>
-<span id="cb10-3"><a href="#cb10-3" tabindex="-1"></a><span class="co"># use the na.rm argument again</span></span>
-<span id="cb10-4"><a href="#cb10-4" tabindex="-1"></a><span class="fu">tapply</span>(cardiac<span class="sc">$</span>tchol, cardiac<span class="sc">$</span>smoking, mean, <span class="at">na.rm =</span> <span class="cn">TRUE</span>)    </span>
-<span id="cb10-5"><a href="#cb10-5" tabindex="-1"></a></span>
-<span id="cb10-6"><a href="#cb10-6" tabindex="-1"></a><span class="co"># alternative method using the with() function. see ?with</span></span>
-<span id="cb10-7"><a href="#cb10-7" tabindex="-1"></a><span class="fu">with</span>(cardiac, <span class="fu">tapply</span>(tchol, smoking, mean, <span class="at">na.rm =</span> <span class="cn">TRUE</span>))   </span>
-<span id="cb10-8"><a href="#cb10-8" tabindex="-1"></a></span>
-<span id="cb10-9"><a href="#cb10-9" tabindex="-1"></a><span class="co"># when using multiple grouping variables these need to be supplied as a list</span></span>
-<span id="cb10-10"><a href="#cb10-10" tabindex="-1"></a><span class="fu">tapply</span>(cardiac<span class="sc">$</span>tchol, <span class="fu">list</span>(cardiac<span class="sc">$</span>smoking, cardiac<span class="sc">$</span>sex), median, <span class="at">na.rm =</span> <span class="cn">TRUE</span>)</span></code></pre></div>
+3.5</a> of the Introduction to R book for a few hints). Next, calculate
+the median total cholesterol for each smoking category and for each
+sex.</p>
+<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" tabindex="-1"></a><span class="fu">tapply</span>(cardiac<span class="sc">$</span>tchol, cardiac<span class="sc">$</span>smoking, mean)      <span class="co"># notice the NAs?</span></span>
+<span id="cb6-2"><a href="#cb6-2" tabindex="-1"></a></span>
+<span id="cb6-3"><a href="#cb6-3" tabindex="-1"></a><span class="co"># use the na.rm argument again</span></span>
+<span id="cb6-4"><a href="#cb6-4" tabindex="-1"></a><span class="fu">tapply</span>(cardiac<span class="sc">$</span>tchol, cardiac<span class="sc">$</span>smoking, mean, <span class="at">na.rm =</span> <span class="cn">TRUE</span>)    </span>
+<span id="cb6-5"><a href="#cb6-5" tabindex="-1"></a></span>
+<span id="cb6-6"><a href="#cb6-6" tabindex="-1"></a><span class="co">#        1        2        3 </span></span>
+<span id="cb6-7"><a href="#cb6-7" tabindex="-1"></a><span class="co"># 6.927143 6.820000 7.157170 </span></span>
+<span id="cb6-8"><a href="#cb6-8" tabindex="-1"></a></span>
+<span id="cb6-9"><a href="#cb6-9" tabindex="-1"></a><span class="co"># alternative method using the with() function. see ?with</span></span>
+<span id="cb6-10"><a href="#cb6-10" tabindex="-1"></a><span class="fu">with</span>(cardiac, <span class="fu">tapply</span>(tchol, smoking, mean, <span class="at">na.rm =</span> <span class="cn">TRUE</span>))   </span>
+<span id="cb6-11"><a href="#cb6-11" tabindex="-1"></a></span>
+<span id="cb6-12"><a href="#cb6-12" tabindex="-1"></a><span class="co"># when using multiple grouping variables these need to be supplied as a list</span></span>
+<span id="cb6-13"><a href="#cb6-13" tabindex="-1"></a><span class="fu">tapply</span>(cardiac<span class="sc">$</span>tchol, <span class="fu">list</span>(cardiac<span class="sc">$</span>smoking, cardiac<span class="sc">$</span>Fsex), median, <span class="at">na.rm =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb6-14"><a href="#cb6-14" tabindex="-1"></a></span>
+<span id="cb6-15"><a href="#cb6-15" tabindex="-1"></a><span class="co">#   Female Male</span></span>
+<span id="cb6-16"><a href="#cb6-16" tabindex="-1"></a><span class="co"># 1  7.090 6.46</span></span>
+<span id="cb6-17"><a href="#cb6-17" tabindex="-1"></a><span class="co"># 2  7.560 6.28</span></span>
+<span id="cb6-18"><a href="#cb6-18" tabindex="-1"></a><span class="co"># 3  7.025 7.03</span></span></code></pre></div>
 <p> </p>
-<p>9. Another useful function for summarising dataframes is
-<code>aggregate()</code>. Search in the R book for the function
-aggregate to see how to use this function (or see
-<code>?aggregate</code>). Use the <code>aggregate()</code> function to
-calculate the mean age, systolic pressure, diastolic pressure and total
-cholesterol for each smoking category (don’t forget about those sneaky
-NA values). Next calculate the same means for each smoking category and
-each sex.</p>
-<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" tabindex="-1"></a><span class="fu">aggregate</span>(cardiac[, <span class="fu">c</span>(<span class="dv">2</span>, <span class="dv">4</span>, <span class="dv">5</span>, <span class="dv">6</span>)], <span class="at">by =</span> <span class="fu">list</span>(<span class="at">smoking =</span> cardiac<span class="sc">$</span>smoking), mean, <span class="at">na.rm =</span> <span class="cn">TRUE</span>)</span>
-<span id="cb11-2"><a href="#cb11-2" tabindex="-1"></a></span>
-<span id="cb11-3"><a href="#cb11-3" tabindex="-1"></a><span class="fu">aggregate</span>(cardiac[, <span class="fu">c</span>(<span class="dv">2</span>, <span class="dv">4</span>, <span class="dv">5</span>, <span class="dv">6</span>)], <span class="at">by =</span> <span class="fu">list</span>(<span class="at">smoking =</span> cardiac<span class="sc">$</span>smoking, <span class="at">sex =</span> cardiac<span class="sc">$</span>sex),</span>
-<span id="cb11-4"><a href="#cb11-4" tabindex="-1"></a>    mean, <span class="at">na.rm =</span> <span class="cn">TRUE</span>)</span></code></pre></div>
+<p>5. Another useful function for summarising dataframes is
+<code>aggregate()</code> (see <a
+href="https://intro2r.com/summarising-data-frames.html#summarising-data-frames">Section
+3.5</a> again, or <code>?aggregate</code>). Use the
+<code>aggregate()</code> function to calculate the mean age, systolic
+pressure, diastolic pressure and total cholesterol for each smoking
+category (don’t forget about those sneaky NA values). Next calculate the
+same means for each smoking category and each sex.</p>
+<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" tabindex="-1"></a><span class="fu">aggregate</span>(cardiac[, <span class="fu">c</span>(<span class="dv">2</span>, <span class="dv">4</span>, <span class="dv">5</span>, <span class="dv">6</span>)], <span class="at">by =</span> <span class="fu">list</span>(<span class="at">smoking =</span> cardiac<span class="sc">$</span>smoking), mean, <span class="at">na.rm =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb7-2"><a href="#cb7-2" tabindex="-1"></a></span>
+<span id="cb7-3"><a href="#cb7-3" tabindex="-1"></a><span class="co"># smoking age systolic diastolic tchol 1 1 63.10060 143.5400 76.40000 6.927143</span></span>
+<span id="cb7-4"><a href="#cb7-4" tabindex="-1"></a><span class="co"># 2 2 66.40769 145.0385 77.48077 6.820000 3 3 64.82019 139.2778 77.50000</span></span>
+<span id="cb7-5"><a href="#cb7-5" tabindex="-1"></a><span class="co"># 7.157170</span></span>
+<span id="cb7-6"><a href="#cb7-6" tabindex="-1"></a></span>
+<span id="cb7-7"><a href="#cb7-7" tabindex="-1"></a><span class="fu">aggregate</span>(cardiac[, <span class="fu">c</span>(<span class="dv">2</span>, <span class="dv">4</span>, <span class="dv">5</span>, <span class="dv">6</span>)], <span class="at">by =</span> <span class="fu">list</span>(<span class="at">smoking =</span> cardiac<span class="sc">$</span>smoking, <span class="at">sex =</span> cardiac<span class="sc">$</span>Fsex),</span>
+<span id="cb7-8"><a href="#cb7-8" tabindex="-1"></a>    mean, <span class="at">na.rm =</span> <span class="cn">TRUE</span>)</span></code></pre></div>
 <p> </p>
-<p>10. Knowing how many observations are present for each category (or
+<p>6. Knowing how many observations are present for each category (or
 combinations of categories) is useful to determine whether you have an
 adequate sample size (for subsequent modelling for example). Use the
 <code>table()</code> function to determine the number of patients in
@@ -718,19 +670,26 @@ href="https://intro2r.com/summarising-data-frames.html#summarising-data-frames">
 display the number of patients for each combination of smoking category
 and sex. Does <code>table()</code> tell you about the patients whose
 smoking status is missing?</p>
-<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" tabindex="-1"></a><span class="co"># using table</span></span>
-<span id="cb12-2"><a href="#cb12-2" tabindex="-1"></a><span class="fu">table</span>(cardiac<span class="sc">$</span>smoking)</span>
-<span id="cb12-3"><a href="#cb12-3" tabindex="-1"></a><span class="fu">table</span>(cardiac<span class="sc">$</span>smoking, cardiac<span class="sc">$</span>sex)</span>
-<span id="cb12-4"><a href="#cb12-4" tabindex="-1"></a></span>
-<span id="cb12-5"><a href="#cb12-5" tabindex="-1"></a><span class="co"># by default table() silently drops the missing values - 50 + 52 + 54 = 156,</span></span>
-<span id="cb12-6"><a href="#cb12-6" tabindex="-1"></a><span class="co"># not 163. Ask for them explicitly:</span></span>
-<span id="cb12-7"><a href="#cb12-7" tabindex="-1"></a><span class="fu">table</span>(cardiac<span class="sc">$</span>smoking, <span class="at">useNA =</span> <span class="st">&quot;ifany&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" tabindex="-1"></a><span class="co"># using table</span></span>
+<span id="cb8-2"><a href="#cb8-2" tabindex="-1"></a><span class="fu">table</span>(cardiac<span class="sc">$</span>smoking)</span>
+<span id="cb8-3"><a href="#cb8-3" tabindex="-1"></a><span class="fu">table</span>(cardiac<span class="sc">$</span>smoking, cardiac<span class="sc">$</span>Fsex)</span>
+<span id="cb8-4"><a href="#cb8-4" tabindex="-1"></a></span>
+<span id="cb8-5"><a href="#cb8-5" tabindex="-1"></a><span class="co">#     Female Male</span></span>
+<span id="cb8-6"><a href="#cb8-6" tabindex="-1"></a><span class="co">#   1     26   24</span></span>
+<span id="cb8-7"><a href="#cb8-7" tabindex="-1"></a><span class="co">#   2     15   37</span></span>
+<span id="cb8-8"><a href="#cb8-8" tabindex="-1"></a><span class="co">#   3     37   17</span></span>
+<span id="cb8-9"><a href="#cb8-9" tabindex="-1"></a></span>
+<span id="cb8-10"><a href="#cb8-10" tabindex="-1"></a><span class="co"># by default table() silently drops the missing values - 50 + 52 + 54 = 156,</span></span>
+<span id="cb8-11"><a href="#cb8-11" tabindex="-1"></a><span class="co"># not 163. Ask for them explicitly:</span></span>
+<span id="cb8-12"><a href="#cb8-12" tabindex="-1"></a><span class="fu">table</span>(cardiac<span class="sc">$</span>smoking, <span class="at">useNA =</span> <span class="st">&quot;ifany&quot;</span>)</span></code></pre></div>
 <p> </p>
-<p>11. Real analyses almost never involve a single file. The
-measurements you want are usually spread across several tables and you
-have to put them together first. The patients in this study were
-followed up ten years after their first examination, and those follow-up
-measurements are in a separate file. Download
+<p>7. Real analyses almost never involve a single file. The measurements
+you want are usually spread across several tables and you have to put
+them together first (see <a
+href="https://intro2r.com/wrangling-data-frames.html#merging-data-frames">Section
+3.4.5</a> of the Introduction to R book). The patients in this study
+were followed up ten years after their first examination, and those
+follow-up measurements are in a separate file. Download
 <em>‘cardiac_followup.txt’</em> from the <strong><a
 href="data.html"><i class="fa fa-download"></i> Data</a></strong> link,
 save it to your <code>data</code> directory and import it with
@@ -740,47 +699,50 @@ How many rows does it have, and how does that compare with
 the two together on the patient number, and assign the result to
 <code>cardiac_fu</code>. How many rows does the joined dataframe have,
 and can you explain why?</p>
-<div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" tabindex="-1"></a>followup <span class="ot">&lt;-</span> <span class="fu">read.table</span>(<span class="st">&quot;data/cardiac_followup.txt&quot;</span>, <span class="at">header =</span> <span class="cn">TRUE</span>, <span class="at">sep =</span> <span class="st">&quot;</span><span class="sc">\t</span><span class="st">&quot;</span>, <span class="at">na.strings =</span> <span class="st">&quot;NA&quot;</span>,</span>
-<span id="cb13-2"><a href="#cb13-2" tabindex="-1"></a>    <span class="at">stringsAsFactors =</span> <span class="cn">TRUE</span>)</span>
-<span id="cb13-3"><a href="#cb13-3" tabindex="-1"></a></span>
-<span id="cb13-4"><a href="#cb13-4" tabindex="-1"></a><span class="fu">nrow</span>(cardiac)  <span class="co"># 163 patients at the start of the study</span></span>
-<span id="cb13-5"><a href="#cb13-5" tabindex="-1"></a><span class="fu">nrow</span>(followup)  <span class="co"># 108 patients with follow-up measurements</span></span>
-<span id="cb13-6"><a href="#cb13-6" tabindex="-1"></a></span>
-<span id="cb13-7"><a href="#cb13-7" tabindex="-1"></a>cardiac_fu <span class="ot">&lt;-</span> <span class="fu">merge</span>(cardiac, followup, <span class="at">by =</span> <span class="st">&quot;patno&quot;</span>)</span>
-<span id="cb13-8"><a href="#cb13-8" tabindex="-1"></a><span class="fu">nrow</span>(cardiac_fu)  <span class="co"># 108</span></span>
-<span id="cb13-9"><a href="#cb13-9" tabindex="-1"></a></span>
-<span id="cb13-10"><a href="#cb13-10" tabindex="-1"></a><span class="co"># By default merge() keeps only the rows that appear in BOTH dataframes, which</span></span>
-<span id="cb13-11"><a href="#cb13-11" tabindex="-1"></a><span class="co"># is called an inner join. 55 of the original patients have no follow-up</span></span>
-<span id="cb13-12"><a href="#cb13-12" tabindex="-1"></a><span class="co"># measurements, so they have quietly disappeared. Nothing warned you about</span></span>
-<span id="cb13-13"><a href="#cb13-13" tabindex="-1"></a><span class="co"># this.  ALWAYS check the number of rows before and after a join.</span></span></code></pre></div>
+<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" tabindex="-1"></a>followup <span class="ot">&lt;-</span> <span class="fu">read.table</span>(<span class="st">&quot;data/cardiac_followup.txt&quot;</span>, <span class="at">header =</span> <span class="cn">TRUE</span>, <span class="at">sep =</span> <span class="st">&quot;</span><span class="sc">\t</span><span class="st">&quot;</span>, <span class="at">na.strings =</span> <span class="st">&quot;NA&quot;</span>,</span>
+<span id="cb9-2"><a href="#cb9-2" tabindex="-1"></a>    <span class="at">stringsAsFactors =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb9-3"><a href="#cb9-3" tabindex="-1"></a></span>
+<span id="cb9-4"><a href="#cb9-4" tabindex="-1"></a><span class="fu">nrow</span>(cardiac)  <span class="co"># 163 patients at the start of the study</span></span>
+<span id="cb9-5"><a href="#cb9-5" tabindex="-1"></a><span class="fu">nrow</span>(followup)  <span class="co"># 108 patients with follow-up measurements</span></span>
+<span id="cb9-6"><a href="#cb9-6" tabindex="-1"></a></span>
+<span id="cb9-7"><a href="#cb9-7" tabindex="-1"></a>cardiac_fu <span class="ot">&lt;-</span> <span class="fu">merge</span>(cardiac, followup, <span class="at">by =</span> <span class="st">&quot;patno&quot;</span>)</span>
+<span id="cb9-8"><a href="#cb9-8" tabindex="-1"></a><span class="fu">nrow</span>(cardiac_fu)  <span class="co"># 108</span></span>
+<span id="cb9-9"><a href="#cb9-9" tabindex="-1"></a></span>
+<span id="cb9-10"><a href="#cb9-10" tabindex="-1"></a><span class="co"># By default merge() keeps only the rows that appear in BOTH dataframes, which</span></span>
+<span id="cb9-11"><a href="#cb9-11" tabindex="-1"></a><span class="co"># is called an inner join. 55 of the original patients have no follow-up</span></span>
+<span id="cb9-12"><a href="#cb9-12" tabindex="-1"></a><span class="co"># measurements, so they have quietly disappeared. Nothing warned you about</span></span>
+<span id="cb9-13"><a href="#cb9-13" tabindex="-1"></a><span class="co"># this.  ALWAYS check the number of rows before and after a join.</span></span></code></pre></div>
 <p> </p>
-<p>12. Losing 55 patients without being told is exactly the sort of
-thing that ruins an analysis, and it is why you check row counts every
-single time you join. Often what you actually want is to keep every
-patient from the first dataframe whether or not they have a match in the
-second. Look at the help file for <code>merge()</code> and find the
+<p>8. Losing 55 patients without being told is exactly the sort of thing
+that ruins an analysis, and it is why you check row counts every single
+time you join. Often what you actually want is to keep every patient
+from the first dataframe whether or not they have a match in the second.
+Look at <a
+href="https://intro2r.com/wrangling-data-frames.html#merging-data-frames">Section
+3.4.5</a> and the help file for <code>merge()</code>, and find the
 argument that does this. Redo the join keeping all 163 patients, assign
 it to <code>cardiac_all</code>, and check how many of them have a
 missing follow-up systolic pressure. Finally, try running
 <code>merge(cardiac, followup)</code> without the <code>by</code>
 argument at all. It works. Why is relying on that a bad habit?</p>
-<div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" tabindex="-1"></a>cardiac_all <span class="ot">&lt;-</span> <span class="fu">merge</span>(cardiac, followup, <span class="at">by =</span> <span class="st">&quot;patno&quot;</span>, <span class="at">all.x =</span> <span class="cn">TRUE</span>)</span>
-<span id="cb14-2"><a href="#cb14-2" tabindex="-1"></a><span class="fu">nrow</span>(cardiac_all)  <span class="co"># 163 - everybody is kept</span></span>
-<span id="cb14-3"><a href="#cb14-3" tabindex="-1"></a></span>
-<span id="cb14-4"><a href="#cb14-4" tabindex="-1"></a><span class="fu">sum</span>(<span class="fu">is.na</span>(cardiac_all<span class="sc">$</span>systolic10))  <span class="co"># 55 patients have no follow-up</span></span>
-<span id="cb14-5"><a href="#cb14-5" tabindex="-1"></a></span>
-<span id="cb14-6"><a href="#cb14-6" tabindex="-1"></a><span class="co"># all.x = TRUE keeps every row of x (the first dataframe) and fills the missing</span></span>
-<span id="cb14-7"><a href="#cb14-7" tabindex="-1"></a><span class="co"># columns with NA. This is a left join.</span></span>
-<span id="cb14-8"><a href="#cb14-8" tabindex="-1"></a></span>
-<span id="cb14-9"><a href="#cb14-9" tabindex="-1"></a><span class="co"># Without &#39;by&#39;, merge() silently joins on every column name the two dataframes</span></span>
-<span id="cb14-10"><a href="#cb14-10" tabindex="-1"></a><span class="co"># happen to share. Here that is just patno, so you get the right answer by</span></span>
-<span id="cb14-11"><a href="#cb14-11" tabindex="-1"></a><span class="co"># luck.  If both files also had a column called, say, &#39;systolic&#39;, merge() would</span></span>
-<span id="cb14-12"><a href="#cb14-12" tabindex="-1"></a><span class="co"># try to match on that too and you would get almost no rows back - with no</span></span>
-<span id="cb14-13"><a href="#cb14-13" tabindex="-1"></a><span class="co"># error, no warning, and no clue as to why. Always name your key.</span></span></code></pre></div>
+<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" tabindex="-1"></a>cardiac_all <span class="ot">&lt;-</span> <span class="fu">merge</span>(cardiac, followup, <span class="at">by =</span> <span class="st">&quot;patno&quot;</span>, <span class="at">all.x =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb10-2"><a href="#cb10-2" tabindex="-1"></a><span class="fu">nrow</span>(cardiac_all)  <span class="co"># 163 - everybody is kept</span></span>
+<span id="cb10-3"><a href="#cb10-3" tabindex="-1"></a></span>
+<span id="cb10-4"><a href="#cb10-4" tabindex="-1"></a><span class="fu">sum</span>(<span class="fu">is.na</span>(cardiac_all<span class="sc">$</span>systolic10))  <span class="co"># 55 patients have no follow-up</span></span>
+<span id="cb10-5"><a href="#cb10-5" tabindex="-1"></a></span>
+<span id="cb10-6"><a href="#cb10-6" tabindex="-1"></a><span class="co"># all.x = TRUE keeps every row of x (the first dataframe) and fills the missing</span></span>
+<span id="cb10-7"><a href="#cb10-7" tabindex="-1"></a><span class="co"># columns with NA. This is a left join.</span></span>
+<span id="cb10-8"><a href="#cb10-8" tabindex="-1"></a></span>
+<span id="cb10-9"><a href="#cb10-9" tabindex="-1"></a><span class="co"># Without &#39;by&#39;, merge() silently joins on every column name the two dataframes</span></span>
+<span id="cb10-10"><a href="#cb10-10" tabindex="-1"></a><span class="co"># happen to share. Here that is just patno, so you get the right answer by</span></span>
+<span id="cb10-11"><a href="#cb10-11" tabindex="-1"></a><span class="co"># luck.  If both files also had a column called, say, &#39;systolic&#39;, merge() would</span></span>
+<span id="cb10-12"><a href="#cb10-12" tabindex="-1"></a><span class="co"># try to match on that too and you would get almost no rows back - with no</span></span>
+<span id="cb10-13"><a href="#cb10-13" tabindex="-1"></a><span class="co"># error, no warning, and no clue as to why. Always name your key.</span></span></code></pre></div>
 <p> </p>
-<p>13. There is one more join worth knowing, and it solves the
-<code>smoking</code> problem left over from Q0. Rather than typing the
-labels out by hand, you can keep the codes and their meanings in their
+<p>9. There is one more join worth knowing, and it solves the
+<code>smoking</code> problem that has been hanging over you since
+Exercise 3. Rather than typing the labels out by hand as you did for
+<code>Fsex</code>, you can keep the codes and their meanings in their
 own small file and join them on. Download <em>‘smoking_lookup.txt’</em>
 from the <strong><a href="data.html"><i class="fa fa-download"></i>
 Data</a></strong> link, save it to your <code>data</code> directory and
@@ -788,34 +750,36 @@ import it into a variable called <code>smoke_codes</code>. Take a look
 at it. Notice that the column holding the code is called
 <code>code</code>, not <code>smoking</code>, so the two dataframes have
 no column name in common and <code>by</code> on its own will not work.
-Look at the help file for <code>merge()</code> again and find the two
-arguments that let you name a different key in each dataframe. Join the
-labels onto <code>cardiac_all</code>, keeping all patients, and then
+Look at <a
+href="https://intro2r.com/wrangling-data-frames.html#merging-data-frames">Section
+3.4.5</a> and the help file for <code>merge()</code> again and find the
+two arguments that let you name a different key in each dataframe. Join
+the labels onto <code>cardiac_all</code>, keeping all patients, and then
 check with <code>table()</code> that every patient has ended up with the
 right label.</p>
-<div class="sourceCode" id="cb15"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" tabindex="-1"></a>smoke_codes <span class="ot">&lt;-</span> <span class="fu">read.table</span>(<span class="st">&quot;data/smoking_lookup.txt&quot;</span>, <span class="at">header =</span> <span class="cn">TRUE</span>, <span class="at">sep =</span> <span class="st">&quot;</span><span class="sc">\t</span><span class="st">&quot;</span>, <span class="at">na.strings =</span> <span class="st">&quot;NA&quot;</span>,</span>
-<span id="cb15-2"><a href="#cb15-2" tabindex="-1"></a>    <span class="at">stringsAsFactors =</span> <span class="cn">TRUE</span>)</span>
-<span id="cb15-3"><a href="#cb15-3" tabindex="-1"></a>smoke_codes</span>
-<span id="cb15-4"><a href="#cb15-4" tabindex="-1"></a></span>
-<span id="cb15-5"><a href="#cb15-5" tabindex="-1"></a><span class="co"># code smoking_status 1 1 Current 2 2 Ex 3 3 Never</span></span>
-<span id="cb15-6"><a href="#cb15-6" tabindex="-1"></a></span>
-<span id="cb15-7"><a href="#cb15-7" tabindex="-1"></a>cardiac_all <span class="ot">&lt;-</span> <span class="fu">merge</span>(cardiac_all, smoke_codes, <span class="at">by.x =</span> <span class="st">&quot;smoking&quot;</span>, <span class="at">by.y =</span> <span class="st">&quot;code&quot;</span>, <span class="at">all.x =</span> <span class="cn">TRUE</span>)</span>
-<span id="cb15-8"><a href="#cb15-8" tabindex="-1"></a></span>
-<span id="cb15-9"><a href="#cb15-9" tabindex="-1"></a><span class="fu">nrow</span>(cardiac_all)  <span class="co"># still 163 - check every time!</span></span>
-<span id="cb15-10"><a href="#cb15-10" tabindex="-1"></a></span>
-<span id="cb15-11"><a href="#cb15-11" tabindex="-1"></a><span class="fu">table</span>(cardiac_all<span class="sc">$</span>smoking_status, <span class="at">useNA =</span> <span class="st">&quot;ifany&quot;</span>)</span>
-<span id="cb15-12"><a href="#cb15-12" tabindex="-1"></a></span>
-<span id="cb15-13"><a href="#cb15-13" tabindex="-1"></a><span class="co"># Current Ex Never &lt;NA&gt; 50 52 54 7</span></span>
-<span id="cb15-14"><a href="#cb15-14" tabindex="-1"></a></span>
-<span id="cb15-15"><a href="#cb15-15" tabindex="-1"></a><span class="co"># The 7 patients with a missing smoking code get a missing label, which is</span></span>
-<span id="cb15-16"><a href="#cb15-16" tabindex="-1"></a><span class="co"># right. This is how coded data is usually handled: the codes stay in the data,</span></span>
-<span id="cb15-17"><a href="#cb15-17" tabindex="-1"></a><span class="co"># the meanings live in a lookup file, and anyone can see how one maps to the</span></span>
-<span id="cb15-18"><a href="#cb15-18" tabindex="-1"></a><span class="co"># other. If a code is ever added or changed you edit one small file rather than</span></span>
-<span id="cb15-19"><a href="#cb15-19" tabindex="-1"></a><span class="co"># hunting through your scripts for hard coded labels.</span></span></code></pre></div>
+<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" tabindex="-1"></a>smoke_codes <span class="ot">&lt;-</span> <span class="fu">read.table</span>(<span class="st">&quot;data/smoking_lookup.txt&quot;</span>, <span class="at">header =</span> <span class="cn">TRUE</span>, <span class="at">sep =</span> <span class="st">&quot;</span><span class="sc">\t</span><span class="st">&quot;</span>, <span class="at">na.strings =</span> <span class="st">&quot;NA&quot;</span>,</span>
+<span id="cb11-2"><a href="#cb11-2" tabindex="-1"></a>    <span class="at">stringsAsFactors =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb11-3"><a href="#cb11-3" tabindex="-1"></a>smoke_codes</span>
+<span id="cb11-4"><a href="#cb11-4" tabindex="-1"></a></span>
+<span id="cb11-5"><a href="#cb11-5" tabindex="-1"></a><span class="co"># code smoking_status 1 1 Current 2 2 Ex 3 3 Never</span></span>
+<span id="cb11-6"><a href="#cb11-6" tabindex="-1"></a></span>
+<span id="cb11-7"><a href="#cb11-7" tabindex="-1"></a>cardiac_all <span class="ot">&lt;-</span> <span class="fu">merge</span>(cardiac_all, smoke_codes, <span class="at">by.x =</span> <span class="st">&quot;smoking&quot;</span>, <span class="at">by.y =</span> <span class="st">&quot;code&quot;</span>, <span class="at">all.x =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb11-8"><a href="#cb11-8" tabindex="-1"></a></span>
+<span id="cb11-9"><a href="#cb11-9" tabindex="-1"></a><span class="fu">nrow</span>(cardiac_all)  <span class="co"># still 163 - check every time!</span></span>
+<span id="cb11-10"><a href="#cb11-10" tabindex="-1"></a></span>
+<span id="cb11-11"><a href="#cb11-11" tabindex="-1"></a><span class="fu">table</span>(cardiac_all<span class="sc">$</span>smoking_status, <span class="at">useNA =</span> <span class="st">&quot;ifany&quot;</span>)</span>
+<span id="cb11-12"><a href="#cb11-12" tabindex="-1"></a></span>
+<span id="cb11-13"><a href="#cb11-13" tabindex="-1"></a><span class="co"># Current Ex Never &lt;NA&gt; 50 52 54 7</span></span>
+<span id="cb11-14"><a href="#cb11-14" tabindex="-1"></a></span>
+<span id="cb11-15"><a href="#cb11-15" tabindex="-1"></a><span class="co"># The 7 patients with a missing smoking code get a missing label, which is</span></span>
+<span id="cb11-16"><a href="#cb11-16" tabindex="-1"></a><span class="co"># right. This is how coded data is usually handled: the codes stay in the data,</span></span>
+<span id="cb11-17"><a href="#cb11-17" tabindex="-1"></a><span class="co"># the meanings live in a lookup file, and anyone can see how one maps to the</span></span>
+<span id="cb11-18"><a href="#cb11-18" tabindex="-1"></a><span class="co"># other. If a code is ever added or changed you edit one small file rather than</span></span>
+<span id="cb11-19"><a href="#cb11-19" tabindex="-1"></a><span class="co"># hunting through your scripts for hard coded labels.</span></span></code></pre></div>
 <p> </p>
-<p>14. Ok, we have spent quite a bit of time (and energy) learning how
-to clean, check and join dataframes. The last thing we need to cover is
-how to export a dataframe from R to an external file (see <a
+<p>10. Ok, we have spent quite a bit of time (and energy) learning how
+to clean, summarise and join dataframes. The last thing we need to cover
+is how to export a dataframe from R to an external file (see <a
 href="https://intro2r.com/exporting-data.html#exporting-data">Section
 3.6</a> of the book for more details). Export your cleaned and joined
 dataframe <code>cardiac_all</code> to a file called ‘cardiac_clean.txt’
@@ -826,24 +790,25 @@ don’t want to include the row names. Also, make sure the file is a tab
 delimited file. Once you have created your file, try to open it in
 Microsoft Excel (or open source equivalent). Finally, and this is the
 part people forget: add a comment block at the top of your R script
-listing every change you made to the data and why. Which three values
-did you set to <code>NA</code>, and which patients did they belong to?
-Someone reading your work in six months, including you, needs to be able
-to answer that without re-running anything.</p>
-<div class="sourceCode" id="cb16"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" tabindex="-1"></a><span class="fu">write.table</span>(cardiac_all, <span class="st">&quot;output/cardiac_clean.txt&quot;</span>, <span class="at">col.names =</span> <span class="cn">TRUE</span>, <span class="at">row.names =</span> <span class="cn">FALSE</span>,</span>
-<span id="cb16-2"><a href="#cb16-2" tabindex="-1"></a>    <span class="at">sep =</span> <span class="st">&quot;</span><span class="sc">\t</span><span class="st">&quot;</span>)</span>
-<span id="cb16-3"><a href="#cb16-3" tabindex="-1"></a></span>
-<span id="cb16-4"><a href="#cb16-4" tabindex="-1"></a><span class="co"># Decision log - the sort of thing that belongs at the top of your script:</span></span>
-<span id="cb16-5"><a href="#cb16-5" tabindex="-1"></a><span class="co"># Data: data/cardiacdata.txt, 163 patients, imported unchanged.  1. hdlchol of</span></span>
-<span id="cb16-6"><a href="#cb16-6" tabindex="-1"></a><span class="co"># 0.00 set to NA (2 patients). A HDL cholesterol of zero is physiologically</span></span>
-<span id="cb16-7"><a href="#cb16-7" tabindex="-1"></a><span class="co"># impossible and is almost certainly a missing value that was recorded as 0.</span></span>
-<span id="cb16-8"><a href="#cb16-8" tabindex="-1"></a><span class="co"># 2. triglyceride of 0.00 set to NA (1 patient). Same reasoning.  3. bmi of</span></span>
-<span id="cb16-9"><a href="#cb16-9" tabindex="-1"></a><span class="co"># 514.60 set to NA (1 patient). Almost certainly 51.46 with the decimal point</span></span>
-<span id="cb16-10"><a href="#cb16-10" tabindex="-1"></a><span class="co"># misplaced, but as we cannot confirm that, NA rather than a correction.  4.</span></span>
-<span id="cb16-11"><a href="#cb16-11" tabindex="-1"></a><span class="co"># sex converted to a factor with labels Female (1) and Male (2).  5. smoking</span></span>
-<span id="cb16-12"><a href="#cb16-12" tabindex="-1"></a><span class="co"># labels joined on from data/smoking_lookup.txt.  6. Ten year follow-up</span></span>
-<span id="cb16-13"><a href="#cb16-13" tabindex="-1"></a><span class="co"># measurements joined on from data/cardiac_followup.txt, keeping all 163</span></span>
-<span id="cb16-14"><a href="#cb16-14" tabindex="-1"></a><span class="co"># patients; 55 have no follow-up data.</span></span></code></pre></div>
+listing every change you made to the data and why. Which values did you
+set to <code>NA</code>, in which variables, and which patients did they
+belong to? Someone reading your work in six months, including you, needs
+to be able to answer that without re-running anything.</p>
+<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" tabindex="-1"></a><span class="fu">write.table</span>(cardiac_all, <span class="st">&quot;output/cardiac_clean.txt&quot;</span>, <span class="at">col.names =</span> <span class="cn">TRUE</span>, <span class="at">row.names =</span> <span class="cn">FALSE</span>,</span>
+<span id="cb12-2"><a href="#cb12-2" tabindex="-1"></a>    <span class="at">sep =</span> <span class="st">&quot;</span><span class="sc">\t</span><span class="st">&quot;</span>)</span>
+<span id="cb12-3"><a href="#cb12-3" tabindex="-1"></a></span>
+<span id="cb12-4"><a href="#cb12-4" tabindex="-1"></a><span class="co"># Decision log - the sort of thing that belongs at the top of your script:</span></span>
+<span id="cb12-5"><a href="#cb12-5" tabindex="-1"></a><span class="co"># Data: data/cardiacdata.txt, 163 patients, imported unchanged.  1. Fsex</span></span>
+<span id="cb12-6"><a href="#cb12-6" tabindex="-1"></a><span class="co"># created as a factor version of sex, labelled Female (1) and Male (2).  The</span></span>
+<span id="cb12-7"><a href="#cb12-7" tabindex="-1"></a><span class="co"># original sex column was left untouched.  2. hdlchol of 0.00 set to NA (2</span></span>
+<span id="cb12-8"><a href="#cb12-8" tabindex="-1"></a><span class="co"># patients). A HDL cholesterol of zero is physiologically impossible and is</span></span>
+<span id="cb12-9"><a href="#cb12-9" tabindex="-1"></a><span class="co"># almost certainly a missing value that was recorded as 0.  3. triglyceride of</span></span>
+<span id="cb12-10"><a href="#cb12-10" tabindex="-1"></a><span class="co"># 0.00 set to NA (1 patient). Same reasoning.  4. bmi of 514.60 set to NA</span></span>
+<span id="cb12-11"><a href="#cb12-11" tabindex="-1"></a><span class="co"># (patient 1630L). Almost certainly 51.46 with the decimal point misplaced, but</span></span>
+<span id="cb12-12"><a href="#cb12-12" tabindex="-1"></a><span class="co"># as we cannot confirm that, NA rather than a correction.  5. smoking labels</span></span>
+<span id="cb12-13"><a href="#cb12-13" tabindex="-1"></a><span class="co"># joined on from data/smoking_lookup.txt.  6. Ten year follow-up measurements</span></span>
+<span id="cb12-14"><a href="#cb12-14" tabindex="-1"></a><span class="co"># joined on from data/cardiac_followup.txt, keeping all 163 patients; 55 have</span></span>
+<span id="cb12-15"><a href="#cb12-15" tabindex="-1"></a><span class="co"># no follow-up data.</span></span></code></pre></div>
 <p> </p>
 <p>End of Exercise 4</p>
 </div>

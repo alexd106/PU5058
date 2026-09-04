@@ -710,16 +710,13 @@ much you should trust the shape of a histogram?</p>
 <p>9. Scatterplots are great for visualising relationships between two
 continuous variables (<a
 href="https://intro2r.com/simple-base-r-plots.html#scatterplot">Section
-4.2.1</a>). Before you draw one, stop and think about which variable
-belongs on which axis. The convention is that the explanatory variable
-goes on the x axis and the response goes on the y axis, so the choice is
-not cosmetic. Put them the wrong way round and you have quietly told
-your reader something you did not mean.</p>
-<p>Start with <code>systolic</code> and <code>diastolic</code> blood
-pressure. Which would you put where, and why is that a harder question
-than it first looks? Now plot HDL cholesterol and triglyceride. Which of
-those two is the more sensible candidate for the x axis, and does the
-relationship you get make clinical sense to you?</p>
+4.2.1</a>). Before you draw one, decide which variable belongs on which
+axis. By convention the explanatory variable goes on the x axis and the
+response goes on the y axis, so the choice is not cosmetic.</p>
+<p>Start with <code>bmi</code> and <code>systolic</code> blood pressure.
+Which is the explanatory variable, and which the response? Plot them the
+right way round. Now do the same for <code>hdlchol</code> and
+<code>triglyceride</code>. Is the choice as easy this time?</p>
 <p>Finally, look at <code>alcohol</code>. It is badly skewed, and skew
 is a nuisance in a plot because most of the points end up squashed into
 a corner. In Exercise 4 Q5 you took logs of <code>triglyceride</code>
@@ -731,41 +728,37 @@ Which one, and why? (hint: what is the smallest value of
 <code>alcohol</code>?)</p>
 <div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" tabindex="-1"></a><span class="fu">par</span>(<span class="at">mfrow =</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">2</span>))</span>
 <span id="cb9-2"><a href="#cb9-2" tabindex="-1"></a></span>
-<span id="cb9-3"><a href="#cb9-3" tabindex="-1"></a><span class="co"># systolic and diastolic: a clear positive relationship, which is no surprise</span></span>
-<span id="cb9-4"><a href="#cb9-4" tabindex="-1"></a><span class="co"># because the two numbers are the same measurement taken at two points in the</span></span>
-<span id="cb9-5"><a href="#cb9-5" tabindex="-1"></a><span class="co"># heartbeat. Neither one explains the other, so there is no response variable</span></span>
-<span id="cb9-6"><a href="#cb9-6" tabindex="-1"></a><span class="co"># here and the choice of axes really is arbitrary. The honest description is</span></span>
-<span id="cb9-7"><a href="#cb9-7" tabindex="-1"></a><span class="co"># &#39;these two go together&#39;, not &#39;this one drives that one&#39;.</span></span>
-<span id="cb9-8"><a href="#cb9-8" tabindex="-1"></a><span class="fu">plot</span>(cardiac<span class="sc">$</span>systolic, cardiac<span class="sc">$</span>diastolic,</span>
-<span id="cb9-9"><a href="#cb9-9" tabindex="-1"></a>     <span class="at">xlab =</span> <span class="st">&quot;systolic (mmHg)&quot;</span>, <span class="at">ylab =</span> <span class="st">&quot;diastolic (mmHg)&quot;</span>)</span>
-<span id="cb9-10"><a href="#cb9-10" tabindex="-1"></a></span>
-<span id="cb9-11"><a href="#cb9-11" tabindex="-1"></a><span class="co"># triglyceride and HDL cholesterol: negative, and a well known pattern. If you</span></span>
-<span id="cb9-12"><a href="#cb9-12" tabindex="-1"></a><span class="co"># are going to treat one as explanatory it should be triglyceride, because a</span></span>
-<span id="cb9-13"><a href="#cb9-13" tabindex="-1"></a><span class="co"># raised triglyceride is generally understood to drive HDL down rather than the</span></span>
-<span id="cb9-14"><a href="#cb9-14" tabindex="-1"></a><span class="co"># other way round, so triglyceride belongs on the x axis. Do not lean on that</span></span>
-<span id="cb9-15"><a href="#cb9-15" tabindex="-1"></a><span class="co"># too hard though. This is a cross sectional study, both are markers of the same</span></span>
-<span id="cb9-16"><a href="#cb9-16" tabindex="-1"></a><span class="co"># underlying metabolic state, and no scatterplot can tell you which came first.</span></span>
-<span id="cb9-17"><a href="#cb9-17" tabindex="-1"></a><span class="fu">plot</span>(cardiac<span class="sc">$</span>triglyceride, cardiac<span class="sc">$</span>hdlchol,</span>
-<span id="cb9-18"><a href="#cb9-18" tabindex="-1"></a>     <span class="at">xlab =</span> <span class="st">&quot;triglyceride (mmol/l)&quot;</span>, <span class="at">ylab =</span> <span class="st">&quot;HDL cholesterol (mmol/l)&quot;</span>)</span>
+<span id="cb9-3"><a href="#cb9-3" tabindex="-1"></a><span class="co"># Easy one. Carrying more weight raises blood pressure, not the other way round,</span></span>
+<span id="cb9-4"><a href="#cb9-4" tabindex="-1"></a><span class="co"># so bmi is explanatory and goes on x. The relationship is real but weak, which</span></span>
+<span id="cb9-5"><a href="#cb9-5" tabindex="-1"></a><span class="co"># is normal.</span></span>
+<span id="cb9-6"><a href="#cb9-6" tabindex="-1"></a><span class="fu">plot</span>(cardiac<span class="sc">$</span>bmi, cardiac<span class="sc">$</span>systolic,</span>
+<span id="cb9-7"><a href="#cb9-7" tabindex="-1"></a>     <span class="at">xlab =</span> <span class="st">&quot;bmi&quot;</span>, <span class="at">ylab =</span> <span class="st">&quot;systolic (mmHg)&quot;</span>)</span>
+<span id="cb9-8"><a href="#cb9-8" tabindex="-1"></a></span>
+<span id="cb9-9"><a href="#cb9-9" tabindex="-1"></a><span class="co"># Harder one. Neither clearly causes the other; both are markers of the same</span></span>
+<span id="cb9-10"><a href="#cb9-10" tabindex="-1"></a><span class="co"># underlying metabolic state. If you have to choose, a raised triglyceride is</span></span>
+<span id="cb9-11"><a href="#cb9-11" tabindex="-1"></a><span class="co"># usually taken to drive HDL down rather than the reverse, so triglyceride goes</span></span>
+<span id="cb9-12"><a href="#cb9-12" tabindex="-1"></a><span class="co"># on x. The relationship is negative.</span></span>
+<span id="cb9-13"><a href="#cb9-13" tabindex="-1"></a><span class="fu">plot</span>(cardiac<span class="sc">$</span>triglyceride, cardiac<span class="sc">$</span>hdlchol,</span>
+<span id="cb9-14"><a href="#cb9-14" tabindex="-1"></a>     <span class="at">xlab =</span> <span class="st">&quot;triglyceride (mmol/l)&quot;</span>, <span class="at">ylab =</span> <span class="st">&quot;HDL cholesterol (mmol/l)&quot;</span>)</span>
+<span id="cb9-15"><a href="#cb9-15" tabindex="-1"></a></span>
+<span id="cb9-16"><a href="#cb9-16" tabindex="-1"></a><span class="co"># transforming a skewed variable</span></span>
+<span id="cb9-17"><a href="#cb9-17" tabindex="-1"></a>cardiac<span class="sc">$</span>alcohol_sqrt <span class="ot">&lt;-</span> <span class="fu">sqrt</span>(cardiac<span class="sc">$</span>alcohol)</span>
+<span id="cb9-18"><a href="#cb9-18" tabindex="-1"></a>cardiac<span class="sc">$</span>alcohol_log  <span class="ot">&lt;-</span> <span class="fu">log</span>(cardiac<span class="sc">$</span>alcohol)</span>
 <span id="cb9-19"><a href="#cb9-19" tabindex="-1"></a></span>
-<span id="cb9-20"><a href="#cb9-20" tabindex="-1"></a><span class="co"># transforming a skewed variable</span></span>
-<span id="cb9-21"><a href="#cb9-21" tabindex="-1"></a>cardiac<span class="sc">$</span>alcohol_sqrt <span class="ot">&lt;-</span> <span class="fu">sqrt</span>(cardiac<span class="sc">$</span>alcohol)</span>
-<span id="cb9-22"><a href="#cb9-22" tabindex="-1"></a>cardiac<span class="sc">$</span>alcohol_log  <span class="ot">&lt;-</span> <span class="fu">log</span>(cardiac<span class="sc">$</span>alcohol)</span>
-<span id="cb9-23"><a href="#cb9-23" tabindex="-1"></a></span>
-<span id="cb9-24"><a href="#cb9-24" tabindex="-1"></a><span class="fu">par</span>(<span class="at">mfrow =</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">3</span>))</span>
-<span id="cb9-25"><a href="#cb9-25" tabindex="-1"></a><span class="fu">hist</span>(cardiac<span class="sc">$</span>alcohol, <span class="at">main =</span> <span class="st">&quot;untransformed&quot;</span>, <span class="at">xlab =</span> <span class="st">&quot;alcohol&quot;</span>)</span>
-<span id="cb9-26"><a href="#cb9-26" tabindex="-1"></a><span class="fu">hist</span>(cardiac<span class="sc">$</span>alcohol_sqrt, <span class="at">main =</span> <span class="st">&quot;square root&quot;</span>, <span class="at">xlab =</span> <span class="st">&quot;sqrt(alcohol)&quot;</span>)</span>
-<span id="cb9-27"><a href="#cb9-27" tabindex="-1"></a><span class="fu">hist</span>(cardiac<span class="sc">$</span>alcohol_log, <span class="at">main =</span> <span class="st">&quot;natural log&quot;</span>, <span class="at">xlab =</span> <span class="st">&quot;log(alcohol)&quot;</span>)</span>
-<span id="cb9-28"><a href="#cb9-28" tabindex="-1"></a></span>
-<span id="cb9-29"><a href="#cb9-29" tabindex="-1"></a><span class="fu">sum</span>(cardiac<span class="sc">$</span>alcohol <span class="sc">==</span> <span class="dv">0</span>)   <span class="co"># 58</span></span>
-<span id="cb9-30"><a href="#cb9-30" tabindex="-1"></a></span>
-<span id="cb9-31"><a href="#cb9-31" tabindex="-1"></a><span class="co"># The log fails. 58 of the 163 patients reported drinking no alcohol at all, and</span></span>
-<span id="cb9-32"><a href="#cb9-32" tabindex="-1"></a><span class="co"># log(0) is -Inf, so R quietly drops more than a third of your data from the</span></span>
-<span id="cb9-33"><a href="#cb9-33" tabindex="-1"></a><span class="co"># plot with nothing more than a warning. The square root works, because sqrt(0)</span></span>
-<span id="cb9-34"><a href="#cb9-34" tabindex="-1"></a><span class="co"># is 0, and it pulls the long tail in nicely.</span></span>
-<span id="cb9-35"><a href="#cb9-35" tabindex="-1"></a></span>
-<span id="cb9-36"><a href="#cb9-36" tabindex="-1"></a><span class="co"># Triglyceride logged cleanly in Exercise 4 because it has no zeros in it.</span></span>
-<span id="cb9-37"><a href="#cb9-37" tabindex="-1"></a><span class="co"># Alcohol does. Check the minimum before you take the log of anything.</span></span></code></pre></div>
+<span id="cb9-20"><a href="#cb9-20" tabindex="-1"></a><span class="fu">par</span>(<span class="at">mfrow =</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">3</span>))</span>
+<span id="cb9-21"><a href="#cb9-21" tabindex="-1"></a><span class="fu">hist</span>(cardiac<span class="sc">$</span>alcohol, <span class="at">main =</span> <span class="st">&quot;untransformed&quot;</span>, <span class="at">xlab =</span> <span class="st">&quot;alcohol&quot;</span>)</span>
+<span id="cb9-22"><a href="#cb9-22" tabindex="-1"></a><span class="fu">hist</span>(cardiac<span class="sc">$</span>alcohol_sqrt, <span class="at">main =</span> <span class="st">&quot;square root&quot;</span>, <span class="at">xlab =</span> <span class="st">&quot;sqrt(alcohol)&quot;</span>)</span>
+<span id="cb9-23"><a href="#cb9-23" tabindex="-1"></a><span class="fu">hist</span>(cardiac<span class="sc">$</span>alcohol_log, <span class="at">main =</span> <span class="st">&quot;natural log&quot;</span>, <span class="at">xlab =</span> <span class="st">&quot;log(alcohol)&quot;</span>)</span>
+<span id="cb9-24"><a href="#cb9-24" tabindex="-1"></a></span>
+<span id="cb9-25"><a href="#cb9-25" tabindex="-1"></a><span class="fu">sum</span>(cardiac<span class="sc">$</span>alcohol <span class="sc">==</span> <span class="dv">0</span>)   <span class="co"># 58</span></span>
+<span id="cb9-26"><a href="#cb9-26" tabindex="-1"></a></span>
+<span id="cb9-27"><a href="#cb9-27" tabindex="-1"></a><span class="co"># The log fails. 58 of the 163 patients reported drinking no alcohol at all, and</span></span>
+<span id="cb9-28"><a href="#cb9-28" tabindex="-1"></a><span class="co"># log(0) is -Inf, so R quietly drops more than a third of your data from the</span></span>
+<span id="cb9-29"><a href="#cb9-29" tabindex="-1"></a><span class="co"># plot with nothing more than a warning. The square root works, because sqrt(0)</span></span>
+<span id="cb9-30"><a href="#cb9-30" tabindex="-1"></a><span class="co"># is 0, and it pulls the long tail in nicely.</span></span>
+<span id="cb9-31"><a href="#cb9-31" tabindex="-1"></a></span>
+<span id="cb9-32"><a href="#cb9-32" tabindex="-1"></a><span class="co"># Triglyceride logged cleanly in Exercise 4 because it has no zeros in it.</span></span>
+<span id="cb9-33"><a href="#cb9-33" tabindex="-1"></a><span class="co"># Alcohol does. Check the minimum before you take the log of anything.</span></span></code></pre></div>
 <pre><code>## [1] 58</code></pre>
 <p><img src="exercise_5_solution_files/figure-html/Q9-1.png" alt="" width="864" /><img src="exercise_5_solution_files/figure-html/Q9-2.png" alt="" width="864" /></p>
 <p> </p>

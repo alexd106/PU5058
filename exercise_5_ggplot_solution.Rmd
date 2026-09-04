@@ -135,9 +135,9 @@ grid.arrange(b1, b2, b3, b4, nrow = 2)
 9\. Scatterplots, and transforming a skewed variable.
 
 ```{r Q9}
-ggplot(data = cardiac, aes(x = systolic, y = diastolic)) +
+ggplot(data = cardiac, aes(x = bmi, y = systolic)) +
   geom_point() +
-  labs(x = "systolic (mmHg)", y = "diastolic (mmHg)")
+  labs(x = "bmi", y = "systolic (mmHg)")
 
 # triglyceride on the x axis, as in the base R solutions: if either is to be
 # treated as explanatory it is triglyceride

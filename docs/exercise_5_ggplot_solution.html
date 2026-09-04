@@ -606,9 +606,9 @@ silently.</p>
 <span id="cb6-11"><a href="#cb6-11" tabindex="-1"></a><span class="fu">grid.arrange</span>(b1, b2, b3, b4, <span class="at">nrow =</span> <span class="dv">2</span>)</span></code></pre></div>
 <p> </p>
 <p>9. Scatterplots, and transforming a skewed variable.</p>
-<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data =</span> cardiac, <span class="fu">aes</span>(<span class="at">x =</span> systolic, <span class="at">y =</span> diastolic)) <span class="sc">+</span></span>
+<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data =</span> cardiac, <span class="fu">aes</span>(<span class="at">x =</span> bmi, <span class="at">y =</span> systolic)) <span class="sc">+</span></span>
 <span id="cb7-2"><a href="#cb7-2" tabindex="-1"></a>  <span class="fu">geom_point</span>() <span class="sc">+</span></span>
-<span id="cb7-3"><a href="#cb7-3" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">&quot;systolic (mmHg)&quot;</span>, <span class="at">y =</span> <span class="st">&quot;diastolic (mmHg)&quot;</span>)</span>
+<span id="cb7-3"><a href="#cb7-3" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">&quot;bmi&quot;</span>, <span class="at">y =</span> <span class="st">&quot;systolic (mmHg)&quot;</span>)</span>
 <span id="cb7-4"><a href="#cb7-4" tabindex="-1"></a></span>
 <span id="cb7-5"><a href="#cb7-5" tabindex="-1"></a><span class="co"># triglyceride on the x axis, as in the base R solutions: if either is to be</span></span>
 <span id="cb7-6"><a href="#cb7-6" tabindex="-1"></a><span class="co"># treated as explanatory it is triglyceride</span></span>

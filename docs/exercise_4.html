@@ -659,31 +659,21 @@ were also followed up for hospital admissions over the same ten years.
 Download <em>‘cardiac_admissions.txt’</em> from the <strong><a
 href="data.html"><i class="fa fa-download"></i> Data</a></strong> link,
 save it to your <code>data</code> directory and import it into a
-variable called <code>admissions</code>. Note that unlike the rest of
-the cardiac data, which is real, these admission records are
-simulated.</p>
-<p>Take a look at it with <code>str()</code>. It has already been
-summarised for you to one row per patient, holding the number of
-admissions and the total number of days spent in hospital. In real life
-you would often be handed one row per <em>admission</em> and have to
-summarise it yourself before you could link it, which is a job for
-<code>aggregate()</code>.</p>
+variable called <code>admissions</code>. It holds one row for each
+patient who was admitted at least once, and the number of times they
+were admitted. Note that unlike the rest of the cardiac data, which is
+real, these admission records are simulated.</p>
 <ol style="list-style-type: lower-alpha">
-<li><p>How many rows does <code>admissions</code> have, and how does
-that compare with the 163 patients in <code>cardiac</code>?</p></li>
-<li><p>Link it onto <code>cardiac_all</code>, keeping all 163 patients
-exactly as you did in Q7, and check the row count. Then count how many
-patients came out with a missing <code>n_admissions</code>. Add that
-number to the number of patients who did get a count. Is the total 163,
-and if not, where has the difference gone?</p></li>
-<li><p>Now the sting. Look at those patients with a missing
-<code>n_admissions</code>. Everywhere else in this course an
-<code>NA</code> has meant ‘there should be a value here and we do not
-have it’. Does it mean that here? Work out what it does mean, calculate
-the mean number of admissions per patient both with and without doing
-something about it, and decide which answer you would report.</p></li>
-<li><p>Finally, the question the linkage was for. Does the number of
-admissions differ by smoking status?</p></li>
+<li><p>Link <code>admissions</code> onto <code>cardiac_all</code>,
+keeping all 163 patients exactly as you did in Q7. Check you still have
+163 rows, then count how many patients ended up with a missing
+<code>n_admissions</code>.</p></li>
+<li><p>Now the sting. Everywhere else in this course an <code>NA</code>
+has meant ‘there should be a value here and we do not have it’. Does it
+mean that here? Work out what a missing <code>n_admissions</code>
+actually tells you about that patient, then calculate the mean number of
+admissions per patient two ways, once with <code>na.rm = TRUE</code> and
+once after doing something about it. Which would you report?</p></li>
 </ol>
 <p> </p>
 <p>9. Ok, we have spent quite a bit of time (and energy) learning how to
@@ -703,6 +693,11 @@ listing every change you made to the data and why. Which values did you
 set to <code>NA</code>, in which variables, and which patients did they
 belong to? Someone reading your work in six months, including you, needs
 to be able to answer that without re-running anything.</p>
+<p>One last word about that file. It is what you would send to a
+collaborator or attach to a report. It is not what you will start from
+next week. Exercise 5 imports the raw data again and rebuilds, because
+an analysis should be reproducible from the original file and a script,
+not from a tidied copy whose history nobody can see.</p>
 <p> </p>
 <p>End of Exercise 4</p>
 </div>

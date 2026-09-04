@@ -14,9 +14,9 @@
 #     cohort.
 #   - about a quarter of patients have no admissions at all, so a left join
 #     produces NAs that mean zero rather than unknown.
-#   - five admissions belong to patient numbers outside the cohort, as a real
-#     hospital extract would, so the join is worth checking in both directions.
-#   - length of stay is right skewed, so it can also be used for the log question.
+#   - the file is deliberately minimal: one row per patient and a single count
+#     column. Bed days and out-of-cohort records were both cut because each was a
+#     second lesson competing with the one the question is for.
 
 set.seed(20260904)
 
@@ -43,31 +43,19 @@ adm$specialty <- sample(c("Cardiology", "General medicine", "Surgery",
                         n, replace = TRUE, prob = c(0.30, 0.28, 0.20, 0.12, 0.10))
 adm$los <- pmax(1, round(exp(rnorm(n, mean = 1.1, sd = 0.9))))
 
-# five admissions for patients who are not in the cohort, as a hospital extract
-# covering the whole board would contain
-outside <- data.frame(
-  patno = c("2841P", "3167C", "3402R", "3775T", "3918M"),
-  admission_year = sample(2001:2010, 5, replace = TRUE),
-  specialty = sample(c("Cardiology", "General medicine", "Surgery"), 5, replace = TRUE),
-  los = pmax(1, round(exp(rnorm(5, 1.1, 0.9)))),
-  stringsAsFactors = FALSE
-)
-stopifnot(!any(outside$patno %in% cardiac$patno))
-
-adm <- rbind(adm, outside)
+# NOTE: records for patients outside the cohort used to be added here. They were
+# removed on 4 September 2026: checking the key in both directions is a second
+# lesson, and Exercise 4 Q8 now teaches one.
 
 # Summarise to ONE ROW PER PATIENT before publishing. A per-admission file would
 # force students to aggregate before linking, and to use %in% to check the key,
 # which is several new functions in service of one idea. The published file is a
 # summarised extract of the kind a data linkage team would actually hand you.
-n_adm <- aggregate(cbind(n_admissions = los) ~ patno, data = adm, FUN = length)
-bed   <- aggregate(cbind(bed_days = los) ~ patno, data = adm, FUN = sum)
-out   <- merge(n_adm, bed, by = "patno")
-out   <- out[order(out$patno), ]
+out <- aggregate(cbind(n_admissions = los) ~ patno, data = adm, FUN = length)
+out <- out[order(out$patno), ]
 
 write.table(out, "data/cardiac_admissions.txt", sep = "\t",
             row.names = FALSE, quote = FALSE)
 
 cat("rows in published file:", nrow(out), "\n")
-cat("  of which in the cohort:", sum(out$patno %in% cardiac$patno), "\n")
-cat("  cohort patients absent:", nrow(cardiac) - sum(out$patno %in% cardiac$patno), "\n")
+cat("cohort patients absent from it:", nrow(cardiac) - nrow(out), "\n")

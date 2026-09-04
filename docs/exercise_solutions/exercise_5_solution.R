@@ -93,20 +93,16 @@ hist(cardiac$systolic, xlab = "systolic", main = "bins of 2 mmHg",
 ## ----Q9, echo=SOLUTIONS, eval=SOLUTIONS, fig.width=9, fig.height=4------------
 par(mfrow = c(1, 2))
 
-# systolic and diastolic: a clear positive relationship, which is no surprise
-# because the two numbers are the same measurement taken at two points in the
-# heartbeat. Neither one explains the other, so there is no response variable
-# here and the choice of axes really is arbitrary. The honest description is
-# 'these two go together', not 'this one drives that one'.
-plot(cardiac$systolic, cardiac$diastolic,
-     xlab = "systolic (mmHg)", ylab = "diastolic (mmHg)")
+# Easy one. Carrying more weight raises blood pressure, not the other way round,
+# so bmi is explanatory and goes on x. The relationship is real but weak, which
+# is normal.
+plot(cardiac$bmi, cardiac$systolic,
+     xlab = "bmi", ylab = "systolic (mmHg)")
 
-# triglyceride and HDL cholesterol: negative, and a well known pattern. If you
-# are going to treat one as explanatory it should be triglyceride, because a
-# raised triglyceride is generally understood to drive HDL down rather than the
-# other way round, so triglyceride belongs on the x axis. Do not lean on that
-# too hard though. This is a cross sectional study, both are markers of the same
-# underlying metabolic state, and no scatterplot can tell you which came first.
+# Harder one. Neither clearly causes the other; both are markers of the same
+# underlying metabolic state. If you have to choose, a raised triglyceride is
+# usually taken to drive HDL down rather than the reverse, so triglyceride goes
+# on x. The relationship is negative.
 plot(cardiac$triglyceride, cardiac$hdlchol,
      xlab = "triglyceride (mmol/l)", ylab = "HDL cholesterol (mmol/l)")
 

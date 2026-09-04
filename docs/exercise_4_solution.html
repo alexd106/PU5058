@@ -779,81 +779,48 @@ were also followed up for hospital admissions over the same ten years.
 Download <em>‘cardiac_admissions.txt’</em> from the <strong><a
 href="data.html"><i class="fa fa-download"></i> Data</a></strong> link,
 save it to your <code>data</code> directory and import it into a
-variable called <code>admissions</code>. Note that unlike the rest of
-the cardiac data, which is real, these admission records are
-simulated.</p>
-<p>Take a look at it with <code>str()</code>. It has already been
-summarised for you to one row per patient, holding the number of
-admissions and the total number of days spent in hospital. In real life
-you would often be handed one row per <em>admission</em> and have to
-summarise it yourself before you could link it, which is a job for
-<code>aggregate()</code>.</p>
+variable called <code>admissions</code>. It holds one row for each
+patient who was admitted at least once, and the number of times they
+were admitted. Note that unlike the rest of the cardiac data, which is
+real, these admission records are simulated.</p>
 <ol style="list-style-type: lower-alpha">
-<li><p>How many rows does <code>admissions</code> have, and how does
-that compare with the 163 patients in <code>cardiac</code>?</p></li>
-<li><p>Link it onto <code>cardiac_all</code>, keeping all 163 patients
-exactly as you did in Q7, and check the row count. Then count how many
-patients came out with a missing <code>n_admissions</code>. Add that
-number to the number of patients who did get a count. Is the total 163,
-and if not, where has the difference gone?</p></li>
-<li><p>Now the sting. Look at those patients with a missing
-<code>n_admissions</code>. Everywhere else in this course an
-<code>NA</code> has meant ‘there should be a value here and we do not
-have it’. Does it mean that here? Work out what it does mean, calculate
-the mean number of admissions per patient both with and without doing
-something about it, and decide which answer you would report.</p></li>
-<li><p>Finally, the question the linkage was for. Does the number of
-admissions differ by smoking status?</p></li>
+<li><p>Link <code>admissions</code> onto <code>cardiac_all</code>,
+keeping all 163 patients exactly as you did in Q7. Check you still have
+163 rows, then count how many patients ended up with a missing
+<code>n_admissions</code>.</p></li>
+<li><p>Now the sting. Everywhere else in this course an <code>NA</code>
+has meant ‘there should be a value here and we do not have it’. Does it
+mean that here? Work out what a missing <code>n_admissions</code>
+actually tells you about that patient, then calculate the mean number of
+admissions per patient two ways, once with <code>na.rm = TRUE</code> and
+once after doing something about it. Which would you report?</p></li>
 </ol>
 <div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" tabindex="-1"></a>admissions <span class="ot">&lt;-</span> <span class="fu">read.table</span>(<span class="st">&quot;data/cardiac_admissions.txt&quot;</span>, <span class="at">header =</span> <span class="cn">TRUE</span>, <span class="at">sep =</span> <span class="st">&quot;</span><span class="sc">\t</span><span class="st">&quot;</span>,</span>
 <span id="cb10-2"><a href="#cb10-2" tabindex="-1"></a>    <span class="at">stringsAsFactors =</span> <span class="cn">TRUE</span>)</span>
 <span id="cb10-3"><a href="#cb10-3" tabindex="-1"></a></span>
-<span id="cb10-4"><a href="#cb10-4" tabindex="-1"></a><span class="fu">str</span>(admissions)</span>
-<span id="cb10-5"><a href="#cb10-5" tabindex="-1"></a></span>
-<span id="cb10-6"><a href="#cb10-6" tabindex="-1"></a><span class="co"># a)</span></span>
-<span id="cb10-7"><a href="#cb10-7" tabindex="-1"></a><span class="fu">nrow</span>(admissions)  <span class="co"># 115 rows, but there are 163 patients in the study</span></span>
-<span id="cb10-8"><a href="#cb10-8" tabindex="-1"></a></span>
-<span id="cb10-9"><a href="#cb10-9" tabindex="-1"></a><span class="co"># b)</span></span>
-<span id="cb10-10"><a href="#cb10-10" tabindex="-1"></a>cardiac_all <span class="ot">&lt;-</span> <span class="fu">merge</span>(cardiac_all, admissions, <span class="at">by =</span> <span class="st">&quot;patno&quot;</span>, <span class="at">all.x =</span> <span class="cn">TRUE</span>)</span>
-<span id="cb10-11"><a href="#cb10-11" tabindex="-1"></a><span class="fu">nrow</span>(cardiac_all)  <span class="co"># 163 - everybody is still here</span></span>
+<span id="cb10-4"><a href="#cb10-4" tabindex="-1"></a><span class="co"># a)</span></span>
+<span id="cb10-5"><a href="#cb10-5" tabindex="-1"></a>cardiac_all <span class="ot">&lt;-</span> <span class="fu">merge</span>(cardiac_all, admissions, <span class="at">by =</span> <span class="st">&quot;patno&quot;</span>, <span class="at">all.x =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb10-6"><a href="#cb10-6" tabindex="-1"></a><span class="fu">nrow</span>(cardiac_all)  <span class="co"># 163 - everybody is still here</span></span>
+<span id="cb10-7"><a href="#cb10-7" tabindex="-1"></a></span>
+<span id="cb10-8"><a href="#cb10-8" tabindex="-1"></a><span class="fu">sum</span>(<span class="fu">is.na</span>(cardiac_all<span class="sc">$</span>n_admissions))  <span class="co"># 53 patients have no admissions record</span></span>
+<span id="cb10-9"><a href="#cb10-9" tabindex="-1"></a></span>
+<span id="cb10-10"><a href="#cb10-10" tabindex="-1"></a><span class="co"># b)</span></span>
+<span id="cb10-11"><a href="#cb10-11" tabindex="-1"></a><span class="fu">mean</span>(cardiac_all<span class="sc">$</span>n_admissions, <span class="at">na.rm =</span> <span class="cn">TRUE</span>)  <span class="co"># 1.77</span></span>
 <span id="cb10-12"><a href="#cb10-12" tabindex="-1"></a></span>
-<span id="cb10-13"><a href="#cb10-13" tabindex="-1"></a><span class="fu">sum</span>(<span class="fu">is.na</span>(cardiac_all<span class="sc">$</span>n_admissions))  <span class="co"># 53 with no admissions record</span></span>
-<span id="cb10-14"><a href="#cb10-14" tabindex="-1"></a></span>
-<span id="cb10-15"><a href="#cb10-15" tabindex="-1"></a><span class="co"># 53 patients have no count and 110 do, which adds up to the full 163. But the</span></span>
-<span id="cb10-16"><a href="#cb10-16" tabindex="-1"></a><span class="co"># admissions file had 115 rows, so 5 of its rows matched nobody. They are</span></span>
-<span id="cb10-17"><a href="#cb10-17" tabindex="-1"></a><span class="co"># admissions for people who are not in this study, which is exactly what a</span></span>
-<span id="cb10-18"><a href="#cb10-18" tabindex="-1"></a><span class="co"># hospital extract looks like: it covers everyone treated, not just your</span></span>
-<span id="cb10-19"><a href="#cb10-19" tabindex="-1"></a><span class="co"># patients. all.x = TRUE quietly dropped them, which is what you wanted here,</span></span>
-<span id="cb10-20"><a href="#cb10-20" tabindex="-1"></a><span class="co"># but you only know that because you checked.</span></span>
-<span id="cb10-21"><a href="#cb10-21" tabindex="-1"></a></span>
-<span id="cb10-22"><a href="#cb10-22" tabindex="-1"></a><span class="co"># c)</span></span>
-<span id="cb10-23"><a href="#cb10-23" tabindex="-1"></a><span class="fu">mean</span>(cardiac_all<span class="sc">$</span>n_admissions, <span class="at">na.rm =</span> <span class="cn">TRUE</span>)  <span class="co"># 1.77</span></span>
+<span id="cb10-13"><a href="#cb10-13" tabindex="-1"></a><span class="co"># Those 53 NAs do NOT mean &#39;we do not know&#39;. Those patients are absent from the</span></span>
+<span id="cb10-14"><a href="#cb10-14" tabindex="-1"></a><span class="co"># admissions file because they were never admitted, so the right number for</span></span>
+<span id="cb10-15"><a href="#cb10-15" tabindex="-1"></a><span class="co"># them is 0, and we know that for certain. The NA is an artefact of how a left</span></span>
+<span id="cb10-16"><a href="#cb10-16" tabindex="-1"></a><span class="co"># join fills gaps, not a statement about our knowledge.</span></span>
+<span id="cb10-17"><a href="#cb10-17" tabindex="-1"></a>cardiac_all<span class="sc">$</span>n_admissions[<span class="fu">is.na</span>(cardiac_all<span class="sc">$</span>n_admissions)] <span class="ot">&lt;-</span> <span class="dv">0</span></span>
+<span id="cb10-18"><a href="#cb10-18" tabindex="-1"></a></span>
+<span id="cb10-19"><a href="#cb10-19" tabindex="-1"></a><span class="fu">mean</span>(cardiac_all<span class="sc">$</span>n_admissions)  <span class="co"># 1.20</span></span>
+<span id="cb10-20"><a href="#cb10-20" tabindex="-1"></a></span>
+<span id="cb10-21"><a href="#cb10-21" tabindex="-1"></a><span class="co"># So na.rm = TRUE, the habit this exercise has been drilling into you all</span></span>
+<span id="cb10-22"><a href="#cb10-22" tabindex="-1"></a><span class="co"># along, overstates the admission rate by nearly 50% here, because it throws</span></span>
+<span id="cb10-23"><a href="#cb10-23" tabindex="-1"></a><span class="co"># away every patient who was never admitted. 1.20 is the number to report.</span></span>
 <span id="cb10-24"><a href="#cb10-24" tabindex="-1"></a></span>
-<span id="cb10-25"><a href="#cb10-25" tabindex="-1"></a><span class="co"># Those 53 NAs do NOT mean &#39;we do not know&#39;. These patients are missing from</span></span>
-<span id="cb10-26"><a href="#cb10-26" tabindex="-1"></a><span class="co"># the admissions file because they were never admitted, so the right number is</span></span>
-<span id="cb10-27"><a href="#cb10-27" tabindex="-1"></a><span class="co"># 0, and we know it for certain. The NA is an artefact of how a left join fills</span></span>
-<span id="cb10-28"><a href="#cb10-28" tabindex="-1"></a><span class="co"># gaps, not a statement about our knowledge.</span></span>
-<span id="cb10-29"><a href="#cb10-29" tabindex="-1"></a>cardiac_all<span class="sc">$</span>n_admissions[<span class="fu">is.na</span>(cardiac_all<span class="sc">$</span>n_admissions)] <span class="ot">&lt;-</span> <span class="dv">0</span></span>
-<span id="cb10-30"><a href="#cb10-30" tabindex="-1"></a>cardiac_all<span class="sc">$</span>bed_days[<span class="fu">is.na</span>(cardiac_all<span class="sc">$</span>bed_days)] <span class="ot">&lt;-</span> <span class="dv">0</span></span>
-<span id="cb10-31"><a href="#cb10-31" tabindex="-1"></a></span>
-<span id="cb10-32"><a href="#cb10-32" tabindex="-1"></a><span class="fu">mean</span>(cardiac_all<span class="sc">$</span>n_admissions)  <span class="co"># 1.20</span></span>
-<span id="cb10-33"><a href="#cb10-33" tabindex="-1"></a></span>
-<span id="cb10-34"><a href="#cb10-34" tabindex="-1"></a><span class="co"># So na.rm = TRUE, the habit this exercise has been drilling into you all</span></span>
-<span id="cb10-35"><a href="#cb10-35" tabindex="-1"></a><span class="co"># along, overstates the admission rate by nearly 50% here, because it throws</span></span>
-<span id="cb10-36"><a href="#cb10-36" tabindex="-1"></a><span class="co"># away every patient who was never admitted. Always ask what a missing value</span></span>
-<span id="cb10-37"><a href="#cb10-37" tabindex="-1"></a><span class="co"># means before you decide how to handle it. The answer is not always the same.</span></span>
-<span id="cb10-38"><a href="#cb10-38" tabindex="-1"></a></span>
-<span id="cb10-39"><a href="#cb10-39" tabindex="-1"></a><span class="co"># d)</span></span>
-<span id="cb10-40"><a href="#cb10-40" tabindex="-1"></a><span class="fu">aggregate</span>(cardiac_all[, <span class="fu">c</span>(<span class="st">&quot;n_admissions&quot;</span>, <span class="st">&quot;bed_days&quot;</span>)], <span class="at">by =</span> <span class="fu">list</span>(<span class="at">smoking =</span> cardiac_all<span class="sc">$</span>Fsmoking),</span>
-<span id="cb10-41"><a href="#cb10-41" tabindex="-1"></a>    <span class="at">FUN =</span> mean)</span>
-<span id="cb10-42"><a href="#cb10-42" tabindex="-1"></a></span>
-<span id="cb10-43"><a href="#cb10-43" tabindex="-1"></a><span class="co"># smoking n_admissions bed_days 1 Current 1.320000 5.540000 2 Ex 1.307692</span></span>
-<span id="cb10-44"><a href="#cb10-44" tabindex="-1"></a><span class="co"># 4.692308 3 Never 1.037037 4.148148</span></span>
-<span id="cb10-45"><a href="#cb10-45" tabindex="-1"></a></span>
-<span id="cb10-46"><a href="#cb10-46" tabindex="-1"></a><span class="co"># Smokers and ex-smokers average about a quarter more admissions than those who</span></span>
-<span id="cb10-47"><a href="#cb10-47" tabindex="-1"></a><span class="co"># have never smoked, and rather more days in hospital. Remember that these</span></span>
-<span id="cb10-48"><a href="#cb10-48" tabindex="-1"></a><span class="co"># admission records are simulated, so this shows you how to get the answer</span></span>
-<span id="cb10-49"><a href="#cb10-49" tabindex="-1"></a><span class="co"># rather than being a finding about the real cohort.</span></span></code></pre></div>
+<span id="cb10-25"><a href="#cb10-25" tabindex="-1"></a><span class="co"># Always ask what a missing value means before you decide how to handle it. The</span></span>
+<span id="cb10-26"><a href="#cb10-26" tabindex="-1"></a><span class="co"># answer is not always the same.</span></span></code></pre></div>
 <p> </p>
 <p>9. Ok, we have spent quite a bit of time (and energy) learning how to
 clean, summarise and link dataframes. The last thing we need to cover is
@@ -872,6 +839,11 @@ listing every change you made to the data and why. Which values did you
 set to <code>NA</code>, in which variables, and which patients did they
 belong to? Someone reading your work in six months, including you, needs
 to be able to answer that without re-running anything.</p>
+<p>One last word about that file. It is what you would send to a
+collaborator or attach to a report. It is not what you will start from
+next week. Exercise 5 imports the raw data again and rebuilds, because
+an analysis should be reproducible from the original file and a script,
+not from a tidied copy whose history nobody can see.</p>
 <div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" tabindex="-1"></a><span class="fu">write.table</span>(cardiac_all, <span class="st">&quot;output/cardiac_clean.txt&quot;</span>, <span class="at">col.names =</span> <span class="cn">TRUE</span>, <span class="at">row.names =</span> <span class="cn">FALSE</span>,</span>
 <span id="cb11-2"><a href="#cb11-2" tabindex="-1"></a>    <span class="at">sep =</span> <span class="st">&quot;</span><span class="sc">\t</span><span class="st">&quot;</span>)</span>
 <span id="cb11-3"><a href="#cb11-3" tabindex="-1"></a></span>
@@ -889,9 +861,9 @@ to be able to answer that without re-running anything.</p>
 <span id="cb11-15"><a href="#cb11-15" tabindex="-1"></a><span class="co"># measurements linked on from data/cardiac_followup.txt, keeping all 163</span></span>
 <span id="cb11-16"><a href="#cb11-16" tabindex="-1"></a><span class="co"># patients; 55 have no follow-up data.  7. Admissions linked on from</span></span>
 <span id="cb11-17"><a href="#cb11-17" tabindex="-1"></a><span class="co"># data/cardiac_admissions.txt (SIMULATED data), keeping all 163 patients.</span></span>
-<span id="cb11-18"><a href="#cb11-18" tabindex="-1"></a><span class="co"># n_admissions and bed_days set to 0, not left as NA, for the 53 patients with</span></span>
-<span id="cb11-19"><a href="#cb11-19" tabindex="-1"></a><span class="co"># no admission record, because a patient who was never admitted has zero</span></span>
-<span id="cb11-20"><a href="#cb11-20" tabindex="-1"></a><span class="co"># admissions rather than an unknown number.</span></span></code></pre></div>
+<span id="cb11-18"><a href="#cb11-18" tabindex="-1"></a><span class="co"># n_admissions set to 0, not left as NA, for the 53 patients with no admission</span></span>
+<span id="cb11-19"><a href="#cb11-19" tabindex="-1"></a><span class="co"># record, because a patient who was never admitted has zero admissions rather</span></span>
+<span id="cb11-20"><a href="#cb11-20" tabindex="-1"></a><span class="co"># than an unknown number.</span></span></code></pre></div>
 <p> </p>
 <p>End of Exercise 4</p>
 </div>

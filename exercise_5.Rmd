@@ -169,29 +169,25 @@ hist(cardiac$systolic, xlab = "systolic", main = "bins of 2 mmHg",
 
 \  
 
-9\. Scatterplots are great for visualising relationships between two continuous variables ([Section 4.2.1](https://intro2r.com/simple-base-r-plots.html#scatterplot)). Before you draw one, stop and think about which variable belongs on which axis. The convention is that the explanatory variable goes on the x axis and the response goes on the y axis, so the choice is not cosmetic. Put them the wrong way round and you have quietly told your reader something you did not mean.
+9\. Scatterplots are great for visualising relationships between two continuous variables ([Section 4.2.1](https://intro2r.com/simple-base-r-plots.html#scatterplot)). Before you draw one, decide which variable belongs on which axis. By convention the explanatory variable goes on the x axis and the response goes on the y axis, so the choice is not cosmetic.
 
-Start with `systolic` and `diastolic` blood pressure. Which would you put where, and why is that a harder question than it first looks? Now plot HDL cholesterol and triglyceride. Which of those two is the more sensible candidate for the x axis, and does the relationship you get make clinical sense to you?
+Start with `bmi` and `systolic` blood pressure. Which is the explanatory variable, and which the response? Plot them the right way round. Now do the same for `hdlchol` and `triglyceride`. Is the choice as easy this time?
 
 Finally, look at `alcohol`. It is badly skewed, and skew is a nuisance in a plot because most of the points end up squashed into a corner. In Exercise 4 Q5 you took logs of `triglyceride` and it worked nicely. Try two transformations here, a square root with `sqrt()` and a natural log with `log()`, storing each as a new variable in the dataframe, then plot histograms of `alcohol` alongside both. One of the two goes badly wrong. Which one, and why? (hint: what is the smallest value of `alcohol`?)
 
 ```{r Q9, echo=SOLUTIONS, eval=SOLUTIONS, fig.width=9, fig.height=4}
 par(mfrow = c(1, 2))
 
-# systolic and diastolic: a clear positive relationship, which is no surprise
-# because the two numbers are the same measurement taken at two points in the
-# heartbeat. Neither one explains the other, so there is no response variable
-# here and the choice of axes really is arbitrary. The honest description is
-# 'these two go together', not 'this one drives that one'.
-plot(cardiac$systolic, cardiac$diastolic,
-     xlab = "systolic (mmHg)", ylab = "diastolic (mmHg)")
+# Easy one. Carrying more weight raises blood pressure, not the other way round,
+# so bmi is explanatory and goes on x. The relationship is real but weak, which
+# is normal.
+plot(cardiac$bmi, cardiac$systolic,
+     xlab = "bmi", ylab = "systolic (mmHg)")
 
-# triglyceride and HDL cholesterol: negative, and a well known pattern. If you
-# are going to treat one as explanatory it should be triglyceride, because a
-# raised triglyceride is generally understood to drive HDL down rather than the
-# other way round, so triglyceride belongs on the x axis. Do not lean on that
-# too hard though. This is a cross sectional study, both are markers of the same
-# underlying metabolic state, and no scatterplot can tell you which came first.
+# Harder one. Neither clearly causes the other; both are markers of the same
+# underlying metabolic state. If you have to choose, a raised triglyceride is
+# usually taken to drive HDL down rather than the reverse, so triglyceride goes
+# on x. The relationship is negative.
 plot(cardiac$triglyceride, cardiac$hdlchol,
      xlab = "triglyceride (mmol/l)", ylab = "HDL cholesterol (mmol/l)")
 

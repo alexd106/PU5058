@@ -239,74 +239,45 @@ sum(is.na(cardiac_all$systolic10))     # 55 patients have no follow-up
 
 \  
 
-8\. One last linkage, and this one has a sting in it. The patients were also followed up for hospital admissions over the same ten years. Download *'cardiac_admissions.txt'* from the **[<i class="fa fa-download"></i> Data](data.html)** link, save it to your `data` directory and import it into a variable called `admissions`. Note that unlike the rest of the cardiac data, which is real, these admission records are simulated.
+8\. One last linkage, and this one has a sting in it. The patients were also followed up for hospital admissions over the same ten years. Download *'cardiac_admissions.txt'* from the **[<i class="fa fa-download"></i> Data](data.html)** link, save it to your `data` directory and import it into a variable called `admissions`. It holds one row for each patient who was admitted at least once, and the number of times they were admitted. Note that unlike the rest of the cardiac data, which is real, these admission records are simulated.
 
-Take a look at it with `str()`. It has already been summarised for you to one row per patient, holding the number of admissions and the total number of days spent in hospital. In real life you would often be handed one row per *admission* and have to summarise it yourself before you could link it, which is a job for `aggregate()`.
+a) Link `admissions` onto `cardiac_all`, keeping all 163 patients exactly as you did in Q7. Check you still have 163 rows, then count how many patients ended up with a missing `n_admissions`.
 
-a) How many rows does `admissions` have, and how does that compare with the 163 patients in `cardiac`?
-
-b) Link it onto `cardiac_all`, keeping all 163 patients exactly as you did in Q7, and check the row count. Then count how many patients came out with a missing `n_admissions`. Add that number to the number of patients who did get a count. Is the total 163, and if not, where has the difference gone?
-
-c) Now the sting. Look at those patients with a missing `n_admissions`. Everywhere else in this course an `NA` has meant 'there should be a value here and we do not have it'. Does it mean that here? Work out what it does mean, calculate the mean number of admissions per patient both with and without doing something about it, and decide which answer you would report.
-
-d) Finally, the question the linkage was for. Does the number of admissions differ by smoking status?
+b) Now the sting. Everywhere else in this course an `NA` has meant 'there should be a value here and we do not have it'. Does it mean that here? Work out what a missing `n_admissions` actually tells you about that patient, then calculate the mean number of admissions per patient two ways, once with `na.rm = TRUE` and once after doing something about it. Which would you report?
 
 ```{r Q8, echo=SOLUTIONS, tidy = TRUE}
 admissions <- read.table('data/cardiac_admissions.txt', header = TRUE, sep = "\t", stringsAsFactors = TRUE)
 
-str(admissions)
-
 # a)
-nrow(admissions)     # 115 rows, but there are 163 patients in the study
-
-# b)
 cardiac_all <- merge(cardiac_all, admissions, by = "patno", all.x = TRUE)
 nrow(cardiac_all)                        # 163 - everybody is still here
 
-sum(is.na(cardiac_all$n_admissions))     # 53 with no admissions record
+sum(is.na(cardiac_all$n_admissions))     # 53 patients have no admissions record
 
-# 53 patients have no count and 110 do, which adds up to the full 163. But the
-# admissions file had 115 rows, so 5 of its rows matched nobody. They are
-# admissions for people who are not in this study, which is exactly what a
-# hospital extract looks like: it covers everyone treated, not just your
-# patients. all.x = TRUE quietly dropped them, which is what you wanted here,
-# but you only know that because you checked.
-
-# c)
+# b)
 mean(cardiac_all$n_admissions, na.rm = TRUE)   # 1.77
 
-# Those 53 NAs do NOT mean 'we do not know'. These patients are missing from the
-# admissions file because they were never admitted, so the right number is 0,
-# and we know it for certain. The NA is an artefact of how a left join fills
-# gaps, not a statement about our knowledge.
+# Those 53 NAs do NOT mean 'we do not know'. Those patients are absent from the
+# admissions file because they were never admitted, so the right number for them
+# is 0, and we know that for certain. The NA is an artefact of how a left join
+# fills gaps, not a statement about our knowledge.
 cardiac_all$n_admissions[is.na(cardiac_all$n_admissions)] <- 0
-cardiac_all$bed_days[is.na(cardiac_all$bed_days)] <- 0
 
 mean(cardiac_all$n_admissions)                 # 1.20
 
 # So na.rm = TRUE, the habit this exercise has been drilling into you all along,
 # overstates the admission rate by nearly 50% here, because it throws away every
-# patient who was never admitted. Always ask what a missing value means before
-# you decide how to handle it. The answer is not always the same.
+# patient who was never admitted. 1.20 is the number to report.
 
-# d)
-aggregate(cardiac_all[, c("n_admissions", "bed_days")],
-          by = list(smoking = cardiac_all$Fsmoking), FUN = mean)
-
-#   smoking n_admissions bed_days
-# 1 Current     1.320000 5.540000
-# 2      Ex     1.307692 4.692308
-# 3   Never     1.037037 4.148148
-
-# Smokers and ex-smokers average about a quarter more admissions than those who
-# have never smoked, and rather more days in hospital. Remember that these
-# admission records are simulated, so this shows you how to get the answer
-# rather than being a finding about the real cohort.
+# Always ask what a missing value means before you decide how to handle it. The
+# answer is not always the same.
 ```
 
 \  
 
 9\. Ok, we have spent quite a bit of time (and energy) learning how to clean, summarise and link dataframes. The last thing we need to cover is how to export a dataframe from R to an external file (see [Section 3.6](https://intro2r.com/exporting-data.html#exporting-data) of the book for more details). Export your cleaned and linked dataframe `cardiac_all` to a file called 'cardiac_clean.txt' in the `output` directory you created in Exercise 1. To do this you will need to use the `write.table()` function. You want to include the variable names in the first row of the file, but you don't want to include the row names. Also, make sure the file is a tab delimited file. Once you have created your file, try to open it in Microsoft Excel (or open source equivalent). Finally, and this is the part people forget: add a comment block at the top of your R script listing every change you made to the data and why. Which values did you set to `NA`, in which variables, and which patients did they belong to? Someone reading your work in six months, including you, needs to be able to answer that without re-running anything.
+
+One last word about that file. It is what you would send to a collaborator or attach to a report. It is not what you will start from next week. Exercise 5 imports the raw data again and rebuilds, because an analysis should be reproducible from the original file and a script, not from a tidied copy whose history nobody can see.
 
 ```{r Q9, echo=SOLUTIONS, tidy = TRUE}
 write.table(cardiac_all, "output/cardiac_clean.txt", col.names = TRUE, row.names = FALSE, sep = "\t")
@@ -329,9 +300,9 @@ write.table(cardiac_all, "output/cardiac_clean.txt", col.names = TRUE, row.names
 # 6. Ten year follow-up measurements linked on from data/cardiac_followup.txt,
 #    keeping all 163 patients; 55 have no follow-up data.
 # 7. Admissions linked on from data/cardiac_admissions.txt (SIMULATED data),
-#    keeping all 163 patients. n_admissions and bed_days set to 0, not left as
-#    NA, for the 53 patients with no admission record, because a patient who was
-#    never admitted has zero admissions rather than an unknown number.
+#    keeping all 163 patients. n_admissions set to 0, not left as NA, for the 53
+#    patients with no admission record, because a patient who was never admitted
+#    has zero admissions rather than an unknown number.
 ```
 
 \  

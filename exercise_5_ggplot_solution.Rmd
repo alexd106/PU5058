@@ -137,9 +137,30 @@ grid.arrange(b1, b2, nrow = 2)
 
 \  
 
-9\. Scatterplots, and which variable belongs on which axis.
+9\. Identifying the skew, transforming with the square root because `alcohol` is a count, and checking that it worked.
 
 ```{r Q9}
+cardiac$alcohol_sqrt <- sqrt(cardiac$alcohol)
+
+h1 <- ggplot(data = cardiac) + geom_histogram(aes(alcohol)) + ggtitle("untransformed")
+h2 <- ggplot(data = cardiac) + geom_histogram(aes(alcohol_sqrt)) + ggtitle("square root")
+grid.arrange(h1, h2, nrow = 1)
+
+# the check is the same whichever plotting system you use, because it is not a
+# plot: the gap between the mean and the median falls from 4.91 to 0.44
+mean(cardiac$alcohol_sqrt) - median(cardiac$alcohol_sqrt)
+
+# if you do try a log, ggplot2 is more explicit about the damage than base R
+# is. It prints "Removed 58 rows containing non-finite values" rather than
+# quietly dropping them. The warning is the useful part - do not learn to
+# ignore it.
+```
+
+\  
+
+10\. Scatterplots, and which variable belongs on which axis.
+
+```{r Q10}
 ggplot(data = cardiac, aes(x = bmi, y = systolic)) +
   geom_point() +
   labs(x = "bmi", y = "systolic (mmHg)")
@@ -153,25 +174,7 @@ ggplot(data = cardiac, aes(x = triglyceride, y = hdlchol)) +
 
 \  
 
-10\. Transforming a skewed variable.
-
-```{r Q10}
-cardiac$alcohol_sqrt <- sqrt(cardiac$alcohol)
-cardiac$alcohol_log  <- log(cardiac$alcohol)
-
-h1 <- ggplot(data = cardiac) + geom_histogram(aes(alcohol)) + ggtitle("untransformed")
-h2 <- ggplot(data = cardiac) + geom_histogram(aes(alcohol_sqrt)) + ggtitle("square root")
-h3 <- ggplot(data = cardiac) + geom_histogram(aes(alcohol_log)) + ggtitle("natural log")
-grid.arrange(h1, h2, h3, nrow = 1)
-
-# ggplot2 is more explicit than base R about the log problem: it prints
-# "Removed 58 rows containing non-finite values" rather than quietly dropping
-# them. The warning is the useful part - do not learn to ignore it.
-```
-
-\  
-
-11\. Boxplots and violin plots by smoking status, for HDL cholesterol and then for total cholesterol. Here `ggplot2` has a real advantage over base R: the violin plot needs no extra package, so no `vioplot` install, and you can lay the boxplot on top of it in the same figure.
+11\. Boxplots by smoking status, for HDL cholesterol and then for total cholesterol.
 
 ```{r Q11}
 ggplot(data = cardiac, aes(x = Fsmoking, y = hdlchol)) +
@@ -184,23 +187,28 @@ ggplot(data = cardiac, aes(x = Fsmoking, y = tchol)) +
 
 # HDL separates the groups and total cholesterol does not, exactly as in the
 # base R solutions. Report both.
-
-ggplot(data = cardiac, aes(x = Fsmoking, y = hdlchol)) +
-  geom_violin(fill = "lightblue") +
-  geom_boxplot(width = 0.1) +
-  labs(x = "smoking status", y = "HDL cholesterol (mmol/l)")
-
-# on exporting, which the base R exercise leaves until Exercise 6: `ggsave()`
-# replaces the pdf() / dev.off() sandwich, works out the format from the file
-# extension, and saves the last plot you drew unless you hand it one
-# ggsave('output/ex5_hdl_ggplot.png', width = 7, height = 5, dpi = 300)
 ```
 
 \  
 
-12\. A pairs plot. `GGally::ggpairs()` is the `ggplot2` equivalent of `pairs()`, and gives you the histograms and correlations without having to write panel functions. That also makes the optional Q13 in the base R solutions unnecessary here: the correlations you would have had to write a `panel_cor()` function for are printed for you.
+12\. Violin plot, and saving it to a file. Here `ggplot2` has two real advantages over base R. The violin plot needs no extra package, so no `vioplot` install, and you can lay the boxplot on top of it in the same figure. `ggsave()` then replaces the `pdf()` and `dev.off()` sandwich: it works out the format from the file extension and saves the last plot you drew unless you hand it one.
 
 ```{r Q12}
+hdl_violin <- ggplot(data = cardiac, aes(x = Fsmoking, y = hdlchol)) +
+  geom_violin(fill = "lightblue") +
+  geom_boxplot(width = 0.1) +
+  labs(x = "smoking status", y = "HDL cholesterol (mmol/l)")
+
+hdl_violin
+
+ggsave('output/ex5_hdl_violin.pdf', hdl_violin, width = 7, height = 5)
+```
+
+\  
+
+13\. A pairs plot. `GGally::ggpairs()` is the `ggplot2` equivalent of `pairs()`, and gives you the histograms and correlations without having to write panel functions. That also makes the optional Q14 in the base R solutions unnecessary here: the correlations you would have had to write a `panel_cor()` function for are printed for you.
+
+```{r Q13}
 ggpairs(cardiac[, c("age", "systolic", "diastolic", "tchol", "hdlchol",
                     "triglyceride", "bmi")])
 

@@ -1,4 +1,4 @@
-## ----Q4, echo=SOLUTIONS, eval=SOLUTIONS---------------------------------------
+## ----Q4, echo=SOLUTIONS, eval=SOLUTIONS, results='hide'-----------------------
 cardiac <- read.table('data/cardiacdata.txt', header = TRUE, sep = "\t", stringsAsFactors = TRUE)
 
 str(cardiac)
@@ -16,7 +16,7 @@ str(cardiac)
 #  $ Fsmoking: Factor w/ 3 levels "Current","Ex",..: NA NA NA NA NA NA NA 1 1 1 ...
 
 
-## ----Q5, echo=SOLUTIONS, eval=SOLUTIONS---------------------------------------
+## ----Q5, echo=SOLUTIONS, eval=SOLUTIONS, results='hide'-----------------------
 table(cardiac$Fsmoking, cardiac$Fsex)
 
   #           Female Male
@@ -56,7 +56,7 @@ dotchart(cardiac$alcohol, main = "alcohol")
 # setting the scale for all 163.
 
 
-## ----Q7, echo=SOLUTIONS, eval=SOLUTIONS---------------------------------------
+## ----Q7, echo=SOLUTIONS, eval=SOLUTIONS, results='hide'-----------------------
 which(cardiac$bmi > 100)
 cardiac$bmi[161]
 
@@ -70,8 +70,8 @@ cardiac$hdlchol[cardiac$hdlchol == 0] <- NA
 
 dotchart(cardiac$bmi, main = "bmi")
 
-# Now the bmi plot is readable, and you can see the distribution properly:
-# most patients between about 20 and 30, thinning out to four patients above
+# with that one value gone the axis rescales and you can see the rest of the
+# patients properly: most between about 20 and 30, thinning out to four above
 # 35, the largest of them at 44.44.
 
 # What else stands out? One patient with a bmi of 44.44, one with a systolic
@@ -93,10 +93,10 @@ par(mfrow = c(1, 2))
 hist(cardiac$bmi, main = "", xlab = "bmi")
 hist(cardiac$alcohol, main = "", xlab = "alcohol (units/week)")
 
-# bmi is roughly symmetric, a recognisable hump with a modest tail to the
-# right. alcohol is nothing of the sort: a huge spike at zero and a long thin
-# tail stretching out to 82 units. Hold on to that difference, you come back
-# to it in Q10.
+# bmi is roughly symmetric, a nice recognisable hump with a modest tail to the
+# right. alcohol isn't anything like it: a big spike at zero and a long thin
+# tail stretching out to 82 units. Hang on to that, you come straight back to
+# it in Q9.
 
 # wide bins and narrow bins, drawn from exactly the same 163 numbers
 par(mfrow = c(2, 1))
@@ -107,13 +107,69 @@ hist(cardiac$systolic, xlab = "systolic", main = "bins of 2 mmHg",
 
 # with 20 mmHg bins the distribution looks smooth and roughly symmetric; with
 # 2 mmHg bins it looks spiky and full of gaps. Nothing about the patients has
-# changed, only the picture. The 2 mmHg version cuts 163 patients into 70 bins,
-# so a typical bin holds two people and one patient either way visibly changes
-# its height. Narrow bins do not show you more detail, they show you noise.
-# Treat the shape of a histogram as a rough guide, not as evidence.
+# changed, only the picture. The narrow version cuts 163 patients into 70 bins,
+# so a typical bin holds about two people and one patient either way visibly
+# changes its height. You aren't seeing more detail there, you're seeing noise,
+# so it's worth treating the shape of a histogram as a rough guide rather than
+# as evidence.
 
 
-## ----Q9, echo=SOLUTIONS, eval=SOLUTIONS, fig.width=9, fig.height=4.5----------
+## ----Q9, echo=SOLUTIONS, eval=SOLUTIONS, fig.width=8, fig.height=7, results='hide'----
+cardiac$alcohol_sqrt <- sqrt(cardiac$alcohol)
+cardiac$alcohol_log  <- log(cardiac$alcohol)
+cardiac$alcohol_log1 <- log(cardiac$alcohol + 1)
+
+par(mfrow = c(2, 2))
+hist(cardiac$alcohol, main = "untransformed", xlab = "alcohol")
+hist(cardiac$alcohol_sqrt, main = "square root", xlab = "sqrt(alcohol)")
+hist(cardiac$alcohol_log, main = "natural log", xlab = "log(alcohol)")
+hist(cardiac$alcohol_log1, main = "natural log of alcohol + 1",
+     xlab = "log(alcohol + 1)")
+
+sum(cardiac$alcohol == 0)   # 58
+
+# the check, exactly the one you used in Exercise 4 Q6: how big is the gap
+# between the mean and the median?
+mean(cardiac$alcohol)        # 6.91
+median(cardiac$alcohol)      # 2.00,  gap 4.91
+
+mean(cardiac$alcohol_sqrt)   # 1.86
+median(cardiac$alcohol_sqrt) # 1.41,  gap 0.44
+
+mean(cardiac$alcohol_log1)   # 1.33
+median(cardiac$alcohol_log1) # 1.10,  gap 0.23
+
+# The plain log is the one that fails. 58 of the 163 patients reported drinking
+# no alcohol at all, log(0) is -Inf, and R drops more than a third of your data
+# from the plot with nothing more than a warning.
+
+# Adding 1 first is the usual way round it, and it costs you almost nothing.
+# log(0 + 1) is 0, an ordinary number, so nobody is thrown away. For the
+# patients who did drink, adding 1 barely moves them: the heaviest drinker
+# becomes log(83) = 4.419 instead of log(82) = 4.407. 1 is the natural choice
+# here because it sends the zeros to zero and because alcohol is recorded in
+# whole units, so 1 is the smallest step the variable can actually take.
+
+# Both survivors work, and the log of alcohol plus 1 works better. The gap
+# between mean and median falls from 4.91 to 0.44 under the square root and to
+# 0.23 under the log. Look at the histograms and you can see the same thing.
+
+# Two things to be honest about. First, the constant is your choice, not the
+# data's, and it matters: adding 0.5 instead of 1 leaves a gap of 0.10, and
+# adding 0.1 overshoots so far that the mean drops below the median and the
+# skew tips the other way. Whichever you use, say so. Second, no transformation
+# is going to make 58 patients stop being zero. They are still a third of your
+# data sitting on a single value. A transformation can pull a tail in; it
+# cannot turn a variable into something it is not.
+
+# Triglyceride logged cleanly in Exercise 4 with no constant needed, because
+# you had already set its one zero to NA in Q1 of that exercise. The zeros in
+# alcohol are quite different: they are real readings, so there is nothing to
+# clean and you have to deal with them instead. Check the minimum before you
+# take the log of anything.
+
+
+## ----Q10, echo=SOLUTIONS, eval=SOLUTIONS, fig.width=9, fig.height=4.5---------
 par(mfrow = c(1, 2))
 
 # Easy one. Carrying more weight raises blood pressure, not the other way round,
@@ -128,29 +184,6 @@ plot(cardiac$bmi, cardiac$systolic,
 # on x. The relationship is negative.
 plot(cardiac$triglyceride, cardiac$hdlchol,
      xlab = "triglyceride (mmol/l)", ylab = "HDL cholesterol (mmol/l)")
-
-
-## ----Q10, echo=SOLUTIONS, eval=SOLUTIONS, fig.width=9, fig.height=4-----------
-cardiac$alcohol_sqrt <- sqrt(cardiac$alcohol)
-cardiac$alcohol_log  <- log(cardiac$alcohol)
-
-par(mfrow = c(1, 3))
-hist(cardiac$alcohol, main = "untransformed", xlab = "alcohol")
-hist(cardiac$alcohol_sqrt, main = "square root", xlab = "sqrt(alcohol)")
-hist(cardiac$alcohol_log, main = "natural log", xlab = "log(alcohol)")
-
-sum(cardiac$alcohol == 0)   # 58
-
-# The log fails. 58 of the 163 patients reported drinking no alcohol at all, and
-# log(0) is -Inf, so R quietly drops more than a third of your data from the
-# plot with nothing more than a warning. The square root works, because sqrt(0)
-# is 0, and it pulls the long tail in nicely.
-
-# Triglyceride logged cleanly in Exercise 4 only because you had already set
-# its one zero to NA in Q1 of that exercise, and you did the same again in Q7
-# above. The zeros in alcohol are quite different: they are real, and they are
-# more than a third of the patients, so there is nothing to set to NA. Check
-# the minimum before you take the log of anything.
 
 
 ## ----Q11, echo=SOLUTIONS, eval=SOLUTIONS--------------------------------------
@@ -173,6 +206,8 @@ boxplot(tchol ~ Fsmoking, data = cardiac,
 # and keeping only the comparisons that worked is how a set of results stops
 # being evidence.
 
+
+## ----Q12, echo=SOLUTIONS, eval=SOLUTIONS, results='hide'----------------------
 # violin plot. install.packages("vioplot") first if you have not already
 library(vioplot)
 vioplot(hdlchol ~ Fsmoking, data = cardiac, xlab = "smoking status",
@@ -182,9 +217,21 @@ vioplot(hdlchol ~ Fsmoking, data = cardiac, xlab = "smoking status",
 # Here they agree, which is reassuring rather than dull: it means the medians
 # are not being propped up by one odd cluster of patients.
 
+# now the same plot again, sent to a file instead of to the screen. Sizes are
+# in inches. Nothing appears in the plot pane while these three lines run, and
+# without the dev.off() the file would be left open and unreadable.
+pdf('output/ex5_hdl_violin.pdf', width = 7, height = 5)
+vioplot(hdlchol ~ Fsmoking, data = cardiac, xlab = "smoking status",
+        ylab = "HDL cholesterol (mmol/l)", col = "lightblue")
+dev.off()
 
-## ----Q12, echo=SOLUTIONS, eval=SOLUTIONS, fig.width=9, fig.height=9, tidy = TRUE----
-plot_vars <- c("age", "systolic", "diastolic", "tchol", "hdlchol", "triglyceride", "bmi")
+# your output directory should now contain ex5_hdl_violin.pdf. pdf is a vector
+# format, so it stays perfectly sharp however far you enlarge it.
+
+
+## ----Q13, echo=SOLUTIONS, eval=SOLUTIONS, fig.width=9, fig.height=9-----------
+plot_vars <- c("age", "systolic", "diastolic", "tchol", "hdlchol",
+               "triglyceride", "bmi")
 
 # vanilla pairs plot
 pairs(cardiac[, plot_vars])
@@ -202,7 +249,7 @@ pairs(cardiac[, plot_vars], lower.panel = panel.smooth)
 # look unimportant purely because of who was recruited.
 
 
-## ----Q13, echo=SOLUTIONS, eval=SOLUTIONS, fig.width=9, fig.height=9, tidy = TRUE----
+## ----Q14, echo=SOLUTIONS, eval=SOLUTIONS, fig.width=9, fig.height=9-----------
 panel_cor <- function(x, y, digits = 2, ...) {
   usr <- par("usr"); on.exit(par(usr = usr))
   par(usr = c(0, 1, 0, 1))

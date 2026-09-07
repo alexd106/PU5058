@@ -8,7 +8,7 @@ cardiac$Fsmoking <- factor(cardiac$smoking, levels = c(1, 2, 3),
                            labels = c("Current", "Ex", "Never"))
 
 
-## ----Q1, echo=SOLUTIONS, tidy = TRUE------------------------------------------
+## ----Q1, echo=SOLUTIONS-------------------------------------------------------
 summary(cardiac)
 
 # hdlchol has a minimum of 0.000, triglyceride has a minimum of 0.000, and
@@ -43,8 +43,9 @@ summary(cardiac)   # check: the minima and maximum are now sensible
 # after. The median barely moved. 
 
 # Why NA and not something else? Deleting the whole record throws away all the
-# other measurements for that patient, which are potentially perfectly good. Guessing the
-# value - even a very reasonable guess like 51.46 - means inventing data, and
+# other measurements for that patient, which are potentially perfectly good.
+# Guessing the value - even a very reasonable guess like 51.46 - means
+# inventing data, and
 # nobody reading your results afterwards could tell which numbers you measured
 # and which you made up. NA says exactly what you know: there should be a value
 # here, and it isn't usable. Every R function has an na.rm
@@ -72,8 +73,9 @@ median(cardiac$systolic)   # median systolic blood pressure
 length(cardiac$tchol)      # number of observations
 
 
-## ----Q3b, echo=SOLUTIONS, tidy = TRUE-----------------------------------------
-aggregate(cardiac[, c(2, 4, 5, 6)], by = list(smoking = cardiac$Fsmoking), FUN = mean)
+## ----Q3b, echo=SOLUTIONS------------------------------------------------------
+aggregate(cardiac[, c(2, 4, 5, 6)],
+          by = list(smoking = cardiac$Fsmoking), FUN = mean)
 
 #   smoking      age systolic diastolic tchol
 # 1 Current 63.10060 143.5400  76.40000    NA
@@ -89,9 +91,10 @@ aggregate(cardiac[, c(2, 4, 5, 6)], by = list(smoking = cardiac$Fsmoking), FUN =
 # side of them, and nothing warned you.
 
 
-## ----Q4, echo=SOLUTIONS, tidy = TRUE------------------------------------------
+## ----Q4, echo=SOLUTIONS-------------------------------------------------------
 # na.rm = TRUE is passed straight through to mean()
-aggregate(cardiac[, c(2, 4, 5, 6)], by = list(smoking = cardiac$Fsmoking), FUN = mean, na.rm = TRUE)
+aggregate(cardiac[, c(2, 4, 5, 6)],
+          by = list(smoking = cardiac$Fsmoking), FUN = mean, na.rm = TRUE)
 
 #   smoking      age systolic diastolic    tchol
 # 1 Current 63.10060 143.5400  76.40000 6.927143
@@ -99,7 +102,9 @@ aggregate(cardiac[, c(2, 4, 5, 6)], by = list(smoking = cardiac$Fsmoking), FUN =
 # 3   Never 64.82019 139.2778  77.50000 7.157170
 
 # two grouping variables, both named
-aggregate(cardiac[, c(2, 4, 5, 6)], by = list(smoking = cardiac$Fsmoking, sex = cardiac$Fsex), FUN = mean, na.rm = TRUE)
+aggregate(cardiac[, c(2, 4, 5, 6)],
+          by = list(smoking = cardiac$Fsmoking, sex = cardiac$Fsex),
+          FUN = mean, na.rm = TRUE)
 
 # no, they are not all there. The 7 patients with no smoking status are dropped
 # from every one of these summaries, because aggregate() has no group to put
@@ -126,7 +131,7 @@ table(cardiac$Fsmoking, cardiac$Fsex)
 table(cardiac$Fsmoking, useNA = "ifany")
 
 
-## ----Q6, echo=SOLUTIONS, tidy = TRUE------------------------------------------
+## ----Q6, echo=SOLUTIONS-------------------------------------------------------
 cardiac$log_triglyceride <- log10(cardiac$triglyceride)
 
 mean(cardiac$triglyceride, na.rm = TRUE)         # 1.556
@@ -144,8 +149,9 @@ median(cardiac$log_triglyceride, na.rm = TRUE)   # 0.140
 # with, and it would have spread into everything you calculated next.
 
 
-## ----Q7, echo=SOLUTIONS, tidy = TRUE------------------------------------------
-followup <- read.table('data/cardiac_followup.txt', header = TRUE, sep = "\t", stringsAsFactors = TRUE)
+## ----Q7, echo=SOLUTIONS-------------------------------------------------------
+followup <- read.table('data/cardiac_followup.txt', header = TRUE,
+                       sep = "\t", stringsAsFactors = TRUE)
 
 nrow(cardiac)     # 163 patients at the start of the study
 nrow(followup)    # 108 patients with follow-up measurements
@@ -159,7 +165,7 @@ nrow(cardiac_fu)  # 108
 # ALWAYS check the number of rows before and after a linkage.
 
 
-## ----Q8, echo=SOLUTIONS, tidy = TRUE------------------------------------------
+## ----Q8, echo=SOLUTIONS-------------------------------------------------------
 cardiac_all <- merge(cardiac, followup, by = "patno", all.x = TRUE)
 nrow(cardiac_all)                      # 163 - everybody is kept
 
@@ -169,8 +175,9 @@ sum(is.na(cardiac_all$systolic10))     # 55 patients have no follow-up
 # columns with NA. This is a left join.
 
 
-## ----Q9, echo=SOLUTIONS, tidy = TRUE------------------------------------------
-admissions <- read.table('data/cardiac_admissions.txt', header = TRUE, sep = "\t", stringsAsFactors = TRUE)
+## ----Q9, echo=SOLUTIONS-------------------------------------------------------
+admissions <- read.table('data/cardiac_admissions.txt', header = TRUE,
+                         sep = "\t", stringsAsFactors = TRUE)
 
 # a)
 cardiac_all <- merge(cardiac_all, admissions, by = "patno", all.x = TRUE)
@@ -189,8 +196,9 @@ cardiac_all$n_admissions[is.na(cardiac_all$n_admissions)] <- 0
 # answer is not always the same.
 
 
-## ----Q10, echo=SOLUTIONS, tidy = TRUE-----------------------------------------
-write.table(cardiac_all, "output/cardiac_clean.txt", col.names = TRUE, row.names = FALSE, sep = "\t")
+## ----Q10, echo=SOLUTIONS------------------------------------------------------
+write.table(cardiac_all, "output/cardiac_clean.txt", col.names = TRUE,
+            row.names = FALSE, sep = "\t")
 
 # Decision log - the sort of thing that belongs at the top of your script:
 #

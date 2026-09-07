@@ -614,7 +614,7 @@ above while the minimum is 0.86 below. Everything is stretched out to
 the right, which is what a long right hand tail looks like in a table of
 numbers, a few patients with much higher values than everybody else.
 Transforming to a log scale pulls that tail in, and it is a common way
-to deal with this for blood lipids.</p>
+of dealing with skewed variables.</p>
 <p>Create a new variable in the <code>cardiac</code> dataframe called
 <code>log_triglyceride</code>, holding the base 10 logarithm of
 <code>triglyceride</code> (see <code>?log10</code>, and <a
@@ -649,7 +649,9 @@ separate file. Download <em>‘cardiac_followup.txt’</em> from the
 Data</a></strong> link, save it to your <code>data</code> directory and
 import it with <code>read.table()</code> into a variable called
 <code>followup</code>. How many rows does it have, and how does that
-compare with <code>cardiac</code>?</p>
+compare with <code>cardiac</code>? The <code>nrow()</code> function will
+tell you, and it does exactly what the name suggests: give it a
+dataframe and it returns the number of rows.</p>
 <p>Now use the <code>merge()</code> function to link the two together on
 the patient number, and assign the result to <code>cardiac_fu</code>.
 Left to its own devices <code>merge()</code> performs what is called an
@@ -665,9 +667,10 @@ they have a match in the second. Look at <a
 href="https://intro2r.com/wrangling-data-frames.html#merging-data-frames">Section
 3.4.5</a> and the help file for <code>merge()</code>, and find the
 argument that switches <code>merge()</code> from an inner join to a left
-join. Redo the linkage keeping all 163 patients, assign it to
-<code>cardiac_all</code>, and check how many of them have a missing
-follow-up systolic pressure.</p>
+join. Redo the linkage keeping all 163 patients, this time assigning the
+result to a new dataframe called <code>cardiac_all</code>, and then
+check how many of those patients have a missing follow-up systolic
+pressure.</p>
 <p>That last part needs a way of counting missing values, which you have
 not met yet. <code>is.na()</code> takes a variable and returns
 <code>TRUE</code> or <code>FALSE</code> for every value in it,

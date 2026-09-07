@@ -611,35 +611,36 @@ honest than <code>hist()</code> doing it silently.</p>
 <span id="cb6-7"><a href="#cb6-7" tabindex="-1"></a>b2 <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(<span class="at">data =</span> cardiac) <span class="sc">+</span> <span class="fu">geom_histogram</span>(<span class="fu">aes</span>(systolic), <span class="at">binwidth =</span> <span class="dv">2</span>) <span class="sc">+</span> <span class="fu">ggtitle</span>(<span class="st">&quot;binwidth: 2&quot;</span>)</span>
 <span id="cb6-8"><a href="#cb6-8" tabindex="-1"></a><span class="fu">grid.arrange</span>(b1, b2, <span class="at">nrow =</span> <span class="dv">2</span>)</span></code></pre></div>
 <p> </p>
-<p>9. Scatterplots, and which variable belongs on which axis.</p>
-<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data =</span> cardiac, <span class="fu">aes</span>(<span class="at">x =</span> bmi, <span class="at">y =</span> systolic)) <span class="sc">+</span></span>
-<span id="cb7-2"><a href="#cb7-2" tabindex="-1"></a>  <span class="fu">geom_point</span>() <span class="sc">+</span></span>
-<span id="cb7-3"><a href="#cb7-3" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">&quot;bmi&quot;</span>, <span class="at">y =</span> <span class="st">&quot;systolic (mmHg)&quot;</span>)</span>
-<span id="cb7-4"><a href="#cb7-4" tabindex="-1"></a></span>
-<span id="cb7-5"><a href="#cb7-5" tabindex="-1"></a><span class="co"># triglyceride on the x axis, as in the base R solutions: if either is to be</span></span>
-<span id="cb7-6"><a href="#cb7-6" tabindex="-1"></a><span class="co"># treated as explanatory it is triglyceride</span></span>
-<span id="cb7-7"><a href="#cb7-7" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data =</span> cardiac, <span class="fu">aes</span>(<span class="at">x =</span> triglyceride, <span class="at">y =</span> hdlchol)) <span class="sc">+</span></span>
-<span id="cb7-8"><a href="#cb7-8" tabindex="-1"></a>  <span class="fu">geom_point</span>() <span class="sc">+</span></span>
-<span id="cb7-9"><a href="#cb7-9" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">&quot;triglyceride (mmol/l)&quot;</span>, <span class="at">y =</span> <span class="st">&quot;HDL cholesterol (mmol/l)&quot;</span>)</span></code></pre></div>
+<p>9. Identifying the skew, transforming with the square root because
+<code>alcohol</code> is a count, and checking that it worked.</p>
+<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" tabindex="-1"></a>cardiac<span class="sc">$</span>alcohol_sqrt <span class="ot">&lt;-</span> <span class="fu">sqrt</span>(cardiac<span class="sc">$</span>alcohol)</span>
+<span id="cb7-2"><a href="#cb7-2" tabindex="-1"></a></span>
+<span id="cb7-3"><a href="#cb7-3" tabindex="-1"></a>h1 <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(<span class="at">data =</span> cardiac) <span class="sc">+</span> <span class="fu">geom_histogram</span>(<span class="fu">aes</span>(alcohol)) <span class="sc">+</span> <span class="fu">ggtitle</span>(<span class="st">&quot;untransformed&quot;</span>)</span>
+<span id="cb7-4"><a href="#cb7-4" tabindex="-1"></a>h2 <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(<span class="at">data =</span> cardiac) <span class="sc">+</span> <span class="fu">geom_histogram</span>(<span class="fu">aes</span>(alcohol_sqrt)) <span class="sc">+</span> <span class="fu">ggtitle</span>(<span class="st">&quot;square root&quot;</span>)</span>
+<span id="cb7-5"><a href="#cb7-5" tabindex="-1"></a><span class="fu">grid.arrange</span>(h1, h2, <span class="at">nrow =</span> <span class="dv">1</span>)</span>
+<span id="cb7-6"><a href="#cb7-6" tabindex="-1"></a></span>
+<span id="cb7-7"><a href="#cb7-7" tabindex="-1"></a><span class="co"># the check is the same whichever plotting system you use, because it is not a</span></span>
+<span id="cb7-8"><a href="#cb7-8" tabindex="-1"></a><span class="co"># plot: the gap between the mean and the median falls from 4.91 to 0.44</span></span>
+<span id="cb7-9"><a href="#cb7-9" tabindex="-1"></a><span class="fu">mean</span>(cardiac<span class="sc">$</span>alcohol_sqrt) <span class="sc">-</span> <span class="fu">median</span>(cardiac<span class="sc">$</span>alcohol_sqrt)</span>
+<span id="cb7-10"><a href="#cb7-10" tabindex="-1"></a></span>
+<span id="cb7-11"><a href="#cb7-11" tabindex="-1"></a><span class="co"># if you do try a log, ggplot2 is more explicit about the damage than base R</span></span>
+<span id="cb7-12"><a href="#cb7-12" tabindex="-1"></a><span class="co"># is. It prints &quot;Removed 58 rows containing non-finite values&quot; rather than</span></span>
+<span id="cb7-13"><a href="#cb7-13" tabindex="-1"></a><span class="co"># quietly dropping them. The warning is the useful part - do not learn to</span></span>
+<span id="cb7-14"><a href="#cb7-14" tabindex="-1"></a><span class="co"># ignore it.</span></span></code></pre></div>
 <p> </p>
-<p>10. Transforming a skewed variable.</p>
-<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" tabindex="-1"></a>cardiac<span class="sc">$</span>alcohol_sqrt <span class="ot">&lt;-</span> <span class="fu">sqrt</span>(cardiac<span class="sc">$</span>alcohol)</span>
-<span id="cb8-2"><a href="#cb8-2" tabindex="-1"></a>cardiac<span class="sc">$</span>alcohol_log  <span class="ot">&lt;-</span> <span class="fu">log</span>(cardiac<span class="sc">$</span>alcohol)</span>
-<span id="cb8-3"><a href="#cb8-3" tabindex="-1"></a></span>
-<span id="cb8-4"><a href="#cb8-4" tabindex="-1"></a>h1 <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(<span class="at">data =</span> cardiac) <span class="sc">+</span> <span class="fu">geom_histogram</span>(<span class="fu">aes</span>(alcohol)) <span class="sc">+</span> <span class="fu">ggtitle</span>(<span class="st">&quot;untransformed&quot;</span>)</span>
-<span id="cb8-5"><a href="#cb8-5" tabindex="-1"></a>h2 <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(<span class="at">data =</span> cardiac) <span class="sc">+</span> <span class="fu">geom_histogram</span>(<span class="fu">aes</span>(alcohol_sqrt)) <span class="sc">+</span> <span class="fu">ggtitle</span>(<span class="st">&quot;square root&quot;</span>)</span>
-<span id="cb8-6"><a href="#cb8-6" tabindex="-1"></a>h3 <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(<span class="at">data =</span> cardiac) <span class="sc">+</span> <span class="fu">geom_histogram</span>(<span class="fu">aes</span>(alcohol_log)) <span class="sc">+</span> <span class="fu">ggtitle</span>(<span class="st">&quot;natural log&quot;</span>)</span>
-<span id="cb8-7"><a href="#cb8-7" tabindex="-1"></a><span class="fu">grid.arrange</span>(h1, h2, h3, <span class="at">nrow =</span> <span class="dv">1</span>)</span>
-<span id="cb8-8"><a href="#cb8-8" tabindex="-1"></a></span>
-<span id="cb8-9"><a href="#cb8-9" tabindex="-1"></a><span class="co"># ggplot2 is more explicit than base R about the log problem: it prints</span></span>
-<span id="cb8-10"><a href="#cb8-10" tabindex="-1"></a><span class="co"># &quot;Removed 58 rows containing non-finite values&quot; rather than quietly dropping</span></span>
-<span id="cb8-11"><a href="#cb8-11" tabindex="-1"></a><span class="co"># them. The warning is the useful part - do not learn to ignore it.</span></span></code></pre></div>
+<p>10. Scatterplots, and which variable belongs on which axis.</p>
+<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data =</span> cardiac, <span class="fu">aes</span>(<span class="at">x =</span> bmi, <span class="at">y =</span> systolic)) <span class="sc">+</span></span>
+<span id="cb8-2"><a href="#cb8-2" tabindex="-1"></a>  <span class="fu">geom_point</span>() <span class="sc">+</span></span>
+<span id="cb8-3"><a href="#cb8-3" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">&quot;bmi&quot;</span>, <span class="at">y =</span> <span class="st">&quot;systolic (mmHg)&quot;</span>)</span>
+<span id="cb8-4"><a href="#cb8-4" tabindex="-1"></a></span>
+<span id="cb8-5"><a href="#cb8-5" tabindex="-1"></a><span class="co"># triglyceride on the x axis, as in the base R solutions: if either is to be</span></span>
+<span id="cb8-6"><a href="#cb8-6" tabindex="-1"></a><span class="co"># treated as explanatory it is triglyceride</span></span>
+<span id="cb8-7"><a href="#cb8-7" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data =</span> cardiac, <span class="fu">aes</span>(<span class="at">x =</span> triglyceride, <span class="at">y =</span> hdlchol)) <span class="sc">+</span></span>
+<span id="cb8-8"><a href="#cb8-8" tabindex="-1"></a>  <span class="fu">geom_point</span>() <span class="sc">+</span></span>
+<span id="cb8-9"><a href="#cb8-9" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">&quot;triglyceride (mmol/l)&quot;</span>, <span class="at">y =</span> <span class="st">&quot;HDL cholesterol (mmol/l)&quot;</span>)</span></code></pre></div>
 <p> </p>
-<p>11. Boxplots and violin plots by smoking status, for HDL cholesterol
-and then for total cholesterol. Here <code>ggplot2</code> has a real
-advantage over base R: the violin plot needs no extra package, so no
-<code>vioplot</code> install, and you can lay the boxplot on top of it
-in the same figure.</p>
+<p>11. Boxplots by smoking status, for HDL cholesterol and then for
+total cholesterol.</p>
 <div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data =</span> cardiac, <span class="fu">aes</span>(<span class="at">x =</span> Fsmoking, <span class="at">y =</span> hdlchol)) <span class="sc">+</span></span>
 <span id="cb9-2"><a href="#cb9-2" tabindex="-1"></a>  <span class="fu">geom_boxplot</span>() <span class="sc">+</span></span>
 <span id="cb9-3"><a href="#cb9-3" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">&quot;smoking status&quot;</span>, <span class="at">y =</span> <span class="st">&quot;HDL cholesterol (mmol/l)&quot;</span>)</span>
@@ -649,30 +650,36 @@ in the same figure.</p>
 <span id="cb9-7"><a href="#cb9-7" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">&quot;smoking status&quot;</span>, <span class="at">y =</span> <span class="st">&quot;total cholesterol (mmol/l)&quot;</span>)</span>
 <span id="cb9-8"><a href="#cb9-8" tabindex="-1"></a></span>
 <span id="cb9-9"><a href="#cb9-9" tabindex="-1"></a><span class="co"># HDL separates the groups and total cholesterol does not, exactly as in the</span></span>
-<span id="cb9-10"><a href="#cb9-10" tabindex="-1"></a><span class="co"># base R solutions. Report both.</span></span>
-<span id="cb9-11"><a href="#cb9-11" tabindex="-1"></a></span>
-<span id="cb9-12"><a href="#cb9-12" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data =</span> cardiac, <span class="fu">aes</span>(<span class="at">x =</span> Fsmoking, <span class="at">y =</span> hdlchol)) <span class="sc">+</span></span>
-<span id="cb9-13"><a href="#cb9-13" tabindex="-1"></a>  <span class="fu">geom_violin</span>(<span class="at">fill =</span> <span class="st">&quot;lightblue&quot;</span>) <span class="sc">+</span></span>
-<span id="cb9-14"><a href="#cb9-14" tabindex="-1"></a>  <span class="fu">geom_boxplot</span>(<span class="at">width =</span> <span class="fl">0.1</span>) <span class="sc">+</span></span>
-<span id="cb9-15"><a href="#cb9-15" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">&quot;smoking status&quot;</span>, <span class="at">y =</span> <span class="st">&quot;HDL cholesterol (mmol/l)&quot;</span>)</span>
-<span id="cb9-16"><a href="#cb9-16" tabindex="-1"></a></span>
-<span id="cb9-17"><a href="#cb9-17" tabindex="-1"></a><span class="co"># on exporting, which the base R exercise leaves until Exercise 6: `ggsave()`</span></span>
-<span id="cb9-18"><a href="#cb9-18" tabindex="-1"></a><span class="co"># replaces the pdf() / dev.off() sandwich, works out the format from the file</span></span>
-<span id="cb9-19"><a href="#cb9-19" tabindex="-1"></a><span class="co"># extension, and saves the last plot you drew unless you hand it one</span></span>
-<span id="cb9-20"><a href="#cb9-20" tabindex="-1"></a><span class="co"># ggsave(&#39;output/ex5_hdl_ggplot.png&#39;, width = 7, height = 5, dpi = 300)</span></span></code></pre></div>
+<span id="cb9-10"><a href="#cb9-10" tabindex="-1"></a><span class="co"># base R solutions. Report both.</span></span></code></pre></div>
 <p> </p>
-<p>12. A pairs plot. <code>GGally::ggpairs()</code> is the
+<p>12. Violin plot, and saving it to a file. Here <code>ggplot2</code>
+has two real advantages over base R. The violin plot needs no extra
+package, so no <code>vioplot</code> install, and you can lay the boxplot
+on top of it in the same figure. <code>ggsave()</code> then replaces the
+<code>pdf()</code> and <code>dev.off()</code> sandwich: it works out the
+format from the file extension and saves the last plot you drew unless
+you hand it one.</p>
+<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" tabindex="-1"></a>hdl_violin <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(<span class="at">data =</span> cardiac, <span class="fu">aes</span>(<span class="at">x =</span> Fsmoking, <span class="at">y =</span> hdlchol)) <span class="sc">+</span></span>
+<span id="cb10-2"><a href="#cb10-2" tabindex="-1"></a>  <span class="fu">geom_violin</span>(<span class="at">fill =</span> <span class="st">&quot;lightblue&quot;</span>) <span class="sc">+</span></span>
+<span id="cb10-3"><a href="#cb10-3" tabindex="-1"></a>  <span class="fu">geom_boxplot</span>(<span class="at">width =</span> <span class="fl">0.1</span>) <span class="sc">+</span></span>
+<span id="cb10-4"><a href="#cb10-4" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">&quot;smoking status&quot;</span>, <span class="at">y =</span> <span class="st">&quot;HDL cholesterol (mmol/l)&quot;</span>)</span>
+<span id="cb10-5"><a href="#cb10-5" tabindex="-1"></a></span>
+<span id="cb10-6"><a href="#cb10-6" tabindex="-1"></a>hdl_violin</span>
+<span id="cb10-7"><a href="#cb10-7" tabindex="-1"></a></span>
+<span id="cb10-8"><a href="#cb10-8" tabindex="-1"></a><span class="fu">ggsave</span>(<span class="st">&#39;output/ex5_hdl_violin.pdf&#39;</span>, hdl_violin, <span class="at">width =</span> <span class="dv">7</span>, <span class="at">height =</span> <span class="dv">5</span>)</span></code></pre></div>
+<p> </p>
+<p>13. A pairs plot. <code>GGally::ggpairs()</code> is the
 <code>ggplot2</code> equivalent of <code>pairs()</code>, and gives you
 the histograms and correlations without having to write panel functions.
-That also makes the optional Q13 in the base R solutions unnecessary
+That also makes the optional Q14 in the base R solutions unnecessary
 here: the correlations you would have had to write a
 <code>panel_cor()</code> function for are printed for you.</p>
-<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" tabindex="-1"></a><span class="fu">ggpairs</span>(cardiac[, <span class="fu">c</span>(<span class="st">&quot;age&quot;</span>, <span class="st">&quot;systolic&quot;</span>, <span class="st">&quot;diastolic&quot;</span>, <span class="st">&quot;tchol&quot;</span>, <span class="st">&quot;hdlchol&quot;</span>,</span>
-<span id="cb10-2"><a href="#cb10-2" tabindex="-1"></a>                    <span class="st">&quot;triglyceride&quot;</span>, <span class="st">&quot;bmi&quot;</span>)])</span>
-<span id="cb10-3"><a href="#cb10-3" tabindex="-1"></a></span>
-<span id="cb10-4"><a href="#cb10-4" tabindex="-1"></a><span class="co"># coloured by a factor, which is where ggpairs earns its keep</span></span>
-<span id="cb10-5"><a href="#cb10-5" tabindex="-1"></a><span class="fu">ggpairs</span>(cardiac[, <span class="fu">c</span>(<span class="st">&quot;systolic&quot;</span>, <span class="st">&quot;diastolic&quot;</span>, <span class="st">&quot;tchol&quot;</span>, <span class="st">&quot;bmi&quot;</span>, <span class="st">&quot;Fsex&quot;</span>)],</span>
-<span id="cb10-6"><a href="#cb10-6" tabindex="-1"></a>        <span class="fu">aes</span>(<span class="at">colour =</span> Fsex, <span class="at">alpha =</span> <span class="fl">0.5</span>))</span></code></pre></div>
+<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" tabindex="-1"></a><span class="fu">ggpairs</span>(cardiac[, <span class="fu">c</span>(<span class="st">&quot;age&quot;</span>, <span class="st">&quot;systolic&quot;</span>, <span class="st">&quot;diastolic&quot;</span>, <span class="st">&quot;tchol&quot;</span>, <span class="st">&quot;hdlchol&quot;</span>,</span>
+<span id="cb11-2"><a href="#cb11-2" tabindex="-1"></a>                    <span class="st">&quot;triglyceride&quot;</span>, <span class="st">&quot;bmi&quot;</span>)])</span>
+<span id="cb11-3"><a href="#cb11-3" tabindex="-1"></a></span>
+<span id="cb11-4"><a href="#cb11-4" tabindex="-1"></a><span class="co"># coloured by a factor, which is where ggpairs earns its keep</span></span>
+<span id="cb11-5"><a href="#cb11-5" tabindex="-1"></a><span class="fu">ggpairs</span>(cardiac[, <span class="fu">c</span>(<span class="st">&quot;systolic&quot;</span>, <span class="st">&quot;diastolic&quot;</span>, <span class="st">&quot;tchol&quot;</span>, <span class="st">&quot;bmi&quot;</span>, <span class="st">&quot;Fsex&quot;</span>)],</span>
+<span id="cb11-6"><a href="#cb11-6" tabindex="-1"></a>        <span class="fu">aes</span>(<span class="at">colour =</span> Fsex, <span class="at">alpha =</span> <span class="fl">0.5</span>))</span></code></pre></div>
 <p> </p>
 <p>The <code>ggplot2</code> version of the Exercise 6 communication plot
 is at the end of <a href="exercise_6.html" target="_blank">Exercise

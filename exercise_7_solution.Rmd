@@ -27,9 +27,11 @@ Read [Chapter 8](https://intro2r.com/rmarkdown_r.html) to help you complete the 
 
 \  
 
-Up to now everything you've written has been code, for your own use. This exercise is about producing a *document* for somebody else to read, in which your writing, your code and your results all live in the same file. Because they're in the same file they can't drift apart, which is what we mean by a reproducible report. Change the data, press one button, and every number, figure and table updates itself.
+Up to now everything you've written has been code, for your own use. This exercise is about producing a *document* for somebody else to read, in which your writing, your code and your results all live in the same R markdown file. Because they're in the same file they can't drift apart, which is what we mean by a reproducible report. Change the data, press one button, and every number, figure and table in the output file updates itself.
 
-You'll build **one document** across the whole exercise, adding something to it at each question, so don't start a new file each time. By the end you'll have a short report on the cardiac data and a template you can reuse for your assessment. There's a lot of new vocabulary here, so take it slowly and knit often. Knitting after every small change is the quickest way to see what each thing does, and the quickest way to find out which change broke something.
+It's also the exercise where the rest of the course comes together. You won't be learning much new R here. Instead you'll be taking the things you already know how to do, importing data, checking it for values that can't be right, transforming a variable, drawing a plot and summarising into a table, and setting them out in the order a reader needs them: what the data are, what you did to them and why, and what you found. That order is the point. A report is not a pile of results, it's an account of a piece of work.
+
+You'll build **one document** across the whole exercise, adding something to it at each question, so don't start a new file each time. There's a lot of new vocabulary here, so take it slowly and knit often. Knitting after every small change is the quickest way to see what each thing does, and the quickest way to find out which change broke something.
 
 \  
 
@@ -37,7 +39,7 @@ You'll build **one document** across the whole exercise, adding something to it 
 
 The first time you do this, RStudio may tell you it needs to install some packages. Let it, and wait for it to finish.
 
-In the dialogue box that appears, type `Cardiac study report` in the Title box, put your name in the Author box, select **PDF** on the left, and click OK. PDF is the format your assessment has to be submitted in, so it is the one worth practising. RStudio opens a new document that's already full of example content about cars. That's normal, and we'll delete it in a moment.
+In the dialogue box that appears, type `Cardiac study report` in the Title box, put your name in the Author box, select **PDF** on the left, and click OK. RStudio opens a new document that's already full of example content about cars. That's normal, and we'll delete it in a moment.
 
 Before you change anything at all, save the file into your Project directory as `cardiac_report.Rmd` (`File` -> `Save As...`), then click the **Knit** button at the top of the editor. You can also press Ctrl+Shift+K, or Cmd+Shift+K on a Mac.
 
@@ -45,7 +47,7 @@ Do this before you understand any of it. If a PDF appears then your setup is wor
 
 \  
 
-2\. Look at the document that appeared alongside the file that produced it. An R markdown file has only three kinds of content, and everything else is a variation on them:
+2\. Look at the PDF that appeared alongside the R markdown file that produced it. An R markdown file has only three kinds of content, and everything else is a variation on them:
 
 - the **YAML header** at the very top, between the two lines of `---`, which controls the document as a whole
 - **text**, written in a simple markup language called markdown
@@ -81,19 +83,19 @@ Add `toc: true` first and knit. Then add `number_sections: true` and knit again.
 
 \  
 
-4\. Time to write something. Underneath the setup chunk, write a short introduction to the cardiac study using markdown formatting only, with no code yet. Include:
+4\. Every report starts by telling the reader what the data are, so that's where you'll start too. Underneath the setup chunk, write a short introduction to the cardiac study using markdown formatting only, with no code yet. Include:
 
 - a heading, written as `# My heading`
 - a second, smaller heading below it, written as `## My smaller heading`
 - a sentence with a word in **bold**, written as `**bold**`, and a word in *italics*, written as `*italics*`
 - a bulleted list of four of the variables in the dataset, each line starting with a dash and a space
 
-That is enough to be going on with. If you want to add a link, a numbered list, a quotation or a table, [Section 8.5.2](https://intro2r.com/r-markdown-anatomy.html#formatted-text) of the book has the syntax for all of them, and there is a summary on the R markdown cheat sheet under `Help` -> `Cheat Sheets`.
+That's enough to be going on with. If you want to add a link, a numbered list, a quotation or a table, [Section 8.5.2](https://intro2r.com/r-markdown-anatomy.html#formatted-text) of the book has the syntax for all of them, and there's a summary on the R markdown cheat sheet under `Help` -> `Cheat Sheets`.
 
-Knit, and put your source file and the output side by side. Notice that the headings you wrote have appeared in the table of contents on their own, because of the `toc: true` you added in Q3.
+Knit, and put the R markdown file and the PDF side by side. Notice that the headings you wrote have appeared in the table of contents on their own, because of the `toc: true` you added in Q3.
 
 `````{asis, echo=SOLUTIONS}
-````md
+````{.md .foldable}
 # Cardiac study report
 
 ## Background
@@ -113,18 +115,16 @@ The variables we will look at are:
 
 \  
 
-5\. Now add some code. Insert a new code chunk using the **Insert** button at the top right of the editor and choosing R, or with the keyboard shortcut Ctrl+Alt+I (Cmd+Option+I on a Mac). An empty chunk appears.
+5\. Next comes the data. Insert a new code chunk using the **Insert** button at the top right of the editor and choosing R, or with the keyboard shortcut Ctrl+Alt+I (Cmd+Option+I on a Mac). An empty chunk appears. If you'd rather, there's nothing magic about the button: you can simply type ```` ```{r} ```` on a line of its own and ```` ``` ```` on another line below it, and anything you put between them is a chunk.
 
 Give the chunk a name by typing it straight after the `r`, so the first line reads ```` ```{r import} ````. Naming chunks costs nothing and makes them far easier to find when something goes wrong.
 
 Inside the chunk, import `cardiacdata.txt` exactly as you did in **Exercise 3, Q5**: with the `read.table()` function, writing out the `header`, `sep` and `stringsAsFactors` arguments, and assigning the result to `cardiac`. In the same chunk, add the two `factor()` lines from **Exercise 3, Q7** that create `Fsex` and `Fsmoking`, since you'll want them later.
 
-Then insert a second chunk, name it `structure`, and put `str(cardiac)` in it.
-
-Run each chunk in the editor with the small green arrow at its top right, then knit the whole document. Notice that knitting starts a completely fresh R session: anything you made earlier in the console does not exist when the document knits, which is exactly what makes the document reproducible. It also means the chunk that imports the data has to come before any chunk that uses it.
+Run the chunk in the editor with the small green arrow at its top right, then knit the whole document. Notice that knitting starts a completely fresh R session: anything you made earlier in the console doesn't exist when the document knits, which is exactly what makes it reproducible. It also means the chunk that imports the data has to come before any chunk that uses it.
 
 `````{asis, echo=SOLUTIONS}
-````md
+````{.md .foldable}
 ```{r import}
 cardiac <- read.table('data/cardiacdata.txt', header = TRUE, sep = "\t", stringsAsFactors = TRUE)
 
@@ -134,30 +134,24 @@ cardiac$Fsex <- factor(cardiac$sex, levels = c(1, 2),
 cardiac$Fsmoking <- factor(cardiac$smoking, levels = c(1, 2, 3),
                            labels = c("Current", "Ex", "Never"))
 ```
-
-```{r structure}
-str(cardiac)
-```
 ````
 `````
 
 \  
 
-6\. Everything so far has been about the mechanics of the document. This question is about what a report is actually for, and it's the one that most resembles what you'll be asked to do in your assessment. A reader needs to know not just what you found, but what you did to the data before you found it, and why.
+6\. You have the data in, so the next thing a reader needs to know is whether you can trust it, and what you did about the bits you couldn't. This is the question that most resembles the writing you'll be doing later in the course, because it asks you not just to do something to the data but to explain why.
 
-Add a section to your report called `## Data validation`, immediately below your `structure` chunk. In it, put a chunk named `validation` holding the three lines from **Exercise 4, Q1** that set the impossible `bmi`, `triglyceride` and `hdlchol` values to `NA`. Remember that your report imports the raw file from scratch every time it knits, so if the cleaning isn't in the document then it hasn't happened.
+Add a new heading called `## Data validation` below the previous chunk, and underneath it a chunk named `validation` holding the three lines from **Exercise 4, Q1** that set the impossible `bmi`, `triglyceride` and `hdlchol` values to `NA`. Remember that your report imports the raw file from scratch every time it knits, so if the cleaning isn't in the document then it hasn't happened.
 
-Then write a short paragraph underneath, two or three sentences, saying which variables you changed, how many values in each, and why you set them to `NA` rather than deleting those patients or correcting the numbers yourself. Type the counts in by hand for now. You'll come back to them in Q9, and there's a wrinkle waiting for you there.
+Then write a short paragraph beneath the chunk, two or three sentences, saying which variables you changed, how many values in each, and why you set them to `NA` rather than deleting those patients or correcting the numbers yourself. Type the counts in for now. You'll come back to them in Q9, and there's a wrinkle waiting for you there.
 
-Give this chunk `echo = TRUE` when you get to Q8. A section that tells the reader you cleaned the data but hides how is not much use to anybody.
-
-Now do the same for a transformation. Underneath, add a chunk named `alcohol-transform` that creates the square root of `alcohol` as you did in **Exercise 5, Q9**, and draws the histograms of `alcohol` and `sqrt(alcohol)` side by side. Give it a caption with `fig.cap`, and write a sentence or two saying why you transformed it.
+You'll remember from **Exercise 5, Q9** that `alcohol` needed dealing with as well. A small number of patients drink a great deal more than the rest, which leaves the distribution with a long tail to the right, and you took the square root to pull that tail in. That's a data preparation step exactly like the cleaning above, so it belongs in this section too. Add a chunk named `alcohol-transform` that creates the square root of `alcohol` and draws the histograms of `alcohol` and `sqrt(alcohol)` side by side. Give it a caption with `fig.cap`, and write a sentence or two underneath saying why you did it.
 
 `````{asis, echo=SOLUTIONS}
-````md
+````{.md .foldable}
 ## Data validation
 
-```{r validation, echo = TRUE}
+```{r validation}
 # count the impossible values before changing them, so we can report how many
 n_hdl  <- sum(cardiac$hdlchol == 0, na.rm = TRUE)
 n_trig <- sum(cardiac$triglyceride == 0, na.rm = TRUE)
@@ -167,13 +161,13 @@ cardiac$triglyceride[cardiac$triglyceride == 0] <- NA
 cardiac$hdlchol[cardiac$hdlchol == 0] <- NA
 ```
 
-Three variables contained values that are not biologically possible. `r n_hdl` patients
-had an HDL cholesterol of 0 mmol/l and `r n_trig` had a triglyceride of 0 mmol/l, and
-nobody can have no fat at all in their blood. One patient had a body mass index of 514.6,
-which is almost certainly 51.46 with the decimal point in the wrong place. All four values
-were set to `NA` rather than deleted or corrected. Deleting the patients would throw away
-their other measurements, which are perfectly good, and correcting the body mass index
-would mean putting a number into the data that nobody measured.
+Three variables contained values that are not biologically possible. Two patients had an
+HDL cholesterol of 0 mmol/l and one had a triglyceride of 0 mmol/l, and nobody can have no
+fat at all in their blood. One patient had a body mass index of 514.6, which is almost
+certainly 51.46 with the decimal point in the wrong place. All four values were set to
+`NA` rather than deleted or corrected. Deleting the patients would throw away their other
+measurements, which are perfectly good, and correcting the body mass index would mean
+putting a number into the data that nobody measured.
 
 ```{r alcohol-transform, fig.cap = 'Weekly alcohol consumption before and after square root transformation.'}
 cardiac$alcohol_sqrt <- sqrt(cardiac$alcohol)
@@ -183,20 +177,20 @@ hist(cardiac$alcohol, main = "", xlab = "alcohol (units/week)")
 hist(cardiac$alcohol_sqrt, main = "", xlab = "sqrt(alcohol)")
 ```
 
-A small number of patients drink a great deal more than the rest, which leaves the
-distribution of weekly units with a long tail to the right. Alcohol is recorded as a
-count of units, so the square root is the usual transformation for it, and it spreads
-the values out much more evenly.
+A small number of patients drink a great deal more than the rest, which leaves weekly
+alcohol units with a long tail to the right. Alcohol is recorded as a count of units, so
+the square root is the usual transformation for it, and it spreads the values out much
+more evenly.
 ````
 
-Note the two things this paragraph does that the rest of the report does not. It says what
-was done, and it says why, which is what makes the difference between a set of results and
-a piece of work somebody else can rely on.
+Note the two things these paragraphs do that a list of results would not. They say what was
+done, and they say why, which is the difference between a set of numbers and a piece of
+work somebody else can rely on.
 `````
 
 \  
 
-7\. Add a figure. Insert another chunk, name it `chol-plot`, and use it to redraw the boxplot of HDL cholesterol by smoking status from **Exercise 5, Q11**. You already have `Fsmoking` from your import chunk, so this is just the `boxplot()` call.
+7\. With the data in and tidied up, you can start showing the reader what's in it. Insert another chunk, name it `chol-plot`, and use it to redraw the boxplot of HDL cholesterol by smoking status from **Exercise 5, Q11**. You already have `Fsmoking` from your import chunk, so this is just the `boxplot()` call.
 
 Now give the figure a caption. Chunk options go inside the curly braces, after the chunk name, separated by commas. The first line of your chunk should read:
 
@@ -207,10 +201,10 @@ Now give the figure a caption. Chunk options go inside the curly braces, after t
 
 Knit and find your caption underneath the plot. Then add `fig.width = 4` to the same line, knit again, and see what happens to the size of the text relative to the plot.
 
-There are a great many other chunk options for figures, controlling height, alignment, resolution and so on. You do not need them today. [Chapter 8](https://intro2r.com/rmarkdown_r.html) of the book lists the ones worth knowing.
+There are a great many other chunk options for figures, controlling height, alignment, resolution and so on. You don't need them today. [Chapter 8](https://intro2r.com/rmarkdown_r.html) of the book lists the ones worth knowing.
 
 `````{asis, echo=SOLUTIONS}
-````md
+````{.md .foldable}
 ```{r chol-plot, fig.cap = 'HDL cholesterol by smoking status.', fig.width = 4}
 boxplot(hdlchol ~ Fsmoking, data = cardiac,
         xlab = "Smoking status", ylab = "HDL cholesterol (mmol/l)")
@@ -220,115 +214,14 @@ boxplot(hdlchol ~ Fsmoking, data = cardiac,
 
 \  
 
-8\. Now think about who is going to read this document. Somebody checking your working will want to see your code, but a supervisor, a manager or an examiner usually won't - they want the results, and the code just gets in the way. R markdown lets you decide this chunk by chunk with the `echo` option.
-
-a) Add `echo = FALSE` to your `chol-plot` chunk, alongside the caption you added in Q7, and knit. The plot is still there but the code that drew it is not.
-
-b) Now do the same for the whole document rather than one chunk at a time. Go to your `setup` chunk at the top and put this line inside it:
-
-````md
-knitr::opts_chunk$set(echo = FALSE)
-````
-
-Knit. Every chunk now hides its code, so you can delete the `echo = FALSE` you added in part (a) and it will still be hidden.
-
-c) Code isn't the only thing R puts in your document uninvited. Try this. Add `library(vioplot)` on its own line at the top of your `chol-plot` chunk, using the package you installed in Exercise 5, and knit. Even with the code hidden you get several lines of this in the middle of your report:
-
-````md
-Loading required package: sm
-Package 'sm', version 2.2-6.0: type help(sm) for summary information
-Loading required package: zoo
-````
-
-Those are **messages**. R also produces **warnings**, which appear the same way and look far more alarming to a reader than they usually deserve to. Neither belongs in a finished report. Add `warning = FALSE` and `message = FALSE` to your `opts_chunk$set()` line, separated by commas, and knit again. The messages are gone. Now delete the `library(vioplot)` line, since you don't need it.
-
-d) Finally, make one exception to the rule you have just set. Add `echo = TRUE` to the first line of your `structure` chunk and knit. That one chunk shows its code while the rest do not. Setting a default for the document and then overriding it where you need to is how nearly every real report is put together.
-
-`````{asis, echo=SOLUTIONS}
-The setup chunk, which sets the defaults for every chunk in the document:
-
-````md
-```{r setup, include = FALSE}
-knitr::opts_chunk$set(echo = FALSE, warning = FALSE, message = FALSE)
-```
-````
-
-And one chunk overriding that default:
-
-````md
-```{r structure, echo = TRUE}
-str(cardiac)
-```
-````
-
-Note that the setup chunk itself uses `include = FALSE`, which is stronger than
-`echo = FALSE`: it hides the code *and* anything the chunk produces, so the chunk runs
-completely invisibly.
-
-A word of caution about `warning = FALSE`. You are hiding warnings from your reader, not
-from yourself. Keep an eye on the ones that appear in the console while you work, because
-some of them matter.
-`````
-
-\  
-
-9\. Have a look back at the paragraph you wrote in Q6. You typed those numbers in by hand, and hand typed numbers go stale. If the data changes, or you correct something later, your writing quietly stops matching your results and nothing tells you.
-
-R markdown fixes this with **inline code**. In the middle of an ordinary sentence you write a backtick, then the letter `r`, then some R code, then a closing backtick, and when you knit, the answer appears instead. Like this:
-
-````md
-The study included `r knitr::inline_expr("nrow(cardiac)")` patients.
-````
-
-which comes out as "The study included 163 patients."
-
-Go back to your data validation paragraph and replace every number you typed by hand with inline code. Then add a sentence to your introduction giving the number of patients and their mean age in the same way. Use `round()` on the mean so you don't get six decimal places.
-
-There's one catch worth knowing about now rather than later. Inline code runs in the order it appears in the document, just as chunks do, so it only works if it sits **below** the chunk that made the object it uses. Put a piece of inline code above your `import` chunk and the knit will stop with `object 'cardiac' not found`. If you ever see that message, this is nearly always the reason.
-
-Then test that it really works. Temporarily change your import chunk so it keeps only the first 100 patients, by adding this line at the end of the chunk:
-
-````md
-cardiac <- head(cardiac, 100)
-````
-
-Knit, and watch your sentence update itself. Then delete that line and knit again.
-
-`````{asis, echo=SOLUTIONS}
-````md
-The study included `r nrow(cardiac)` patients, with a mean age of
-`r round(mean(cardiac$age), 1)` years.
-````
-
-Which knits to:
-
-> The study included 163 patients, with a mean age of 65 years.
-
-The validation paragraph from Q6 does the same thing, using the `n_hdl` and `n_trig`
-objects the validation chunk made:
-
-````md
-`r n_hdl` patients had an HDL cholesterol of 0 mmol/l and `r n_trig` had a
-triglyceride of 0 mmol/l.
-````
-
-Notice why the chunk counts those *before* it sets anything to `NA`. It is tempting to
-write `sum(is.na(cardiac$hdlchol))` in your sentence afterwards and be done with it, but
-that returns 4 rather than 2: `hdlchol` already had two genuinely missing values in the
-file before you touched it. If you want to report what you changed, you have to count it
-before you change it.
-`````
-
-\  
-
-10\. Add a table. If you simply print a dataframe in a chunk you get the console output, monospaced and ugly. The `kable()` function from the `knitr` package formats it as a proper table instead.
+8\. A plot shows a reader the shape of something, but they'll often want the numbers as well, so add a table next to go with your figure. If you simply print a dataframe in a chunk you get the console output, monospaced and ugly. The `kable()` function from the `knitr` package formats it as a proper table instead.
 
 Insert a chunk, name it `summary-table`, and start by recreating the `aggregate()` summary from **Exercise 4, Q4**: the mean of `age`, `systolic` and `tchol` for each smoking category. Assign it to an object called `smoke_summary`.
 
 Knit and look at how ugly it is. Now put `knitr::kable(smoke_summary)` on the next line, knit again, and compare. Finally add `digits = 1` and a `caption` to the `kable()` call to tidy it up.
 
 `````{asis, echo=SOLUTIONS}
-````md
+````{.md .foldable}
 ```{r summary-table}
 smoke_summary <- aggregate(cardiac[, c("age", "systolic", "tchol")],
                            by = list(Smoking = cardiac$Fsmoking),
@@ -338,6 +231,84 @@ knitr::kable(smoke_summary, digits = 1,
              caption = "Mean age, systolic blood pressure and total cholesterol by smoking status.")
 ```
 ````
+`````
+
+\  
+
+9\. Your report is now more or less complete, so the rest of the exercise is about tidying it up. Start with the paragraph you wrote in Q6. You typed those numbers in yourself, and numbers typed into your writing go stale. If the data changes, or you correct something later, your writing quietly stops matching your results and nothing tells you.
+
+R markdown fixes this with **inline code**. In the middle of an ordinary sentence you write a backtick, then the letter `r`, then some R code, then a closing backtick, and when you knit, the answer appears instead. Like this:
+
+````md
+The study included `r knitr::inline_expr("nrow(cardiac)")` patients.
+````
+
+which comes out as "The study included 163 patients."
+
+Go back to your data validation paragraph and replace the numbers you typed with inline code. Then add a sentence to the same section giving the number of patients and their mean age in the same way. Use `round()` on the mean so you don't get six decimal places.
+
+Then test that it really works. Temporarily change your import chunk so it keeps only the first 100 patients, by adding this line at the end of the chunk:
+
+````md
+cardiac <- head(cardiac, 100)
+````
+
+Knit, and watch your sentences update themselves. Then delete that line and knit again.
+
+`````{asis, echo=SOLUTIONS}
+````{.md .foldable}
+The study included `r nrow(cardiac)` patients, with a mean age of
+`r round(mean(cardiac$age), 1)` years.
+````
+
+Which knits to:
+
+> The study included 163 patients, with a mean age of 65 years.
+
+The counts in the validation paragraph use the `n_hdl` and `n_trig` objects the validation
+chunk made:
+
+````{.md .foldable}
+`r n_hdl` patients had an HDL cholesterol of 0 mmol/l and `r n_trig` had a
+triglyceride of 0 mmol/l.
+````
+
+And here is the wrinkle. It's tempting to write `sum(is.na(cardiac$hdlchol))` in your
+sentence instead and be done with it, but that returns 4 rather than 2, because `hdlchol`
+already had two genuinely missing values in the file before you touched it. That's why the
+validation chunk counts the zeros *before* it sets anything to `NA`. If you want to report
+what you changed, you have to count it before you change it.
+`````
+
+\  
+
+10\. Now think about who's going to read your report, because it decides how much of your working they should see. This one is a technical document, written for people who know R, so showing the code is exactly right and everything you've done so far is fine as it is. But you'll often write for readers who don't know R at all, a clinical team, a service manager, a patient group, and for them a wall of code is just something to scroll past on the way to the results.
+
+You control this chunk by chunk with the `echo` option, in the same curly braces as the caption you added in Q7. Add `echo = FALSE` to your `chol-plot` chunk and knit. The plot is still there, but the code that drew it is not. Take it off again afterwards, since we want the code visible in this report.
+
+Two other things arrive uninvited in reports, and they're worth knowing about now so they don't surprise you later. **Messages** are the chatty output R produces when it's doing something in the background, most often when you load a package with `library()`, and they can run to several lines. **Warnings** are R telling you something might not be right, and they look far more alarming to a reader than they usually deserve to. Both appear in your document in the middle of your writing. You turn them off the same way, with `message = FALSE` and `warning = FALSE`, either on a single chunk or on all of them at once by putting them inside the `knitr::opts_chunk$set()` call in your `setup` chunk.
+
+Be careful with `warning = FALSE` though. You're hiding warnings from your reader, not from yourself, so keep an eye on the ones appearing in the console while you work, because some of them matter.
+
+`````{asis, echo=SOLUTIONS}
+Hiding the code for a single chunk:
+
+````{.md .foldable}
+```{r chol-plot, fig.cap = 'HDL cholesterol by smoking status.', echo = FALSE}
+```
+````
+
+And setting a default for every chunk in the document, in the setup chunk at the top:
+
+````{.md .foldable}
+```{r setup, include = FALSE}
+knitr::opts_chunk$set(warning = FALSE, message = FALSE)
+```
+````
+
+Note that the setup chunk itself uses `include = FALSE`, which is stronger than
+`echo = FALSE`: it hides the code *and* anything the chunk produces, so the chunk runs
+completely invisibly.
 `````
 
 \  
@@ -354,19 +325,19 @@ An exclamation mark, then the caption in square brackets, then the file path in 
 
 If you no longer have the file, [download it here](images/ex6_admissions.png) and save it into your `output` directory, the one you created in **Exercise 1, Q12**.
 
-One thing that catches everybody out: the path is relative to where the `.Rmd` file is, not to your working directory. If the image does not appear, the path is almost always the reason.
+One thing that catches everybody out: the path is relative to where the `.Rmd` file is, not to your working directory. If the image doesn't appear, the path is almost always the reason.
 
 `````{asis, echo=SOLUTIONS}
 Typed straight into the text:
 
-````md
+````{.md .foldable}
 ![Alcohol-related hospital admissions by council area.](output/ex6_admissions.png)
 ````
 
 There is also an R way, inside a chunk, which gives you control over the size with
-`out.width`. You do not need it today, but it is there when you do:
+`out.width`. You don't need it today, but it's there when you do:
 
-````md
+````{.md .foldable}
 ```{r admissions-figure, out.width = "80%", fig.cap = 'Alcohol-related hospital admissions by council area.'}
 knitr::include_graphics("output/ex6_admissions.png")
 ```
@@ -375,7 +346,7 @@ knitr::include_graphics("output/ex6_admissions.png")
 
 \  
 
-12\. If you have time, here's one of the nicer things about R markdown: the same source file will give you a completely different kind of document without you rewriting a word of it. In your YAML header, change `pdf_document` to `html_document` and knit. You'll get a web page instead, built from exactly the same text, code and figures. While you're there, add `toc_float: true` on its own line underneath `toc: true` and knit again to see the contents float alongside the page as you scroll. That option only works in HTML, so change the header back to `pdf_document` and delete the `toc_float` line before you finish.
+12\. If you have time, here's one of the nicer things about R markdown: the same R markdown file will give you a completely different kind of document without you rewriting a word of it. In your YAML header, change `pdf_document` to `html_document` and knit. You'll get a web page instead, built from exactly the same text, code and figures. While you're there, add `toc_float: true` on its own line underneath `toc: true` and knit again to see the contents float alongside the page as you scroll. That option only works in HTML, so change the header back to `pdf_document` and delete the `toc_float` line before you finish.
 
 \  
 
@@ -383,9 +354,9 @@ knitr::include_graphics("output/ex6_admissions.png")
 
 \  
 
-**The visual editor.** RStudio can show an R markdown document formatted as you type, more like a word processor, hiding the markdown syntax. You turn it on with the small compass icon at the top right of the editor. It is genuinely useful, especially for tables and links. We have deliberately left it until the end so that you learn what the markup actually is first, because when something goes wrong it is the markup you have to fix.
+**The visual editor.** RStudio can show an R markdown document formatted as you type, more like a word processor, hiding the markdown syntax. You turn it on with the small compass icon at the top right of the editor. It's genuinely useful, especially for tables and links. We've deliberately left it until the end so that you learn what the markup actually is first, because when something goes wrong it's the markup you have to fix.
 
-**Quarto.** Quarto is the successor to R markdown. It does the same job, works with languages other than R, and its syntax is so close that nearly everything in this exercise transfers unchanged. If you carry on using R after this course you will meet it. Start at [quarto.org](https://quarto.org).
+**Quarto.** Quarto is the successor to R markdown. It does the same job, works with languages other than R, and its syntax is so close that nearly everything in this exercise transfers unchanged. If you carry on using R after this course you'll meet it. Start at [quarto.org](https://quarto.org).
 
 \  
 

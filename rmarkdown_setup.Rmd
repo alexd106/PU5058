@@ -12,9 +12,8 @@ output:
 
 ## Before you start
 
-You need this for Exercise 7, and you'll need it again for your report assessment, because
-both of them produce PDF documents. It takes about fifteen minutes, most of which is a
-download running by itself while you do something else.
+You need this for Exercise 7, which produces PDF documents. It takes about fifteen
+minutes, most of which is a download running by itself while you do something else.
 
 Please work through it **before** the Exercise 7 practical rather than during it. If you hit
 a real problem, bring it to the start of the session and we'll help you, but we can't get

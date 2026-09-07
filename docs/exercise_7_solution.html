@@ -524,16 +524,24 @@ teach anything.</p>
 <p>Up to now everything you’ve written has been code, for your own use.
 This exercise is about producing a <em>document</em> for somebody else
 to read, in which your writing, your code and your results all live in
-the same file. Because they’re in the same file they can’t drift apart,
-which is what we mean by a reproducible report. Change the data, press
-one button, and every number, figure and table updates itself.</p>
+the same R markdown file. Because they’re in the same file they can’t
+drift apart, which is what we mean by a reproducible report. Change the
+data, press one button, and every number, figure and table in the output
+file updates itself.</p>
+<p>It’s also the exercise where the rest of the course comes together.
+You won’t be learning much new R here. Instead you’ll be taking the
+things you already know how to do, importing data, checking it for
+values that can’t be right, transforming a variable, drawing a plot and
+summarising into a table, and setting them out in the order a reader
+needs them: what the data are, what you did to them and why, and what
+you found. That order is the point. A report is not a pile of results,
+it’s an account of a piece of work.</p>
 <p>You’ll build <strong>one document</strong> across the whole exercise,
 adding something to it at each question, so don’t start a new file each
-time. By the end you’ll have a short report on the cardiac data and a
-template you can reuse for your assessment. There’s a lot of new
-vocabulary here, so take it slowly and knit often. Knitting after every
-small change is the quickest way to see what each thing does, and the
-quickest way to find out which change broke something.</p>
+time. There’s a lot of new vocabulary here, so take it slowly and knit
+often. Knitting after every small change is the quickest way to see what
+each thing does, and the quickest way to find out which change broke
+something.</p>
 <p> </p>
 <p>1. Open the RStudio Project you have been using for this course.
 Create a new R markdown document by going to <code>File</code> -&gt;
@@ -542,11 +550,9 @@ Create a new R markdown document by going to <code>File</code> -&gt;
 some packages. Let it, and wait for it to finish.</p>
 <p>In the dialogue box that appears, type
 <code>Cardiac study report</code> in the Title box, put your name in the
-Author box, select <strong>PDF</strong> on the left, and click OK. PDF
-is the format your assessment has to be submitted in, so it is the one
-worth practising. RStudio opens a new document that’s already full of
-example content about cars. That’s normal, and we’ll delete it in a
-moment.</p>
+Author box, select <strong>PDF</strong> on the left, and click OK.
+RStudio opens a new document that’s already full of example content
+about cars. That’s normal, and we’ll delete it in a moment.</p>
 <p>Before you change anything at all, save the file into your Project
 directory as <code>cardiac_report.Rmd</code> (<code>File</code> -&gt;
 <code>Save As...</code>), then click the <strong>Knit</strong> button at
@@ -556,7 +562,7 @@ on a Mac.</p>
 setup is working, and you can be confident that anything which goes
 wrong later is something you can fix.</p>
 <p> </p>
-<p>2. Look at the document that appeared alongside the file that
+<p>2. Look at the PDF that appeared alongside the R markdown file that
 produced it. An R markdown file has only three kinds of content, and
 everything else is a variation on them:</p>
 <ul>
@@ -596,7 +602,8 @@ class="sourceCode yaml"><code class="sourceCode yaml"><span id="cb2-1"><a href="
 time, and knitting after each, is how you see what each one actually
 does.</p>
 <p> </p>
-<p>4. Time to write something. Underneath the setup chunk, write a short
+<p>4. Every report starts by telling the reader what the data are, so
+that’s where you’ll start too. Underneath the setup chunk, write a short
 introduction to the cardiac study using markdown formatting only, with
 no code yet. Include:</p>
 <ul>
@@ -609,16 +616,17 @@ no code yet. Include:</p>
 <li>a bulleted list of four of the variables in the dataset, each line
 starting with a dash and a space</li>
 </ul>
-<p>That is enough to be going on with. If you want to add a link, a
+<p>That’s enough to be going on with. If you want to add a link, a
 numbered list, a quotation or a table, <a
 href="https://intro2r.com/r-markdown-anatomy.html#formatted-text">Section
-8.5.2</a> of the book has the syntax for all of them, and there is a
+8.5.2</a> of the book has the syntax for all of them, and there’s a
 summary on the R markdown cheat sheet under <code>Help</code> -&gt;
 <code>Cheat Sheets</code>.</p>
-<p>Knit, and put your source file and the output side by side. Notice
+<p>Knit, and put the R markdown file and the PDF side by side. Notice
 that the headings you wrote have appeared in the table of contents on
 their own, because of the <code>toc: true</code> you added in Q3.</p>
-<div class="sourceCode" id="cb3"><pre class="sourceCode md"><code class="sourceCode markdown"><span id="cb3-1"><a href="#cb3-1" tabindex="-1"></a><span class="fu"># Cardiac study report</span></span>
+<div class="sourceCode" id="cb3"><pre
+class="sourceCode md foldable"><code class="sourceCode markdown"><span id="cb3-1"><a href="#cb3-1" tabindex="-1"></a><span class="fu"># Cardiac study report</span></span>
 <span id="cb3-2"><a href="#cb3-2" tabindex="-1"></a></span>
 <span id="cb3-3"><a href="#cb3-3" tabindex="-1"></a><span class="fu">## Background</span></span>
 <span id="cb3-4"><a href="#cb3-4" tabindex="-1"></a></span>
@@ -633,10 +641,13 @@ their own, because of the <code>toc: true</code> you added in Q3.</p>
 <span id="cb3-13"><a href="#cb3-13" tabindex="-1"></a><span class="ss">- </span>body mass index</span>
 <span id="cb3-14"><a href="#cb3-14" tabindex="-1"></a><span class="ss">- </span>smoking status</span></code></pre></div>
 <p> </p>
-<p>5. Now add some code. Insert a new code chunk using the
+<p>5. Next comes the data. Insert a new code chunk using the
 <strong>Insert</strong> button at the top right of the editor and
 choosing R, or with the keyboard shortcut Ctrl+Alt+I (Cmd+Option+I on a
-Mac). An empty chunk appears.</p>
+Mac). An empty chunk appears. If you’d rather, there’s nothing magic
+about the button: you can simply type <code>```{r}</code> on a line of
+its own and <code>```</code> on another line below it, and anything you
+put between them is a chunk.</p>
 <p>Give the chunk a name by typing it straight after the <code>r</code>,
 so the first line reads <code>```{r import}</code>. Naming chunks costs
 nothing and makes them far easier to find when something goes wrong.</p>
@@ -648,15 +659,14 @@ assigning the result to <code>cardiac</code>. In the same chunk, add the
 two <code>factor()</code> lines from <strong>Exercise 3, Q7</strong>
 that create <code>Fsex</code> and <code>Fsmoking</code>, since you’ll
 want them later.</p>
-<p>Then insert a second chunk, name it <code>structure</code>, and put
-<code>str(cardiac)</code> in it.</p>
-<p>Run each chunk in the editor with the small green arrow at its top
+<p>Run the chunk in the editor with the small green arrow at its top
 right, then knit the whole document. Notice that knitting starts a
 completely fresh R session: anything you made earlier in the console
-does not exist when the document knits, which is exactly what makes the
-document reproducible. It also means the chunk that imports the data has
-to come before any chunk that uses it.</p>
-<div class="sourceCode" id="cb4"><pre class="sourceCode md"><code class="sourceCode markdown"><span id="cb4-1"><a href="#cb4-1" tabindex="-1"></a><span class="in">```{r import}</span></span>
+doesn’t exist when the document knits, which is exactly what makes it
+reproducible. It also means the chunk that imports the data has to come
+before any chunk that uses it.</p>
+<div class="sourceCode" id="cb4"><pre
+class="sourceCode md foldable"><code class="sourceCode markdown"><span id="cb4-1"><a href="#cb4-1" tabindex="-1"></a><span class="in">```{r import}</span></span>
 <span id="cb4-2"><a href="#cb4-2" tabindex="-1"></a><span class="in">cardiac &lt;- read.table(&#39;data/cardiacdata.txt&#39;, header = TRUE, sep = &quot;\t&quot;, stringsAsFactors = TRUE)</span></span>
 <span id="cb4-3"><a href="#cb4-3" tabindex="-1"></a></span>
 <span id="cb4-4"><a href="#cb4-4" tabindex="-1"></a><span class="in">cardiac$Fsex &lt;- factor(cardiac$sex, levels = c(1, 2),</span></span>
@@ -664,44 +674,41 @@ to come before any chunk that uses it.</p>
 <span id="cb4-6"><a href="#cb4-6" tabindex="-1"></a></span>
 <span id="cb4-7"><a href="#cb4-7" tabindex="-1"></a><span class="in">cardiac$Fsmoking &lt;- factor(cardiac$smoking, levels = c(1, 2, 3),</span></span>
 <span id="cb4-8"><a href="#cb4-8" tabindex="-1"></a><span class="in">                           labels = c(&quot;Current&quot;, &quot;Ex&quot;, &quot;Never&quot;))</span></span>
-<span id="cb4-9"><a href="#cb4-9" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb4-10"><a href="#cb4-10" tabindex="-1"></a></span>
-<span id="cb4-11"><a href="#cb4-11" tabindex="-1"></a><span class="in">```{r structure}</span></span>
-<span id="cb4-12"><a href="#cb4-12" tabindex="-1"></a><span class="in">str(cardiac)</span></span>
-<span id="cb4-13"><a href="#cb4-13" tabindex="-1"></a><span class="in">```</span></span></code></pre></div>
+<span id="cb4-9"><a href="#cb4-9" tabindex="-1"></a><span class="in">```</span></span></code></pre></div>
 <p> </p>
-<p>6. Everything so far has been about the mechanics of the document.
-This question is about what a report is actually for, and it’s the one
-that most resembles what you’ll be asked to do in your assessment. A
-reader needs to know not just what you found, but what you did to the
-data before you found it, and why.</p>
-<p>Add a section to your report called <code>## Data validation</code>,
-immediately below your <code>structure</code> chunk. In it, put a chunk
-named <code>validation</code> holding the three lines from
-<strong>Exercise 4, Q1</strong> that set the impossible
-<code>bmi</code>, <code>triglyceride</code> and <code>hdlchol</code>
-values to <code>NA</code>. Remember that your report imports the raw
-file from scratch every time it knits, so if the cleaning isn’t in the
-document then it hasn’t happened.</p>
-<p>Then write a short paragraph underneath, two or three sentences,
-saying which variables you changed, how many values in each, and why you
-set them to <code>NA</code> rather than deleting those patients or
-correcting the numbers yourself. Type the counts in by hand for now.
+<p>6. You have the data in, so the next thing a reader needs to know is
+whether you can trust it, and what you did about the bits you couldn’t.
+This is the question that most resembles the writing you’ll be doing
+later in the course, because it asks you not just to do something to the
+data but to explain why.</p>
+<p>Add a new heading called <code>## Data validation</code> below the
+previous chunk, and underneath it a chunk named <code>validation</code>
+holding the three lines from <strong>Exercise 4, Q1</strong> that set
+the impossible <code>bmi</code>, <code>triglyceride</code> and
+<code>hdlchol</code> values to <code>NA</code>. Remember that your
+report imports the raw file from scratch every time it knits, so if the
+cleaning isn’t in the document then it hasn’t happened.</p>
+<p>Then write a short paragraph beneath the chunk, two or three
+sentences, saying which variables you changed, how many values in each,
+and why you set them to <code>NA</code> rather than deleting those
+patients or correcting the numbers yourself. Type the counts in for now.
 You’ll come back to them in Q9, and there’s a wrinkle waiting for you
 there.</p>
-<p>Give this chunk <code>echo = TRUE</code> when you get to Q8. A
-section that tells the reader you cleaned the data but hides how is not
-much use to anybody.</p>
-<p>Now do the same for a transformation. Underneath, add a chunk named
+<p>You’ll remember from <strong>Exercise 5, Q9</strong> that
+<code>alcohol</code> needed dealing with as well. A small number of
+patients drink a great deal more than the rest, which leaves the
+distribution with a long tail to the right, and you took the square root
+to pull that tail in. That’s a data preparation step exactly like the
+cleaning above, so it belongs in this section too. Add a chunk named
 <code>alcohol-transform</code> that creates the square root of
-<code>alcohol</code> as you did in <strong>Exercise 5, Q9</strong>, and
-draws the histograms of <code>alcohol</code> and
-<code>sqrt(alcohol)</code> side by side. Give it a caption with
-<code>fig.cap</code>, and write a sentence or two saying why you
-transformed it.</p>
-<div class="sourceCode" id="cb5"><pre class="sourceCode md"><code class="sourceCode markdown"><span id="cb5-1"><a href="#cb5-1" tabindex="-1"></a><span class="fu">## Data validation</span></span>
+<code>alcohol</code> and draws the histograms of <code>alcohol</code>
+and <code>sqrt(alcohol)</code> side by side. Give it a caption with
+<code>fig.cap</code>, and write a sentence or two underneath saying why
+you did it.</p>
+<div class="sourceCode" id="cb5"><pre
+class="sourceCode md foldable"><code class="sourceCode markdown"><span id="cb5-1"><a href="#cb5-1" tabindex="-1"></a><span class="fu">## Data validation</span></span>
 <span id="cb5-2"><a href="#cb5-2" tabindex="-1"></a></span>
-<span id="cb5-3"><a href="#cb5-3" tabindex="-1"></a><span class="in">```{r validation, echo = TRUE}</span></span>
+<span id="cb5-3"><a href="#cb5-3" tabindex="-1"></a><span class="in">```{r validation}</span></span>
 <span id="cb5-4"><a href="#cb5-4" tabindex="-1"></a><span class="in"># count the impossible values before changing them, so we can report how many</span></span>
 <span id="cb5-5"><a href="#cb5-5" tabindex="-1"></a><span class="in">n_hdl  &lt;- sum(cardiac$hdlchol == 0, na.rm = TRUE)</span></span>
 <span id="cb5-6"><a href="#cb5-6" tabindex="-1"></a><span class="in">n_trig &lt;- sum(cardiac$triglyceride == 0, na.rm = TRUE)</span></span>
@@ -711,13 +718,13 @@ transformed it.</p>
 <span id="cb5-10"><a href="#cb5-10" tabindex="-1"></a><span class="in">cardiac$hdlchol[cardiac$hdlchol == 0] &lt;- NA</span></span>
 <span id="cb5-11"><a href="#cb5-11" tabindex="-1"></a><span class="in">```</span></span>
 <span id="cb5-12"><a href="#cb5-12" tabindex="-1"></a></span>
-<span id="cb5-13"><a href="#cb5-13" tabindex="-1"></a>Three variables contained values that are not biologically possible. <span class="in">`r n_hdl`</span> patients</span>
-<span id="cb5-14"><a href="#cb5-14" tabindex="-1"></a>had an HDL cholesterol of 0 mmol/l and <span class="in">`r n_trig`</span> had a triglyceride of 0 mmol/l, and</span>
-<span id="cb5-15"><a href="#cb5-15" tabindex="-1"></a>nobody can have no fat at all in their blood. One patient had a body mass index of 514.6,</span>
-<span id="cb5-16"><a href="#cb5-16" tabindex="-1"></a>which is almost certainly 51.46 with the decimal point in the wrong place. All four values</span>
-<span id="cb5-17"><a href="#cb5-17" tabindex="-1"></a>were set to <span class="in">`NA`</span> rather than deleted or corrected. Deleting the patients would throw away</span>
-<span id="cb5-18"><a href="#cb5-18" tabindex="-1"></a>their other measurements, which are perfectly good, and correcting the body mass index</span>
-<span id="cb5-19"><a href="#cb5-19" tabindex="-1"></a>would mean putting a number into the data that nobody measured.</span>
+<span id="cb5-13"><a href="#cb5-13" tabindex="-1"></a>Three variables contained values that are not biologically possible. Two patients had an</span>
+<span id="cb5-14"><a href="#cb5-14" tabindex="-1"></a>HDL cholesterol of 0 mmol/l and one had a triglyceride of 0 mmol/l, and nobody can have no</span>
+<span id="cb5-15"><a href="#cb5-15" tabindex="-1"></a>fat at all in their blood. One patient had a body mass index of 514.6, which is almost</span>
+<span id="cb5-16"><a href="#cb5-16" tabindex="-1"></a>certainly 51.46 with the decimal point in the wrong place. All four values were set to</span>
+<span id="cb5-17"><a href="#cb5-17" tabindex="-1"></a><span class="in">`NA`</span> rather than deleted or corrected. Deleting the patients would throw away their other</span>
+<span id="cb5-18"><a href="#cb5-18" tabindex="-1"></a>measurements, which are perfectly good, and correcting the body mass index would mean</span>
+<span id="cb5-19"><a href="#cb5-19" tabindex="-1"></a>putting a number into the data that nobody measured.</span>
 <span id="cb5-20"><a href="#cb5-20" tabindex="-1"></a></span>
 <span id="cb5-21"><a href="#cb5-21" tabindex="-1"></a><span class="in">```{r alcohol-transform, fig.cap = &#39;Weekly alcohol consumption before and after square root transformation.&#39;}</span></span>
 <span id="cb5-22"><a href="#cb5-22" tabindex="-1"></a><span class="in">cardiac$alcohol_sqrt &lt;- sqrt(cardiac$alcohol)</span></span>
@@ -727,20 +734,21 @@ transformed it.</p>
 <span id="cb5-26"><a href="#cb5-26" tabindex="-1"></a><span class="in">hist(cardiac$alcohol_sqrt, main = &quot;&quot;, xlab = &quot;sqrt(alcohol)&quot;)</span></span>
 <span id="cb5-27"><a href="#cb5-27" tabindex="-1"></a><span class="in">```</span></span>
 <span id="cb5-28"><a href="#cb5-28" tabindex="-1"></a></span>
-<span id="cb5-29"><a href="#cb5-29" tabindex="-1"></a>A small number of patients drink a great deal more than the rest, which leaves the</span>
-<span id="cb5-30"><a href="#cb5-30" tabindex="-1"></a>distribution of weekly units with a long tail to the right. Alcohol is recorded as a</span>
-<span id="cb5-31"><a href="#cb5-31" tabindex="-1"></a>count of units, so the square root is the usual transformation for it, and it spreads</span>
-<span id="cb5-32"><a href="#cb5-32" tabindex="-1"></a>the values out much more evenly.</span></code></pre></div>
-<p>Note the two things this paragraph does that the rest of the report
-does not. It says what was done, and it says why, which is what makes
-the difference between a set of results and a piece of work somebody
-else can rely on.</p>
+<span id="cb5-29"><a href="#cb5-29" tabindex="-1"></a>A small number of patients drink a great deal more than the rest, which leaves weekly</span>
+<span id="cb5-30"><a href="#cb5-30" tabindex="-1"></a>alcohol units with a long tail to the right. Alcohol is recorded as a count of units, so</span>
+<span id="cb5-31"><a href="#cb5-31" tabindex="-1"></a>the square root is the usual transformation for it, and it spreads the values out much</span>
+<span id="cb5-32"><a href="#cb5-32" tabindex="-1"></a>more evenly.</span></code></pre></div>
+<p>Note the two things these paragraphs do that a list of results would
+not. They say what was done, and they say why, which is the difference
+between a set of numbers and a piece of work somebody else can rely
+on.</p>
 <p> </p>
-<p>7. Add a figure. Insert another chunk, name it
-<code>chol-plot</code>, and use it to redraw the boxplot of HDL
-cholesterol by smoking status from <strong>Exercise 5, Q11</strong>. You
-already have <code>Fsmoking</code> from your import chunk, so this is
-just the <code>boxplot()</code> call.</p>
+<p>7. With the data in and tidied up, you can start showing the reader
+what’s in it. Insert another chunk, name it <code>chol-plot</code>, and
+use it to redraw the boxplot of HDL cholesterol by smoking status from
+<strong>Exercise 5, Q11</strong>. You already have <code>Fsmoking</code>
+from your import chunk, so this is just the <code>boxplot()</code>
+call.</p>
 <p>Now give the figure a caption. Chunk options go inside the curly
 braces, after the chunk name, separated by commas. The first line of
 your chunk should read:</p>
@@ -750,131 +758,20 @@ your chunk should read:</p>
 <code>fig.width = 4</code> to the same line, knit again, and see what
 happens to the size of the text relative to the plot.</p>
 <p>There are a great many other chunk options for figures, controlling
-height, alignment, resolution and so on. You do not need them today. <a
+height, alignment, resolution and so on. You don’t need them today. <a
 href="https://intro2r.com/rmarkdown_r.html">Chapter 8</a> of the book
 lists the ones worth knowing.</p>
-<div class="sourceCode" id="cb7"><pre class="sourceCode md"><code class="sourceCode markdown"><span id="cb7-1"><a href="#cb7-1" tabindex="-1"></a><span class="in">```{r chol-plot, fig.cap = &#39;HDL cholesterol by smoking status.&#39;, fig.width = 4}</span></span>
+<div class="sourceCode" id="cb7"><pre
+class="sourceCode md foldable"><code class="sourceCode markdown"><span id="cb7-1"><a href="#cb7-1" tabindex="-1"></a><span class="in">```{r chol-plot, fig.cap = &#39;HDL cholesterol by smoking status.&#39;, fig.width = 4}</span></span>
 <span id="cb7-2"><a href="#cb7-2" tabindex="-1"></a><span class="in">boxplot(hdlchol ~ Fsmoking, data = cardiac,</span></span>
 <span id="cb7-3"><a href="#cb7-3" tabindex="-1"></a><span class="in">        xlab = &quot;Smoking status&quot;, ylab = &quot;HDL cholesterol (mmol/l)&quot;)</span></span>
 <span id="cb7-4"><a href="#cb7-4" tabindex="-1"></a><span class="in">```</span></span></code></pre></div>
 <p> </p>
-<p>8. Now think about who is going to read this document. Somebody
-checking your working will want to see your code, but a supervisor, a
-manager or an examiner usually won’t - they want the results, and the
-code just gets in the way. R markdown lets you decide this chunk by
-chunk with the <code>echo</code> option.</p>
-<ol style="list-style-type: lower-alpha">
-<li><p>Add <code>echo = FALSE</code> to your <code>chol-plot</code>
-chunk, alongside the caption you added in Q7, and knit. The plot is
-still there but the code that drew it is not.</p></li>
-<li><p>Now do the same for the whole document rather than one chunk at a
-time. Go to your <code>setup</code> chunk at the top and put this line
-inside it:</p></li>
-</ol>
-<div class="sourceCode" id="cb8"><pre class="sourceCode md"><code class="sourceCode markdown"><span id="cb8-1"><a href="#cb8-1" tabindex="-1"></a>knitr::opts_chunk$set(echo = FALSE)</span></code></pre></div>
-<p>Knit. Every chunk now hides its code, so you can delete the
-<code>echo = FALSE</code> you added in part (a) and it will still be
-hidden.</p>
-<ol start="3" style="list-style-type: lower-alpha">
-<li>Code isn’t the only thing R puts in your document uninvited. Try
-this. Add <code>library(vioplot)</code> on its own line at the top of
-your <code>chol-plot</code> chunk, using the package you installed in
-Exercise 5, and knit. Even with the code hidden you get several lines of
-this in the middle of your report:</li>
-</ol>
-<div class="sourceCode" id="cb9"><pre class="sourceCode md"><code class="sourceCode markdown"><span id="cb9-1"><a href="#cb9-1" tabindex="-1"></a><span class="an">Loading required package:</span><span class="co"> sm</span></span>
-<span id="cb9-2"><a href="#cb9-2" tabindex="-1"></a>Package &#39;sm&#39;, version 2.2-6.0: type help(sm) for summary information</span>
-<span id="cb9-3"><a href="#cb9-3" tabindex="-1"></a>Loading required package: zoo</span></code></pre></div>
-<p>Those are <strong>messages</strong>. R also produces
-<strong>warnings</strong>, which appear the same way and look far more
-alarming to a reader than they usually deserve to. Neither belongs in a
-finished report. Add <code>warning = FALSE</code> and
-<code>message = FALSE</code> to your <code>opts_chunk$set()</code> line,
-separated by commas, and knit again. The messages are gone. Now delete
-the <code>library(vioplot)</code> line, since you don’t need it.</p>
-<ol start="4" style="list-style-type: lower-alpha">
-<li>Finally, make one exception to the rule you have just set. Add
-<code>echo = TRUE</code> to the first line of your
-<code>structure</code> chunk and knit. That one chunk shows its code
-while the rest do not. Setting a default for the document and then
-overriding it where you need to is how nearly every real report is put
-together.</li>
-</ol>
-<p>The setup chunk, which sets the defaults for every chunk in the
-document:</p>
-<div class="sourceCode" id="cb10"><pre
-class="sourceCode md"><code class="sourceCode markdown"><span id="cb10-1"><a href="#cb10-1" tabindex="-1"></a><span class="in">```{r setup, include = FALSE}</span></span>
-<span id="cb10-2"><a href="#cb10-2" tabindex="-1"></a><span class="in">knitr::opts_chunk$set(echo = FALSE, warning = FALSE, message = FALSE)</span></span>
-<span id="cb10-3"><a href="#cb10-3" tabindex="-1"></a><span class="in">```</span></span></code></pre></div>
-<p>And one chunk overriding that default:</p>
-<div class="sourceCode" id="cb11"><pre
-class="sourceCode md"><code class="sourceCode markdown"><span id="cb11-1"><a href="#cb11-1" tabindex="-1"></a><span class="in">```{r structure, echo = TRUE}</span></span>
-<span id="cb11-2"><a href="#cb11-2" tabindex="-1"></a><span class="in">str(cardiac)</span></span>
-<span id="cb11-3"><a href="#cb11-3" tabindex="-1"></a><span class="in">```</span></span></code></pre></div>
-<p>Note that the setup chunk itself uses <code>include = FALSE</code>,
-which is stronger than <code>echo = FALSE</code>: it hides the code
-<em>and</em> anything the chunk produces, so the chunk runs completely
-invisibly.</p>
-<p>A word of caution about <code>warning = FALSE</code>. You are hiding
-warnings from your reader, not from yourself. Keep an eye on the ones
-that appear in the console while you work, because some of them
-matter.</p>
-<p> </p>
-<p>9. Have a look back at the paragraph you wrote in Q6. You typed those
-numbers in by hand, and hand typed numbers go stale. If the data
-changes, or you correct something later, your writing quietly stops
-matching your results and nothing tells you.</p>
-<p>R markdown fixes this with <strong>inline code</strong>. In the
-middle of an ordinary sentence you write a backtick, then the letter
-<code>r</code>, then some R code, then a closing backtick, and when you
-knit, the answer appears instead. Like this:</p>
-<div class="sourceCode" id="cb12"><pre
-class="sourceCode md"><code class="sourceCode markdown"><span id="cb12-1"><a href="#cb12-1" tabindex="-1"></a>The study included <span class="in">`r nrow(cardiac)`</span> patients.</span></code></pre></div>
-<p>which comes out as “The study included 163 patients.”</p>
-<p>Go back to your data validation paragraph and replace every number
-you typed by hand with inline code. Then add a sentence to your
-introduction giving the number of patients and their mean age in the
-same way. Use <code>round()</code> on the mean so you don’t get six
-decimal places.</p>
-<p>There’s one catch worth knowing about now rather than later. Inline
-code runs in the order it appears in the document, just as chunks do, so
-it only works if it sits <strong>below</strong> the chunk that made the
-object it uses. Put a piece of inline code above your
-<code>import</code> chunk and the knit will stop with
-<code>object 'cardiac' not found</code>. If you ever see that message,
-this is nearly always the reason.</p>
-<p>Then test that it really works. Temporarily change your import chunk
-so it keeps only the first 100 patients, by adding this line at the end
-of the chunk:</p>
-<div class="sourceCode" id="cb13"><pre
-class="sourceCode md"><code class="sourceCode markdown"><span id="cb13-1"><a href="#cb13-1" tabindex="-1"></a>cardiac &lt;- head(cardiac, 100)</span></code></pre></div>
-<p>Knit, and watch your sentence update itself. Then delete that line
-and knit again.</p>
-<div class="sourceCode" id="cb14"><pre
-class="sourceCode md"><code class="sourceCode markdown"><span id="cb14-1"><a href="#cb14-1" tabindex="-1"></a>The study included <span class="in">`r nrow(cardiac)`</span> patients, with a mean age of</span>
-<span id="cb14-2"><a href="#cb14-2" tabindex="-1"></a><span class="in">`r round(mean(cardiac$age), 1)`</span> years.</span></code></pre></div>
-<p>Which knits to:</p>
-<blockquote>
-<p>The study included 163 patients, with a mean age of 65 years.</p>
-</blockquote>
-<p>The validation paragraph from Q6 does the same thing, using the
-<code>n_hdl</code> and <code>n_trig</code> objects the validation chunk
-made:</p>
-<div class="sourceCode" id="cb15"><pre
-class="sourceCode md"><code class="sourceCode markdown"><span id="cb15-1"><a href="#cb15-1" tabindex="-1"></a><span class="in">`r n_hdl`</span> patients had an HDL cholesterol of 0 mmol/l and <span class="in">`r n_trig`</span> had a</span>
-<span id="cb15-2"><a href="#cb15-2" tabindex="-1"></a>triglyceride of 0 mmol/l.</span></code></pre></div>
-<p>Notice why the chunk counts those <em>before</em> it sets anything to
-<code>NA</code>. It is tempting to write
-<code>sum(is.na(cardiac$hdlchol))</code> in your sentence afterwards and
-be done with it, but that returns 4 rather than 2: <code>hdlchol</code>
-already had two genuinely missing values in the file before you touched
-it. If you want to report what you changed, you have to count it before
-you change it.</p>
-<p> </p>
-<p>10. Add a table. If you simply print a dataframe in a chunk you get
-the console output, monospaced and ugly. The <code>kable()</code>
-function from the <code>knitr</code> package formats it as a proper
-table instead.</p>
+<p>8. A plot shows a reader the shape of something, but they’ll often
+want the numbers as well, so add a table next to go with your figure. If
+you simply print a dataframe in a chunk you get the console output,
+monospaced and ugly. The <code>kable()</code> function from the
+<code>knitr</code> package formats it as a proper table instead.</p>
 <p>Insert a chunk, name it <code>summary-table</code>, and start by
 recreating the <code>aggregate()</code> summary from <strong>Exercise 4,
 Q4</strong>: the mean of <code>age</code>, <code>systolic</code> and
@@ -884,15 +781,103 @@ called <code>smoke_summary</code>.</p>
 <code>knitr::kable(smoke_summary)</code> on the next line, knit again,
 and compare. Finally add <code>digits = 1</code> and a
 <code>caption</code> to the <code>kable()</code> call to tidy it up.</p>
-<div class="sourceCode" id="cb16"><pre
-class="sourceCode md"><code class="sourceCode markdown"><span id="cb16-1"><a href="#cb16-1" tabindex="-1"></a><span class="in">```{r summary-table}</span></span>
-<span id="cb16-2"><a href="#cb16-2" tabindex="-1"></a><span class="in">smoke_summary &lt;- aggregate(cardiac[, c(&quot;age&quot;, &quot;systolic&quot;, &quot;tchol&quot;)],</span></span>
-<span id="cb16-3"><a href="#cb16-3" tabindex="-1"></a><span class="in">                           by = list(Smoking = cardiac$Fsmoking),</span></span>
-<span id="cb16-4"><a href="#cb16-4" tabindex="-1"></a><span class="in">                           mean, na.rm = TRUE)</span></span>
-<span id="cb16-5"><a href="#cb16-5" tabindex="-1"></a></span>
-<span id="cb16-6"><a href="#cb16-6" tabindex="-1"></a><span class="in">knitr::kable(smoke_summary, digits = 1,</span></span>
-<span id="cb16-7"><a href="#cb16-7" tabindex="-1"></a><span class="in">             caption = &quot;Mean age, systolic blood pressure and total cholesterol by smoking status.&quot;)</span></span>
-<span id="cb16-8"><a href="#cb16-8" tabindex="-1"></a><span class="in">```</span></span></code></pre></div>
+<div class="sourceCode" id="cb8"><pre
+class="sourceCode md foldable"><code class="sourceCode markdown"><span id="cb8-1"><a href="#cb8-1" tabindex="-1"></a><span class="in">```{r summary-table}</span></span>
+<span id="cb8-2"><a href="#cb8-2" tabindex="-1"></a><span class="in">smoke_summary &lt;- aggregate(cardiac[, c(&quot;age&quot;, &quot;systolic&quot;, &quot;tchol&quot;)],</span></span>
+<span id="cb8-3"><a href="#cb8-3" tabindex="-1"></a><span class="in">                           by = list(Smoking = cardiac$Fsmoking),</span></span>
+<span id="cb8-4"><a href="#cb8-4" tabindex="-1"></a><span class="in">                           mean, na.rm = TRUE)</span></span>
+<span id="cb8-5"><a href="#cb8-5" tabindex="-1"></a></span>
+<span id="cb8-6"><a href="#cb8-6" tabindex="-1"></a><span class="in">knitr::kable(smoke_summary, digits = 1,</span></span>
+<span id="cb8-7"><a href="#cb8-7" tabindex="-1"></a><span class="in">             caption = &quot;Mean age, systolic blood pressure and total cholesterol by smoking status.&quot;)</span></span>
+<span id="cb8-8"><a href="#cb8-8" tabindex="-1"></a><span class="in">```</span></span></code></pre></div>
+<p> </p>
+<p>9. Your report is now more or less complete, so the rest of the
+exercise is about tidying it up. Start with the paragraph you wrote in
+Q6. You typed those numbers in yourself, and numbers typed into your
+writing go stale. If the data changes, or you correct something later,
+your writing quietly stops matching your results and nothing tells
+you.</p>
+<p>R markdown fixes this with <strong>inline code</strong>. In the
+middle of an ordinary sentence you write a backtick, then the letter
+<code>r</code>, then some R code, then a closing backtick, and when you
+knit, the answer appears instead. Like this:</p>
+<div class="sourceCode" id="cb9"><pre class="sourceCode md"><code class="sourceCode markdown"><span id="cb9-1"><a href="#cb9-1" tabindex="-1"></a>The study included <span class="in">`r nrow(cardiac)`</span> patients.</span></code></pre></div>
+<p>which comes out as “The study included 163 patients.”</p>
+<p>Go back to your data validation paragraph and replace the numbers you
+typed with inline code. Then add a sentence to the same section giving
+the number of patients and their mean age in the same way. Use
+<code>round()</code> on the mean so you don’t get six decimal
+places.</p>
+<p>Then test that it really works. Temporarily change your import chunk
+so it keeps only the first 100 patients, by adding this line at the end
+of the chunk:</p>
+<div class="sourceCode" id="cb10"><pre
+class="sourceCode md"><code class="sourceCode markdown"><span id="cb10-1"><a href="#cb10-1" tabindex="-1"></a>cardiac &lt;- head(cardiac, 100)</span></code></pre></div>
+<p>Knit, and watch your sentences update themselves. Then delete that
+line and knit again.</p>
+<div class="sourceCode" id="cb11"><pre
+class="sourceCode md foldable"><code class="sourceCode markdown"><span id="cb11-1"><a href="#cb11-1" tabindex="-1"></a>The study included <span class="in">`r nrow(cardiac)`</span> patients, with a mean age of</span>
+<span id="cb11-2"><a href="#cb11-2" tabindex="-1"></a><span class="in">`r round(mean(cardiac$age), 1)`</span> years.</span></code></pre></div>
+<p>Which knits to:</p>
+<blockquote>
+<p>The study included 163 patients, with a mean age of 65 years.</p>
+</blockquote>
+<p>The counts in the validation paragraph use the <code>n_hdl</code> and
+<code>n_trig</code> objects the validation chunk made:</p>
+<div class="sourceCode" id="cb12"><pre
+class="sourceCode md foldable"><code class="sourceCode markdown"><span id="cb12-1"><a href="#cb12-1" tabindex="-1"></a><span class="in">`r n_hdl`</span> patients had an HDL cholesterol of 0 mmol/l and <span class="in">`r n_trig`</span> had a</span>
+<span id="cb12-2"><a href="#cb12-2" tabindex="-1"></a>triglyceride of 0 mmol/l.</span></code></pre></div>
+<p>And here is the wrinkle. It’s tempting to write
+<code>sum(is.na(cardiac$hdlchol))</code> in your sentence instead and be
+done with it, but that returns 4 rather than 2, because
+<code>hdlchol</code> already had two genuinely missing values in the
+file before you touched it. That’s why the validation chunk counts the
+zeros <em>before</em> it sets anything to <code>NA</code>. If you want
+to report what you changed, you have to count it before you change
+it.</p>
+<p> </p>
+<p>10. Now think about who’s going to read your report, because it
+decides how much of your working they should see. This one is a
+technical document, written for people who know R, so showing the code
+is exactly right and everything you’ve done so far is fine as it is. But
+you’ll often write for readers who don’t know R at all, a clinical team,
+a service manager, a patient group, and for them a wall of code is just
+something to scroll past on the way to the results.</p>
+<p>You control this chunk by chunk with the <code>echo</code> option, in
+the same curly braces as the caption you added in Q7. Add
+<code>echo = FALSE</code> to your <code>chol-plot</code> chunk and knit.
+The plot is still there, but the code that drew it is not. Take it off
+again afterwards, since we want the code visible in this report.</p>
+<p>Two other things arrive uninvited in reports, and they’re worth
+knowing about now so they don’t surprise you later.
+<strong>Messages</strong> are the chatty output R produces when it’s
+doing something in the background, most often when you load a package
+with <code>library()</code>, and they can run to several lines.
+<strong>Warnings</strong> are R telling you something might not be
+right, and they look far more alarming to a reader than they usually
+deserve to. Both appear in your document in the middle of your writing.
+You turn them off the same way, with <code>message = FALSE</code> and
+<code>warning = FALSE</code>, either on a single chunk or on all of them
+at once by putting them inside the <code>knitr::opts_chunk$set()</code>
+call in your <code>setup</code> chunk.</p>
+<p>Be careful with <code>warning = FALSE</code> though. You’re hiding
+warnings from your reader, not from yourself, so keep an eye on the ones
+appearing in the console while you work, because some of them
+matter.</p>
+<p>Hiding the code for a single chunk:</p>
+<div class="sourceCode" id="cb13"><pre
+class="sourceCode md foldable"><code class="sourceCode markdown"><span id="cb13-1"><a href="#cb13-1" tabindex="-1"></a><span class="in">```{r chol-plot, fig.cap = &#39;HDL cholesterol by smoking status.&#39;, echo = FALSE}</span></span>
+<span id="cb13-2"><a href="#cb13-2" tabindex="-1"></a><span class="in">```</span></span></code></pre></div>
+<p>And setting a default for every chunk in the document, in the setup
+chunk at the top:</p>
+<div class="sourceCode" id="cb14"><pre
+class="sourceCode md foldable"><code class="sourceCode markdown"><span id="cb14-1"><a href="#cb14-1" tabindex="-1"></a><span class="in">```{r setup, include = FALSE}</span></span>
+<span id="cb14-2"><a href="#cb14-2" tabindex="-1"></a><span class="in">knitr::opts_chunk$set(warning = FALSE, message = FALSE)</span></span>
+<span id="cb14-3"><a href="#cb14-3" tabindex="-1"></a><span class="in">```</span></span></code></pre></div>
+<p>Note that the setup chunk itself uses <code>include = FALSE</code>,
+which is stronger than <code>echo = FALSE</code>: it hides the code
+<em>and</em> anything the chunk produces, so the chunk runs completely
+invisibly.</p>
 <p> </p>
 <p>11. Not every figure in a report is one that R drew. You might need a
 diagram, a photograph, a map, or a figure somebody else made. Add the
@@ -900,8 +885,8 @@ plot you exported in <strong>Exercise 6, Q9</strong>,
 <code>ex6_admissions.png</code>, to your report.</p>
 <p>The simplest way needs no chunk at all. Type this straight into your
 text, changing the path to wherever your file actually is:</p>
-<div class="sourceCode" id="cb17"><pre
-class="sourceCode md"><code class="sourceCode markdown"><span id="cb17-1"><a href="#cb17-1" tabindex="-1"></a><span class="al">![Alcohol-related hospital admissions by council area.](output/ex6_admissions.png)</span></span></code></pre></div>
+<div class="sourceCode" id="cb15"><pre
+class="sourceCode md"><code class="sourceCode markdown"><span id="cb15-1"><a href="#cb15-1" tabindex="-1"></a><span class="al">![Alcohol-related hospital admissions by council area.](output/ex6_admissions.png)</span></span></code></pre></div>
 <p>An exclamation mark, then the caption in square brackets, then the
 file path in round brackets. Knit and check the figure appears.</p>
 <p>If you no longer have the file, <a
@@ -910,28 +895,29 @@ your <code>output</code> directory, the one you created in
 <strong>Exercise 1, Q12</strong>.</p>
 <p>One thing that catches everybody out: the path is relative to where
 the <code>.Rmd</code> file is, not to your working directory. If the
-image does not appear, the path is almost always the reason.</p>
+image doesn’t appear, the path is almost always the reason.</p>
 <p>Typed straight into the text:</p>
-<div class="sourceCode" id="cb18"><pre
-class="sourceCode md"><code class="sourceCode markdown"><span id="cb18-1"><a href="#cb18-1" tabindex="-1"></a><span class="al">![Alcohol-related hospital admissions by council area.](output/ex6_admissions.png)</span></span></code></pre></div>
+<div class="sourceCode" id="cb16"><pre
+class="sourceCode md foldable"><code class="sourceCode markdown"><span id="cb16-1"><a href="#cb16-1" tabindex="-1"></a><span class="al">![Alcohol-related hospital admissions by council area.](output/ex6_admissions.png)</span></span></code></pre></div>
 <p>There is also an R way, inside a chunk, which gives you control over
-the size with <code>out.width</code>. You do not need it today, but it
-is there when you do:</p>
-<div class="sourceCode" id="cb19"><pre
-class="sourceCode md"><code class="sourceCode markdown"><span id="cb19-1"><a href="#cb19-1" tabindex="-1"></a><span class="in">```{r admissions-figure, out.width = &quot;80%&quot;, fig.cap = &#39;Alcohol-related hospital admissions by council area.&#39;}</span></span>
-<span id="cb19-2"><a href="#cb19-2" tabindex="-1"></a><span class="in">knitr::include_graphics(&quot;output/ex6_admissions.png&quot;)</span></span>
-<span id="cb19-3"><a href="#cb19-3" tabindex="-1"></a><span class="in">```</span></span></code></pre></div>
+the size with <code>out.width</code>. You don’t need it today, but it’s
+there when you do:</p>
+<div class="sourceCode" id="cb17"><pre
+class="sourceCode md foldable"><code class="sourceCode markdown"><span id="cb17-1"><a href="#cb17-1" tabindex="-1"></a><span class="in">```{r admissions-figure, out.width = &quot;80%&quot;, fig.cap = &#39;Alcohol-related hospital admissions by council area.&#39;}</span></span>
+<span id="cb17-2"><a href="#cb17-2" tabindex="-1"></a><span class="in">knitr::include_graphics(&quot;output/ex6_admissions.png&quot;)</span></span>
+<span id="cb17-3"><a href="#cb17-3" tabindex="-1"></a><span class="in">```</span></span></code></pre></div>
 <p> </p>
 <p>12. If you have time, here’s one of the nicer things about R
-markdown: the same source file will give you a completely different kind
-of document without you rewriting a word of it. In your YAML header,
-change <code>pdf_document</code> to <code>html_document</code> and knit.
-You’ll get a web page instead, built from exactly the same text, code
-and figures. While you’re there, add <code>toc_float: true</code> on its
-own line underneath <code>toc: true</code> and knit again to see the
-contents float alongside the page as you scroll. That option only works
-in HTML, so change the header back to <code>pdf_document</code> and
-delete the <code>toc_float</code> line before you finish.</p>
+markdown: the same R markdown file will give you a completely different
+kind of document without you rewriting a word of it. In your YAML
+header, change <code>pdf_document</code> to <code>html_document</code>
+and knit. You’ll get a web page instead, built from exactly the same
+text, code and figures. While you’re there, add
+<code>toc_float: true</code> on its own line underneath
+<code>toc: true</code> and knit again to see the contents float
+alongside the page as you scroll. That option only works in HTML, so
+change the header back to <code>pdf_document</code> and delete the
+<code>toc_float</code> line before you finish.</p>
 <p> </p>
 <div id="two-things-worth-knowing-about-but-not-now"
 class="section level3">
@@ -940,14 +926,14 @@ class="section level3">
 <p><strong>The visual editor.</strong> RStudio can show an R markdown
 document formatted as you type, more like a word processor, hiding the
 markdown syntax. You turn it on with the small compass icon at the top
-right of the editor. It is genuinely useful, especially for tables and
-links. We have deliberately left it until the end so that you learn what
-the markup actually is first, because when something goes wrong it is
-the markup you have to fix.</p>
+right of the editor. It’s genuinely useful, especially for tables and
+links. We’ve deliberately left it until the end so that you learn what
+the markup actually is first, because when something goes wrong it’s the
+markup you have to fix.</p>
 <p><strong>Quarto.</strong> Quarto is the successor to R markdown. It
 does the same job, works with languages other than R, and its syntax is
 so close that nearly everything in this exercise transfers unchanged. If
-you carry on using R after this course you will meet it. Start at <a
+you carry on using R after this course you’ll meet it. Start at <a
 href="https://quarto.org">quarto.org</a>.</p>
 <p> </p>
 <p>End of Exercise 7</p>

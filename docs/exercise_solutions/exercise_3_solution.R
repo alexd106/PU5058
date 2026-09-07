@@ -54,7 +54,7 @@ str(cardiac)
 
 # Why new variables rather than overwriting sex and smoking?
 #
-# 1. The raw codes survive. You can always check your recoding against what was
+# 1. The original codes survive. You can always check your recoding against what was
 #    actually in the file, and if you get the labels the wrong way round you can
 #    simply redo it. Overwrite, and the codes are gone from your session and the
 #    only way back is to import the file again.
@@ -73,21 +73,23 @@ summary(cardiac)
 # NOTE: only some of the columns are shown here, and not in their original
 # order, to save space
 
- #     Fsex        tchol           hdlchol       triglyceride        bmi        
- #  Female:78   Min.   : 4.120   Min.   :0.000   Min.   :0.000   Min.   : 17.57  
- #  Male  :85   1st Qu.: 6.140   1st Qu.:1.080   1st Qu.:1.040   1st Qu.: 22.88  
- #              Median : 6.830   Median :1.360   Median :1.380   Median : 25.20  
- #              Mean   : 6.978   Mean   :1.404   Mean   :1.547   Mean   : 28.72  
- #              3rd Qu.: 7.720   3rd Qu.:1.700   3rd Qu.:1.870   3rd Qu.: 28.24  
- #              Max.   :11.660   Max.   :3.000   Max.   :4.670   Max.   :514.60  
- #              NA's   :2        NA's   :2       NA's   :2                       
+ #     Fsex         sex           hdlchol       triglyceride        bmi        
+ #  Female:78   Min.   :1.000   Min.   :0.000   Min.   :0.000   Min.   : 17.57  
+ #  Male  :85   1st Qu.:1.000   1st Qu.:1.080   1st Qu.:1.040   1st Qu.: 22.88  
+ #              Median :2.000   Median :1.360   Median :1.380   Median : 25.20  
+ #              Mean   :1.521   Mean   :1.404   Mean   :1.547   Mean   : 28.72  
+ #              3rd Qu.:2.000   3rd Qu.:1.700   3rd Qu.:1.870   3rd Qu.: 28.24  
+ #              Max.   :2.000   Max.   :3.000   Max.   :4.670   Max.   :514.60  
+ #                              NA's   :2       NA's   :2                       
 
-# Fsex is a factor, so summary() counts patients: 78 women and 85 men. The
-# untouched sex column is still an integer, so summary() reports a
-# mean of 1.52 for it.
+# Fsex and sex are the same information side by side. Fsex is a factor, so
+# summary() counts patients and tells you there are 78 women and 85 men. sex is
+# still an integer, so summary() dutifully reports a median of 2 and a mean of
+# 1.521, neither of which means anything at all.
 
 # Four variables have missing values: tchol, hdlchol and triglyceride have 2
-# each, and smoking has 7.
+# each, and smoking has 7. Only hdlchol and triglyceride are visible above;
+# tchol and smoking are in the full output.
 
 # The maximum bmi is 514.60. A body mass index of 514 is not possible; the
 # heaviest person ever recorded had a BMI of around 200. Notice that nothing

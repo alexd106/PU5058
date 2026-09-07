@@ -73,7 +73,6 @@ length(cardiac$tchol)      # number of observations
 
 
 ## ----Q3b, echo=SOLUTIONS, tidy = TRUE-----------------------------------------
-# run it plainly first and see what the missing values do
 aggregate(cardiac[, c(2, 4, 5, 6)], by = list(smoking = cardiac$Fsmoking), FUN = mean)
 
 #   smoking      age systolic diastolic tchol
@@ -81,8 +80,17 @@ aggregate(cardiac[, c(2, 4, 5, 6)], by = list(smoking = cardiac$Fsmoking), FUN =
 # 2      Ex 66.40769 145.0385  77.48077  6.82
 # 3   Never 64.82019 139.2778  77.50000    NA
 
-# two missing values in 163 have wiped out two of the three means. na.rm = TRUE
-# is passed straight through to mean()
+# Two of the three cholesterol means have come back as NA. Remember those
+# missing values you have been tripping over since Exercise 3? They have not
+# gone away: tchol still has two, one belonging to a current smoker and one to a
+# never smoker, and mean() returns NA if even a single value handed to it is
+# missing. Two missing values out of 163 patients have wiped out two of the
+# three means, the age and blood pressure columns look perfectly healthy either
+# side of them, and nothing warned you.
+
+
+## ----Q4, echo=SOLUTIONS, tidy = TRUE------------------------------------------
+# na.rm = TRUE is passed straight through to mean()
 aggregate(cardiac[, c(2, 4, 5, 6)], by = list(smoking = cardiac$Fsmoking), FUN = mean, na.rm = TRUE)
 
 #   smoking      age systolic diastolic    tchol
@@ -93,11 +101,13 @@ aggregate(cardiac[, c(2, 4, 5, 6)], by = list(smoking = cardiac$Fsmoking), FUN =
 # two grouping variables, both named
 aggregate(cardiac[, c(2, 4, 5, 6)], by = list(smoking = cardiac$Fsmoking, sex = cardiac$Fsex), FUN = mean, na.rm = TRUE)
 
-# note that the 7 patients with no smoking status are dropped from every one of
-# these summaries. aggregate() has no group to put them in.
+# no, they are not all there. The 7 patients with no smoking status are dropped
+# from every one of these summaries, because aggregate() has no group to put
+# them in, and it does not tell you it has left them out. na.rm = TRUE fixed the
+# missing cholesterol values; it does nothing at all about missing groups.
 
 
-## ----Q4, echo=SOLUTIONS-------------------------------------------------------
+## ----Q5, echo=SOLUTIONS-------------------------------------------------------
 # using table
 table(cardiac$Fsmoking)
 
@@ -116,7 +126,7 @@ table(cardiac$Fsmoking, cardiac$Fsex)
 table(cardiac$Fsmoking, useNA = "ifany")
 
 
-## ----Q5, echo=SOLUTIONS, tidy = TRUE------------------------------------------
+## ----Q6, echo=SOLUTIONS, tidy = TRUE------------------------------------------
 cardiac$log_triglyceride <- log10(cardiac$triglyceride)
 
 mean(cardiac$triglyceride, na.rm = TRUE)         # 1.556
@@ -134,7 +144,7 @@ median(cardiac$log_triglyceride, na.rm = TRUE)   # 0.140
 # with, and it would have spread into everything you calculated next.
 
 
-## ----Q6, echo=SOLUTIONS, tidy = TRUE------------------------------------------
+## ----Q7, echo=SOLUTIONS, tidy = TRUE------------------------------------------
 followup <- read.table('data/cardiac_followup.txt', header = TRUE, sep = "\t", stringsAsFactors = TRUE)
 
 nrow(cardiac)     # 163 patients at the start of the study
@@ -149,7 +159,7 @@ nrow(cardiac_fu)  # 108
 # ALWAYS check the number of rows before and after a linkage.
 
 
-## ----Q7, echo=SOLUTIONS, tidy = TRUE------------------------------------------
+## ----Q8, echo=SOLUTIONS, tidy = TRUE------------------------------------------
 cardiac_all <- merge(cardiac, followup, by = "patno", all.x = TRUE)
 nrow(cardiac_all)                      # 163 - everybody is kept
 
@@ -159,7 +169,7 @@ sum(is.na(cardiac_all$systolic10))     # 55 patients have no follow-up
 # columns with NA. This is a left join.
 
 
-## ----Q8, echo=SOLUTIONS, tidy = TRUE------------------------------------------
+## ----Q9, echo=SOLUTIONS, tidy = TRUE------------------------------------------
 admissions <- read.table('data/cardiac_admissions.txt', header = TRUE, sep = "\t", stringsAsFactors = TRUE)
 
 # a)
@@ -179,7 +189,7 @@ cardiac_all$n_admissions[is.na(cardiac_all$n_admissions)] <- 0
 # answer is not always the same.
 
 
-## ----Q9, echo=SOLUTIONS, tidy = TRUE------------------------------------------
+## ----Q10, echo=SOLUTIONS, tidy = TRUE-----------------------------------------
 write.table(cardiac_all, "output/cardiac_clean.txt", col.names = TRUE, row.names = FALSE, sep = "\t")
 
 # Decision log - the sort of thing that belongs at the top of your script:

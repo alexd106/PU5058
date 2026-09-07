@@ -516,7 +516,7 @@ from Exercise 3, Q5 and the two factors from Exercise 3, Q7.</p>
 <span id="cb1-6"><a href="#cb1-6" tabindex="-1"></a>cardiac<span class="sc">$</span>Fsmoking <span class="ot">&lt;-</span> <span class="fu">factor</span>(cardiac<span class="sc">$</span>smoking, <span class="at">levels =</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">3</span>),</span>
 <span id="cb1-7"><a href="#cb1-7" tabindex="-1"></a>                           <span class="at">labels =</span> <span class="fu">c</span>(<span class="st">&quot;Current&quot;</span>, <span class="st">&quot;Ex&quot;</span>, <span class="st">&quot;Never&quot;</span>))</span></code></pre></div>
 <p> </p>
-<p>1. In Exercise 3 you learned how to pick out rows that meet a
+<p>1. In Exercise 3 you learned how to extract rows that meet a
 condition. You can use that skill to check whether your data are
 believable. This matters a lot: a value that is simply wrong will not
 stop your code running, will not produce a warning, and will quietly
@@ -569,20 +569,29 @@ does exactly this (see <a
 href="https://intro2r.com/summarising-data-frames.html#summarising-data-frames">Section
 3.5</a> of the Introduction to R book, or <code>?aggregate</code>). Use
 <code>aggregate()</code> to calculate the mean age, systolic pressure,
-diastolic pressure and total cholesterol for each smoking category. Then
-calculate the same means for each combination of smoking category and
-sex.</p>
-<p>The grouping variables go inside the <code>by</code> argument wrapped
-in <code>list()</code>, because a list is how <code>aggregate()</code>
-accepts more than one of them at once.</p>
-<p>A word of warning before you start. Remember those missing values you
-have been tripping over since Exercise 3? They have not gone away, and
-<code>tchol</code> still has two of them. Run your first
-<code>aggregate()</code> without any special handling, look hard at the
-<code>tchol</code> column, and only then reach for the
-<code>na.rm</code> argument.</p>
+diastolic pressure and total cholesterol for each smoking category.</p>
+<p>The grouping variable goes inside the <code>by</code> argument
+wrapped in <code>list()</code>, because a list is how
+<code>aggregate()</code> accepts more than one of them at once. Use
+<code>Fsmoking</code>, the factor you created in Exercise 3 Q7, rather
+than the original <code>smoking</code> column, so that your output comes
+back labelled Current, Ex and Never instead of 1, 2 and 3.</p>
+<p>Run it exactly as it comes, with no special handling of anything, and
+then look hard at the <code>tchol</code> column. Something has gone
+wrong. What, and why?</p>
 <p> </p>
-<p>4. Knowing how many observations are present for each category (or
+<p>4. Now fix it. <code>aggregate()</code> hands any extra arguments
+straight on to the function you asked it to use, so the
+<code>na.rm</code> argument you met in Exercise 3 Q11 works here too.
+Add it and check that all three cholesterol means appear.</p>
+<p>Then calculate the same means for each combination of smoking
+category and sex. Two grouping variables go inside the same
+<code>list()</code>, and again use the factor versions,
+<code>Fsmoking</code> and <code>Fsex</code>, rather than the original
+<code>smoking</code> and <code>sex</code> columns. When you have your
+answer, count up the patients in it. Are they all there?</p>
+<p> </p>
+<p>5. Knowing how many observations are present for each category (or
 combinations of categories) is useful to determine whether you have an
 adequate sample size (for subsequent modelling for example). Use the
 <code>table()</code> function to determine the number of patients in
@@ -590,16 +599,22 @@ each smoking category (see <a
 href="https://intro2r.com/summarising-data-frames.html#summarising-data-frames">Section
 3.5</a> again for more information). Next use the same function to
 display the number of patients for each combination of smoking category
-and sex. Does <code>table()</code> tell you about the patients whose
-smoking status is missing?</p>
+and sex. Use <code>Fsmoking</code> and <code>Fsex</code> here as well,
+so that your table is labelled rather than numbered. Does
+<code>table()</code> tell you about the patients whose smoking status is
+missing?</p>
 <p> </p>
-<p>5. Not every variable is symmetric, and several of the ones here are
-not. Look back at <code>triglyceride</code> in your
-<code>summary()</code> output. The mean sits noticeably above the
-median, which is the signature of a long right hand tail, a few patients
-with much higher values than everybody else pulling the average up.
-Transforming to a log scale pulls that tail in, and it is routine
-practice for blood lipids.</p>
+<p>6. Not every variable has its values distributed symmetrically about
+the centre, and several of the ones here do not. Look back at
+<code>triglyceride</code> in your <code>summary()</code> output. The
+mean, 1.556, sits above the median, 1.380, and the rest of the summary
+is lopsided in the same direction: the third quartile is 0.50 above the
+median while the first is only 0.32 below it, and the maximum is 3.29
+above while the minimum is 0.86 below. Everything is stretched out to
+the right, which is what a long right hand tail looks like in a table of
+numbers, a few patients with much higher values than everybody else.
+Transforming to a log scale pulls that tail in, and it is a common way
+to deal with this for blood lipids.</p>
 <p>Create a new variable in the <code>cardiac</code> dataframe called
 <code>log_triglyceride</code>, holding the base 10 logarithm of
 <code>triglyceride</code> (see <code>?log10</code>, and <a
@@ -627,7 +642,7 @@ href="https://intro2r.com/wrangling-data-frames.html#merging-data-frames">Sectio
 3.4.5</a> of the Introduction to R book), and the operation it performs
 is called a join.</p>
 <p> </p>
-<p>6. The patients in this study were followed up ten years after their
+<p>7. The patients in this study were followed up ten years after their
 first examination, and those follow-up measurements are held in a
 separate file. Download <em>‘cardiac_followup.txt’</em> from the
 <strong><a href="data.html"><i class="fa fa-download"></i>
@@ -642,7 +657,7 @@ inner join, which keeps only the patients who appear in both sources.
 How many rows does the linked dataframe have, and can you explain
 why?</p>
 <p> </p>
-<p>7. Losing 55 patients without being told is exactly the sort of thing
+<p>8. Losing 55 patients without being told is exactly the sort of thing
 that can ruin an analysis, and it is why you check row counts every
 single time you link two sources. Often what you actually want is a left
 join, which keeps every patient from the first dataframe whether or not
@@ -653,8 +668,17 @@ argument that switches <code>merge()</code> from an inner join to a left
 join. Redo the linkage keeping all 163 patients, assign it to
 <code>cardiac_all</code>, and check how many of them have a missing
 follow-up systolic pressure.</p>
+<p>That last part needs a way of counting missing values, which you have
+not met yet. <code>is.na()</code> takes a variable and returns
+<code>TRUE</code> or <code>FALSE</code> for every value in it,
+<code>TRUE</code> where the value is missing. <code>sum()</code> then
+counts those <code>TRUE</code>s for you, because R treats
+<code>TRUE</code> as 1 and <code>FALSE</code> as 0. So
+<code>sum(is.na(cardiac_all$systolic10))</code> reads as ‘how many
+follow-up systolic values are missing’. You will need it again in
+Q9.</p>
 <p> </p>
-<p>8. One last linkage, and this one has a twist in it. The patients
+<p>9. One last linkage, and this one has a twist in it. The patients
 were also followed up for hospital admissions over the same ten years.
 Download <em>‘cardiac_admissions.txt’</em> from the <strong><a
 href="data.html"><i class="fa fa-download"></i> Data</a></strong> link,
@@ -666,7 +690,7 @@ how these types of data are typically formatted.</p>
 <ol style="list-style-type: lower-alpha">
 <li><p>Merge the <code>admissions</code> dataframe and
 <code>cardiac_all</code>, keeping all 163 patients exactly as you did in
-Q7. Check you still have 163 rows, then count how many patients ended up
+Q8. Check you still have 163 rows, then count how many patients ended up
 with a missing <code>n_admissions</code>.</p></li>
 <li><p>Now the twist. Up until now, an <code>NA</code> has meant ‘there
 should be a value here and we do not have it (missing)’. Does it mean
@@ -674,14 +698,14 @@ that here? Work out what a missing <code>n_admissions</code> actually
 tells you about that patient (hint: should it actually be a value, and
 if so, what value). Once you have figured out what <code>NA</code>
 should actually represent, replace these <code>NA</code> values (hint:
-you cannot pick out missing values with a conditional statement like
+you cannot identify missing values with a conditional statement like
 <code>cardiac_all$n_admissions == NA</code>. Use the
-<code>is.na()</code> function instead, which you met in Q7.)</p></li>
+<code>is.na()</code> function from Q8 instead.)</p></li>
 </ol>
 <p> </p>
-<p>9. Ok, we have spent quite a bit of time (and energy) learning how to
-clean, summarise and link dataframes. The last thing we need to cover is
-how to export a dataframe from R to an external file (see <a
+<p>10. Ok, we have spent quite a bit of time (and energy) learning how
+to clean, summarise and link dataframes. The last thing we need to cover
+is how to export a dataframe from R to an external file (see <a
 href="https://intro2r.com/exporting-data.html#exporting-data">Section
 3.6</a> of the book for more details). Export your cleaned and linked
 dataframe <code>cardiac_all</code> to a file called ‘cardiac_clean.txt’

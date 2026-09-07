@@ -57,11 +57,14 @@ str(cardiac)
 
 \  
 
-5\. Patients in each combination of smoking status and sex. A table is still the right tool for this, but if you want it as a plot, `geom_bar()` will count for you.
+5\. Patients in each combination of smoking status and sex, including those with no smoking status recorded. A table is still the right tool for this, but if you want it as a plot, `geom_bar()` will count for you.
 
 ```{r Q5}
-table(cardiac$Fsmoking, cardiac$Fsex)
+table(cardiac$Fsmoking, cardiac$Fsex, useNA = "ifany")
 
+# all 7 patients with no smoking status are men. Note that ggplot2 will show
+# you the same thing without being asked: it gives the NAs a bar of their own
+# rather than dropping them silently.
 ggplot(data = cardiac, aes(x = Fsmoking, fill = Fsex)) +
   geom_bar(position = "dodge") +
   labs(x = "Smoking status", y = "Number of patients", fill = "Sex")
@@ -94,45 +97,47 @@ ggsave('output/gg_dotplot.pdf', plot = pall, device = 'pdf')
 
 \  
 
-7\. The impossible `bmi` value, and what the plot does about it.
+7\. The three impossible values from Exercise 4, and what the `bmi` one does to the plot.
 
 ```{r Q7}
 which(cardiac$bmi > 100)
 # [1] 161
 cardiac$bmi[161]
 # [1] 514.6
+
+# the same three fixes as the base R solutions, and for the same reason: you
+# imported the raw file again in Q4, so the cleaning has to run again
 cardiac$bmi[cardiac$bmi > 100] <- NA
+cardiac$triglyceride[cardiac$triglyceride == 0] <- NA
+cardiac$hdlchol[cardiac$hdlchol == 0] <- NA
 
 ggplot(data = cardiac) +
   geom_point(aes(x = bmi, y = as.numeric(rownames(cardiac)))) +
   ylab("")
 
-# As with the base R version, the remaining extreme values - a bmi of 51.46, a
-# systolic of 230, alcohol intakes of 64 and 82 units - are all perfectly
+# As with the base R version, the remaining extreme values - a bmi of 44.44, a
+# systolic of 230, alcohol intakes of 41, 64 and 82 units - are all perfectly
 # possible and must be left exactly as they are.
 ```
 
 \  
 
-8\. Histograms, and the effect of changing the bin width. `ggplot2` will warn you that it has picked a bin number for you, which is a good deal more honest than `hist()` doing it silently.
+8\. Histograms of `bmi` and `alcohol`, and the effect of changing the bin width. `ggplot2` will warn you that it has picked a bin number for you, which is a good deal more honest than `hist()` doing it silently.
 
 ```{r Q8}
-ggplot(data = cardiac) + geom_histogram(aes(bmi))
-ggplot(data = cardiac) + geom_histogram(aes(systolic))
-ggplot(data = cardiac) + geom_histogram(aes(tchol))
-ggplot(data = cardiac) + geom_histogram(aes(alcohol))
+g1 <- ggplot(data = cardiac) + geom_histogram(aes(bmi))
+g2 <- ggplot(data = cardiac) + geom_histogram(aes(alcohol))
+grid.arrange(g1, g2, nrow = 1)
 
-# experimenting with different bin widths on systolic
+# the same 163 systolic values at two bin widths
 b1 <- ggplot(data = cardiac) + geom_histogram(aes(systolic), binwidth = 20) + ggtitle("binwidth: 20")
-b2 <- ggplot(data = cardiac) + geom_histogram(aes(systolic), binwidth = 10) + ggtitle("binwidth: 10")
-b3 <- ggplot(data = cardiac) + geom_histogram(aes(systolic), binwidth = 5) + ggtitle("binwidth: 5")
-b4 <- ggplot(data = cardiac) + geom_histogram(aes(systolic), binwidth = 2) + ggtitle("binwidth: 2")
-grid.arrange(b1, b2, b3, b4, nrow = 2)
+b2 <- ggplot(data = cardiac) + geom_histogram(aes(systolic), binwidth = 2) + ggtitle("binwidth: 2")
+grid.arrange(b1, b2, nrow = 2)
 ```
 
 \  
 
-9\. Scatterplots, and transforming a skewed variable.
+9\. Scatterplots, and which variable belongs on which axis.
 
 ```{r Q9}
 ggplot(data = cardiac, aes(x = bmi, y = systolic)) +
@@ -144,7 +149,13 @@ ggplot(data = cardiac, aes(x = bmi, y = systolic)) +
 ggplot(data = cardiac, aes(x = triglyceride, y = hdlchol)) +
   geom_point() +
   labs(x = "triglyceride (mmol/l)", y = "HDL cholesterol (mmol/l)")
+```
 
+\  
+
+10\. Transforming a skewed variable.
+
+```{r Q10}
 cardiac$alcohol_sqrt <- sqrt(cardiac$alcohol)
 cardiac$alcohol_log  <- log(cardiac$alcohol)
 
@@ -160,24 +171,36 @@ grid.arrange(h1, h2, h3, nrow = 1)
 
 \  
 
-10\. Boxplots and violin plots by smoking status. Here `ggplot2` has a real advantage over base R: the violin plot needs no extra package, so no `vioplot` install, and you can lay the boxplot on top of it in the same figure.
+11\. Boxplots and violin plots by smoking status, for HDL cholesterol and then for total cholesterol. Here `ggplot2` has a real advantage over base R: the violin plot needs no extra package, so no `vioplot` install, and you can lay the boxplot on top of it in the same figure.
 
-```{r Q10}
+```{r Q11}
+ggplot(data = cardiac, aes(x = Fsmoking, y = hdlchol)) +
+  geom_boxplot() +
+  labs(x = "smoking status", y = "HDL cholesterol (mmol/l)")
+
 ggplot(data = cardiac, aes(x = Fsmoking, y = tchol)) +
   geom_boxplot() +
   labs(x = "smoking status", y = "total cholesterol (mmol/l)")
 
-ggplot(data = cardiac, aes(x = Fsmoking, y = tchol)) +
+# HDL separates the groups and total cholesterol does not, exactly as in the
+# base R solutions. Report both.
+
+ggplot(data = cardiac, aes(x = Fsmoking, y = hdlchol)) +
   geom_violin(fill = "lightblue") +
   geom_boxplot(width = 0.1) +
-  labs(x = "smoking status", y = "total cholesterol (mmol/l)")
+  labs(x = "smoking status", y = "HDL cholesterol (mmol/l)")
+
+# on exporting, which the base R exercise leaves until Exercise 6: `ggsave()`
+# replaces the pdf() / dev.off() sandwich, works out the format from the file
+# extension, and saves the last plot you drew unless you hand it one
+# ggsave('output/ex5_hdl_ggplot.png', width = 7, height = 5, dpi = 300)
 ```
 
 \  
 
-11\. A pairs plot. `GGally::ggpairs()` is the `ggplot2` equivalent of `pairs()`, and gives you the histograms and correlations without having to write panel functions.
+12\. A pairs plot. `GGally::ggpairs()` is the `ggplot2` equivalent of `pairs()`, and gives you the histograms and correlations without having to write panel functions. That also makes the optional Q13 in the base R solutions unnecessary here: the correlations you would have had to write a `panel_cor()` function for are printed for you.
 
-```{r Q11}
+```{r Q12}
 ggpairs(cardiac[, c("age", "systolic", "diastolic", "tchol", "hdlchol",
                     "triglyceride", "bmi")])
 
@@ -189,19 +212,6 @@ ggpairs(cardiac[, c("systolic", "diastolic", "tchol", "bmi", "Fsex")],
 \  
 
 The `ggplot2` version of the Exercise 6 communication plot is at the end of [Exercise 6](exercise_6.html){target="_blank"} itself.
-
-\  
-
-12\. Exporting a plot. `ggsave()` replaces the `pdf()` / `dev.off()` sandwich, works out the format from the file extension, and saves the last plot you drew unless you hand it one.
-
-```{r Q12}
-chol_plot <- ggplot(data = cardiac, aes(x = Fsmoking, y = tchol)) +
-  geom_boxplot() +
-  labs(x = "smoking status", y = "total cholesterol (mmol/l)")
-
-ggsave('output/ex5_cholesterol_ggplot.pdf', chol_plot, width = 7, height = 5)
-ggsave('output/ex5_cholesterol_ggplot.png', chol_plot, width = 7, height = 5, dpi = 300)
-```
 
 \  
 

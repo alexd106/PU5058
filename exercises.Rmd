@@ -38,7 +38,7 @@ cat("Exercises will be released as the course progresses")
 ex_text <- c(": Getting to know R and RStudio", ": Basic R operations", 
              ": Importing, inspecting and subsetting data", 
              ": Cleaning, summarising and linking data",
-             ": Visualising data using base R",
+             ": Exploratory analysis and graphics",
              ": Graphics for communication",
              ": Reproducible reports with R markdown",
              ": Data analysis using R",

@@ -559,8 +559,9 @@ textbooks, though, this dataset is not complete. A few values are
 missing, and wherever a measurement was not recorded the cell in the
 file holds <code>NA</code>, which is how R writes a missing value and
 what it will expect to find when it imports the file. On top of that, at
-least one value is present but cannot possibly be correct. Finding both
-is part of your job over this practical and the next.</p>
+least one value is present but cannot possibly be correct. Tracking down
+both kinds of problem, the values that are missing and the values that
+are wrong, is part of your job over this practical and the next.</p>
 <p> </p>
 <p>5. Now let’s import the <em>‘cardiacdata.txt’</em> file into R. To do
 this you will use the workhorse function of data importing,
@@ -571,8 +572,10 @@ settings, get into the habit of writing out the arguments you care about
 every time. <code>header</code> tells R whether the first row contains
 the variable names, <code>sep</code> tells it what separates one value
 from the next, and <code>stringsAsFactors</code> tells it whether to
-convert text to factors. Being explicit costs you a few seconds and
-saves you a great deal of confusion later. Assign the imported data to a
+convert text to factors. That last one is not idle here:
+<code>patno</code> is text rather than a number, so it is the one column
+the argument acts on. Being explicit costs you a few seconds and saves
+you a great deal of confusion later. Assign the imported data to a
 variable with an appropriate name (such as <code>cardiac</code>). Take a
 look at <a
 href="https://intro2r.com/importing-data.html#import_fnc">Section
@@ -672,7 +675,7 @@ Have a think about it before you reveal the answer.</p>
 <span id="cb3-18"><a href="#cb3-18" tabindex="-1"></a></span>
 <span id="cb3-19"><a href="#cb3-19" tabindex="-1"></a><span class="co"># Why new variables rather than overwriting sex and smoking?</span></span>
 <span id="cb3-20"><a href="#cb3-20" tabindex="-1"></a><span class="co">#</span></span>
-<span id="cb3-21"><a href="#cb3-21" tabindex="-1"></a><span class="co"># 1. The raw codes survive. You can always check your recoding against what was</span></span>
+<span id="cb3-21"><a href="#cb3-21" tabindex="-1"></a><span class="co"># 1. The original codes survive. You can always check your recoding against what was</span></span>
 <span id="cb3-22"><a href="#cb3-22" tabindex="-1"></a><span class="co">#    actually in the file, and if you get the labels the wrong way round you can</span></span>
 <span id="cb3-23"><a href="#cb3-23" tabindex="-1"></a><span class="co">#    simply redo it. Overwrite, and the codes are gone from your session and the</span></span>
 <span id="cb3-24"><a href="#cb3-24" tabindex="-1"></a><span class="co">#    only way back is to import the file again.</span></span>
@@ -704,27 +707,29 @@ on to that thought until Exercise 4.</p>
 <span id="cb4-3"><a href="#cb4-3" tabindex="-1"></a><span class="co"># </span><span class="al">NOTE</span><span class="co">: only some of the columns are shown here, and not in their original</span></span>
 <span id="cb4-4"><a href="#cb4-4" tabindex="-1"></a><span class="co"># order, to save space</span></span>
 <span id="cb4-5"><a href="#cb4-5" tabindex="-1"></a></span>
-<span id="cb4-6"><a href="#cb4-6" tabindex="-1"></a> <span class="co">#     Fsex        tchol           hdlchol       triglyceride        bmi        </span></span>
-<span id="cb4-7"><a href="#cb4-7" tabindex="-1"></a> <span class="co">#  Female:78   Min.   : 4.120   Min.   :0.000   Min.   :0.000   Min.   : 17.57  </span></span>
-<span id="cb4-8"><a href="#cb4-8" tabindex="-1"></a> <span class="co">#  Male  :85   1st Qu.: 6.140   1st Qu.:1.080   1st Qu.:1.040   1st Qu.: 22.88  </span></span>
-<span id="cb4-9"><a href="#cb4-9" tabindex="-1"></a> <span class="co">#              Median : 6.830   Median :1.360   Median :1.380   Median : 25.20  </span></span>
-<span id="cb4-10"><a href="#cb4-10" tabindex="-1"></a> <span class="co">#              Mean   : 6.978   Mean   :1.404   Mean   :1.547   Mean   : 28.72  </span></span>
-<span id="cb4-11"><a href="#cb4-11" tabindex="-1"></a> <span class="co">#              3rd Qu.: 7.720   3rd Qu.:1.700   3rd Qu.:1.870   3rd Qu.: 28.24  </span></span>
-<span id="cb4-12"><a href="#cb4-12" tabindex="-1"></a> <span class="co">#              Max.   :11.660   Max.   :3.000   Max.   :4.670   Max.   :514.60  </span></span>
-<span id="cb4-13"><a href="#cb4-13" tabindex="-1"></a> <span class="co">#              NA&#39;s   :2        NA&#39;s   :2       NA&#39;s   :2                       </span></span>
+<span id="cb4-6"><a href="#cb4-6" tabindex="-1"></a> <span class="co">#     Fsex         sex           hdlchol       triglyceride        bmi        </span></span>
+<span id="cb4-7"><a href="#cb4-7" tabindex="-1"></a> <span class="co">#  Female:78   Min.   :1.000   Min.   :0.000   Min.   :0.000   Min.   : 17.57  </span></span>
+<span id="cb4-8"><a href="#cb4-8" tabindex="-1"></a> <span class="co">#  Male  :85   1st Qu.:1.000   1st Qu.:1.080   1st Qu.:1.040   1st Qu.: 22.88  </span></span>
+<span id="cb4-9"><a href="#cb4-9" tabindex="-1"></a> <span class="co">#              Median :2.000   Median :1.360   Median :1.380   Median : 25.20  </span></span>
+<span id="cb4-10"><a href="#cb4-10" tabindex="-1"></a> <span class="co">#              Mean   :1.521   Mean   :1.404   Mean   :1.547   Mean   : 28.72  </span></span>
+<span id="cb4-11"><a href="#cb4-11" tabindex="-1"></a> <span class="co">#              3rd Qu.:2.000   3rd Qu.:1.700   3rd Qu.:1.870   3rd Qu.: 28.24  </span></span>
+<span id="cb4-12"><a href="#cb4-12" tabindex="-1"></a> <span class="co">#              Max.   :2.000   Max.   :3.000   Max.   :4.670   Max.   :514.60  </span></span>
+<span id="cb4-13"><a href="#cb4-13" tabindex="-1"></a> <span class="co">#                              NA&#39;s   :2       NA&#39;s   :2                       </span></span>
 <span id="cb4-14"><a href="#cb4-14" tabindex="-1"></a></span>
-<span id="cb4-15"><a href="#cb4-15" tabindex="-1"></a><span class="co"># Fsex is a factor, so summary() counts patients: 78 women and 85 men. The</span></span>
-<span id="cb4-16"><a href="#cb4-16" tabindex="-1"></a><span class="co"># untouched sex column is still an integer, so summary() reports a</span></span>
-<span id="cb4-17"><a href="#cb4-17" tabindex="-1"></a><span class="co"># mean of 1.52 for it.</span></span>
-<span id="cb4-18"><a href="#cb4-18" tabindex="-1"></a></span>
-<span id="cb4-19"><a href="#cb4-19" tabindex="-1"></a><span class="co"># Four variables have missing values: tchol, hdlchol and triglyceride have 2</span></span>
-<span id="cb4-20"><a href="#cb4-20" tabindex="-1"></a><span class="co"># each, and smoking has 7.</span></span>
-<span id="cb4-21"><a href="#cb4-21" tabindex="-1"></a></span>
-<span id="cb4-22"><a href="#cb4-22" tabindex="-1"></a><span class="co"># The maximum bmi is 514.60. A body mass index of 514 is not possible; the</span></span>
-<span id="cb4-23"><a href="#cb4-23" tabindex="-1"></a><span class="co"># heaviest person ever recorded had a BMI of around 200. Notice that nothing</span></span>
-<span id="cb4-24"><a href="#cb4-24" tabindex="-1"></a><span class="co"># went wrong when you imported the file, and R will happily calculate a mean</span></span>
-<span id="cb4-25"><a href="#cb4-25" tabindex="-1"></a><span class="co"># from it (28.72, when the median is 25.20). It is simply a wrong number sitting</span></span>
-<span id="cb4-26"><a href="#cb4-26" tabindex="-1"></a><span class="co"># quietly in a column of right ones. You will deal with it in Exercise 4.</span></span></code></pre></div>
+<span id="cb4-15"><a href="#cb4-15" tabindex="-1"></a><span class="co"># Fsex and sex are the same information side by side. Fsex is a factor, so</span></span>
+<span id="cb4-16"><a href="#cb4-16" tabindex="-1"></a><span class="co"># summary() counts patients and tells you there are 78 women and 85 men. sex is</span></span>
+<span id="cb4-17"><a href="#cb4-17" tabindex="-1"></a><span class="co"># still an integer, so summary() dutifully reports a median of 2 and a mean of</span></span>
+<span id="cb4-18"><a href="#cb4-18" tabindex="-1"></a><span class="co"># 1.521, neither of which means anything at all.</span></span>
+<span id="cb4-19"><a href="#cb4-19" tabindex="-1"></a></span>
+<span id="cb4-20"><a href="#cb4-20" tabindex="-1"></a><span class="co"># Four variables have missing values: tchol, hdlchol and triglyceride have 2</span></span>
+<span id="cb4-21"><a href="#cb4-21" tabindex="-1"></a><span class="co"># each, and smoking has 7. Only hdlchol and triglyceride are visible above;</span></span>
+<span id="cb4-22"><a href="#cb4-22" tabindex="-1"></a><span class="co"># tchol and smoking are in the full output.</span></span>
+<span id="cb4-23"><a href="#cb4-23" tabindex="-1"></a></span>
+<span id="cb4-24"><a href="#cb4-24" tabindex="-1"></a><span class="co"># The maximum bmi is 514.60. A body mass index of 514 is not possible; the</span></span>
+<span id="cb4-25"><a href="#cb4-25" tabindex="-1"></a><span class="co"># heaviest person ever recorded had a BMI of around 200. Notice that nothing</span></span>
+<span id="cb4-26"><a href="#cb4-26" tabindex="-1"></a><span class="co"># went wrong when you imported the file, and R will happily calculate a mean</span></span>
+<span id="cb4-27"><a href="#cb4-27" tabindex="-1"></a><span class="co"># from it (28.72, when the median is 25.20). It is simply a wrong number sitting</span></span>
+<span id="cb4-28"><a href="#cb4-28" tabindex="-1"></a><span class="co"># quietly in a column of right ones. You will deal with it in Exercise 4.</span></span></code></pre></div>
 <p> </p>
 <p>9. Summarising and manipulating dataframes is a key skill to acquire
 when learning R. Although there are many ways to do this, we will
@@ -775,11 +780,12 @@ columns by default) based on the following criteria (note: you will need
 to assign the results of these statements to appropriately named
 variables, I’ll leave it up to you to use informative names!). You now
 have properly labelled <code>Fsex</code> and <code>Fsmoking</code>
-variables, so use those rather than the raw codes. Your conditions will
-then read like English and you will not have to keep looking up which
-number means what:</p>
+variables, so use those rather than the original <code>sex</code> and
+<code>smoking</code> variables. Your conditions will then read like
+English and you will not have to keep looking up which number means
+what:</p>
 <ul>
-<li>systolic blood pressure greater than 160 mmHg</li>
+<li>patients with a systolic blood pressure greater than 160 mmHg</li>
 <li>male patients who have never smoked and whose diastolic pressure is
 greater than the median diastolic pressure (76 mmHg)</li>
 <li>all patients who are not ex-smokers</li>

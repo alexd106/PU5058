@@ -78,7 +78,7 @@ Note this is a *different* Project from the one you have used for Exercises 1 to
 
 a) Using your computer's file manager (Finder on a Mac, File Explorer on Windows), make a `data` folder inside your new Project folder and copy `cardiacdata.txt` into it. You are copying it because this is a different Project from the one you have been using.
 
-b) In RStudio, create a new R script (`File` -> `New File` -> `R Script`) and save it as `cardiac_analysis.R`. In it, import the data with `read.table()` as you did in **Exercise 3, Q5**, and draw the boxplot of total cholesterol by smoking status from **Exercise 5, Q10**. Do not forget the factor recoding from **Exercise 5, Q4**. Save the file.
+b) In RStudio, create a new R script (`File` -> `New File` -> `R Script`) and save it as `cardiac_analysis.R`. In it, import the data with `read.table()` as you did in **Exercise 3, Q5**, and draw the boxplot of total cholesterol by smoking status from **Exercise 5, Q11**. Do not forget the factor recoding from **Exercise 5, Q4**. Save the file.
 
 c) Look at the Git pane. `cardiac_analysis.R` has appeared with a yellow `?` beside it, meaning Git can see it but is not yet keeping track of it. Tick the **Staged** box next to it. The icon changes to a green `A`, for 'added'.
 

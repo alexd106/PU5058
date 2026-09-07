@@ -448,8 +448,9 @@ textbooks, though, this dataset is not complete. A few values are
 missing, and wherever a measurement was not recorded the cell in the
 file holds <code>NA</code>, which is how R writes a missing value and
 what it will expect to find when it imports the file. On top of that, at
-least one value is present but cannot possibly be correct. Finding both
-is part of your job over this practical and the next.</p>
+least one value is present but cannot possibly be correct. Tracking down
+both kinds of problem, the values that are missing and the values that
+are wrong, is part of your job over this practical and the next.</p>
 <p> </p>
 <p>5. Now let’s import the <em>‘cardiacdata.txt’</em> file into R. To do
 this you will use the workhorse function of data importing,
@@ -460,8 +461,10 @@ settings, get into the habit of writing out the arguments you care about
 every time. <code>header</code> tells R whether the first row contains
 the variable names, <code>sep</code> tells it what separates one value
 from the next, and <code>stringsAsFactors</code> tells it whether to
-convert text to factors. Being explicit costs you a few seconds and
-saves you a great deal of confusion later. Assign the imported data to a
+convert text to factors. That last one is not idle here:
+<code>patno</code> is text rather than a number, so it is the one column
+the argument acts on. Being explicit costs you a few seconds and saves
+you a great deal of confusion later. Assign the imported data to a
 variable with an appropriate name (such as <code>cardiac</code>). Take a
 look at <a
 href="https://intro2r.com/importing-data.html#import_fnc">Section
@@ -562,11 +565,12 @@ columns by default) based on the following criteria (note: you will need
 to assign the results of these statements to appropriately named
 variables, I’ll leave it up to you to use informative names!). You now
 have properly labelled <code>Fsex</code> and <code>Fsmoking</code>
-variables, so use those rather than the raw codes. Your conditions will
-then read like English and you will not have to keep looking up which
-number means what:</p>
+variables, so use those rather than the original <code>sex</code> and
+<code>smoking</code> variables. Your conditions will then read like
+English and you will not have to keep looking up which number means
+what:</p>
 <ul>
-<li>systolic blood pressure greater than 160 mmHg</li>
+<li>patients with a systolic blood pressure greater than 160 mmHg</li>
 <li>male patients who have never smoked and whose diastolic pressure is
 greater than the median diastolic pressure (76 mmHg)</li>
 <li>all patients who are not ex-smokers</li>

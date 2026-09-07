@@ -35,7 +35,7 @@ if (SOLUTIONS) {
 
 \  
 
-## Exercise 5: Visualising data using base R
+## Exercise 5: Exploratory analysis and graphics
 
 \  
 
@@ -77,7 +77,7 @@ str(cardiac)
 
 \  
 
-5\. How many patients are there in each combination of smoking status and sex (hint: remember the `table()` function?)? Don't forget to use the factor recoded versions of these variables. Is the split between the smoking categories similar for women and men? Are any of the combinations small enough to worry about if you wanted to compare them?
+5\. How many patients are there in each combination of smoking status and sex (hint: remember the `table()` function?)? Don't forget to use the factor recoded versions of these variables. Is the split between the smoking categories similar for women and men? Are any of the combinations small enough to worry about if you wanted to compare them? Finally, run the table again with the argument `useNA = "ifany"` so that the patients with no recorded smoking status appear as a row of their own. How many are there, and is there anything they have in common?
 
 ```{r Q5, echo=SOLUTIONS, eval=SOLUTIONS}
 table(cardiac$Fsmoking, cardiac$Fsex)
@@ -91,8 +91,19 @@ table(cardiac$Fsmoking, cardiac$Fsex)
 # ex-smokers, most of the women have never smoked. The smallest cell has 15
 # patients, which is small but not unusable.
 
-# and don't forget the 7 patients with no smoking status recorded
 table(cardiac$Fsmoking, cardiac$Fsex, useNA = "ifany")
+
+  #           Female Male
+  # Current       26   24
+  # Ex            15   37
+  # Never         37   17
+  # <NA>           0    7
+
+# all 7 of the patients with no smoking status are men, and not one is a
+# woman. Missing values spread evenly through a dataset are a nuisance;
+# missing values concentrated in one group are a bias, because every analysis
+# that quietly drops them drops men only. You cannot tell which you have
+# without looking, and `useNA = "ifany"` is how you look.
 ```
 
 \  
@@ -114,25 +125,34 @@ dotchart(cardiac$alcohol, main = "alcohol")
 
 \  
 
-7\. You met that extreme `bmi` value in Exercise 4, when you checked the ranges with `summary()` and found a maximum of 514.60. A body mass index of 514 is not possible: it is 51.46 with the decimal point in the wrong place. What the dotplot adds is not the discovery, but the damage. One bad value has made the plot useless for looking at the other 162 patients. Use the `which()` function to identify which observation it is, confirm the value with the square bracket `[ ]` notation, set it to `NA` as you did in Exercise 4, and then redraw the `bmi` dotchart. Now look again at all four plots from Q6. Several points still sit well away from the rest. Which ones, and what should you do about them?
+7\. You met that extreme `bmi` value in Exercise 4, when you checked the ranges with `summary()` and found a maximum of 514.60. A body mass index of 514 is not possible: it is 51.46 with the decimal point in the wrong place. What the dotplot adds is not the discovery, but the damage. One bad value has made the plot useless for looking at the other 162 patients.
+
+Remember that you imported the raw file again in Q4, so none of the cleaning you did in Exercise 4 is in this dataframe. Redo all three of those fixes now. Use the `which()` function to identify which observation the impossible `bmi` is, confirm the value with the square bracket `[ ]` notation, then set that `bmi`, the single `triglyceride` of 0 and the two `hdlchol` values of 0 to `NA`, exactly as you did in Exercise 4. Redraw the `bmi` dotchart. Now look again at all four plots from Q6. Several points still sit well away from the rest. Which ones, and what should you do about them?
 
 ```{r Q7, echo=SOLUTIONS, eval=SOLUTIONS}
 which(cardiac$bmi > 100)
 cardiac$bmi[161]
+
+# the same three fixes you made in Exercise 4 Q1. Your cleaning lives in your
+# script, not in the data file, so it has to run again every time you import
+# the raw data. That is exactly what makes it reproducible, and it is the
+# reason for writing it down rather than editing the spreadsheet.
 cardiac$bmi[cardiac$bmi > 100] <- NA
+cardiac$triglyceride[cardiac$triglyceride == 0] <- NA
+cardiac$hdlchol[cardiac$hdlchol == 0] <- NA
 
 dotchart(cardiac$bmi, main = "bmi")
 
 # Now the bmi plot is readable, and you can see the distribution properly:
-# most patients between about 20 and 30, thinning out to a handful above 35,
-# with one patient at 51.46.
+# most patients between about 20 and 30, thinning out to four patients above
+# 35, the largest of them at 44.44.
 
-# What else stands out? One patient with a bmi of 51.46, one with a systolic
+# What else stands out? One patient with a bmi of 44.44, one with a systolic
 # pressure of 230 mmHg, and in the alcohol plot a handful of patients reporting
 # 41, 64 and 82 units in a week when the median is 2.
 
 # What should you do about them? NOTHING. Every one of those values is
-# perfectly possible. A BMI of 51 is severe obesity, a systolic pressure of 230
+# perfectly possible. A BMI of 44 is severe obesity, a systolic pressure of 230
 # is a hypertensive crisis, and 82 units a week is a great deal of alcohol but
 # people really do drink that much. These are not errors, they are patients.
 # The difference between this question and the last one is the difference
@@ -143,16 +163,19 @@ dotchart(cardiac$bmi, main = "bmi")
 
 \  
  
-8\. Histograms are the standard way of looking at the distribution of a continuous variable (see [Section 4.2.2](https://intro2r.com/simple-base-r-plots.html#histograms)). Create histograms for `bmi`, `systolic`, `tchol` and `alcohol`, either separately or in one figure as you did in Q6.
+8\. Histograms are the standard way of looking at the distribution of a continuous variable (see [Section 4.2.2](https://intro2r.com/simple-base-r-plots.html#histograms)). Create histograms for `bmi` and `alcohol`, either separately or in one figure as you did in Q6. The two shapes could hardly be less alike, and it is worth taking a moment to say how they differ.
 
 One thing to be careful of is that a histogram can look quite different depending on the number of 'breaks' used. The `hist()` function chooses breaks for you, but they are only a suggestion. Redraw the histogram of `systolic` twice, once with wide bins and once with narrow ones, and compare them. Which one would you show somebody, and what does the difference tell you about how much you should trust the shape of a histogram?
 
-```{r Q8, echo=SOLUTIONS, eval=SOLUTIONS, fig.width=8, fig.height=7}
-par(mfrow = c(2, 2))
+```{r Q8, echo=SOLUTIONS, eval=SOLUTIONS, fig.width=8, fig.height=6}
+par(mfrow = c(1, 2))
 hist(cardiac$bmi, main = "", xlab = "bmi")
-hist(cardiac$systolic, main = "", xlab = "systolic")
-hist(cardiac$tchol, main = "", xlab = "total cholesterol")
 hist(cardiac$alcohol, main = "", xlab = "alcohol (units/week)")
+
+# bmi is roughly symmetric, a recognisable hump with a modest tail to the
+# right. alcohol is nothing of the sort: a huge spike at zero and a long thin
+# tail stretching out to 82 units. Hold on to that difference, you come back
+# to it in Q10.
 
 # wide bins and narrow bins, drawn from exactly the same 163 numbers
 par(mfrow = c(2, 1))
@@ -162,8 +185,10 @@ hist(cardiac$systolic, xlab = "systolic", main = "bins of 2 mmHg",
      breaks = seq(from = 100, to = 240, by = 2))
 
 # with 20 mmHg bins the distribution looks smooth and roughly symmetric; with
-# 2 mmHg bins it looks spiky and full of gaps, because blood pressure is
-# recorded in whole even numbers. The data have not changed, only the picture.
+# 2 mmHg bins it looks spiky and full of gaps. Nothing about the patients has
+# changed, only the picture. The 2 mmHg version cuts 163 patients into 70 bins,
+# so a typical bin holds two people and one patient either way visibly changes
+# its height. Narrow bins do not show you more detail, they show you noise.
 # Treat the shape of a histogram as a rough guide, not as evidence.
 ```
 
@@ -173,9 +198,7 @@ hist(cardiac$systolic, xlab = "systolic", main = "bins of 2 mmHg",
 
 Start with `bmi` and `systolic` blood pressure. Which is the explanatory variable, and which the response? Plot them the right way round. Now do the same for `hdlchol` and `triglyceride`. Is the choice as easy this time?
 
-Finally, look at `alcohol`. It is badly skewed, and skew is a nuisance in a plot because most of the points end up squashed into a corner. In Exercise 4 Q5 you took logs of `triglyceride` and it worked nicely. Try two transformations here, a square root with `sqrt()` and a natural log with `log()`, storing each as a new variable in the dataframe, then plot histograms of `alcohol` alongside both. One of the two goes badly wrong. Which one, and why? (hint: what is the smallest value of `alcohol`?)
-
-```{r Q9, echo=SOLUTIONS, eval=SOLUTIONS, fig.width=9, fig.height=4}
+```{r Q9, echo=SOLUTIONS, eval=SOLUTIONS, fig.width=9, fig.height=4.5}
 par(mfrow = c(1, 2))
 
 # Easy one. Carrying more weight raises blood pressure, not the other way round,
@@ -190,8 +213,13 @@ plot(cardiac$bmi, cardiac$systolic,
 # on x. The relationship is negative.
 plot(cardiac$triglyceride, cardiac$hdlchol,
      xlab = "triglyceride (mmol/l)", ylab = "HDL cholesterol (mmol/l)")
+```
 
-# transforming a skewed variable
+\  
+
+10\. Now back to `alcohol`, which your histogram in Q8 showed to be badly skewed. Skew is a nuisance in a plot because most of the points end up squashed into a corner. In Exercise 4 Q6 you took logs of `triglyceride` and it worked nicely. Try two transformations here, a square root with `sqrt()` and a natural log with `log()`, storing each as a new variable in the dataframe, then plot histograms of `alcohol` alongside both. One of the two goes badly wrong. Which one, and why? (hint: what is the smallest value of `alcohol`?)
+
+```{r Q10, echo=SOLUTIONS, eval=SOLUTIONS, fig.width=9, fig.height=4}
 cardiac$alcohol_sqrt <- sqrt(cardiac$alcohol)
 cardiac$alcohol_log  <- log(cardiac$alcohol)
 
@@ -207,37 +235,60 @@ sum(cardiac$alcohol == 0)   # 58
 # plot with nothing more than a warning. The square root works, because sqrt(0)
 # is 0, and it pulls the long tail in nicely.
 
-# Triglyceride logged cleanly in Exercise 4 because it has no zeros in it.
-# Alcohol does. Check the minimum before you take the log of anything.
+# Triglyceride logged cleanly in Exercise 4 only because you had already set
+# its one zero to NA in Q1 of that exercise, and you did the same again in Q7
+# above. The zeros in alcohol are quite different: they are real, and they are
+# more than a third of the patients, so there is nothing to set to NA. Check
+# the minimum before you take the log of anything.
 ```
 
 \  
 
-10\. When visualising differences in a continuous variable between levels of a factor (categorical variable) then a boxplot is your friend (avoid using bar plots - Google 'bar plots are evil' for more info). Create a boxplot to visualise the differences in total cholesterol at each level of smoking status (don't forget to use the recoded version of this variable you created in Q4). Include x and y axis labels in your plot. Make sure you understand the anatomy of a boxplot before moving on - please ask if you're not sure (also see [Section 4.2.3](https://intro2r.com/simple-base-r-plots.html#box-and-violin-plots) of the book).
+11\. When visualising differences in a continuous variable between levels of a factor (categorical variable) then a boxplot is your friend (avoid using bar plots - Google 'bar plots are evil' for more info). Create a boxplot to visualise the differences in HDL cholesterol at each level of smoking status (don't forget to use the recoded version of this variable you created in Q4). Include x and y axis labels in your plot. Make sure you understand the anatomy of a boxplot before moving on - please ask if you're not sure (also see [Section 4.2.3](https://intro2r.com/simple-base-r-plots.html#box-and-violin-plots) of the book).
 
-An alternative to the boxplot is the violin plot, which combines a boxplot with a [kernel density plot](https://www.statmethods.net/graphs/density.html) and shows you the shape of the distribution rather than just its quartiles. You will first need to install the `vioplot` package from CRAN and make it available with `library(vioplot)`. The `vioplot()` function then works in much the same way as `boxplot()`. Draw the same comparison as a violin plot and compare the two.
+Now draw exactly the same plot for total cholesterol instead. Same patients, same factor, one line of code different, and the two figures do not say remotely the same thing. Which of the two shows a difference between the groups? And if you were writing this up, which would you be tempted to leave out?
 
-```{r Q10, echo=SOLUTIONS, eval=SOLUTIONS, tidy = TRUE}
+An alternative to the boxplot is the violin plot, which combines a boxplot with a [kernel density plot](https://www.statmethods.net/graphs/density.html) and shows you the shape of the distribution rather than just its quartiles. You will first need to install the `vioplot` package from CRAN and make it available with `library(vioplot)`. The `vioplot()` function then works in much the same way as `boxplot()`. Draw the HDL comparison again as a violin plot and compare the two.
+
+One last thing. Every plot in this exercise has gone to the RStudio plot pane, which is fine while you are exploring but no use at all when you need a figure in a document. To get a plot out of R you send it to a file instead, by opening a graphics device with `pdf()` or `png()`, drawing the plot as usual, and closing the device with `dev.off()`. You will do this properly in Exercise 6, so there is nothing to do here beyond knowing that it is coming.
+
+```{r Q11, echo=SOLUTIONS, eval=SOLUTIONS}
 # note: Fsmoking is the recoded smoking variable created in Q4
-boxplot(tchol ~ Fsmoking, data = cardiac, xlab = "smoking status", ylab = "total cholesterol (mmol/l)")
+boxplot(hdlchol ~ Fsmoking, data = cardiac,
+        xlab = "smoking status", ylab = "HDL cholesterol (mmol/l)")
+
+boxplot(tchol ~ Fsmoking, data = cardiac,
+        xlab = "smoking status", ylab = "total cholesterol (mmol/l)")
+
+# HDL is the one with something in it. The never-smokers sit clearly above the
+# other two, with a median of 1.60 against 1.31 for current smokers and 1.21
+# for ex-smokers, and their median is above the upper quartile of both other
+# groups. Total cholesterol shows nothing at all: three boxes at much the same
+# height, medians of 6.91, 6.58 and 7.03.
+
+# Which would you leave out? The honest answer is that the temptation is to
+# report the HDL plot and let the cholesterol one quietly disappear. Do not.
+# A plot that shows you there is nothing to see has still told you something,
+# and keeping only the comparisons that worked is how a set of results stops
+# being evidence.
 
 # violin plot. install.packages("vioplot") first if you have not already
 library(vioplot)
-vioplot(tchol ~ Fsmoking, data = cardiac, xlab = "smoking status", ylab = "total cholesterol (mmol/l)", col = "lightblue")
+vioplot(hdlchol ~ Fsmoking, data = cardiac, xlab = "smoking status",
+        ylab = "HDL cholesterol (mmol/l)", col = "lightblue")
 
-# the three groups look remarkably similar. That is a perfectly good result:
-# a plot that shows you there is nothing much to see has still told you
-# something, and is a lot more honest than hunting for a variable that does
-# show a difference.
+# the boxplot gives you the quartiles, the violin gives you the shape as well.
+# Here they agree, which is reassuring rather than dull: it means the medians
+# are not being propped up by one odd cluster of patients.
 ```
 
 \  
 
-11\. To explore the relationships between several continuous variables at once it's hard to beat a pairs plot. Create a pairs plot for the variables; `age`, `systolic`, `diastolic`, `tchol`, `hdlchol`, `triglyceride` and `bmi` (see [Section 4.2.5](https://intro2r.com/simple-base-r-plots.html#pairs-plots) of the book for more details). If it looks a little cramped in RStudio then click on the 'zoom' button in the plot viewer to see a larger version.
+12\. To explore the relationships between several continuous variables at once it's hard to beat a pairs plot. Create a pairs plot for the variables; `age`, `systolic`, `diastolic`, `tchol`, `hdlchol`, `triglyceride` and `bmi` (see [Section 4.2.5](https://intro2r.com/simple-base-r-plots.html#pairs-plots) of the book for more details). If it looks a little cramped in RStudio then click on the 'zoom' button in the plot viewer to see a larger version.
 
 One of the useful things about `pairs()` is that you can choose what goes into each panel. Modify your plot to add a smoother (a wiggly line) to the lower triangle, which makes the shape of each relationship much easier to see. The book and `?pairs` show you how. Then, just by looking, which pair of variables is most strongly related, and which variable is related to almost nothing?
 
-```{r Q11, echo=SOLUTIONS, eval=SOLUTIONS, fig.width=9, fig.height=9, tidy = TRUE}
+```{r Q12, echo=SOLUTIONS, eval=SOLUTIONS, fig.width=9, fig.height=9, tidy = TRUE}
 plot_vars <- c("age", "systolic", "diastolic", "tchol", "hdlchol", "triglyceride", "bmi")
 
 # vanilla pairs plot
@@ -248,8 +299,9 @@ pairs(cardiac[, plot_vars])
 pairs(cardiac[, plot_vars], lower.panel = panel.smooth)
 
 # systolic and diastolic are the most strongly related pair, which is no
-# surprise, and hdlchol against triglyceride is the next most obvious, sloping
-# the other way. age is related to almost nothing here, and that is worth
+# surprise given that they are the same measurement taken at two points in the
+# heartbeat. hdlchol against triglyceride is the next most obvious, sloping the
+# other way. age is related to almost nothing here, and that is worth
 # thinking about: everyone in this study is between 55 and 75, so there simply
 # is not enough spread in age for a relationship to show itself. A variable can
 # look unimportant purely because of who was recruited.
@@ -257,9 +309,9 @@ pairs(cardiac[, plot_vars], lower.panel = panel.smooth)
 
 \  
 
-11\. (optional) `pairs()` will put whatever you like in the upper triangle, including the correlation coefficients themselves, but there is no ready made function for it so you have to write one. If you fancy a go, `?pairs` has an example you can adapt. Do the numbers agree with what you concluded by eye?
+13\. (optional, and a stretch) `pairs()` will put whatever you like in the upper triangle, including the correlation coefficients themselves, but there is no ready made function for it so you have to write one. This is a step beyond anything else in the exercise, and writing your own functions is not covered until the optional programming exercise, so treat it as a look ahead rather than something you are expected to manage now. If you fancy a go, `?pairs` has an example you can adapt. Do the numbers agree with what you concluded by eye?
 
-```{r Q11b, echo=SOLUTIONS, eval=SOLUTIONS, fig.width=9, fig.height=9, tidy = TRUE}
+```{r Q13, echo=SOLUTIONS, eval=SOLUTIONS, fig.width=9, fig.height=9, tidy = TRUE}
 panel_cor <- function(x, y, digits = 2, ...) {
   usr <- par("usr"); on.exit(par(usr = usr))
   par(usr = c(0, 1, 0, 1))
@@ -270,42 +322,12 @@ panel_cor <- function(x, y, digits = 2, ...) {
 pairs(cardiac[, plot_vars], upper.panel = panel_cor, lower.panel = panel.smooth)
 
 # systolic with diastolic is the strongest at r = 0.56, hdlchol with
-# triglyceride the next at r = -0.43, and age never gets above 0.21 with
+# triglyceride the next at r = -0.51, and age never gets above 0.21 with
 # anything. The eye had it right.
-```
 
-\  
-
-12\. Every plot so far has appeared in the RStudio plot pane, which is fine while you are exploring but no use at all when you need a figure in a Word document, a PowerPoint slide or a report. Getting a plot out of R is a three step sandwich. You open a graphics device that is a file rather than a window, you draw the plot exactly as you have been doing, and then you close the device with `dev.off()`. Nothing appears on screen while you do it, and if you forget the `dev.off()` your file will be unreadable (see [Section 4.5](https://intro2r.com/export_plots.html#export_plots) of the book).
-
-Redraw your boxplot from Q10 and save it twice into the `output` directory you created in Exercise 1, once as a pdf using `pdf()` and once as a png using `png()`. Open both files outside RStudio and try dropping the png into a Word document. Which format would you use for what, and why? (hint: enlarge each of them a long way and see what happens)
-
-```{r Q12, echo=SOLUTIONS, eval=SOLUTIONS, results='hide'}
-# pdf is a vector format: the file stores the instructions for drawing the plot,
-# so it stays perfectly sharp however far you enlarge it. Sizes are in inches.
-pdf('output/ex5_cholesterol.pdf', width = 7, height = 5)
-boxplot(tchol ~ Fsmoking, data = cardiac,
-        xlab = "smoking status", ylab = "total cholesterol (mmol/l)")
-dev.off()
-
-# png is a bitmap: a grid of pixels, which goes blurry when enlarged. Word and
-# PowerPoint handle it happily though. Always set res, because the default of
-# 72 dpi looks fine on screen and disappointing on a slide or on paper.
-png('output/ex5_cholesterol.png', width = 7, height = 5, units = "in", res = 300)
-boxplot(tchol ~ Fsmoking, data = cardiac,
-        xlab = "smoking status", ylab = "total cholesterol (mmol/l)")
-dev.off()
-
-# check they are really there. Your output directory should now contain
-# ex5_cholesterol.pdf and ex5_cholesterol.png
-list.files('output')
-
-# tiff() works in exactly the same way and is what journals usually ask for.
-
-# Rule of thumb: pdf if it is going to be printed or enlarged, png at 300 dpi
-# if it is going into Word or PowerPoint, tiff if a journal asks for it.
-# Whichever you choose, save it from R. Never screenshot the plot pane, and
-# never paste a plot in at 72 dpi and hope nobody notices.
+# That -0.51 is worth a second look. Before the cleaning in Q7 it was -0.43,
+# and the whole of the difference is two patients recorded with an HDL of
+# zero. Two impossible values out of 163 moved a correlation by 0.08.
 ```
 
 \  

@@ -575,10 +575,13 @@ markdown</li>
 <div class="sourceCode" id="cb1"><pre class="sourceCode md"><code class="sourceCode markdown"><span id="cb1-1"><a href="#cb1-1" tabindex="-1"></a><span class="in">```{r}</span></span>
 <span id="cb1-2"><a href="#cb1-2" tabindex="-1"></a><span class="in">mean(cardiac$age)</span></span>
 <span id="cb1-3"><a href="#cb1-3" tabindex="-1"></a><span class="in">```</span></span></code></pre></div>
-<p>Find one of each in your file. Then delete everything below the first
-code chunk, the one called <code>setup</code>, leaving the YAML header
-and that chunk in place. Knit again to check you have an empty but
-working document. This is your starting point.</p>
+<p>Find one of each in <code>cardiac_report.Rmd</code>, the file you are
+editing rather than the PDF it produced, so that you can recognise them
+when we start changing them. Then delete everything in
+<code>cardiac_report.Rmd</code> below the first code chunk, the one
+called <code>setup</code>, leaving the YAML header and that chunk in
+place. Knit again to check you have an empty but working document. This
+is your starting point.</p>
 <p> </p>
 <p>3. Now take control of the YAML header. At the moment it has a title,
 an author and a date, and an <code>output</code> line saying
@@ -587,6 +590,10 @@ below.</p>
 <p>Two warnings, because this is where people lose ten minutes.
 Indentation in YAML matters, so copy the spacing exactly. And use
 spaces, never tabs.</p>
+<p>Add <code>toc: true</code> first and knit. Then add
+<code>number_sections: true</code> and knit again. Adding them one at a
+time, and knitting after each, is how you see what each one actually
+does. Here is what you are aiming for:</p>
 <div class="sourceCode" id="cb2"><pre
 class="sourceCode yaml"><code class="sourceCode yaml"><span id="cb2-1"><a href="#cb2-1" tabindex="-1"></a><span class="pp">---</span></span>
 <span id="cb2-2"><a href="#cb2-2" tabindex="-1"></a><span class="fu">title</span><span class="kw">:</span><span class="at"> </span><span class="st">&quot;Cardiac study report&quot;</span></span>
@@ -597,24 +604,24 @@ class="sourceCode yaml"><code class="sourceCode yaml"><span id="cb2-1"><a href="
 <span id="cb2-7"><a href="#cb2-7" tabindex="-1"></a><span class="at">    </span><span class="fu">toc</span><span class="kw">:</span><span class="at"> </span><span class="ch">true</span></span>
 <span id="cb2-8"><a href="#cb2-8" tabindex="-1"></a><span class="at">    </span><span class="fu">number_sections</span><span class="kw">:</span><span class="at"> </span><span class="ch">true</span></span>
 <span id="cb2-9"><a href="#cb2-9" tabindex="-1"></a><span class="pp">---</span></span></code></pre></div>
-<p>Add <code>toc: true</code> first and knit. Then add
-<code>number_sections: true</code> and knit again. Adding them one at a
-time, and knitting after each, is how you see what each one actually
-does.</p>
 <p> </p>
 <p>4. Every report starts by telling the reader what the data are, so
-that’s where you’ll start too. Underneath the setup chunk, write a short
-introduction to the cardiac study using markdown formatting only, with
-no code yet. Include:</p>
+that’s where you’ll start too. You already have a description of these
+data: it’s the one you read in <strong>Exercise 3, Q4</strong>. Copy the
+first few sentences of it into your document underneath the setup chunk,
+then use markdown to format it. There is no code in this question at
+all.</p>
 <ul>
-<li>a heading, written as <code># My heading</code></li>
-<li>a second, smaller heading below it, written as
+<li>put a heading above it, written as <code># My heading</code>, and a
+second smaller heading below that, written as
 <code>## My smaller heading</code></li>
-<li>a sentence with a word in <strong>bold</strong>, written as
-<code>**bold**</code>, and a word in <em>italics</em>, written as
-<code>*italics*</code></li>
-<li>a bulleted list of four of the variables in the dataset, each line
-starting with a dash and a space</li>
+<li>put <strong>cohort study</strong> in bold, by writing it as
+<code>**cohort study**</code></li>
+<li>put <em>measured</em> in italics, by writing it as
+<code>*measured*</code></li>
+<li>take four of the variables out of the description and set them out
+as a bulleted list instead, each line starting with a dash and a
+space</li>
 </ul>
 <p>That’s enough to be going on with. If you want to add a link, a
 numbered list, a quotation or a table, <a
@@ -642,8 +649,11 @@ did in <strong>Exercise 3, Q5</strong>: with the
 <code>sep</code> and <code>stringsAsFactors</code> arguments, and
 assigning the result to <code>cardiac</code>. In the same chunk, add the
 two <code>factor()</code> lines from <strong>Exercise 3, Q7</strong>
-that create <code>Fsex</code> and <code>Fsmoking</code>, since you’ll
-want them later.</p>
+that create <code>Fsex</code> and <code>Fsmoking</code>. You’ll remember
+that <code>sex</code> and <code>smoking</code> are stored in the file as
+numbers but are really categories, so you made a labelled factor version
+of each and left the originals alone. You’ll need both of them later
+on.</p>
 <p>Run the chunk in the editor with the small green arrow at its top
 right, then knit the whole document. Notice that knitting starts a
 completely fresh R session: anything you made earlier in the console
@@ -653,9 +663,8 @@ before any chunk that uses it.</p>
 <p> </p>
 <p>6. You have the data in, so the next thing a reader needs to know is
 whether you can trust it, and what you did about the bits you couldn’t.
-This is the question that most resembles the writing you’ll be doing
-later in the course, because it asks you not just to do something to the
-data but to explain why.</p>
+This question asks you not just to do something to the data but to
+explain why, which is most of what report writing is.</p>
 <p>Add a new heading called <code>## Data validation</code> below the
 previous chunk, and underneath it a chunk named <code>validation</code>
 holding the three lines from <strong>Exercise 4, Q1</strong> that set
@@ -666,20 +675,18 @@ cleaning isn’t in the document then it hasn’t happened.</p>
 <p>Then write a short paragraph beneath the chunk, two or three
 sentences, saying which variables you changed, how many values in each,
 and why you set them to <code>NA</code> rather than deleting those
-patients or correcting the numbers yourself. Type the counts in for now.
-You’ll come back to them in Q9, and there’s a wrinkle waiting for you
-there.</p>
-<p>You’ll remember from <strong>Exercise 5, Q9</strong> that
-<code>alcohol</code> needed dealing with as well. A small number of
-patients drink a great deal more than the rest, which leaves the
+patients or correcting the numbers yourself. Type the counts in for now,
+and you’ll come back to them in Q9.</p>
+<p>You’ll remember from <strong>Exercise 5, Q9</strong> that the
+variable <code>alcohol</code> needed some work as well. A small number
+of patients drink a great deal more than the rest, which leaves the
 distribution with a long tail to the right, and you took the square root
 to pull that tail in. That’s a data preparation step exactly like the
 cleaning above, so it belongs in this section too. Add a chunk named
 <code>alcohol-transform</code> that creates the square root of
 <code>alcohol</code> and draws the histograms of <code>alcohol</code>
-and <code>sqrt(alcohol)</code> side by side. Give it a caption with
-<code>fig.cap</code>, and write a sentence or two underneath saying why
-you did it.</p>
+and <code>sqrt(alcohol)</code> side by side, then write a sentence or
+two underneath saying why you did it.</p>
 <p> </p>
 <p>7. With the data in and tidied up, you can start showing the reader
 what’s in it. Insert another chunk, name it <code>chol-plot</code>, and
@@ -695,41 +702,56 @@ your chunk should read:</p>
 <p>Knit and find your caption underneath the plot. Then add
 <code>fig.width = 4</code> to the same line, knit again, and see what
 happens to the size of the text relative to the plot.</p>
+<p>While you’re at it, go back to your <code>alcohol-transform</code>
+chunk from Q6 and give that figure a caption too, so both of your
+figures have one.</p>
 <p>There are a great many other chunk options for figures, controlling
 height, alignment, resolution and so on. You don’t need them today. <a
 href="https://intro2r.com/rmarkdown_r.html">Chapter 8</a> of the book
-lists the ones worth knowing.</p>
+lists the ones you’re most likely to need.</p>
 <p> </p>
-<p>8. A plot shows a reader the shape of something, but they’ll often
-want the numbers as well, so add a table next to go with your figure. If
-you simply print a dataframe in a chunk you get the console output,
-monospaced and ugly. The <code>kable()</code> function from the
-<code>knitr</code> package formats it as a proper table instead.</p>
-<p>Insert a chunk, name it <code>summary-table</code>, and start by
-recreating the <code>aggregate()</code> summary from <strong>Exercise 4,
-Q4</strong>: the mean of <code>age</code>, <code>systolic</code> and
+<p>8. A figure visualises your data, but a reader will usually want the
+numbers as well, so add a table to go alongside it.</p>
+<p>Insert a chunk, name it <code>summary-table</code>, and recreate the
+<code>aggregate()</code> summary from <strong>Exercise 4, Q4</strong>:
+the mean of <code>age</code>, <code>systolic</code> and
 <code>tchol</code> for each smoking category. Assign it to an object
-called <code>smoke_summary</code>.</p>
-<p>Knit and look at how ugly it is. Now put
-<code>knitr::kable(smoke_summary)</code> on the next line, knit again,
-and compare. Finally add <code>digits = 1</code> and a
-<code>caption</code> to the <code>kable()</code> call to tidy it up.</p>
+called <code>smoke_summary</code>, put <code>smoke_summary</code> on the
+line below so that it prints, and knit.</p>
+<p>What you get is the console output, monospaced and squeezed into a
+grey box, which is fine while you’re working but not something you would
+put in front of anybody. The <code>kable()</code> function from the
+<code>knitr</code> package turns a dataframe into a properly formatted
+table instead, with the columns lined up and the row of names picked out
+as a header. Replace the line that prints <code>smoke_summary</code>
+with <code>knitr::kable(smoke_summary)</code>, knit again, and compare
+the two. Finally add <code>digits = 1</code> and a <code>caption</code>
+to the <code>kable()</code> call to tidy it up.</p>
 <p> </p>
 <p>9. Your report is now more or less complete, so the rest of the
-exercise is about tidying it up. Start with the paragraph you wrote in
-Q6. You typed those numbers in yourself, and numbers typed into your
-writing go stale. If the data changes, or you correct something later,
-your writing quietly stops matching your results and nothing tells
-you.</p>
+exercise is about tidying it up. Start with the data validation
+paragraph you wrote in Q6. In it you said how many HDL cholesterol
+values and how many triglyceride values you set to <code>NA</code>, and
+you typed those two counts in yourself. Numbers typed into your writing
+go stale. If the data changes, or you correct something later, your
+writing quietly stops matching your results and nothing tells you.</p>
 <p>R markdown fixes this with <strong>inline code</strong>. In the
 middle of an ordinary sentence you write a backtick, then the letter
 <code>r</code>, then some R code, then a closing backtick, and when you
-knit, the answer appears instead. Like this:</p>
+knit, the answer of that code appears in your text instead. Like
+this:</p>
 <div class="sourceCode" id="cb4"><pre class="sourceCode md"><code class="sourceCode markdown"><span id="cb4-1"><a href="#cb4-1" tabindex="-1"></a>The study included <span class="in">`r nrow(cardiac)`</span> patients.</span></code></pre></div>
 <p>which comes out as “The study included 163 patients.”</p>
-<p>Go back to your data validation paragraph and replace the numbers you
-typed with inline code. Then add a sentence to the same section giving
-the number of patients and their mean age in the same way. Use
+<p>Now use it on those two counts. The catch is that you can’t count the
+zeros after you’ve already turned them into <code>NA</code>, so add two
+lines to the top of your <code>validation</code> chunk that count them
+first and store each count in an object, something like
+<code>n_hdl</code> and <code>n_trig</code>. Then go back to your
+paragraph, delete the two numbers you typed and put
+<code>`r n_hdl`</code> and <code>`r n_trig`</code> in their place.</p>
+<p>While you’re there, add a sentence to the same section giving the
+number of patients and their mean age the same way, working both out
+from <code>cardiac</code> rather than typing them. Use
 <code>round()</code> on the mean so you don’t get six decimal
 places.</p>
 <p>Then test that it really works. Temporarily change your import chunk
@@ -751,27 +773,27 @@ the same curly braces as the caption you added in Q7. Add
 <code>echo = FALSE</code> to your <code>chol-plot</code> chunk and knit.
 The plot is still there, but the code that drew it is not. Take it off
 again afterwards, since we want the code visible in this report.</p>
-<p>Two other things arrive uninvited in reports, and they’re worth
-knowing about now so they don’t surprise you later.
-<strong>Messages</strong> are the chatty output R produces when it’s
-doing something in the background, most often when you load a package
-with <code>library()</code>, and they can run to several lines.
-<strong>Warnings</strong> are R telling you something might not be
-right, and they look far more alarming to a reader than they usually
-deserve to. Both appear in your document in the middle of your writing.
-You turn them off the same way, with <code>message = FALSE</code> and
-<code>warning = FALSE</code>, either on a single chunk or on all of them
-at once by putting them inside the <code>knitr::opts_chunk$set()</code>
-call in your <code>setup</code> chunk.</p>
+<p>Code isn’t the only thing that can end up in your document without
+you asking for it. <strong>Messages</strong> are the chatty output R
+produces while it’s doing something in the background, most often when
+you load a package with <code>library()</code>, and they can easily run
+to half a dozen lines. <strong>Warnings</strong> are R telling you that
+something might not be right, and they tend to look a lot more alarming
+to a reader than they usually deserve to. Both of them land in the
+middle of your writing. You switch them off in the same way as the code,
+with <code>message = FALSE</code> and <code>warning = FALSE</code>,
+either on a single chunk or on all of them at once by putting them
+inside the <code>knitr::opts_chunk$set()</code> call in your
+<code>setup</code> chunk.</p>
 <p>Be careful with <code>warning = FALSE</code> though. You’re hiding
 warnings from your reader, not from yourself, so keep an eye on the ones
 appearing in the console while you work, because some of them
 matter.</p>
 <p> </p>
-<p>11. Not every figure in a report is one that R drew. You might need a
-diagram, a photograph, a map, or a figure somebody else made. Add the
-plot you exported in <strong>Exercise 6, Q9</strong>,
-<code>ex6_admissions.png</code>, to your report.</p>
+<p>11. Not every figure in a report will be one you constructed with R
+code. You might need a diagram, a photograph, a map, or a figure
+somebody else made. Add the plot you exported in <strong>Exercise 6,
+Q9</strong>, <code>ex6_admissions.png</code>, to your report.</p>
 <p>The simplest way needs no chunk at all. Type this straight into your
 text, changing the path to wherever your file actually is:</p>
 <div class="sourceCode" id="cb6"><pre class="sourceCode md"><code class="sourceCode markdown"><span id="cb6-1"><a href="#cb6-1" tabindex="-1"></a><span class="al">![Alcohol-related hospital admissions by council area.](output/ex6_admissions.png)</span></span></code></pre></div>
@@ -796,17 +818,21 @@ text, code and figures. While you’re there, add
 alongside the page as you scroll. That option only works in HTML, so
 change the header back to <code>pdf_document</code> and delete the
 <code>toc_float</code> line before you finish.</p>
+<p>You don’t have to edit the YAML to do this. Click the small black
+triangle next to the <strong>Knit</strong> button and you can pick a
+format straight from the menu, which overrides whatever your YAML header
+says for that one knit. It’s quicker for a look, but the YAML is where
+you set what your document actually is.</p>
 <p> </p>
-<div id="two-things-worth-knowing-about-but-not-now"
-class="section level3">
-<h3>Two things worth knowing about, but not now</h3>
+<div id="two-things-we-havent-covered" class="section level3">
+<h3>Two things we haven’t covered</h3>
 <p> </p>
 <p><strong>The visual editor.</strong> RStudio can show an R markdown
 document formatted as you type, more like a word processor, hiding the
 markdown syntax. You turn it on with the small compass icon at the top
 right of the editor. It’s genuinely useful, especially for tables and
-links. We’ve deliberately left it until the end so that you learn what
-the markup actually is first, because when something goes wrong it’s the
+links. We’ve left it until now on purpose, so that you learn what the
+markup actually is first, because when something goes wrong it’s the
 markup you have to fix.</p>
 <p><strong>Quarto.</strong> Quarto is the successor to R markdown. It
 does the same job, works with languages other than R, and its syntax is

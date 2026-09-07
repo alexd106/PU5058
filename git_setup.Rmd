@@ -42,8 +42,8 @@ harm.
 **macOS.** The simplest route is to let your Mac install it for you. Open the Terminal
 application (press Cmd+Space, type `Terminal`, press Enter), type `git --version` and press
 Enter. If Git isn't installed, macOS will offer to install the command line developer
-tools. Accept, and wait for it to finish. This is the only time on this course you'll need
-the Terminal. If you'd rather use an installer, there's one at
+tools. Accept, and wait for it to finish. The only other time you'll need the Terminal on
+this course is the last question of Exercise 9. If you'd rather use an installer, there's one at
 [git-scm.com](https://git-scm.com/download/mac).
 
 **Linux.** Git is often installed already. Check with `git --version`. If not, use your

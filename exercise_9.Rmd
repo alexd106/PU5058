@@ -31,7 +31,7 @@ Up to now your safety net has been saving your script and hoping for the best. V
 
 Git is the program that keeps that history on your computer. GitHub is a website that keeps a copy, which makes it a backup, a way to share work, and somewhere to point people who ask what you've been doing.
 
-We'll only cover the everyday loop in this exercise, which is what you'll use ninety-nine times out of a hundred.
+We'll only cover the everyday loop in this exercise, which is what you'll use ninety-nine times out of a hundred. You'll get Git working on your own computer first, in Q1 to Q6, and only then bring GitHub into it. Keeping those two apart in your head from the start makes the whole thing a good deal easier to reason about when something goes wrong.
 
 \  
 
@@ -45,7 +45,9 @@ git_sitrep()
 
 This prints a lot at once, which is normal. You're looking for just two things, circled below: your name and email address near the top under the Git global heading, and a line further down confirming that a personal access token was found. Everything else you can ignore for now.
 
-![The two lines to check in the `git_sitrep()` output.](images/git_sitrep.png)
+![](images/git_sitrep.png){alt="The git_sitrep output with the name, email and token lines circled"}
+
+\  
 
 If either of those is missing, go back to the [setup page](git_setup.html){target="_blank"} and work out which step didn't take. Ask for help now rather than at Q4, when the symptom will be an error message rather than a missing line.
 
@@ -55,15 +57,21 @@ If either of those is missing, go back to the [setup page](git_setup.html){targe
 
 a) Go to [github.com](https://github.com) and log in. Click the **+** in the top right and choose **New repository**. If you can't see it, your **Repositories** tab has a green **New** button that does the same thing.
 
-![Starting a new repository on GitHub.](images/new_repo.png)
+![](images/new_repo2.png){alt="The plus button in the top right of GitHub, circled"}
+
+\  
 
 b) Name it `pu5058-practical`. Leave the visibility as **Public**. Switch **Add README** on. Then, in the **Add .gitignore** dropdown just below it, choose the **R** template, which the screenshot below does not have set. Click **Create repository**.
 
-![The new repository form. Set the .gitignore dropdown to R as well.](images/new_repo_opt.png)
+![](images/new_repo_opt.png){alt="The GitHub new repository form"}
+
+\  
 
 c) On the page that appears, click the green **Code** button, make sure **HTTPS** is selected rather than SSH, and copy the web address. It will end in `.git`.
 
-![Copying the HTTPS address of your new repository.](images/new_repo_clone.png)
+![](images/new_repo_clone.png){alt="The Code button open, showing the HTTPS address to copy"}
+
+\  
 
 d) In RStudio, go to `File` -> `New Project...`. Choose **Version Control**, then **Git**. Paste the address into the 'Repository URL' box. The 'Project directory name' box fills in on its own. Under 'Create project as a subdirectory of', browse to wherever you keep your work for this course, then click **Create Project**.
 
@@ -87,15 +95,19 @@ Find each of these, without clicking yet:
 - the **Pull** and **Push** buttons, the down and up arrows
 - the **History** button, the little clock
 
-![The Git pane, with the Staged column, the status icons and the buttons along the top.](images/GitTab.png)
-
-The coloured icon beside a file tells you what Git currently makes of it. A yellow `?` means Git can see the file but isn't keeping track of it, which is the case for `pu5058-practical.Rproj` right now. You'll meet a blue `M` for a file that's been modified and a green `A` for one you've staged as you work through the next few questions. Here is the full set:
-
-![What each status icon means.](images/rstudio_git_cols.png)
+![](images/GitTab.png){alt="The RStudio Git pane"}
 
 \  
 
-4\. Time for the full cycle, once, slowly. First you'll need something worth saving, and rather than invent something you'll use the report you built in Exercise 7.
+The coloured icon beside a file tells you what Git currently makes of it. A yellow `?` means Git can see the file but isn't keeping track of it, which is the case for `pu5058-practical.Rproj` right now. You'll meet a blue `M` for a file that's been modified and a green `A` for one you've staged as you work through the next few questions. Here is the full set:
+
+![](images/rstudio_git_cols.png){alt="The Git status icons and what each one means"}
+
+\  
+
+\  
+
+4\. Time to make your first commit, slowly. First you'll need something worth saving, and rather than invent something you'll use the report you built in Exercise 7.
 
 a) That report needs two folders alongside it to knit, so using your computer's file manager (Finder on a Mac, File Explorer on Windows) copy all three of these into your new Project folder:
 
@@ -111,11 +123,11 @@ c) Now look at the Git pane. Several things have appeared, all with a yellow `?`
 
 d) Click **Commit**. A window opens showing the file you staged and, underneath, every line you're about to record. Type a message in the box on the right. Make it say why you made the change rather than just what you changed. 'add cardiac report from Exercise 7' is a useful message, 'update' is not, and in six months you'll be grateful. Click the **Commit** button, read the confirmation, and close it.
 
-![The Commit window. Staged files on the left with green `A` icons, your message on the right, and the lines you are about to record along the bottom.](images/FirstCommit.png)
+![](images/FirstCommit.png){alt="The RStudio commit window"}
 
-e) Your change is now saved in the history on your computer, but GitHub knows nothing about it. Click the green **Push** arrow. Wait for it to finish, then go to your repository page on GitHub in your browser and refresh. Your report is there.
+\  
 
-If the push fails with a message about authentication, your token is the problem rather than anything you've done here. See the last section of the [setup page](git_setup.html){target="_blank"}.
+Your report is now recorded in the history, and notice that it all happened on your own computer. Nothing has gone anywhere near GitHub yet, and nothing needs to until Q7.
 
 \  
 
@@ -123,11 +135,13 @@ If the push fails with a message about authentication, your token is the problem
 
 a) Before you commit, select the file and click **Diff**. Read what it shows you: added lines in green, removed lines in red, and the unchanged lines around them for context. Getting into the habit of looking at the diff before committing catches an enormous number of mistakes.
 
-![The Diff window, showing one line removed in red and its replacement added in green.](images/Diff.png)
+![](images/Diff.png){alt="The diff window, with a removed line in red and an added line in green"}
+
+\  
 
 Notice that the diff is of your `.Rmd` file rather than the PDF. Git is designed for plain text, which is exactly what an R markdown file is, and it is one of the reasons for writing a report this way rather than in Word.
 
-b) Stage, commit with a sensible message, and push.
+b) Stage it and commit it with a sensible message, again without pushing.
 
 c) Now click **History**, the clock icon. You should see both of your commits, most recent first, with their messages, authors and dates. Click on the first commit to see exactly what it contained. This history is the part that makes version control worth the trouble. The backup is useful, but being able to look back at what you did, and why you did it, is more useful still.
 
@@ -139,13 +153,31 @@ a) Open your report, delete the whole `chol-plot` chunk that draws the boxplot, 
 
 Be careful with this one. It's not an undo button. It throws away *everything* you've changed since your last commit, not just the last thing you did, and there's no way back. Commit often and you'll rarely need it.
 
-b) Now a subtler one. Commit a change, but **do not push it**. Realise you forgot to include something, add it, and then in the Commit window tick **Amend previous commit** before committing again. Rather than making a second commit, this folds your new change into the previous one. This is only safe before you push. Once a commit is on GitHub, other people may have it, and rewriting it causes them problems.
+b) Now a subtler one. Commit a change, then realise you forgot to include something, add it, and in the Commit window tick **Amend previous commit** before committing again. Rather than making a second commit, this folds your new change into the previous one.
+
+You are safe doing this here because you haven't pushed anything yet. Once a commit is on GitHub other people may already have it, and rewriting one at that point causes them problems, so treat **Amend previous commit** as something you only ever use on work that is still on your own machine.
 
 \  
 
-7\. So far everything has flowed from your computer to GitHub. It flows the other way too, and this is the half people forget.
+7\. Stop for a moment before you click anything. **Everything you have done up until now has been local.** Every commit you made in Q4, Q5 and Q6 went into a hidden folder inside `pu5058-practical` on your own computer, and GitHub has no idea that any of it happened. Refresh your repository page in the browser and you'll still see nothing but the README and the `.gitignore` you made back in Q2.
+
+That's worth noticing, because it's the difference between the two halves of this exercise. Git gave you the history. GitHub is about to give you the backup, and everything from here on is about keeping the two in step.
+
+Click the green **Push** arrow, the up arrow in the Git pane. Wait for it to finish, then go to your repository page on GitHub in your browser and refresh.
+
+Your report is there, and so is every commit you made in Q4, Q5 and Q6, not just the last one. Push sends everything Git has that GitHub hasn't. Click on the commit count near the top of the file list and you will see them all, with the messages you typed.
+
+If the push fails with a message about authentication then your token is the problem rather than anything you've done here, and see the last section of the [setup page](git_setup.html){target="_blank"}. Everything you have committed is safe on your computer either way, which is rather the point of keeping the two separate.
+
+\  
+
+8\. Work flows the other way too, and this is the half people forget.
 
 a) In your browser, open your repository on GitHub, click on `README.md`, and click the pencil icon to edit it. Write a couple of sentences describing what the project is for, then commit the change. GitHub asks you for a commit message in much the same way RStudio does.
+
+![](images/readme_edit.png){alt="Editing the README file on GitHub, with the Commit changes button"}
+
+\  
 
 b) Your computer knows nothing about this. In RStudio, click **Pull**, the blue down arrow. Open the README in RStudio and your change is there.
 
@@ -153,7 +185,7 @@ c) Now think about why this matters. If you'd edited the README on your computer
 
 \  
 
-8\. Finally, what not to put in a repository. Open the `.gitignore` file in your Project. This is the list of things Git deliberately ignores, and GitHub gave you a sensible starting one when you chose the R template in Q2.
+9\. Finally, what not to put in a repository. Open the `.gitignore` file in your Project. This is the list of things Git deliberately ignores, and GitHub gave you a sensible starting one when you chose the R template in Q2.
 
 a) Read through it. You should recognise `.Rhistory` and `.RData`.
 

@@ -533,7 +533,9 @@ you’ll use ninety-nine times out of a hundred.</p>
 <p> </p>
 <p>1. Start by checking your setup is healthy. In the R console run the
 situation report:</p>
-<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" tabindex="-1"></a>usethis<span class="sc">::</span><span class="fu">git_sitrep</span>()</span></code></pre></div>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" tabindex="-1"></a><span class="fu">library</span>(usethis)</span>
+<span id="cb1-2"><a href="#cb1-2" tabindex="-1"></a></span>
+<span id="cb1-3"><a href="#cb1-3" tabindex="-1"></a><span class="fu">git_sitrep</span>()</span></code></pre></div>
 <p>This prints a lot at once, which is normal. You’re looking for just
 two things: your name and email address near the top under the Git
 config heading, and a line further down confirming that a personal

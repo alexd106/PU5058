@@ -699,10 +699,12 @@ one, which is annoying but harmless.</p>
 <h2>Step 6: Store the token</h2>
 <p>Give the token to your computer’s password store so you never have to
 type it again:</p>
-<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" tabindex="-1"></a>gitcreds<span class="sc">::</span><span class="fu">gitcreds_set</span>()</span></code></pre></div>
-<p>Paste the token when prompted and press Enter. (You already have
-<code>gitcreds</code> installed: <code>usethis</code> depends on
-it.)</p>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" tabindex="-1"></a><span class="fu">library</span>(gitcreds)</span>
+<span id="cb5-2"><a href="#cb5-2" tabindex="-1"></a></span>
+<span id="cb5-3"><a href="#cb5-3" tabindex="-1"></a><span class="fu">gitcreds_set</span>()</span></code></pre></div>
+<p>Paste the token when prompted and press Enter. You already have
+<code>gitcreds</code> installed, because <code>usethis</code> depends on
+it.</p>
 <p> </p>
 </div>
 <div id="step-7-check-it-all-worked" class="section level2">
@@ -728,9 +730,9 @@ when it happens.</p>
 <p>The symptom is that pushing or pulling, which worked perfectly well
 last week, suddenly fails with a message about authentication. The fix
 is to repeat Steps 5 and 6:</p>
-<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" tabindex="-1"></a><span class="fu">create_github_token</span>()      <span class="co"># generate a fresh one</span></span>
-<span id="cb7-2"><a href="#cb7-2" tabindex="-1"></a>gitcreds<span class="sc">::</span><span class="fu">gitcreds_set</span>()   <span class="co"># it will offer to replace the old one - say yes</span></span>
-<span id="cb7-3"><a href="#cb7-3" tabindex="-1"></a><span class="fu">git_sitrep</span>()               <span class="co"># check</span></span></code></pre></div>
+<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" tabindex="-1"></a><span class="fu">create_github_token</span>()   <span class="co"># generate a fresh one</span></span>
+<span id="cb7-2"><a href="#cb7-2" tabindex="-1"></a><span class="fu">gitcreds_set</span>()          <span class="co"># it will offer to replace the old one - say yes</span></span>
+<span id="cb7-3"><a href="#cb7-3" tabindex="-1"></a><span class="fu">git_sitrep</span>()            <span class="co"># check</span></span></code></pre></div>
 <p>Your work is on your computer and on GitHub throughout. An expired
 token is a five minute annoyance, not a disaster.</p>
 <p> </p>

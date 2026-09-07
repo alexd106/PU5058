@@ -65,7 +65,9 @@ in the console:
 ```{r step2, eval=FALSE}
 install.packages("tinytex")
 
-tinytex::install_tinytex()
+library(tinytex)
+
+install_tinytex()
 ```
 
 The second line is the one that does the downloading. Give it a few minutes and a decent
@@ -83,7 +85,7 @@ and can skip this step.
 First, ask R:
 
 ```{r step3a, eval=FALSE}
-tinytex::is_tinytex()
+is_tinytex()
 ```
 
 which should return `TRUE`.
@@ -112,7 +114,7 @@ first time it meets them, so knit a second time before you do anything else.
 R needs restarting before it notices.
 
 **You already had LaTeX installed and things are behaving oddly.** Having two can confuse
-matters. Run `tinytex::tinytex_root()` to see which installation R is actually using.
+matters. Run `tinytex_root()` to see which installation R is actually using.
 
 **Knitting to HTML works but PDF doesn't.** That's the expected symptom of Step 2 not having
 worked, since HTML needs no LaTeX at all. Go back and run it again.

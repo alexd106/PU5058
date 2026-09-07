@@ -198,7 +198,7 @@ ggsave('output/ex5_hdl_violin.pdf', hdl_violin, width = 7, height = 5)
 
 \  
 
-13\. A pairs plot. `GGally::ggpairs()` is the `ggplot2` equivalent of `pairs()`. It is read the same way as the base R version, with the variable names down the diagonal, and it adds the distribution of each variable and the correlation coefficients without you having to ask.
+13\. A pairs plot. `ggpairs()`, from the `GGally` package loaded at the top, is the `ggplot2` equivalent of `pairs()`. It is read the same way as the base R version, with the variable names down the diagonal, and it adds the distribution of each variable and the correlation coefficients without you having to ask.
 
 ```{r Q13}
 ggpairs(cardiac[, c("age", "systolic", "diastolic", "tchol", "hdlchol",

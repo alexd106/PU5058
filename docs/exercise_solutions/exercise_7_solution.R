@@ -17,6 +17,18 @@
 ## - smoking status
 ## ````
 
+## The setup chunk, with the package loaded at the top of the document:
+## 
+## ````{.md .foldable}
+## ```{r setup, include = FALSE}
+## knitr::opts_chunk$set(echo = TRUE)
+## 
+## library(knitr)
+## ```
+## ````
+## 
+## And the import chunk:
+## 
 ## ````{.md .foldable}
 ## ```{r import}
 ## cardiac <- read.table('data/cardiacdata.txt', header = TRUE, sep = "\t", stringsAsFactors = TRUE)
@@ -100,8 +112,8 @@
 ##                            by = list(Smoking = cardiac$Fsmoking),
 ##                            mean, na.rm = TRUE)
 ## 
-## knitr::kable(smoke_summary, digits = 1,
-##              caption = "Mean age, systolic blood pressure and total cholesterol by smoking status.")
+## kable(smoke_summary, digits = 1,
+##       caption = "Mean age, systolic blood pressure and total cholesterol by smoking status.")
 ## ```
 ## ````
 
@@ -135,10 +147,16 @@
 ## ````
 ## 
 ## Note that the setup chunk itself uses `include = FALSE`, which is stronger than
-## `echo = FALSE`: it hides the code *and* anything the chunk produces, so the chunk runs
+## `echo = FALSE`. It hides the code *and* anything the chunk produces, so the chunk runs
 ## completely invisibly.
+## 
+## You may also be wondering about the `knitr::` that RStudio put in front of
+## `opts_chunk$set()` when it made the document. That is just another way of reaching a
+## single function without loading the whole package first, and you can read it as 'the
+## `opts_chunk` from `knitr`'. Now that you have `library(knitr)` in the same chunk you could
+## drop it, but there is no need to.
 
-## The markdown line, typed straight into your text:
+## Typed straight into your text:
 ## 
 ## ````{.md .foldable}
 ## ![Alcohol-related hospital admissions by council area.](output/ex6_admissions.png)
@@ -148,8 +166,17 @@
 ## 
 ## ````{.md .foldable}
 ## ```{r admissions-figure, out.width = "80%", fig.cap = 'Alcohol-related hospital admissions by council area.'}
-## knitr::include_graphics("output/ex6_admissions.png")
+## include_graphics("output/ex6_admissions.png")
 ## ```
+## ````
+## 
+## With a few sentences to go under it:
+## 
+## ````{.md .foldable}
+## Alcohol-related hospital admissions vary enormously between council areas. Glasgow City
+## has consistently the highest rate in Scotland over this period and Aberdeenshire one of
+## the lowest, with the national average falling somewhere between the two. The figure was
+## produced from the ScotPHO data in Exercise 6 and exported as a png at 300 dpi.
 ## ````
 
 ## ### The finished report

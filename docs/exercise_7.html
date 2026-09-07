@@ -669,9 +669,15 @@ the book for where factors sit among R’s data types). You’ll need
 <code>Fsmoking</code> for the boxplot in Q7 and the table in Q8, and
 both of them read a great deal better with words in them than with
 numbers.</p>
-<p>Run the chunk in the editor with the small green arrow at its top
-right corner, the rightmost of the three little buttons there. If you
-can’t see it, <code>Code</code> -&gt; <code>Run Region</code> -&gt;
+<p>One more thing while you’re in there. Later in this exercise you’ll
+want a couple of functions from the <code>knitr</code> package, and the
+tidy place for a <code>library()</code> call is at the top of a document
+rather than buried in the middle of it. Add <code>library(knitr)</code>
+to your <code>setup</code> chunk now, the one you kept back in Q2, and
+you won’t have to think about it again.</p>
+<p>Run the import chunk in the editor with the small green arrow at its
+top right corner, the rightmost of the three little buttons there. If
+you can’t see it, <code>Code</code> -&gt; <code>Run Region</code> -&gt;
 <code>Run Current Chunk</code> does the same job, and so does
 Ctrl+Alt+C, or Cmd+Alt+C on a Mac. Then knit the whole document. Notice
 that knitting starts a completely fresh R session: anything you made
@@ -747,14 +753,13 @@ isn’t assigned to something, so that second line is what makes the
 summary appear in your document at all. Knit and see what you get.</p>
 <p>It’s the console output, monospaced and squeezed into a grey box,
 which is fine while you’re working but not something you would put in
-front of anybody else. The <code>kable()</code> function from the
-<code>knitr</code> package turns a dataframe into a properly formatted
-table instead, with the columns lined up and the variable names picked
-out as a header row. Change that second line from
-<code>smoke_summary</code> to <code>knitr::kable(smoke_summary)</code>,
-knit again, and compare the two. Finally add <code>digits = 1</code> and
-a <code>caption</code> to the <code>kable()</code> call to tidy it
-up.</p>
+front of anybody else. The <code>kable()</code> function, from the
+<code>knitr</code> package you loaded in Q5, turns a dataframe into a
+properly formatted table instead, with the columns lined up and the
+variable names picked out as a header row. Change that second line from
+<code>smoke_summary</code> to <code>kable(smoke_summary)</code>, knit
+again, and compare the two. Finally add <code>digits = 1</code> and a
+<code>caption</code> to the <code>kable()</code> call to tidy it up.</p>
 <p> </p>
 <p>9. Your report is now more or less complete, so the rest of the
 exercise is about tidying it up. Start with the sentence you wrote at
@@ -826,32 +831,44 @@ somebody else made (see <a
 href="https://intro2r.com/r-markdown-anatomy.html#adding-figures">Section
 8.5.4</a> of the book again). Add the plot you exported in
 <strong>Exercise 6, Q9</strong>, <code>ex6_admissions.png</code>, to
-your report. If you no longer have the file, <a
-href="images/ex6_admissions.png">download it here</a> and save it into
-your <code>output</code> directory, the one you created in
+your report under a heading of its own. If you no longer have the file,
+<a href="images/ex6_admissions.png">download it here</a> and save it
+into your <code>output</code> directory, the one you created in
 <strong>Exercise 1, Q12</strong>.</p>
 <p>There are two ways of doing it and it’s worth trying both.</p>
 <ol style="list-style-type: lower-alpha">
-<li><p>The quick way needs no chunk at all, just a line of markdown in
-among your text. It’s made of three pieces in a row with no spaces
-between them: an exclamation mark, then the caption you want in square
-brackets, then the path to the file in round brackets. Section 8.5.4 of
-the book has an example if you get stuck. Knit and check the figure
-appears.</p></li>
-<li><p>The other way puts the file into a chunk instead, using the
-<code>include_graphics()</code> function from <code>knitr</code>, in the
-same way you would write <code>knitr::kable()</code>. Give it the path
-to the file in quotes. On its own this looks like more work for the same
-result, but it buys you something: because the figure is now coming out
-of a chunk, all the chunk options are available to it. You can caption
-it with <code>fig.cap</code> exactly as you did in Q7, and you can set
-how much of the page width it takes up with <code>out.width</code>,
-written as a percentage in quotes such as <code>"80%"</code>. Try it
-with a caption and a width, and knit.</p></li>
+<li>The quick way needs no chunk at all, just a line typed in among your
+text. It looks like this, and you replace the two parts in capitals with
+your own:</li>
 </ol>
-<p>Which you use is a judgement call. The markdown line is quicker to
-write, and the chunk gives you control over how the figure is presented,
-which is usually what you want in a report.</p>
+<div class="sourceCode" id="cb5"><pre class="sourceCode md"><code class="sourceCode markdown"><span id="cb5-1"><a href="#cb5-1" tabindex="-1"></a><span class="al">![YOUR CAPTION](PATH/TO/YOUR/FILE.png)</span></span></code></pre></div>
+<p>An exclamation mark, then square brackets, then round brackets, with
+no spaces anywhere between them. Knit and check the figure appears.</p>
+<ol start="2" style="list-style-type: lower-alpha">
+<li>The other way puts the file into a chunk instead, using the
+<code>include_graphics()</code> function, which is another one from the
+<code>knitr</code> package you loaded in Q5. On its own that looks like
+more work for the same result, but it buys you something. Because the
+figure is now coming out of a chunk, all the chunk options are available
+to it, so you can caption it with <code>fig.cap</code> exactly as you
+did in Q7 and set how much of the page width it takes up with
+<code>out.width</code>. Again, replace the parts in capitals:</li>
+</ol>
+<div class="sourceCode" id="cb6"><pre class="sourceCode md"><code class="sourceCode markdown"><span id="cb6-1"><a href="#cb6-1" tabindex="-1"></a><span class="in">```{r YOUR-CHUNK-NAME, out.width = &quot;50%&quot;, fig.cap = &#39;YOUR CAPTION&#39;}</span></span>
+<span id="cb6-2"><a href="#cb6-2" tabindex="-1"></a><span class="in">include_graphics(&quot;PATH/TO/YOUR/FILE.png&quot;)</span></span>
+<span id="cb6-3"><a href="#cb6-3" tabindex="-1"></a><span class="in">```</span></span></code></pre></div>
+<p>Try it, and have a play with the <code>out.width</code> percentage
+until the figure sits sensibly on the page.</p>
+<ol start="3" style="list-style-type: lower-alpha">
+<li>Now write two or three sentences underneath it. Say what the figure
+shows, where it came from, and what a reader should take away from it. A
+figure dropped into a report with nothing said about it leaves the
+reader to work out for themselves why it is there, which is your job
+rather than theirs.</li>
+</ol>
+<p>Typing the line straight into your text is quicker, and putting it in
+a chunk gives you control over how the figure is presented, which is
+usually what you want in a report.</p>
 <p>One thing that catches everybody out: the path is relative to where
 the <code>.Rmd</code> file is, not to your working directory. If the
 image doesn’t appear, the path is almost always the reason.</p>
@@ -885,8 +902,8 @@ the editor toolbar, just above your document, and click
 <strong>Visual</strong>. The keyboard shortcut is Ctrl+Shift+F4, or
 Cmd+Shift+F4 on a Mac. It’s genuinely useful, especially for tables and
 links. We’ve left it until now on purpose, so that you learn what the
-markup actually is first, because when something goes wrong it’s the
-markup you have to fix.</p>
+markdown underneath actually looks like first, because when something
+goes wrong it’s the markdown you have to fix.</p>
 <p><strong>Quarto.</strong> Quarto is the successor to R markdown. It
 does the same job, works with languages other than R, and its syntax is
 so close that nearly everything in this exercise transfers unchanged. If

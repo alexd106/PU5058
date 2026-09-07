@@ -38,7 +38,9 @@ We'll only cover the everyday loop in this exercise, which is what you'll use ni
 1\. Start by checking your setup is healthy. In the R console run the situation report:
 
 ```{r Q1, echo=TRUE}
-usethis::git_sitrep()
+library(usethis)
+
+git_sitrep()
 ```
 
 This prints a lot at once, which is normal. You're looking for just two things: your name and email address near the top under the Git config heading, and a line further down confirming that a personal access token was found. Everything else you can ignore for now.

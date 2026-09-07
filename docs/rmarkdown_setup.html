@@ -615,7 +615,9 @@ megabytes and installs itself from inside R. Run these two lines in the
 console:</p>
 <div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" tabindex="-1"></a><span class="fu">install.packages</span>(<span class="st">&quot;tinytex&quot;</span>)</span>
 <span id="cb3-2"><a href="#cb3-2" tabindex="-1"></a></span>
-<span id="cb3-3"><a href="#cb3-3" tabindex="-1"></a>tinytex<span class="sc">::</span><span class="fu">install_tinytex</span>()</span></code></pre></div>
+<span id="cb3-3"><a href="#cb3-3" tabindex="-1"></a><span class="fu">library</span>(tinytex)</span>
+<span id="cb3-4"><a href="#cb3-4" tabindex="-1"></a></span>
+<span id="cb3-5"><a href="#cb3-5" tabindex="-1"></a><span class="fu">install_tinytex</span>()</span></code></pre></div>
 <p>The second line is the one that does the downloading. Give it a few
 minutes and a decent connection, and don’t be alarmed if it prints a
 great deal of text at you while it works. You may also get a security or
@@ -629,7 +631,7 @@ you don’t need TinyTeX and can skip this step.</p>
 <div id="step-3-check-it-worked" class="section level2">
 <h2>Step 3: Check it worked</h2>
 <p>First, ask R:</p>
-<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" tabindex="-1"></a>tinytex<span class="sc">::</span><span class="fu">is_tinytex</span>()</span></code></pre></div>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" tabindex="-1"></a><span class="fu">is_tinytex</span>()</span></code></pre></div>
 <p>which should return <code>TRUE</code>.</p>
 <p>That only tells you the installation is there, though. The real test
 is making a PDF, so do that now rather than finding out in the
@@ -660,8 +662,8 @@ you installed it.</strong> Restart RStudio and try again. R needs
 restarting before it notices.</p>
 <p><strong>You already had LaTeX installed and things are behaving
 oddly.</strong> Having two can confuse matters. Run
-<code>tinytex::tinytex_root()</code> to see which installation R is
-actually using.</p>
+<code>tinytex_root()</code> to see which installation R is actually
+using.</p>
 <p><strong>Knitting to HTML works but PDF doesn’t.</strong> That’s the
 expected symptom of Step 2 not having worked, since HTML needs no LaTeX
 at all. Go back and run it again.</p>

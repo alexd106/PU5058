@@ -10,6 +10,8 @@ output:
 
 ```{r setup, include = FALSE}
 knitr::opts_chunk$set(echo = TRUE, warning = FALSE, message = FALSE)
+
+library(knitr)
 ```
 
 # Introduction
@@ -88,12 +90,17 @@ smoke_summary <- aggregate(cardiac[, c("age", "systolic", "tchol")],
                            by = list(Smoking = cardiac$Fsmoking),
                            mean, na.rm = TRUE)
 
-knitr::kable(smoke_summary, digits = 1,
-             caption = "Mean age, systolic blood pressure and total cholesterol by smoking status.")
+kable(smoke_summary, digits = 1,
+      caption = "Mean age, systolic blood pressure and total cholesterol by smoking status.")
 ```
 
 ## An externally produced figure
 
 ```{r admissions-figure, out.width = "80%", fig.cap = 'Alcohol-related hospital admissions by council area.'}
-knitr::include_graphics("output/ex6_admissions.png")
+include_graphics("output/ex6_admissions.png")
 ```
+
+Alcohol-related hospital admissions vary enormously between council areas. Glasgow City
+has consistently the highest rate in Scotland over this period and Aberdeenshire one of
+the lowest, with the national average falling somewhere between the two. The figure was
+produced from the ScotPHO data in Exercise 6 and exported as a png at 300 dpi.

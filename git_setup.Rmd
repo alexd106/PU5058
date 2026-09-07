@@ -156,11 +156,13 @@ will have to make another one, which is annoying but harmless.
 Give the token to your computer's password store so you never have to type it again:
 
 ```{r step6, eval=FALSE}
-gitcreds::gitcreds_set()
+library(gitcreds)
+
+gitcreds_set()
 ```
 
-Paste the token when prompted and press Enter. (You already have `gitcreds` installed:
-`usethis` depends on it.)
+Paste the token when prompted and press Enter. You already have `gitcreds` installed,
+because `usethis` depends on it.
 
 \  
 
@@ -191,9 +193,9 @@ The symptom is that pushing or pulling, which worked perfectly well last week, s
 fails with a message about authentication. The fix is to repeat Steps 5 and 6:
 
 ```{r expired, eval=FALSE}
-create_github_token()      # generate a fresh one
-gitcreds::gitcreds_set()   # it will offer to replace the old one - say yes
-git_sitrep()               # check
+create_github_token()   # generate a fresh one
+gitcreds_set()          # it will offer to replace the old one - say yes
+git_sitrep()            # check
 ```
 
 Your work is on your computer and on GitHub throughout. An expired token is a five minute

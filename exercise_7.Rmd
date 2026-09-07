@@ -123,9 +123,23 @@ Give the chunk a name by typing it straight after the `r`, so the first line rea
 
 Inside the chunk, import `cardiacdata.txt` exactly as you did in **Exercise 3, Q5**: with the `read.table()` function, writing out the `header`, `sep` and `stringsAsFactors` arguments, and assigning the result to `cardiac`. In the same chunk, add the two `factor()` lines from **Exercise 3, Q7** that create `Fsex` and `Fsmoking`. You'll remember why. `sex` and `smoking` arrive from the file as the numbers they were coded as, 1 and 2 for sex and 1, 2 and 3 for smoking, but they are really categories rather than quantities, so you use `factor()` to attach a meaningful label to each code and leave the original columns untouched (see `?factor` and [Section 3.1](https://intro2r.com/data-types.html#data-types) of the book for where factors sit among R's data types). You'll need `Fsmoking` for the boxplot in Q7 and the table in Q8, and both of them read a great deal better with words in them than with numbers.
 
-Run the chunk in the editor with the small green arrow at its top right corner, the rightmost of the three little buttons there. If you can't see it, `Code` -> `Run Region` -> `Run Current Chunk` does the same job, and so does Ctrl+Alt+C, or Cmd+Alt+C on a Mac. Then knit the whole document. Notice that knitting starts a completely fresh R session: anything you made earlier in the console doesn't exist when the document knits, which is exactly what makes it reproducible. It also means the chunk that imports the data has to come before any chunk that uses it.
+One more thing while you're in there. Later in this exercise you'll want a couple of functions from the `knitr` package, and the tidy place for a `library()` call is at the top of a document rather than buried in the middle of it. Add `library(knitr)` to your `setup` chunk now, the one you kept back in Q2, and you won't have to think about it again.
+
+Run the import chunk in the editor with the small green arrow at its top right corner, the rightmost of the three little buttons there. If you can't see it, `Code` -> `Run Region` -> `Run Current Chunk` does the same job, and so does Ctrl+Alt+C, or Cmd+Alt+C on a Mac. Then knit the whole document. Notice that knitting starts a completely fresh R session: anything you made earlier in the console doesn't exist when the document knits, which is exactly what makes it reproducible. It also means the chunk that imports the data has to come before any chunk that uses it.
 
 `````{asis, echo=SOLUTIONS}
+The setup chunk, with the package loaded at the top of the document:
+
+````{.md .foldable}
+```{r setup, include = FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+
+library(knitr)
+```
+````
+
+And the import chunk:
+
 ````{.md .foldable}
 ```{r import}
 cardiac <- read.table('data/cardiacdata.txt', header = TRUE, sep = "\t", stringsAsFactors = TRUE)
@@ -231,7 +245,7 @@ And the first line of the `alcohol-transform` chunk from Q6, with its caption ad
 
 Insert a chunk, name it `summary-table`, and recreate the `aggregate()` summary from **Exercise 4, Q4**: the mean of `age`, `systolic` and `tchol` for each smoking category. Assign it to an object called `smoke_summary`. Then, on the next line down, write `smoke_summary` on its own. A chunk prints anything that isn't assigned to something, so that second line is what makes the summary appear in your document at all. Knit and see what you get.
 
-It's the console output, monospaced and squeezed into a grey box, which is fine while you're working but not something you would put in front of anybody else. The `kable()` function from the `knitr` package turns a dataframe into a properly formatted table instead, with the columns lined up and the variable names picked out as a header row. Change that second line from `smoke_summary` to `knitr::kable(smoke_summary)`, knit again, and compare the two. Finally add `digits = 1` and a `caption` to the `kable()` call to tidy it up.
+It's the console output, monospaced and squeezed into a grey box, which is fine while you're working but not something you would put in front of anybody else. The `kable()` function, from the `knitr` package you loaded in Q5, turns a dataframe into a properly formatted table instead, with the columns lined up and the variable names picked out as a header row. Change that second line from `smoke_summary` to `kable(smoke_summary)`, knit again, and compare the two. Finally add `digits = 1` and a `caption` to the `kable()` call to tidy it up.
 
 `````{asis, echo=SOLUTIONS}
 The first version, which prints the raw console output:
@@ -254,8 +268,8 @@ smoke_summary <- aggregate(cardiac[, c("age", "systolic", "tchol")],
                            by = list(Smoking = cardiac$Fsmoking),
                            mean, na.rm = TRUE)
 
-knitr::kable(smoke_summary, digits = 1,
-             caption = "Mean age, systolic blood pressure and total cholesterol by smoking status.")
+kable(smoke_summary, digits = 1,
+      caption = "Mean age, systolic blood pressure and total cholesterol by smoking status.")
 ```
 ````
 `````
@@ -323,26 +337,48 @@ knitr::opts_chunk$set(echo = TRUE, warning = FALSE, message = FALSE)
 ````
 
 Note that the setup chunk itself uses `include = FALSE`, which is stronger than
-`echo = FALSE`: it hides the code *and* anything the chunk produces, so the chunk runs
+`echo = FALSE`. It hides the code *and* anything the chunk produces, so the chunk runs
 completely invisibly.
+
+You may also be wondering about the `knitr::` that RStudio put in front of
+`opts_chunk$set()` when it made the document. That is just another way of reaching a
+single function without loading the whole package first, and you can read it as 'the
+`opts_chunk` from `knitr`'. Now that you have `library(knitr)` in the same chunk you could
+drop it, but there is no need to.
 `````
 
 \  
 
-11\. Not every figure in a report will be one you constructed with R code. You might need a diagram, a photograph, a map, or a figure somebody else made (see [Section 8.5.4](https://intro2r.com/r-markdown-anatomy.html#adding-figures) of the book again). Add the plot you exported in **Exercise 6, Q9**, `ex6_admissions.png`, to your report. If you no longer have the file, [download it here](images/ex6_admissions.png) and save it into your `output` directory, the one you created in **Exercise 1, Q12**.
+11\. Not every figure in a report will be one you constructed with R code. You might need a diagram, a photograph, a map, or a figure somebody else made (see [Section 8.5.4](https://intro2r.com/r-markdown-anatomy.html#adding-figures) of the book again). Add the plot you exported in **Exercise 6, Q9**, `ex6_admissions.png`, to your report under a heading of its own. If you no longer have the file, [download it here](images/ex6_admissions.png) and save it into your `output` directory, the one you created in **Exercise 1, Q12**.
 
 There are two ways of doing it and it's worth trying both.
 
-a) The quick way needs no chunk at all, just a line of markdown in among your text. It's made of three pieces in a row with no spaces between them: an exclamation mark, then the caption you want in square brackets, then the path to the file in round brackets. Section 8.5.4 of the book has an example if you get stuck. Knit and check the figure appears.
+a) The quick way needs no chunk at all, just a line typed in among your text. It looks like this, and you replace the two parts in capitals with your own:
 
-b) The other way puts the file into a chunk instead, using the `include_graphics()` function from `knitr`, in the same way you would write `knitr::kable()`. Give it the path to the file in quotes. On its own this looks like more work for the same result, but it buys you something: because the figure is now coming out of a chunk, all the chunk options are available to it. You can caption it with `fig.cap` exactly as you did in Q7, and you can set how much of the page width it takes up with `out.width`, written as a percentage in quotes such as `"80%"`. Try it with a caption and a width, and knit.
+````md
+![YOUR CAPTION](PATH/TO/YOUR/FILE.png)
+````
 
-Which you use is a judgement call. The markdown line is quicker to write, and the chunk gives you control over how the figure is presented, which is usually what you want in a report.
+An exclamation mark, then square brackets, then round brackets, with no spaces anywhere between them. Knit and check the figure appears.
+
+b) The other way puts the file into a chunk instead, using the `include_graphics()` function, which is another one from the `knitr` package you loaded in Q5. On its own that looks like more work for the same result, but it buys you something. Because the figure is now coming out of a chunk, all the chunk options are available to it, so you can caption it with `fig.cap` exactly as you did in Q7 and set how much of the page width it takes up with `out.width`. Again, replace the parts in capitals:
+
+````md
+`r ''````{r YOUR-CHUNK-NAME, out.width = "50%", fig.cap = 'YOUR CAPTION'}
+include_graphics("PATH/TO/YOUR/FILE.png")
+```
+````
+
+Try it, and have a play with the `out.width` percentage until the figure sits sensibly on the page.
+
+c) Now write two or three sentences underneath it. Say what the figure shows, where it came from, and what a reader should take away from it. A figure dropped into a report with nothing said about it leaves the reader to work out for themselves why it is there, which is your job rather than theirs.
+
+Typing the line straight into your text is quicker, and putting it in a chunk gives you control over how the figure is presented, which is usually what you want in a report.
 
 One thing that catches everybody out: the path is relative to where the `.Rmd` file is, not to your working directory. If the image doesn't appear, the path is almost always the reason.
 
 `````{asis, echo=SOLUTIONS}
-The markdown line, typed straight into your text:
+Typed straight into your text:
 
 ````{.md .foldable}
 ![Alcohol-related hospital admissions by council area.](output/ex6_admissions.png)
@@ -352,8 +388,17 @@ And the same figure in a chunk, with a caption and set to 80% of the page width:
 
 ````{.md .foldable}
 ```{r admissions-figure, out.width = "80%", fig.cap = 'Alcohol-related hospital admissions by council area.'}
-knitr::include_graphics("output/ex6_admissions.png")
+include_graphics("output/ex6_admissions.png")
 ```
+````
+
+With a few sentences to go under it:
+
+````{.md .foldable}
+Alcohol-related hospital admissions vary enormously between council areas. Glasgow City
+has consistently the highest rate in Scotland over this period and Aberdeenshire one of
+the lowest, with the national average falling somewhere between the two. The figure was
+produced from the ScotPHO data in Exercise 6 and exported as a png at 300 dpi.
 ````
 `````
 
@@ -381,7 +426,7 @@ It needs `data/cardiacdata.txt` and `output/ex6_admissions.png` alongside it in 
 
 \  
 
-**The visual editor.** RStudio can show an R markdown document formatted as you type, more like a word processor, hiding the markdown syntax. Look for the pair of buttons marked **Source** and **Visual** at the top left of the editor toolbar, just above your document, and click **Visual**. The keyboard shortcut is Ctrl+Shift+F4, or Cmd+Shift+F4 on a Mac. It's genuinely useful, especially for tables and links. We've left it until now on purpose, so that you learn what the markup actually is first, because when something goes wrong it's the markup you have to fix.
+**The visual editor.** RStudio can show an R markdown document formatted as you type, more like a word processor, hiding the markdown syntax. Look for the pair of buttons marked **Source** and **Visual** at the top left of the editor toolbar, just above your document, and click **Visual**. The keyboard shortcut is Ctrl+Shift+F4, or Cmd+Shift+F4 on a Mac. It's genuinely useful, especially for tables and links. We've left it until now on purpose, so that you learn what the markdown underneath actually looks like first, because when something goes wrong it's the markdown you have to fix.
 
 **Quarto.** Quarto is the successor to R markdown. It does the same job, works with languages other than R, and its syntax is so close that nearly everything in this exercise transfers unchanged. If you carry on using R after this course you'll meet it. Start at [quarto.org](https://quarto.org).
 

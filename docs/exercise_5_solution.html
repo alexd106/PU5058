@@ -722,10 +722,11 @@ in?</p>
 <span id="cb6-10"><a href="#cb6-10" tabindex="-1"></a></span>
 <span id="cb6-11"><a href="#cb6-11" tabindex="-1"></a><span class="co"># Why not a log, as you used in Exercise 4? Try it and see what happens:</span></span>
 <span id="cb6-12"><a href="#cb6-12" tabindex="-1"></a><span class="co"># hist(log(cardiac$alcohol))</span></span>
-<span id="cb6-13"><a href="#cb6-13" tabindex="-1"></a><span class="co"># 58 of these patients drank nothing at all, log(0) is -Inf, and R will drop</span></span>
-<span id="cb6-14"><a href="#cb6-14" tabindex="-1"></a><span class="co"># more than a third of your data from the plot with nothing more than a</span></span>
-<span id="cb6-15"><a href="#cb6-15" tabindex="-1"></a><span class="co"># warning. Triglyceride didn&#39;t have this problem, because its single zero had</span></span>
-<span id="cb6-16"><a href="#cb6-16" tabindex="-1"></a><span class="co"># already been set to NA back in Exercise 4 Q1.</span></span></code></pre></div>
+<span id="cb6-13"><a href="#cb6-13" tabindex="-1"></a><span class="co"># 58 of these patients drank nothing at all and log(0) is -Inf, so the plot you</span></span>
+<span id="cb6-14"><a href="#cb6-14" tabindex="-1"></a><span class="co"># get is built from 105 patients rather than 163. R doesn&#39;t warn you, it</span></span>
+<span id="cb6-15"><a href="#cb6-15" tabindex="-1"></a><span class="co"># doesn&#39;t produce an error, and the histogram looks perfectly reasonable.</span></span>
+<span id="cb6-16"><a href="#cb6-16" tabindex="-1"></a><span class="co"># Triglyceride didn&#39;t have this problem, because its single zero had already</span></span>
+<span id="cb6-17"><a href="#cb6-17" tabindex="-1"></a><span class="co"># been set to NA back in Exercise 4 Q1.</span></span></code></pre></div>
 <p><img src="exercise_5_solution_files/figure-html/Q9-1.png" alt="" width="864" /></p>
 <p> </p>
 <p>10. Scatterplots are great for visualising relationships between two

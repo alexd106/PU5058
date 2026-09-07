@@ -503,30 +503,43 @@ class="section level2">
 <p>Read <a href="https://intro2r.com/rmarkdown_r.html">Chapter 8</a> to
 help you complete the questions in this exercise.</p>
 <p> </p>
-<p><strong>Before the session.</strong> You need the
-<code>rmarkdown</code> and <code>knitr</code> packages. Both normally
-come with RStudio, but please check before you arrive by running
+<p><strong>Before the session.</strong> There are two things to sort out
+beforehand, and the second one takes a few minutes, so please don’t
+leave it until the morning of the session.</p>
+<p>First, you need the <code>rmarkdown</code> and <code>knitr</code>
+packages. Both normally come with RStudio, but check by running
 <code>library(rmarkdown)</code> and <code>library(knitr)</code> in the
 console. If either gives an error, install it with
 <code>install.packages("rmarkdown")</code>. See <a
 href="https://intro2r.com/install-rm.html">Appendix A</a> of the
-Introduction to R book if you need more detail. If you run into real
-problems we will help you at the start of the session, but please try
-beforehand so we do not lose teaching time to installing software.</p>
+Introduction to R book if you need more detail.</p>
+<p>Second, you’ll be producing PDF documents in this exercise, which is
+what your assessment needs, and that requires a LaTeX installation. You
+almost certainly don’t have one, and you don’t need to know anything
+about LaTeX to use it. Run these two lines in the console:</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode md"><code class="sourceCode markdown"><span id="cb1-1"><a href="#cb1-1" tabindex="-1"></a>install.packages(&quot;tinytex&quot;)</span>
+<span id="cb1-2"><a href="#cb1-2" tabindex="-1"></a>tinytex::install_tinytex()</span></code></pre></div>
+<p>The second line downloads a few hundred megabytes, so give it time
+and a decent connection, and restart RStudio afterwards. Check it worked
+by running <code>tinytex::is_tinytex()</code>, which should return
+<code>TRUE</code>.</p>
+<p>If you run into real problems we’ll help you at the start of the
+session, but please try beforehand so we don’t lose teaching time to
+installing software.</p>
 <p> </p>
-<p>Everything you have produced so far has been code, and code is
-written for you. This exercise is about producing a <em>document</em>,
-written for somebody else, in which the code, the results and the
-writing all live in the same file and cannot drift apart. That is what
-‘reproducible’ means: change the data, press one button, and every
-number, figure and table in the document updates itself.</p>
-<p>You will build <strong>one document</strong> across the whole
-exercise, adding a layer at each question. Do not start a new file each
-time. By the end you will have a short report on the cardiac data and a
-template you can reuse. There is a lot of new vocabulary here, so take
-it slowly and knit often: knitting after every small change is the
-quickest way to see what each thing does, and the quickest way to find
-out which change broke something.</p>
+<p>Up to now everything you’ve written has been code, for your own use.
+This exercise is about producing a <em>document</em> for somebody else
+to read, in which your writing, your code and your results all live in
+the same file. Because they’re in the same file they can’t drift apart,
+which is what we mean by a reproducible report. Change the data, press
+one button, and every number, figure and table updates itself.</p>
+<p>You’ll build <strong>one document</strong> across the whole exercise,
+adding something to it at each question, so don’t start a new file each
+time. By the end you’ll have a short report on the cardiac data and a
+template you can reuse for your assessment. There’s a lot of new
+vocabulary here, so take it slowly and knit often. Knitting after every
+small change is the quickest way to see what each thing does, and the
+quickest way to find out which change broke something.</p>
 <p> </p>
 <p>1. Open the RStudio Project you have been using for this course.
 Create a new R markdown document by going to <code>File</code> -&gt;
@@ -535,17 +548,19 @@ Create a new R markdown document by going to <code>File</code> -&gt;
 some packages. Let it, and wait for it to finish.</p>
 <p>In the dialogue box that appears, type
 <code>Cardiac study report</code> in the Title box, put your name in the
-Author box, make sure <strong>HTML</strong> is selected on the left, and
-click OK. RStudio opens a new document that is already full of example
-content about cars. That is normal; we will delete it in a moment.</p>
+Author box, select <strong>PDF</strong> on the left, and click OK. PDF
+is the format your assessment has to be submitted in, so it is the one
+worth practising. RStudio opens a new document that’s already full of
+example content about cars. That’s normal, and we’ll delete it in a
+moment.</p>
 <p>Before you change anything at all, save the file into your Project
 directory as <code>cardiac_report.Rmd</code> (<code>File</code> -&gt;
 <code>Save As...</code>), then click the <strong>Knit</strong> button at
 the top of the editor. You can also press Ctrl+Shift+K, or Cmd+Shift+K
 on a Mac.</p>
-<p>Do this before you understand any of it. If a document appears, your
-setup works, and anything that goes wrong later is something you did
-rather than something that was already broken.</p>
+<p>Do this before you understand any of it. If a PDF appears then your
+setup is working, and you can be confident that anything which goes
+wrong later is something you can fix.</p>
 <p> </p>
 <p>2. Look at the document that appeared alongside the file that
 produced it. An R markdown file has only three kinds of content, and
@@ -557,35 +572,35 @@ lines of <code>---</code>, which controls the document as a whole</li>
 markdown</li>
 <li><strong>code chunks</strong>, which look like this:</li>
 </ul>
-<div class="sourceCode" id="cb1"><pre class="sourceCode md"><code class="sourceCode markdown"><span id="cb1-1"><a href="#cb1-1" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb1-2"><a href="#cb1-2" tabindex="-1"></a><span class="in">mean(cardiac$age)</span></span>
-<span id="cb1-3"><a href="#cb1-3" tabindex="-1"></a><span class="in">```</span></span></code></pre></div>
+<div class="sourceCode" id="cb2"><pre class="sourceCode md"><code class="sourceCode markdown"><span id="cb2-1"><a href="#cb2-1" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb2-2"><a href="#cb2-2" tabindex="-1"></a><span class="in">mean(cardiac$age)</span></span>
+<span id="cb2-3"><a href="#cb2-3" tabindex="-1"></a><span class="in">```</span></span></code></pre></div>
 <p>Find one of each in your file. Then delete everything below the first
 code chunk, the one called <code>setup</code>, leaving the YAML header
 and that chunk in place. Knit again to check you have an empty but
 working document. This is your starting point.</p>
 <p> </p>
 <p>3. Now take control of the YAML header. At the moment it has a title,
-an author and a date. Add the four <code>output</code> lines shown
+an author and a date, and an <code>output</code> line saying
+<code>pdf_document</code>. Replace that line with the four shown
 below.</p>
 <p>Two warnings, because this is where people lose ten minutes.
 Indentation in YAML matters, so copy the spacing exactly. And use
 spaces, never tabs.</p>
-<div class="sourceCode" id="cb2"><pre
-class="sourceCode yaml"><code class="sourceCode yaml"><span id="cb2-1"><a href="#cb2-1" tabindex="-1"></a><span class="pp">---</span></span>
-<span id="cb2-2"><a href="#cb2-2" tabindex="-1"></a><span class="fu">title</span><span class="kw">:</span><span class="at"> </span><span class="st">&quot;Cardiac study report&quot;</span></span>
-<span id="cb2-3"><a href="#cb2-3" tabindex="-1"></a><span class="fu">author</span><span class="kw">:</span><span class="at"> </span><span class="st">&quot;Your Name&quot;</span></span>
-<span id="cb2-4"><a href="#cb2-4" tabindex="-1"></a><span class="fu">date</span><span class="kw">:</span><span class="at"> </span><span class="st">&quot;20 August 2026&quot;</span></span>
-<span id="cb2-5"><a href="#cb2-5" tabindex="-1"></a><span class="fu">output</span><span class="kw">:</span></span>
-<span id="cb2-6"><a href="#cb2-6" tabindex="-1"></a><span class="at">  </span><span class="fu">html_document</span><span class="kw">:</span></span>
-<span id="cb2-7"><a href="#cb2-7" tabindex="-1"></a><span class="at">    </span><span class="fu">toc</span><span class="kw">:</span><span class="at"> </span><span class="ch">true</span></span>
-<span id="cb2-8"><a href="#cb2-8" tabindex="-1"></a><span class="at">    </span><span class="fu">toc_float</span><span class="kw">:</span><span class="at"> </span><span class="ch">true</span></span>
-<span id="cb2-9"><a href="#cb2-9" tabindex="-1"></a><span class="at">    </span><span class="fu">number_sections</span><span class="kw">:</span><span class="at"> </span><span class="ch">true</span></span>
-<span id="cb2-10"><a href="#cb2-10" tabindex="-1"></a><span class="pp">---</span></span></code></pre></div>
+<div class="sourceCode" id="cb3"><pre
+class="sourceCode yaml"><code class="sourceCode yaml"><span id="cb3-1"><a href="#cb3-1" tabindex="-1"></a><span class="pp">---</span></span>
+<span id="cb3-2"><a href="#cb3-2" tabindex="-1"></a><span class="fu">title</span><span class="kw">:</span><span class="at"> </span><span class="st">&quot;Cardiac study report&quot;</span></span>
+<span id="cb3-3"><a href="#cb3-3" tabindex="-1"></a><span class="fu">author</span><span class="kw">:</span><span class="at"> </span><span class="st">&quot;Your Name&quot;</span></span>
+<span id="cb3-4"><a href="#cb3-4" tabindex="-1"></a><span class="fu">date</span><span class="kw">:</span><span class="at"> </span><span class="st">&quot;20 August 2026&quot;</span></span>
+<span id="cb3-5"><a href="#cb3-5" tabindex="-1"></a><span class="fu">output</span><span class="kw">:</span></span>
+<span id="cb3-6"><a href="#cb3-6" tabindex="-1"></a><span class="at">  </span><span class="fu">pdf_document</span><span class="kw">:</span></span>
+<span id="cb3-7"><a href="#cb3-7" tabindex="-1"></a><span class="at">    </span><span class="fu">toc</span><span class="kw">:</span><span class="at"> </span><span class="ch">true</span></span>
+<span id="cb3-8"><a href="#cb3-8" tabindex="-1"></a><span class="at">    </span><span class="fu">number_sections</span><span class="kw">:</span><span class="at"> </span><span class="ch">true</span></span>
+<span id="cb3-9"><a href="#cb3-9" tabindex="-1"></a><span class="pp">---</span></span></code></pre></div>
 <p>Add <code>toc: true</code> first and knit. Then add
-<code>toc_float: true</code> and knit again. Then
-<code>number_sections: true</code>. Adding them one at a time, and
-knitting after each, is how you see what each one actually does.</p>
+<code>number_sections: true</code> and knit again. Adding them one at a
+time, and knitting after each, is how you see what each one actually
+does.</p>
 <p> </p>
 <p>4. Time to write something. Underneath the setup chunk, write a short
 introduction to the cardiac study using markdown formatting only, with
@@ -621,7 +636,10 @@ nothing and makes them far easier to find when something goes wrong.</p>
 did in <strong>Exercise 3, Q5</strong>: with the
 <code>read.table()</code> function, writing out the <code>header</code>,
 <code>sep</code> and <code>stringsAsFactors</code> arguments, and
-assigning the result to <code>cardiac</code>.</p>
+assigning the result to <code>cardiac</code>. In the same chunk, add the
+two <code>factor()</code> lines from <strong>Exercise 3, Q7</strong>
+that create <code>Fsex</code> and <code>Fsmoking</code>, since you’ll
+want them later.</p>
 <p>Then insert a second chunk, name it <code>structure</code>, and put
 <code>str(cardiac)</code> in it.</p>
 <p>Run each chunk in the editor with the small green arrow at its top
@@ -631,17 +649,46 @@ does not exist when the document knits, which is exactly what makes the
 document reproducible. It also means the chunk that imports the data has
 to come before any chunk that uses it.</p>
 <p> </p>
-<p>6. Add a figure. Insert another chunk, name it
-<code>chol-plot</code>, and use it to redraw the boxplot of total
+<p>6. Everything so far has been about the mechanics of the document.
+This question is about what a report is actually for, and it’s the one
+that most resembles what you’ll be asked to do in your assessment. A
+reader needs to know not just what you found, but what you did to the
+data before you found it, and why.</p>
+<p>Add a section to your report called <code>## Data validation</code>,
+immediately below your <code>structure</code> chunk. In it, put a chunk
+named <code>validation</code> holding the three lines from
+<strong>Exercise 4, Q1</strong> that set the impossible
+<code>bmi</code>, <code>triglyceride</code> and <code>hdlchol</code>
+values to <code>NA</code>. Remember that your report imports the raw
+file from scratch every time it knits, so if the cleaning isn’t in the
+document then it hasn’t happened.</p>
+<p>Then write a short paragraph underneath, two or three sentences,
+saying which variables you changed, how many values in each, and why you
+set them to <code>NA</code> rather than deleting those patients or
+correcting the numbers yourself. Type the counts in by hand for now.
+You’ll come back to them in Q9, and there’s a wrinkle waiting for you
+there.</p>
+<p>Give this chunk <code>echo = TRUE</code> when you get to Q8. A
+section that tells the reader you cleaned the data but hides how is not
+much use to anybody.</p>
+<p>Now do the same for a transformation. Underneath, add a chunk named
+<code>alcohol-transform</code> that creates the square root of
+<code>alcohol</code> as you did in <strong>Exercise 5, Q9</strong>, and
+draws the histograms of <code>alcohol</code> and
+<code>sqrt(alcohol)</code> side by side. Give it a caption with
+<code>fig.cap</code>, and write a sentence or two saying why you
+transformed it.</p>
+<p> </p>
+<p>7. Add a figure. Insert another chunk, name it
+<code>chol-plot</code>, and use it to redraw the boxplot of HDL
 cholesterol by smoking status from <strong>Exercise 5, Q11</strong>. You
-will need the factor version of the smoking variable first, which you
-made in <strong>Exercise 5, Q4</strong>, so include that line in the
-chunk too.</p>
+already have <code>Fsmoking</code> from your import chunk, so this is
+just the <code>boxplot()</code> call.</p>
 <p>Now give the figure a caption. Chunk options go inside the curly
 braces, after the chunk name, separated by commas. The first line of
 your chunk should read:</p>
-<div class="sourceCode" id="cb3"><pre class="sourceCode md"><code class="sourceCode markdown"><span id="cb3-1"><a href="#cb3-1" tabindex="-1"></a><span class="in">```{r chol-plot, fig.cap = &#39;Total cholesterol by smoking status.&#39;}</span></span>
-<span id="cb3-2"><a href="#cb3-2" tabindex="-1"></a><span class="in">```</span></span></code></pre></div>
+<div class="sourceCode" id="cb4"><pre class="sourceCode md"><code class="sourceCode markdown"><span id="cb4-1"><a href="#cb4-1" tabindex="-1"></a><span class="in">```{r chol-plot, fig.cap = &#39;HDL cholesterol by smoking status.&#39;}</span></span>
+<span id="cb4-2"><a href="#cb4-2" tabindex="-1"></a><span class="in">```</span></span></code></pre></div>
 <p>Knit and find your caption underneath the plot. Then add
 <code>fig.width = 4</code> to the same line, knit again, and see what
 happens to the size of the text relative to the plot.</p>
@@ -650,54 +697,79 @@ height, alignment, resolution and so on. You do not need them today. <a
 href="https://intro2r.com/rmarkdown_r.html">Chapter 8</a> of the book
 lists the ones worth knowing.</p>
 <p> </p>
-<p>7. Here is the question that turns a set of notes into a report. Ask
-yourself who is going to read this document. A colleague checking your
-working wants to see your code. A supervisor, a manager or an examiner
-almost certainly does not: they want the results, and the code is
-clutter. R markdown lets you decide chunk by chunk with the
-<code>echo</code> option.</p>
+<p>8. Now think about who is going to read this document. Somebody
+checking your working will want to see your code, but a supervisor, a
+manager or an examiner usually won’t - they want the results, and the
+code just gets in the way. R markdown lets you decide this chunk by
+chunk with the <code>echo</code> option.</p>
 <ol style="list-style-type: lower-alpha">
 <li><p>Add <code>echo = FALSE</code> to your <code>chol-plot</code>
-chunk, alongside the caption you added in Q6, and knit. The plot is
-still there; the code that drew it is not.</p></li>
+chunk, alongside the caption you added in Q7, and knit. The plot is
+still there but the code that drew it is not.</p></li>
 <li><p>Now do the same for the whole document rather than one chunk at a
 time. Go to your <code>setup</code> chunk at the top and put this line
 inside it:</p></li>
 </ol>
-<div class="sourceCode" id="cb4"><pre class="sourceCode md"><code class="sourceCode markdown"><span id="cb4-1"><a href="#cb4-1" tabindex="-1"></a>knitr::opts_chunk$set(echo = FALSE)</span></code></pre></div>
+<div class="sourceCode" id="cb5"><pre class="sourceCode md"><code class="sourceCode markdown"><span id="cb5-1"><a href="#cb5-1" tabindex="-1"></a>knitr::opts_chunk$set(echo = FALSE)</span></code></pre></div>
 <p>Knit. Every chunk now hides its code, so you can delete the
 <code>echo = FALSE</code> you added in part (a) and it will still be
 hidden.</p>
 <ol start="3" style="list-style-type: lower-alpha">
-<li>Finally, make one exception. Add <code>echo = TRUE</code> to the
-first line of your <code>structure</code> chunk, and knit. That one
-chunk shows its code while the rest do not. Setting a default for the
-document and then overriding it for individual chunks is how nearly
-every real report is put together.</li>
+<li>Code isn’t the only thing R puts in your document uninvited. Try
+this. Add <code>library(vioplot)</code> on its own line at the top of
+your <code>chol-plot</code> chunk, using the package you installed in
+Exercise 5, and knit. Even with the code hidden you get several lines of
+this in the middle of your report:</li>
+</ol>
+<div class="sourceCode" id="cb6"><pre class="sourceCode md"><code class="sourceCode markdown"><span id="cb6-1"><a href="#cb6-1" tabindex="-1"></a><span class="an">Loading required package:</span><span class="co"> sm</span></span>
+<span id="cb6-2"><a href="#cb6-2" tabindex="-1"></a>Package &#39;sm&#39;, version 2.2-6.0: type help(sm) for summary information</span>
+<span id="cb6-3"><a href="#cb6-3" tabindex="-1"></a>Loading required package: zoo</span></code></pre></div>
+<p>Those are <strong>messages</strong>. R also produces
+<strong>warnings</strong>, which appear the same way and look far more
+alarming to a reader than they usually deserve to. Neither belongs in a
+finished report. Add <code>warning = FALSE</code> and
+<code>message = FALSE</code> to your <code>opts_chunk$set()</code> line,
+separated by commas, and knit again. The messages are gone. Now delete
+the <code>library(vioplot)</code> line, since you don’t need it.</p>
+<ol start="4" style="list-style-type: lower-alpha">
+<li>Finally, make one exception to the rule you have just set. Add
+<code>echo = TRUE</code> to the first line of your
+<code>structure</code> chunk and knit. That one chunk shows its code
+while the rest do not. Setting a default for the document and then
+overriding it where you need to is how nearly every real report is put
+together.</li>
 </ol>
 <p> </p>
-<p>8. So far every number in your document is inside a chunk. Numbers in
-your <em>writing</em> are the ones that go stale: you type ‘163
-patients’, the data changes, and now your report is wrong and nothing
-warns you.</p>
+<p>9. Have a look back at the paragraph you wrote in Q6. You typed those
+numbers in by hand, and hand typed numbers go stale. If the data
+changes, or you correct something later, your writing quietly stops
+matching your results and nothing tells you.</p>
 <p>R markdown fixes this with <strong>inline code</strong>. In the
 middle of an ordinary sentence you write a backtick, then the letter
 <code>r</code>, then some R code, then a closing backtick, and when you
 knit, the answer appears instead. Like this:</p>
-<div class="sourceCode" id="cb5"><pre class="sourceCode md"><code class="sourceCode markdown"><span id="cb5-1"><a href="#cb5-1" tabindex="-1"></a>The study included <span class="in">`r nrow(cardiac)`</span> patients.</span></code></pre></div>
+<div class="sourceCode" id="cb7"><pre class="sourceCode md"><code class="sourceCode markdown"><span id="cb7-1"><a href="#cb7-1" tabindex="-1"></a>The study included <span class="in">`r nrow(cardiac)`</span> patients.</span></code></pre></div>
 <p>which comes out as “The study included 163 patients.”</p>
-<p>Write a sentence of your own in the report that gives the number of
-patients and their mean age, using inline code for both rather than
-typing the numbers. Use <code>round()</code> on the mean so you do not
-get six decimal places.</p>
+<p>Go back to your data validation paragraph and replace every number
+you typed by hand with inline code. Then add a sentence to your
+introduction giving the number of patients and their mean age in the
+same way. Use <code>round()</code> on the mean so you don’t get six
+decimal places.</p>
+<p>There’s one catch worth knowing about now rather than later. Inline
+code runs in the order it appears in the document, just as chunks do, so
+it only works if it sits <strong>below</strong> the chunk that made the
+object it uses. Put a piece of inline code above your
+<code>import</code> chunk and the knit will stop with
+<code>object 'cardiac' not found</code>. If you ever see that message,
+this is nearly always the reason.</p>
 <p>Then test that it really works. Temporarily change your import chunk
 so it keeps only the first 100 patients, by adding this line at the end
 of the chunk:</p>
-<div class="sourceCode" id="cb6"><pre class="sourceCode md"><code class="sourceCode markdown"><span id="cb6-1"><a href="#cb6-1" tabindex="-1"></a>cardiac &lt;- head(cardiac, 100)</span></code></pre></div>
+<div class="sourceCode" id="cb8"><pre class="sourceCode md"><code class="sourceCode markdown"><span id="cb8-1"><a href="#cb8-1" tabindex="-1"></a>cardiac &lt;- head(cardiac, 100)</span></code></pre></div>
 <p>Knit, and watch your sentence update itself. Then delete that line
 and knit again.</p>
 <p> </p>
-<p>9. Add a table. If you simply print a dataframe in a chunk you get
+<p>10. Add a table. If you simply print a dataframe in a chunk you get
 the console output, monospaced and ugly. The <code>kable()</code>
 function from the <code>knitr</code> package formats it as a proper
 table instead.</p>
@@ -711,13 +783,13 @@ called <code>smoke_summary</code>.</p>
 and compare. Finally add <code>digits = 1</code> and a
 <code>caption</code> to the <code>kable()</code> call to tidy it up.</p>
 <p> </p>
-<p>10. Not every figure in a report is one that R drew. You might need a
+<p>11. Not every figure in a report is one that R drew. You might need a
 diagram, a photograph, a map, or a figure somebody else made. Add the
 plot you exported in <strong>Exercise 6, Q9</strong>,
 <code>ex6_admissions.png</code>, to your report.</p>
 <p>The simplest way needs no chunk at all. Type this straight into your
 text, changing the path to wherever your file actually is:</p>
-<div class="sourceCode" id="cb7"><pre class="sourceCode md"><code class="sourceCode markdown"><span id="cb7-1"><a href="#cb7-1" tabindex="-1"></a><span class="al">![Alcohol-related hospital admissions by council area.](output/ex6_admissions.png)</span></span></code></pre></div>
+<div class="sourceCode" id="cb9"><pre class="sourceCode md"><code class="sourceCode markdown"><span id="cb9-1"><a href="#cb9-1" tabindex="-1"></a><span class="al">![Alcohol-related hospital admissions by council area.](output/ex6_admissions.png)</span></span></code></pre></div>
 <p>An exclamation mark, then the caption in square brackets, then the
 file path in round brackets. Knit and check the figure appears.</p>
 <p>If you no longer have the file, <a
@@ -728,10 +800,16 @@ your <code>output</code> directory, the one you created in
 the <code>.Rmd</code> file is, not to your working directory. If the
 image does not appear, the path is almost always the reason.</p>
 <p> </p>
-<p>11. If you have time, click the small arrow next to the
-<strong>Knit</strong> button and choose to knit to a Word document. Open
-it and compare it with the HTML version. Which would you send to a
-supervisor, and which would you put on a website? Keep both.</p>
+<p>12. If you have time, here’s one of the nicer things about R
+markdown: the same source file will give you a completely different kind
+of document without you rewriting a word of it. In your YAML header,
+change <code>pdf_document</code> to <code>html_document</code> and knit.
+You’ll get a web page instead, built from exactly the same text, code
+and figures. While you’re there, add <code>toc_float: true</code> on its
+own line underneath <code>toc: true</code> and knit again to see the
+contents float alongside the page as you scroll. That option only works
+in HTML, so change the header back to <code>pdf_document</code> and
+delete the <code>toc_float</code> line before you finish.</p>
 <p> </p>
 <div id="two-things-worth-knowing-about-but-not-now"
 class="section level3">

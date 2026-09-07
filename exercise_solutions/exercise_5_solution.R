@@ -112,10 +112,11 @@ hist(cardiac$alcohol_sqrt, main = "square root", xlab = "sqrt(alcohol)")
 
 # Why not a log, as you used in Exercise 4? Try it and see what happens:
 # hist(log(cardiac$alcohol))
-# 58 of these patients drank nothing at all, log(0) is -Inf, and R will drop
-# more than a third of your data from the plot with nothing more than a
-# warning. Triglyceride didn't have this problem, because its single zero had
-# already been set to NA back in Exercise 4 Q1.
+# 58 of these patients drank nothing at all and log(0) is -Inf, so the plot you
+# get is built from 105 patients rather than 163. R doesn't warn you, it
+# doesn't produce an error, and the histogram looks perfectly reasonable.
+# Triglyceride didn't have this problem, because its single zero had already
+# been set to NA back in Exercise 4 Q1.
 
 
 ## ----Q10, echo=SOLUTIONS, eval=SOLUTIONS, fig.width=9, fig.height=4.5---------

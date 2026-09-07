@@ -545,9 +545,6 @@ two things, circled below: your name and email address near the top
 under the Git global heading, and a line further down confirming that a
 personal access token was found. Everything else you can ignore for
 now.</p>
-<p><img src="images/git_sitrep.png"
-alt="The git_sitrep output with the name, email and token lines circled" /></p>
-<p> </p>
 <p>If either of those is missing, go back to the <a
 href="git_setup.html" target="_blank">setup page</a> and work out which
 step didn’t take. Ask for help now rather than at Q4, when the symptom
@@ -558,41 +555,35 @@ the repository on GitHub first and then bring it down to your computer,
 because that way the two ends are connected from the start and there’s
 less to go wrong.</p>
 <ol style="list-style-type: lower-alpha">
-<li>Go to <a href="https://github.com">github.com</a> and log in. Click
-the <strong>+</strong> in the top right and choose <strong>New
+<li><p>Go to <a href="https://github.com">github.com</a> and log in.
+Click the <strong>+</strong> in the top right and choose <strong>New
 repository</strong>. If you can’t see it, your
 <strong>Repositories</strong> tab has a green <strong>New</strong>
-button that does the same thing.</li>
-</ol>
-<p><img src="images/new_repo2.png"
-alt="The plus button in the top right of GitHub, circled" /></p>
-<p> </p>
-<ol start="2" style="list-style-type: lower-alpha">
-<li>Name it <code>pu5058-practical</code>. Leave the visibility as
+button that does the same thing.</p></li>
+<li><p>Name it <code>pu5058-practical</code>. Leave the visibility as
 <strong>Public</strong>. Switch <strong>Add README</strong> on. Then, in
 the <strong>Add .gitignore</strong> dropdown just below it, choose the
-<strong>R</strong> template, which the screenshot below does not have
-set. Click <strong>Create repository</strong>.</li>
+<strong>R</strong> template. That last one is easy to miss and it saves
+you a job later, so check your form looks like this before you click
+<strong>Create repository</strong>.</p></li>
 </ol>
-<p><img src="images/new_repo_opt.png"
-alt="The GitHub new repository form" /></p>
+<p><img src="images/ex9_repo_form.png"
+alt="The GitHub new repository form, filled in, with the gitignore dropdown set to R" /></p>
 <p> </p>
 <ol start="3" style="list-style-type: lower-alpha">
-<li>On the page that appears, click the green <strong>Code</strong>
+<li><p>On the page that appears, click the green <strong>Code</strong>
 button, make sure <strong>HTTPS</strong> is selected rather than SSH,
-and copy the web address. It will end in <code>.git</code>.</li>
-</ol>
-<p><img src="images/new_repo_clone.png"
-alt="The Code button open, showing the HTTPS address to copy" /></p>
-<p> </p>
-<ol start="4" style="list-style-type: lower-alpha">
-<li>In RStudio, go to <code>File</code> -&gt;
+and copy the web address. It will end in <code>.git</code>.</p></li>
+<li><p>In RStudio, go to <code>File</code> -&gt;
 <code>New Project...</code>. Choose <strong>Version Control</strong>,
 then <strong>Git</strong>. Paste the address into the ‘Repository URL’
 box. The ‘Project directory name’ box fills in on its own. Under ‘Create
 project as a subdirectory of’, browse to wherever you keep your work for
-this course, then click <strong>Create Project</strong>.</li>
+this course, then click <strong>Create Project</strong>.</p></li>
 </ol>
+<p><img src="images/ex9_clone_dialog.png"
+alt="The Clone Git Repository dialogue with the repository URL and project directory name filled in" /></p>
+<p> </p>
 <p>If there’s no <strong>Version Control</strong> option in that first
 window, RStudio hasn’t found Git on your computer. That’s Step 3 of the
 <a href="git_setup.html" target="_blank">setup page</a>, and the
@@ -626,7 +617,8 @@ it.</p>
 down and up arrows</li>
 <li>the <strong>History</strong> button, the little clock</li>
 </ul>
-<p><img src="images/GitTab.png" alt="The RStudio Git pane" /></p>
+<p><img src="images/ex9_git_pane.png"
+alt="The RStudio Git pane just after cloning, showing one untracked file" /></p>
 <p> </p>
 <p>The coloured icon beside a file tells you what Git currently makes of
 it. A yellow <code>?</code> means Git can see the file but isn’t keeping
@@ -680,8 +672,8 @@ is a useful message, ‘update’ is not, and in six months you’ll be
 grateful. Click the <strong>Commit</strong> button, read the
 confirmation, and close it.</p></li>
 </ol>
-<p><img src="images/FirstCommit.png"
-alt="The RStudio commit window" /></p>
+<p><img src="images/ex9_commit.png"
+alt="The commit window with one file staged, a message typed and the diff below" /></p>
 <p> </p>
 <p>Your report is now recorded in the history, and notice that it all
 happened on your own computer. Nothing has gone anywhere near GitHub
@@ -699,9 +691,6 @@ the unchanged lines around them for context. Getting into the habit of
 looking at the diff before committing catches an enormous number of
 mistakes.</li>
 </ol>
-<p><img src="images/Diff.png"
-alt="The diff window, with a removed line in red and an added line in green" /></p>
-<p> </p>
 <p>Notice that the diff is of your <code>.Rmd</code> file rather than
 the PDF. Git is designed for plain text, which is exactly what an R
 markdown file is, and it is one of the reasons for writing a report this
@@ -721,79 +710,51 @@ did, and why you did it, is more useful still.</p></li>
 back.</p>
 <ol style="list-style-type: lower-alpha">
 <li>Open your report, delete the whole <code>chol-plot</code> chunk that
-draws the boxplot, and save it. Do <strong>not</strong> commit. Now, in
-the Git pane, right-click on the file and choose
-<strong>Revert</strong>. Say yes to the warning, then look at your
+draws the boxplot, and save it. Do <strong>not</strong> commit. Now
+click on <code>cardiac_report.Rmd</code> in the Git pane to select it,
+click the blue gear icon along the top of the pane and choose
+<strong>Revert…</strong>. Say yes to the warning, then look at your
 report again and the deleted chunk is back.</li>
 </ol>
+<p><img src="images/ex9_revert_menu.png"
+alt="The gear menu in the Git pane, open, showing Revert and Ignore" /></p>
+<p> </p>
 <p>Be careful with this one. It’s not an undo button. It throws away
 <em>everything</em> you’ve changed since your last commit, not just the
 last thing you did, and there’s no way back. Commit often and you’ll
 rarely need it.</p>
 <ol start="2" style="list-style-type: lower-alpha">
-<li>Now a subtler one. Commit a change, then realise you forgot to
-include something, add it, and in the Commit window tick <strong>Amend
-previous commit</strong> before committing again. Rather than making a
-second commit, this folds your new change into the previous one.</li>
+<li>Now a subtler one, and this time do exactly as follows so that you
+can see what changes.</li>
 </ol>
+<p>In your report, find the <code>## Results</code> heading and change
+it to something more useful, say
+<code>## HDL cholesterol and smoking status</code>. Save the file, stage
+it, and commit it with the message
+<code>change Results heading</code>.</p>
+<p>Now realise you meant to do more than that. Underneath that heading,
+add a sentence saying what the figure below it shows. Save the file and
+stage it again, but this time, before you click <strong>Commit</strong>,
+tick <strong>Amend previous commit</strong>. Notice that RStudio fills
+the message box back in with <code>change Results heading</code> for
+you. Commit.</p>
+<p><img src="images/ex9_amend.png"
+alt="The commit window with the Amend previous commit box ticked" /></p>
+<p> </p>
+<p>Click <strong>History</strong> and count. You made two separate
+changes and clicked Commit twice, but there is only one new commit,
+holding both of them. That is what amending does: rather than adding a
+commit, it replaces the previous one.</p>
 <p>You are safe doing this here because you haven’t pushed anything yet.
 Once a commit is on GitHub other people may already have it, and
 rewriting one at that point causes them problems, so treat <strong>Amend
 previous commit</strong> as something you only ever use on work that is
 still on your own machine.</p>
 <p> </p>
-<p>7. Stop for a moment before you click anything. <strong>Everything
-you have done up until now has been local.</strong> Every commit you
-made in Q4, Q5 and Q6 went into a hidden folder inside
-<code>pu5058-practical</code> on your own computer, and GitHub has no
-idea that any of it happened. Refresh your repository page in the
-browser and you’ll still see nothing but the README and the
-<code>.gitignore</code> you made back in Q2.</p>
-<p>That’s worth noticing, because it’s the difference between the two
-halves of this exercise. Git gave you the history. GitHub is about to
-give you the backup, and everything from here on is about keeping the
-two in step.</p>
-<p>Click the green <strong>Push</strong> arrow, the up arrow in the Git
-pane. Wait for it to finish, then go to your repository page on GitHub
-in your browser and refresh.</p>
-<p>Your report is there, and so is every commit you made in Q4, Q5 and
-Q6, not just the last one. Push sends everything Git has that GitHub
-hasn’t. Click on the commit count near the top of the file list and you
-will see them all, with the messages you typed.</p>
-<p>If the push fails with a message about authentication then your token
-is the problem rather than anything you’ve done here, and see the last
-section of the <a href="git_setup.html" target="_blank">setup page</a>.
-Everything you have committed is safe on your computer either way, which
-is rather the point of keeping the two separate.</p>
-<p> </p>
-<p>8. Work flows the other way too, and this is the half people
-forget.</p>
-<ol style="list-style-type: lower-alpha">
-<li>In your browser, open your repository on GitHub, click on
-<code>README.md</code>, and click the pencil icon to edit it. Write a
-couple of sentences describing what the project is for, then commit the
-change. GitHub asks you for a commit message in much the same way
-RStudio does.</li>
-</ol>
-<p><img src="images/readme_edit.png"
-alt="Editing the README file on GitHub, with the Commit changes button" /></p>
-<p> </p>
-<ol start="2" style="list-style-type: lower-alpha">
-<li><p>Your computer knows nothing about this. In RStudio, click
-<strong>Pull</strong>, the blue down arrow. Open the README in RStudio
-and your change is there.</p></li>
-<li><p>Now think about why this matters. If you’d edited the README on
-your computer as well before pulling, Git would have had two different
-versions of the same file and would have asked you to sort it out.
-That’s a merge conflict, and it’s why the advice is always <strong>pull
-before you push</strong>. Get into the habit now, while you’re working
-alone and there’s nothing to conflict with.</p></li>
-</ol>
-<p> </p>
-<p>9. Finally, what not to put in a repository. Open the
-<code>.gitignore</code> file in your Project. This is the list of things
-Git deliberately ignores, and GitHub gave you a sensible starting one
-when you chose the R template in Q2.</p>
+<p>7. Before you send any of this to GitHub, decide what should be
+going. Open the <code>.gitignore</code> file in your Project. This is
+the list of things Git deliberately ignores, and GitHub gave you a
+sensible starting one when you chose the R template in Q2.</p>
 <ol style="list-style-type: lower-alpha">
 <li><p>Read through it. You should recognise <code>.Rhistory</code> and
 <code>.RData</code>.</p></li>
@@ -810,9 +771,9 @@ class="sourceCode md foldable"><code class="sourceCode markdown"><span id="cb2-1
 <div class="sourceCode" id="cb3"><pre
 class="sourceCode md foldable"><code class="sourceCode markdown"><span id="cb3-1"><a href="#cb3-1" tabindex="-1"></a>*.pdf</span></code></pre></div>
 <ol start="3" style="list-style-type: lower-alpha">
-<li><p>Right-click a file in the Git pane and notice there’s an
-<strong>Ignore</strong> option, which adds it to <code>.gitignore</code>
-for you.</p></li>
+<li><p>Notice that the gear menu you used in Q6 also has an
+<strong>Ignore…</strong> option, which adds the selected file to
+<code>.gitignore</code> for you rather than making you type it.</p></li>
 <li><p>Now a judgement call, because ‘ignore anything you generated’ is
 too blunt a rule. Your <code>output</code> folder holds
 <code>ex6_admissions.png</code>, and your report can’t knit without it.
@@ -828,9 +789,64 @@ be a different matter entirely. <strong>Never put confidential data or
 passwords in a repository</strong>, and be especially careful with
 public ones, because deleting a file doesn’t remove it from the
 history.</p></li>
+<li><p>So put that into practice. <code>data/</code>,
+<code>output/</code> and <code>pu5058-practical.Rproj</code> have been
+sitting there untracked since Q4, and all three belong in the
+repository. The first two because the report needs them, and the third
+because it is what makes the folder an RStudio Project for anybody who
+clones it.</p></li>
 </ol>
-<p>Stage and commit whatever you have decided should be in there, push,
-and you’re done.</p>
+<p>Stage those three and the <code>.gitignore</code> you just edited,
+commit them with a sensible message, and look at the Git pane
+afterwards. It should be completely empty. Everything you wanted is now
+in the history and everything you didn’t is being ignored, which is
+exactly the state you want a project to be in before you send it
+anywhere.</p>
+<p> </p>
+<p>8. Stop for a moment before you click anything. <strong>Everything
+you have done up until now has been local.</strong> Every commit you
+made in Q4 to Q7 went into a hidden folder inside
+<code>pu5058-practical</code> on your own computer, and GitHub has no
+idea that any of it happened. Refresh your repository page in the
+browser and you’ll still see nothing but the README and the
+<code>.gitignore</code> you made back in Q2.</p>
+<p>That’s worth noticing, because it’s the difference between the two
+halves of this exercise. Git gave you the history. GitHub is about to
+give you the backup, and everything from here on is about keeping the
+two in step.</p>
+<p>Click the green <strong>Push</strong> arrow, the up arrow in the Git
+pane. Wait for it to finish, then go to your repository page on GitHub
+in your browser and refresh.</p>
+<p>Your report is there, and so are the data, the figure and the
+<code>.Rproj</code> file, which means somebody could clone this
+repository and knit your report themselves. So is every commit you made
+along the way, not just the last one. Push sends everything Git has that
+GitHub hasn’t. Click on the commit count near the top of the file list
+and you will see them all, with the messages you typed.</p>
+<p>If the push fails with a message about authentication then your token
+is the problem rather than anything you’ve done here, and see the last
+section of the <a href="git_setup.html" target="_blank">setup page</a>.
+Everything you have committed is safe on your computer either way, which
+is rather the point of keeping the two separate.</p>
+<p> </p>
+<p>9. Work flows the other way too, and this is the half people
+forget.</p>
+<ol style="list-style-type: lower-alpha">
+<li><p>In your browser, open your repository on GitHub, click on
+<code>README.md</code>, and click the pencil icon to edit it. Write a
+couple of sentences describing what the project is for, then commit the
+change. GitHub asks you for a commit message in much the same way
+RStudio does.</p></li>
+<li><p>Your computer knows nothing about this. In RStudio, click
+<strong>Pull</strong>, the blue down arrow. Open the README in RStudio
+and your change is there.</p></li>
+<li><p>Now think about why this matters. If you’d edited the README on
+your computer as well before pulling, Git would have had two different
+versions of the same file and would have asked you to sort it out.
+That’s a merge conflict, and it’s why the advice is always <strong>pull
+before you push</strong>. Get into the habit now, while you’re working
+alone and there’s nothing to conflict with.</p></li>
+</ol>
 <p> </p>
 <div id="where-to-go-next" class="section level3">
 <h3>Where to go next</h3>

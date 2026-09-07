@@ -9,19 +9,20 @@ output:
 ---
 
 ```{r setup, include = FALSE}
-knitr::opts_chunk$set(warning = FALSE, message = FALSE)
+knitr::opts_chunk$set(echo = TRUE, warning = FALSE, message = FALSE)
 ```
 
-# Cardiac study report
+# Introduction
 
-## Background
+## Data description
 
 These data come from a **cohort study** of the risk factors for cardiovascular disease.
-A group of adults aged between 55 and 75 were examined at the start of the study, and a
-range of measurements was *measured* on each of them. Each row is one patient and each
-column is one of those measurements.
+A group of adults, aged between 55 and 75, were examined at the start of the study and a
+range of *measurements* was taken on each of them. Each row of the dataset is one patient,
+identified by a unique patient number (`patno`), and each column is one of those
+measurements.
 
-The variables used in this report are:
+The four measurements used in this report are:
 
 - age, in years
 - systolic blood pressure, in mmHg
@@ -42,7 +43,8 @@ cardiac$Fsmoking <- factor(cardiac$smoking, levels = c(1, 2, 3),
 ## Data validation
 
 The dataset contains `r nrow(cardiac)` patients, with a mean age of
-`r round(mean(cardiac$age), 1)` years.
+`r round(mean(cardiac$age), 1)` years. The youngest patient was
+`r round(min(cardiac$age))` and the oldest was `r round(max(cardiac$age))`.
 
 ```{r validation}
 cardiac$bmi[cardiac$bmi > 100] <- NA
@@ -92,4 +94,6 @@ knitr::kable(smoke_summary, digits = 1,
 
 ## An externally produced figure
 
-![Alcohol-related hospital admissions by council area.](output/ex6_admissions.png)
+```{r admissions-figure, out.width = "80%", fig.cap = 'Alcohol-related hospital admissions by council area.'}
+knitr::include_graphics("output/ex6_admissions.png")
+```

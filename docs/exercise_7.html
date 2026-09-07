@@ -552,9 +552,10 @@ Introduction to R book if you would like to read about this first).</p>
 some packages. Let it, and wait for it to finish.</p>
 <p>In the dialogue box that appears, type
 <code>Cardiac study report</code> in the Title box, put your name in the
-Author box, select <strong>PDF</strong> on the left, and click OK.
-RStudio opens a new document that’s already full of example content
-about cars. That’s normal, and we’ll delete it in a moment.</p>
+Author box, choose <strong>PDF</strong> as the default output format,
+and click OK. RStudio opens a new document that’s already full of
+example content about cars. That’s normal, and we’ll delete it in a
+moment.</p>
 <p>Before you change anything at all, save the file into your Project
 directory as <code>cardiac_report.Rmd</code> (<code>File</code> -&gt;
 <code>Save As...</code>), then click the <strong>Knit</strong> button at
@@ -589,16 +590,18 @@ is your starting point.</p>
 <p> </p>
 <p>3. Now take control of the YAML header (see <a
 href="https://intro2r.com/r-markdown-anatomy.html#yaml-header">Section
-8.5.1</a> of the book). At the moment it has a title, an author and a
-date, and an <code>output</code> line saying <code>pdf_document</code>.
-Replace that line with the four shown below.</p>
+8.5.1</a> of the book). Find the <code>output:</code> line, which
+currently says <code>pdf_document</code> on the same line as it, and
+turn it into the indented block shown below.</p>
 <p>Two warnings, because this is where people lose ten minutes.
 Indentation in YAML matters, so copy the spacing exactly. And use
 spaces, never tabs.</p>
-<p>Add <code>toc: true</code> first and knit. Then add
-<code>number_sections: true</code> and knit again. Adding them one at a
-time, and knitting after each, is how you see what each one actually
-does. Here is what you are aiming for:</p>
+<p>Build it up rather than pasting it in one go. Put
+<code>pdf_document:</code> on its own line first, with
+<code>toc: true</code> indented underneath, and knit. Then add
+<code>number_sections: true</code> below that and knit again. Doing it
+one line at a time, and knitting after each, is how you see what each
+one actually does. Here is what you are aiming for:</p>
 <div class="sourceCode" id="cb2"><pre
 class="sourceCode yaml"><code class="sourceCode yaml"><span id="cb2-1"><a href="#cb2-1" tabindex="-1"></a><span class="pp">---</span></span>
 <span id="cb2-2"><a href="#cb2-2" tabindex="-1"></a><span class="fu">title</span><span class="kw">:</span><span class="at"> </span><span class="st">&quot;Cardiac study report&quot;</span></span>
@@ -622,10 +625,10 @@ a second smaller heading below that, written as
 <code>## Data description</code></li>
 <li>put <strong>cohort study</strong> in bold, by writing it as
 <code>**cohort study**</code></li>
-<li>put <em>measured</em> in italics, by writing it as
-<code>*measured*</code></li>
-<li>take four of the variables out of the description and set them out
-as a bulleted list instead, each line starting with a dash and a
+<li>put <em>measurements</em> in italics the first time it appears, by
+writing it as <code>*measurements*</code></li>
+<li>pick four of the variables the description mentions and set them out
+as a bulleted list at the end, each line starting with a dash and a
 space</li>
 </ul>
 <p>That’s enough to be going on with. If you want to add a link, a
@@ -640,10 +643,10 @@ their own, because of the <code>toc: true</code> you added in Q3.</p>
 <p> </p>
 <p>5. Next comes the data. Insert a new code chunk (see <a
 href="https://intro2r.com/r-markdown-anatomy.html#code_chunks">Section
-8.5.3</a> of the book) using the <strong>Insert</strong> button at the
-top right of the editor and choosing R, or with the keyboard shortcut
-Ctrl+Alt+I (Cmd+Option+I on a Mac). An empty chunk appears. If you’d
-rather, there’s nothing magic about the button: you can simply type
+8.5.3</a> of the book) by going to <code>Code</code> -&gt;
+<code>Insert Chunk</code>, or with the keyboard shortcut Ctrl+Alt+I,
+which is Cmd+Alt+I on a Mac. An empty chunk appears. If you’d rather,
+there’s nothing magic about the menu: you can simply type
 <code>```{r}</code> on a line of its own and <code>```</code> on another
 line below it, and anything you put between them is a chunk.</p>
 <p>Give the chunk a name by typing it straight after the <code>r</code>,
@@ -667,32 +670,36 @@ the book for where factors sit among R’s data types). You’ll need
 both of them read a great deal better with words in them than with
 numbers.</p>
 <p>Run the chunk in the editor with the small green arrow at its top
-right, then knit the whole document. Notice that knitting starts a
-completely fresh R session: anything you made earlier in the console
-doesn’t exist when the document knits, which is exactly what makes it
-reproducible. It also means the chunk that imports the data has to come
-before any chunk that uses it.</p>
+right corner, the rightmost of the three little buttons there. If you
+can’t see it, <code>Code</code> -&gt; <code>Run Region</code> -&gt;
+<code>Run Current Chunk</code> does the same job, and so does
+Ctrl+Alt+C, or Cmd+Alt+C on a Mac. Then knit the whole document. Notice
+that knitting starts a completely fresh R session: anything you made
+earlier in the console doesn’t exist when the document knits, which is
+exactly what makes it reproducible. It also means the chunk that imports
+the data has to come before any chunk that uses it.</p>
 <p> </p>
 <p>6. Now you have the data imported, so the next thing a reader needs
 to know is whether you can trust it, and what you did about the bits you
 couldn’t. This question asks you not just to do something to the data
 but to explain why, which is most of what report writing is.</p>
 <p>Add a new heading called <code>## Data validation</code> below the
-previous chunk, and underneath it a chunk named <code>validation</code>
-holding the three lines from <strong>Exercise 4, Q1</strong> that set
-the impossible <code>bmi</code>, <code>triglyceride</code> and
-<code>hdlchol</code> values to <code>NA</code>. Remember that your
-report imports the raw file from scratch every time it knits, so if the
-cleaning isn’t in the document then it hasn’t happened.</p>
-<p>Then write a short paragraph beneath the chunk, two or three
-sentences, saying which variables you changed, how many values in each,
+previous chunk. Then build the section up in three pieces.</p>
+<p>First, one sentence directly under the heading saying how many
+patients are in the dataset, with the number written in as an ordinary
+number. You’ll come back to that sentence in Q9.</p>
+<p>Second, below it, a chunk named <code>validation</code> holding the
+three lines from <strong>Exercise 4, Q1</strong> that set the impossible
+<code>bmi</code>, <code>triglyceride</code> and <code>hdlchol</code>
+values to <code>NA</code>. Remember that your report imports the raw
+file from scratch every time it knits, so if the cleaning isn’t in the
+document then it hasn’t happened.</p>
+<p>Third, beneath that chunk, a short paragraph of two or three
+sentences saying which variables you changed, how many values in each,
 and why you set them to <code>NA</code> rather than deleting those
-patients or correcting the numbers yourself. Write the counts into your
-sentences as ordinary numbers for now, so something like ‘two patients
-had an HDL cholesterol of 0 mmol/l’.</p>
-<p>Start that paragraph with one more sentence saying how many patients
-are in the dataset, again with the number written in. You’ll come back
-to that one in Q9.</p>
+patients or correcting the numbers yourself. Write the counts in as
+ordinary numbers too, so something like ‘two patients had an HDL
+cholesterol of 0 mmol/l’.</p>
 <p>You’ll remember from <strong>Exercise 5, Q9</strong> that the
 variable <code>alcohol</code> needed some work as well. A small number
 of patients drink a great deal more than the rest, which leaves the
@@ -771,13 +778,16 @@ thing.</p></li>
 <li><p>Now add the mean age to the same sentence, worked out the same
 way with <code>mean()</code>. Wrap it in <code>round()</code> so you
 don’t get six decimal places.</p></li>
-<li><p>Then test that it really is live. Temporarily change your import
-chunk so it keeps only the first 100 patients, by adding this line at
-the end of the chunk:</p></li>
+<li><p>Now add a second sentence saying how old the youngest and oldest
+patients were, using <code>min()</code> and <code>max()</code> inside
+inline code. Put <code>round()</code> around each one so you don’t get
+the decimals. Knit and compare what you get with the age range given in
+the description of the data back in <strong>Exercise 3,
+Q4</strong>.</p></li>
 </ol>
-<div class="sourceCode" id="cb5"><pre class="sourceCode md"><code class="sourceCode markdown"><span id="cb5-1"><a href="#cb5-1" tabindex="-1"></a>cardiac &lt;- head(cardiac, 100)</span></code></pre></div>
-<p>Knit, and watch your sentence update itself without you touching it.
-Then delete that line and knit again.</p>
+<p>Every one of these numbers is worked out from <code>cardiac</code>
+each time you knit, so none of them can drift out of step with the data
+the way a number you typed in would.</p>
 <p> </p>
 <p>10. Now think about who’s going to read your report, because it
 decides how much of your working they should see. This one is a
@@ -816,16 +826,32 @@ somebody else made (see <a
 href="https://intro2r.com/r-markdown-anatomy.html#adding-figures">Section
 8.5.4</a> of the book again). Add the plot you exported in
 <strong>Exercise 6, Q9</strong>, <code>ex6_admissions.png</code>, to
-your report.</p>
-<p>The simplest way needs no chunk at all. Type this straight into your
-text, changing the path to wherever your file actually is:</p>
-<div class="sourceCode" id="cb6"><pre class="sourceCode md"><code class="sourceCode markdown"><span id="cb6-1"><a href="#cb6-1" tabindex="-1"></a><span class="al">![Alcohol-related hospital admissions by council area.](output/ex6_admissions.png)</span></span></code></pre></div>
-<p>An exclamation mark, then the caption in square brackets, then the
-file path in round brackets. Knit and check the figure appears.</p>
-<p>If you no longer have the file, <a
+your report. If you no longer have the file, <a
 href="images/ex6_admissions.png">download it here</a> and save it into
 your <code>output</code> directory, the one you created in
 <strong>Exercise 1, Q12</strong>.</p>
+<p>There are two ways of doing it and it’s worth trying both.</p>
+<ol style="list-style-type: lower-alpha">
+<li><p>The quick way needs no chunk at all, just a line of markdown in
+among your text. It’s made of three pieces in a row with no spaces
+between them: an exclamation mark, then the caption you want in square
+brackets, then the path to the file in round brackets. Section 8.5.4 of
+the book has an example if you get stuck. Knit and check the figure
+appears.</p></li>
+<li><p>The other way puts the file into a chunk instead, using the
+<code>include_graphics()</code> function from <code>knitr</code>, in the
+same way you would write <code>knitr::kable()</code>. Give it the path
+to the file in quotes. On its own this looks like more work for the same
+result, but it buys you something: because the figure is now coming out
+of a chunk, all the chunk options are available to it. You can caption
+it with <code>fig.cap</code> exactly as you did in Q7, and you can set
+how much of the page width it takes up with <code>out.width</code>,
+written as a percentage in quotes such as <code>"80%"</code>. Try it
+with a caption and a width, and knit.</p></li>
+</ol>
+<p>Which you use is a judgement call. The markdown line is quicker to
+write, and the chunk gives you control over how the figure is presented,
+which is usually what you want in a report.</p>
 <p>One thing that catches everybody out: the path is relative to where
 the <code>.Rmd</code> file is, not to your working directory. If the
 image doesn’t appear, the path is almost always the reason.</p>
@@ -853,8 +879,11 @@ you set what your document actually is.</p>
 <p> </p>
 <p><strong>The visual editor.</strong> RStudio can show an R markdown
 document formatted as you type, more like a word processor, hiding the
-markdown syntax. You turn it on with the small compass icon at the top
-right of the editor. It’s genuinely useful, especially for tables and
+markdown syntax. Look for the pair of buttons marked
+<strong>Source</strong> and <strong>Visual</strong> at the top left of
+the editor toolbar, just above your document, and click
+<strong>Visual</strong>. The keyboard shortcut is Ctrl+Shift+F4, or
+Cmd+Shift+F4 on a Mac. It’s genuinely useful, especially for tables and
 links. We’ve left it until now on purpose, so that you learn what the
 markup actually is first, because when something goes wrong it’s the
 markup you have to fix.</p>

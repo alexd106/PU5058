@@ -39,7 +39,7 @@ You'll build **one document** across the whole exercise, adding something to it 
 
 The first time you do this, RStudio may tell you it needs to install some packages. Let it, and wait for it to finish.
 
-In the dialogue box that appears, type `Cardiac study report` in the Title box, put your name in the Author box, select **PDF** on the left, and click OK. RStudio opens a new document that's already full of example content about cars. That's normal, and we'll delete it in a moment.
+In the dialogue box that appears, type `Cardiac study report` in the Title box, put your name in the Author box, choose **PDF** as the default output format, and click OK. RStudio opens a new document that's already full of example content about cars. That's normal, and we'll delete it in a moment.
 
 Before you change anything at all, save the file into your Project directory as `cardiac_report.Rmd` (`File` -> `Save As...`), then click the **Knit** button at the top of the editor. You can also press Ctrl+Shift+K, or Cmd+Shift+K on a Mac.
 
@@ -63,11 +63,11 @@ Find one of each in `cardiac_report.Rmd`, the file you are editing rather than t
 
 \  
 
-3\. Now take control of the YAML header (see [Section 8.5.1](https://intro2r.com/r-markdown-anatomy.html#yaml-header) of the book). At the moment it has a title, an author and a date, and an `output` line saying `pdf_document`. Replace that line with the four shown below.
+3\. Now take control of the YAML header (see [Section 8.5.1](https://intro2r.com/r-markdown-anatomy.html#yaml-header) of the book). Find the `output:` line, which currently says `pdf_document` on the same line as it, and turn it into the indented block shown below.
 
 Two warnings, because this is where people lose ten minutes. Indentation in YAML matters, so copy the spacing exactly. And use spaces, never tabs.
 
-Add `toc: true` first and knit. Then add `number_sections: true` and knit again. Adding them one at a time, and knitting after each, is how you see what each one actually does. Here is what you are aiming for:
+Build it up rather than pasting it in one go. Put `pdf_document:` on its own line first, with `toc: true` indented underneath, and knit. Then add `number_sections: true` below that and knit again. Doing it one line at a time, and knitting after each, is how you see what each one actually does. Here is what you are aiming for:
 
 ````yaml
 ---
@@ -87,8 +87,8 @@ output:
 
 - put a heading above it, written as `# Introduction`, and a second smaller heading below that, written as `## Data description`
 - put **cohort study** in bold, by writing it as `**cohort study**`
-- put *measured* in italics, by writing it as `*measured*`
-- take four of the variables out of the description and set them out as a bulleted list instead, each line starting with a dash and a space
+- put *measurements* in italics the first time it appears, by writing it as `*measurements*`
+- pick four of the variables the description mentions and set them out as a bulleted list at the end, each line starting with a dash and a space
 
 That's enough to be going on with. If you want to add a link, a numbered list, a quotation or a table, [Section 8.5.2](https://intro2r.com/r-markdown-anatomy.html#formatted-text) of the book has the syntax for all of them, and there's a summary on the R markdown cheat sheet under `Help` -> `Cheat Sheets`.
 
@@ -96,32 +96,34 @@ Knit, and put the R markdown file and the PDF side by side. Notice that the head
 
 `````{asis, echo=SOLUTIONS}
 ````{.md .foldable}
-# Cardiac study report
+# Introduction
 
-## Background
+## Data description
 
 These data come from a **cohort study** of the risk factors for cardiovascular disease.
-Each row is one patient, and each column is something that was *measured* at the start
-of the study.
+A group of adults, aged between 55 and 75, were examined at the start of the study and a
+range of *measurements* was taken on each of them. Each row of the dataset is one patient,
+identified by a unique patient number (`patno`), and each column is one of those
+measurements.
 
-The variables we will look at are:
+The four measurements used in this report are:
 
 - age, in years
 - systolic blood pressure, in mmHg
-- body mass index
+- HDL cholesterol, in mmol/l
 - smoking status
 ````
 `````
 
 \  
 
-5\. Next comes the data. Insert a new code chunk (see [Section 8.5.3](https://intro2r.com/r-markdown-anatomy.html#code_chunks) of the book) using the **Insert** button at the top right of the editor and choosing R, or with the keyboard shortcut Ctrl+Alt+I (Cmd+Option+I on a Mac). An empty chunk appears. If you'd rather, there's nothing magic about the button: you can simply type ```` ```{r} ```` on a line of its own and ```` ``` ```` on another line below it, and anything you put between them is a chunk.
+5\. Next comes the data. Insert a new code chunk (see [Section 8.5.3](https://intro2r.com/r-markdown-anatomy.html#code_chunks) of the book) by going to `Code` -> `Insert Chunk`, or with the keyboard shortcut Ctrl+Alt+I, which is Cmd+Alt+I on a Mac. An empty chunk appears. If you'd rather, there's nothing magic about the menu: you can simply type ```` ```{r} ```` on a line of its own and ```` ``` ```` on another line below it, and anything you put between them is a chunk.
 
 Give the chunk a name by typing it straight after the `r`, so the first line reads ```` ```{r import} ````. Naming chunks costs nothing and makes them far easier to find when something goes wrong.
 
 Inside the chunk, import `cardiacdata.txt` exactly as you did in **Exercise 3, Q5**: with the `read.table()` function, writing out the `header`, `sep` and `stringsAsFactors` arguments, and assigning the result to `cardiac`. In the same chunk, add the two `factor()` lines from **Exercise 3, Q7** that create `Fsex` and `Fsmoking`. You'll remember why. `sex` and `smoking` arrive from the file as the numbers they were coded as, 1 and 2 for sex and 1, 2 and 3 for smoking, but they are really categories rather than quantities, so you use `factor()` to attach a meaningful label to each code and leave the original columns untouched (see `?factor` and [Section 3.1](https://intro2r.com/data-types.html#data-types) of the book for where factors sit among R's data types). You'll need `Fsmoking` for the boxplot in Q7 and the table in Q8, and both of them read a great deal better with words in them than with numbers.
 
-Run the chunk in the editor with the small green arrow at its top right, then knit the whole document. Notice that knitting starts a completely fresh R session: anything you made earlier in the console doesn't exist when the document knits, which is exactly what makes it reproducible. It also means the chunk that imports the data has to come before any chunk that uses it.
+Run the chunk in the editor with the small green arrow at its top right corner, the rightmost of the three little buttons there. If you can't see it, `Code` -> `Run Region` -> `Run Current Chunk` does the same job, and so does Ctrl+Alt+C, or Cmd+Alt+C on a Mac. Then knit the whole document. Notice that knitting starts a completely fresh R session: anything you made earlier in the console doesn't exist when the document knits, which is exactly what makes it reproducible. It also means the chunk that imports the data has to come before any chunk that uses it.
 
 `````{asis, echo=SOLUTIONS}
 ````{.md .foldable}
@@ -141,11 +143,13 @@ cardiac$Fsmoking <- factor(cardiac$smoking, levels = c(1, 2, 3),
 
 6\. Now you have the data imported, so the next thing a reader needs to know is whether you can trust it, and what you did about the bits you couldn't. This question asks you not just to do something to the data but to explain why, which is most of what report writing is.
 
-Add a new heading called `## Data validation` below the previous chunk, and underneath it a chunk named `validation` holding the three lines from **Exercise 4, Q1** that set the impossible `bmi`, `triglyceride` and `hdlchol` values to `NA`. Remember that your report imports the raw file from scratch every time it knits, so if the cleaning isn't in the document then it hasn't happened.
+Add a new heading called `## Data validation` below the previous chunk. Then build the section up in three pieces.
 
-Then write a short paragraph beneath the chunk, two or three sentences, saying which variables you changed, how many values in each, and why you set them to `NA` rather than deleting those patients or correcting the numbers yourself. Write the counts into your sentences as ordinary numbers for now, so something like 'two patients had an HDL cholesterol of 0 mmol/l'.
+First, one sentence directly under the heading saying how many patients are in the dataset, with the number written in as an ordinary number. You'll come back to that sentence in Q9.
 
-Start that paragraph with one more sentence saying how many patients are in the dataset, again with the number written in. You'll come back to that one in Q9.
+Second, below it, a chunk named `validation` holding the three lines from **Exercise 4, Q1** that set the impossible `bmi`, `triglyceride` and `hdlchol` values to `NA`. Remember that your report imports the raw file from scratch every time it knits, so if the cleaning isn't in the document then it hasn't happened.
+
+Third, beneath that chunk, a short paragraph of two or three sentences saying which variables you changed, how many values in each, and why you set them to `NA` rather than deleting those patients or correcting the numbers yourself. Write the counts in as ordinary numbers too, so something like 'two patients had an HDL cholesterol of 0 mmol/l'.
 
 You'll remember from **Exercise 5, Q9** that the variable `alcohol` needed some work as well. A small number of patients drink a great deal more than the rest, which leaves the distribution with a long tail to the right, and you took the square root to pull that tail in. That's a data preparation step exactly like the cleaning above, so it belongs in this section too. Add a chunk named `alcohol-transform` that creates the square root of `alcohol` and draws the histograms of `alcohol` and `sqrt(alcohol)` side by side, then write a sentence or two underneath saying why you did it.
 
@@ -272,23 +276,21 @@ a) Go back to that sentence and swap the number 163 for `` `r knitr::inline_expr
 
 b) Now add the mean age to the same sentence, worked out the same way with `mean()`. Wrap it in `round()` so you don't get six decimal places.
 
-c) Then test that it really is live. Temporarily change your import chunk so it keeps only the first 100 patients, by adding this line at the end of the chunk:
+c) Now add a second sentence saying how old the youngest and oldest patients were, using `min()` and `max()` inside inline code. Put `round()` around each one so you don't get the decimals. Knit and compare what you get with the age range given in the description of the data back in **Exercise 3, Q4**.
 
-````md
-cardiac <- head(cardiac, 100)
-````
-
-Knit, and watch your sentence update itself without you touching it. Then delete that line and knit again.
+Every one of these numbers is worked out from `cardiac` each time you knit, so none of them can drift out of step with the data the way a number you typed in would.
 
 `````{asis, echo=SOLUTIONS}
 ````{.md .foldable}
 The dataset contains `r nrow(cardiac)` patients, with a mean age of
-`r round(mean(cardiac$age), 1)` years.
+`r round(mean(cardiac$age), 1)` years. The youngest patient was
+`r round(min(cardiac$age))` and the oldest was `r round(max(cardiac$age))`.
 ````
 
 Which knits to:
 
-> The dataset contains 163 patients, with a mean age of 65 years.
+> The dataset contains 163 patients, with a mean age of 65 years. The youngest patient
+> was 55 and the oldest was 75.
 
 Anything you can calculate in a chunk you can put in a sentence this way, so it's worth
 using for any number in your writing that comes out of your data.
@@ -316,7 +318,7 @@ And setting a default for every chunk in the document, in the setup chunk at the
 
 ````{.md .foldable}
 ```{r setup, include = FALSE}
-knitr::opts_chunk$set(warning = FALSE, message = FALSE)
+knitr::opts_chunk$set(echo = TRUE, warning = FALSE, message = FALSE)
 ```
 ````
 
@@ -327,29 +329,26 @@ completely invisibly.
 
 \  
 
-11\. Not every figure in a report will be one you constructed with R code. You might need a diagram, a photograph, a map, or a figure somebody else made (see [Section 8.5.4](https://intro2r.com/r-markdown-anatomy.html#adding-figures) of the book again). Add the plot you exported in **Exercise 6, Q9**, `ex6_admissions.png`, to your report.
+11\. Not every figure in a report will be one you constructed with R code. You might need a diagram, a photograph, a map, or a figure somebody else made (see [Section 8.5.4](https://intro2r.com/r-markdown-anatomy.html#adding-figures) of the book again). Add the plot you exported in **Exercise 6, Q9**, `ex6_admissions.png`, to your report. If you no longer have the file, [download it here](images/ex6_admissions.png) and save it into your `output` directory, the one you created in **Exercise 1, Q12**.
 
-The simplest way needs no chunk at all. Type this straight into your text, changing the path to wherever your file actually is:
+There are two ways of doing it and it's worth trying both.
 
-````md
-![Alcohol-related hospital admissions by council area.](output/ex6_admissions.png)
-````
+a) The quick way needs no chunk at all, just a line of markdown in among your text. It's made of three pieces in a row with no spaces between them: an exclamation mark, then the caption you want in square brackets, then the path to the file in round brackets. Section 8.5.4 of the book has an example if you get stuck. Knit and check the figure appears.
 
-An exclamation mark, then the caption in square brackets, then the file path in round brackets. Knit and check the figure appears.
+b) The other way puts the file into a chunk instead, using the `include_graphics()` function from `knitr`, in the same way you would write `knitr::kable()`. Give it the path to the file in quotes. On its own this looks like more work for the same result, but it buys you something: because the figure is now coming out of a chunk, all the chunk options are available to it. You can caption it with `fig.cap` exactly as you did in Q7, and you can set how much of the page width it takes up with `out.width`, written as a percentage in quotes such as `"80%"`. Try it with a caption and a width, and knit.
 
-If you no longer have the file, [download it here](images/ex6_admissions.png) and save it into your `output` directory, the one you created in **Exercise 1, Q12**.
+Which you use is a judgement call. The markdown line is quicker to write, and the chunk gives you control over how the figure is presented, which is usually what you want in a report.
 
 One thing that catches everybody out: the path is relative to where the `.Rmd` file is, not to your working directory. If the image doesn't appear, the path is almost always the reason.
 
 `````{asis, echo=SOLUTIONS}
-Typed straight into the text:
+The markdown line, typed straight into your text:
 
 ````{.md .foldable}
 ![Alcohol-related hospital admissions by council area.](output/ex6_admissions.png)
 ````
 
-There is also an R way, inside a chunk, which gives you control over the size with
-`out.width`. You don't need it today, but it's there when you do:
+And the same figure in a chunk, with a caption and set to 80% of the page width:
 
 ````{.md .foldable}
 ```{r admissions-figure, out.width = "80%", fig.cap = 'Alcohol-related hospital admissions by council area.'}
@@ -382,7 +381,7 @@ It needs `data/cardiacdata.txt` and `output/ex6_admissions.png` alongside it in 
 
 \  
 
-**The visual editor.** RStudio can show an R markdown document formatted as you type, more like a word processor, hiding the markdown syntax. You turn it on with the small compass icon at the top right of the editor. It's genuinely useful, especially for tables and links. We've left it until now on purpose, so that you learn what the markup actually is first, because when something goes wrong it's the markup you have to fix.
+**The visual editor.** RStudio can show an R markdown document formatted as you type, more like a word processor, hiding the markdown syntax. Look for the pair of buttons marked **Source** and **Visual** at the top left of the editor toolbar, just above your document, and click **Visual**. The keyboard shortcut is Ctrl+Shift+F4, or Cmd+Shift+F4 on a Mac. It's genuinely useful, especially for tables and links. We've left it until now on purpose, so that you learn what the markup actually is first, because when something goes wrong it's the markup you have to fix.
 
 **Quarto.** Quarto is the successor to R markdown. It does the same job, works with languages other than R, and its syntax is so close that nearly everything in this exercise transfers unchanged. If you carry on using R after this course you'll meet it. Start at [quarto.org](https://quarto.org).
 

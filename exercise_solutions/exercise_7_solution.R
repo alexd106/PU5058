@@ -1,17 +1,19 @@
 ## ````{.md .foldable}
-## # Cardiac study report
+## # Introduction
 ## 
-## ## Background
+## ## Data description
 ## 
 ## These data come from a **cohort study** of the risk factors for cardiovascular disease.
-## Each row is one patient, and each column is something that was *measured* at the start
-## of the study.
+## A group of adults, aged between 55 and 75, were examined at the start of the study and a
+## range of *measurements* was taken on each of them. Each row of the dataset is one patient,
+## identified by a unique patient number (`patno`), and each column is one of those
+## measurements.
 ## 
-## The variables we will look at are:
+## The four measurements used in this report are:
 ## 
 ## - age, in years
 ## - systolic blood pressure, in mmHg
-## - body mass index
+## - HDL cholesterol, in mmol/l
 ## - smoking status
 ## ````
 
@@ -105,12 +107,14 @@
 
 ## ````{.md .foldable}
 ## The dataset contains `r nrow(cardiac)` patients, with a mean age of
-## `r round(mean(cardiac$age), 1)` years.
+## `r round(mean(cardiac$age), 1)` years. The youngest patient was
+## `r round(min(cardiac$age))` and the oldest was `r round(max(cardiac$age))`.
 ## ````
 ## 
 ## Which knits to:
 ## 
-## > The dataset contains 163 patients, with a mean age of 65 years.
+## > The dataset contains 163 patients, with a mean age of 65 years. The youngest patient
+## > was 55 and the oldest was 75.
 ## 
 ## Anything you can calculate in a chunk you can put in a sentence this way, so it's worth
 ## using for any number in your writing that comes out of your data.
@@ -126,7 +130,7 @@
 ## 
 ## ````{.md .foldable}
 ## ```{r setup, include = FALSE}
-## knitr::opts_chunk$set(warning = FALSE, message = FALSE)
+## knitr::opts_chunk$set(echo = TRUE, warning = FALSE, message = FALSE)
 ## ```
 ## ````
 ## 
@@ -134,14 +138,13 @@
 ## `echo = FALSE`: it hides the code *and* anything the chunk produces, so the chunk runs
 ## completely invisibly.
 
-## Typed straight into the text:
+## The markdown line, typed straight into your text:
 ## 
 ## ````{.md .foldable}
 ## ![Alcohol-related hospital admissions by council area.](output/ex6_admissions.png)
 ## ````
 ## 
-## There is also an R way, inside a chunk, which gives you control over the size with
-## `out.width`. You don't need it today, but it's there when you do:
+## And the same figure in a chunk, with a caption and set to 80% of the page width:
 ## 
 ## ````{.md .foldable}
 ## ```{r admissions-figure, out.width = "80%", fig.cap = 'Alcohol-related hospital admissions by council area.'}

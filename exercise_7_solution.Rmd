@@ -23,20 +23,7 @@ Read [Chapter 8](https://intro2r.com/rmarkdown_r.html) to help you complete the 
 
 \  
 
-**Before the session.** There are two things to sort out beforehand, and the second one takes a few minutes, so please don't leave it until the morning of the session.
-
-First, you need the `rmarkdown` and `knitr` packages. Both normally come with RStudio, but check by running `library(rmarkdown)` and `library(knitr)` in the console. If either gives an error, install it with `install.packages("rmarkdown")`. See [Appendix A](https://intro2r.com/install-rm.html) of the Introduction to R book if you need more detail.
-
-Second, you'll be producing PDF documents in this exercise, which is what your assessment needs, and that requires a LaTeX installation. You almost certainly don't have one, and you don't need to know anything about LaTeX to use it. Run these two lines in the console:
-
-````md
-install.packages("tinytex")
-tinytex::install_tinytex()
-````
-
-The second line downloads a few hundred megabytes, so give it time and a decent connection, and restart RStudio afterwards. Check it worked by running `tinytex::is_tinytex()`, which should return `TRUE`.
-
-If you run into real problems we'll help you at the start of the session, but please try beforehand so we don't lose teaching time to installing software.
+**Before the session.** This exercise needs the `rmarkdown` and `knitr` packages, and a LaTeX installation so that you can make PDF documents. Work through **[Setting up R markdown](rmarkdown_setup.html){target="_blank"}**, under the Setup menu above, before you come to the session. It takes about fifteen minutes and most of that is a download running by itself, but please don't leave it until the morning of the session. If you hit a real problem we'll help you at the start of the session, but we can't get everybody set up and still have time to teach anything.
 
 \  
 

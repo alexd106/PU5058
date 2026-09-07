@@ -14,6 +14,9 @@ navbar:
           icon: fa-cog
           href: setup.html
         - text: "----"
+        - text: "R markdown (for Exercise 7)"
+          icon: fa-file-text
+          href: rmarkdown_setup.html
         - text: "Git and GitHub (for Exercise 9)"
           icon: fa-github
           href: git_setup.html

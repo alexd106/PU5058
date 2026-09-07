@@ -372,6 +372,13 @@ $(document).ready(function () {
     </li>
     <li class="divider"></li>
     <li>
+      <a href="rmarkdown_setup.html">
+        <span class="fa fa-file-text"></span>
+         
+        R markdown (for Exercise 7)
+      </a>
+    </li>
+    <li>
       <a href="git_setup.html">
         <span class="fa fa-github"></span>
          
@@ -503,29 +510,16 @@ class="section level2">
 <p>Read <a href="https://intro2r.com/rmarkdown_r.html">Chapter 8</a> to
 help you complete the questions in this exercise.</p>
 <p> </p>
-<p><strong>Before the session.</strong> There are two things to sort out
-beforehand, and the second one takes a few minutes, so please don’t
-leave it until the morning of the session.</p>
-<p>First, you need the <code>rmarkdown</code> and <code>knitr</code>
-packages. Both normally come with RStudio, but check by running
-<code>library(rmarkdown)</code> and <code>library(knitr)</code> in the
-console. If either gives an error, install it with
-<code>install.packages("rmarkdown")</code>. See <a
-href="https://intro2r.com/install-rm.html">Appendix A</a> of the
-Introduction to R book if you need more detail.</p>
-<p>Second, you’ll be producing PDF documents in this exercise, which is
-what your assessment needs, and that requires a LaTeX installation. You
-almost certainly don’t have one, and you don’t need to know anything
-about LaTeX to use it. Run these two lines in the console:</p>
-<div class="sourceCode" id="cb1"><pre class="sourceCode md"><code class="sourceCode markdown"><span id="cb1-1"><a href="#cb1-1" tabindex="-1"></a>install.packages(&quot;tinytex&quot;)</span>
-<span id="cb1-2"><a href="#cb1-2" tabindex="-1"></a>tinytex::install_tinytex()</span></code></pre></div>
-<p>The second line downloads a few hundred megabytes, so give it time
-and a decent connection, and restart RStudio afterwards. Check it worked
-by running <code>tinytex::is_tinytex()</code>, which should return
-<code>TRUE</code>.</p>
-<p>If you run into real problems we’ll help you at the start of the
-session, but please try beforehand so we don’t lose teaching time to
-installing software.</p>
+<p><strong>Before the session.</strong> This exercise needs the
+<code>rmarkdown</code> and <code>knitr</code> packages, and a LaTeX
+installation so that you can make PDF documents. Work through <strong><a
+href="rmarkdown_setup.html" target="_blank">Setting up R
+markdown</a></strong>, under the Setup menu above, before you come to
+the session. It takes about fifteen minutes and most of that is a
+download running by itself, but please don’t leave it until the morning
+of the session. If you hit a real problem we’ll help you at the start of
+the session, but we can’t get everybody set up and still have time to
+teach anything.</p>
 <p> </p>
 <p>Up to now everything you’ve written has been code, for your own use.
 This exercise is about producing a <em>document</em> for somebody else
@@ -572,9 +566,9 @@ lines of <code>---</code>, which controls the document as a whole</li>
 markdown</li>
 <li><strong>code chunks</strong>, which look like this:</li>
 </ul>
-<div class="sourceCode" id="cb2"><pre class="sourceCode md"><code class="sourceCode markdown"><span id="cb2-1"><a href="#cb2-1" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb2-2"><a href="#cb2-2" tabindex="-1"></a><span class="in">mean(cardiac$age)</span></span>
-<span id="cb2-3"><a href="#cb2-3" tabindex="-1"></a><span class="in">```</span></span></code></pre></div>
+<div class="sourceCode" id="cb1"><pre class="sourceCode md"><code class="sourceCode markdown"><span id="cb1-1"><a href="#cb1-1" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb1-2"><a href="#cb1-2" tabindex="-1"></a><span class="in">mean(cardiac$age)</span></span>
+<span id="cb1-3"><a href="#cb1-3" tabindex="-1"></a><span class="in">```</span></span></code></pre></div>
 <p>Find one of each in your file. Then delete everything below the first
 code chunk, the one called <code>setup</code>, leaving the YAML header
 and that chunk in place. Knit again to check you have an empty but
@@ -587,16 +581,16 @@ below.</p>
 <p>Two warnings, because this is where people lose ten minutes.
 Indentation in YAML matters, so copy the spacing exactly. And use
 spaces, never tabs.</p>
-<div class="sourceCode" id="cb3"><pre
-class="sourceCode yaml"><code class="sourceCode yaml"><span id="cb3-1"><a href="#cb3-1" tabindex="-1"></a><span class="pp">---</span></span>
-<span id="cb3-2"><a href="#cb3-2" tabindex="-1"></a><span class="fu">title</span><span class="kw">:</span><span class="at"> </span><span class="st">&quot;Cardiac study report&quot;</span></span>
-<span id="cb3-3"><a href="#cb3-3" tabindex="-1"></a><span class="fu">author</span><span class="kw">:</span><span class="at"> </span><span class="st">&quot;Your Name&quot;</span></span>
-<span id="cb3-4"><a href="#cb3-4" tabindex="-1"></a><span class="fu">date</span><span class="kw">:</span><span class="at"> </span><span class="st">&quot;20 August 2026&quot;</span></span>
-<span id="cb3-5"><a href="#cb3-5" tabindex="-1"></a><span class="fu">output</span><span class="kw">:</span></span>
-<span id="cb3-6"><a href="#cb3-6" tabindex="-1"></a><span class="at">  </span><span class="fu">pdf_document</span><span class="kw">:</span></span>
-<span id="cb3-7"><a href="#cb3-7" tabindex="-1"></a><span class="at">    </span><span class="fu">toc</span><span class="kw">:</span><span class="at"> </span><span class="ch">true</span></span>
-<span id="cb3-8"><a href="#cb3-8" tabindex="-1"></a><span class="at">    </span><span class="fu">number_sections</span><span class="kw">:</span><span class="at"> </span><span class="ch">true</span></span>
-<span id="cb3-9"><a href="#cb3-9" tabindex="-1"></a><span class="pp">---</span></span></code></pre></div>
+<div class="sourceCode" id="cb2"><pre
+class="sourceCode yaml"><code class="sourceCode yaml"><span id="cb2-1"><a href="#cb2-1" tabindex="-1"></a><span class="pp">---</span></span>
+<span id="cb2-2"><a href="#cb2-2" tabindex="-1"></a><span class="fu">title</span><span class="kw">:</span><span class="at"> </span><span class="st">&quot;Cardiac study report&quot;</span></span>
+<span id="cb2-3"><a href="#cb2-3" tabindex="-1"></a><span class="fu">author</span><span class="kw">:</span><span class="at"> </span><span class="st">&quot;Your Name&quot;</span></span>
+<span id="cb2-4"><a href="#cb2-4" tabindex="-1"></a><span class="fu">date</span><span class="kw">:</span><span class="at"> </span><span class="st">&quot;20 August 2026&quot;</span></span>
+<span id="cb2-5"><a href="#cb2-5" tabindex="-1"></a><span class="fu">output</span><span class="kw">:</span></span>
+<span id="cb2-6"><a href="#cb2-6" tabindex="-1"></a><span class="at">  </span><span class="fu">pdf_document</span><span class="kw">:</span></span>
+<span id="cb2-7"><a href="#cb2-7" tabindex="-1"></a><span class="at">    </span><span class="fu">toc</span><span class="kw">:</span><span class="at"> </span><span class="ch">true</span></span>
+<span id="cb2-8"><a href="#cb2-8" tabindex="-1"></a><span class="at">    </span><span class="fu">number_sections</span><span class="kw">:</span><span class="at"> </span><span class="ch">true</span></span>
+<span id="cb2-9"><a href="#cb2-9" tabindex="-1"></a><span class="pp">---</span></span></code></pre></div>
 <p>Add <code>toc: true</code> first and knit. Then add
 <code>number_sections: true</code> and knit again. Adding them one at a
 time, and knitting after each, is how you see what each one actually
@@ -687,8 +681,8 @@ just the <code>boxplot()</code> call.</p>
 <p>Now give the figure a caption. Chunk options go inside the curly
 braces, after the chunk name, separated by commas. The first line of
 your chunk should read:</p>
-<div class="sourceCode" id="cb4"><pre class="sourceCode md"><code class="sourceCode markdown"><span id="cb4-1"><a href="#cb4-1" tabindex="-1"></a><span class="in">```{r chol-plot, fig.cap = &#39;HDL cholesterol by smoking status.&#39;}</span></span>
-<span id="cb4-2"><a href="#cb4-2" tabindex="-1"></a><span class="in">```</span></span></code></pre></div>
+<div class="sourceCode" id="cb3"><pre class="sourceCode md"><code class="sourceCode markdown"><span id="cb3-1"><a href="#cb3-1" tabindex="-1"></a><span class="in">```{r chol-plot, fig.cap = &#39;HDL cholesterol by smoking status.&#39;}</span></span>
+<span id="cb3-2"><a href="#cb3-2" tabindex="-1"></a><span class="in">```</span></span></code></pre></div>
 <p>Knit and find your caption underneath the plot. Then add
 <code>fig.width = 4</code> to the same line, knit again, and see what
 happens to the size of the text relative to the plot.</p>
@@ -710,7 +704,7 @@ still there but the code that drew it is not.</p></li>
 time. Go to your <code>setup</code> chunk at the top and put this line
 inside it:</p></li>
 </ol>
-<div class="sourceCode" id="cb5"><pre class="sourceCode md"><code class="sourceCode markdown"><span id="cb5-1"><a href="#cb5-1" tabindex="-1"></a>knitr::opts_chunk$set(echo = FALSE)</span></code></pre></div>
+<div class="sourceCode" id="cb4"><pre class="sourceCode md"><code class="sourceCode markdown"><span id="cb4-1"><a href="#cb4-1" tabindex="-1"></a>knitr::opts_chunk$set(echo = FALSE)</span></code></pre></div>
 <p>Knit. Every chunk now hides its code, so you can delete the
 <code>echo = FALSE</code> you added in part (a) and it will still be
 hidden.</p>
@@ -721,9 +715,9 @@ your <code>chol-plot</code> chunk, using the package you installed in
 Exercise 5, and knit. Even with the code hidden you get several lines of
 this in the middle of your report:</li>
 </ol>
-<div class="sourceCode" id="cb6"><pre class="sourceCode md"><code class="sourceCode markdown"><span id="cb6-1"><a href="#cb6-1" tabindex="-1"></a><span class="an">Loading required package:</span><span class="co"> sm</span></span>
-<span id="cb6-2"><a href="#cb6-2" tabindex="-1"></a>Package &#39;sm&#39;, version 2.2-6.0: type help(sm) for summary information</span>
-<span id="cb6-3"><a href="#cb6-3" tabindex="-1"></a>Loading required package: zoo</span></code></pre></div>
+<div class="sourceCode" id="cb5"><pre class="sourceCode md"><code class="sourceCode markdown"><span id="cb5-1"><a href="#cb5-1" tabindex="-1"></a><span class="an">Loading required package:</span><span class="co"> sm</span></span>
+<span id="cb5-2"><a href="#cb5-2" tabindex="-1"></a>Package &#39;sm&#39;, version 2.2-6.0: type help(sm) for summary information</span>
+<span id="cb5-3"><a href="#cb5-3" tabindex="-1"></a>Loading required package: zoo</span></code></pre></div>
 <p>Those are <strong>messages</strong>. R also produces
 <strong>warnings</strong>, which appear the same way and look far more
 alarming to a reader than they usually deserve to. Neither belongs in a
@@ -748,7 +742,7 @@ matching your results and nothing tells you.</p>
 middle of an ordinary sentence you write a backtick, then the letter
 <code>r</code>, then some R code, then a closing backtick, and when you
 knit, the answer appears instead. Like this:</p>
-<div class="sourceCode" id="cb7"><pre class="sourceCode md"><code class="sourceCode markdown"><span id="cb7-1"><a href="#cb7-1" tabindex="-1"></a>The study included <span class="in">`r nrow(cardiac)`</span> patients.</span></code></pre></div>
+<div class="sourceCode" id="cb6"><pre class="sourceCode md"><code class="sourceCode markdown"><span id="cb6-1"><a href="#cb6-1" tabindex="-1"></a>The study included <span class="in">`r nrow(cardiac)`</span> patients.</span></code></pre></div>
 <p>which comes out as “The study included 163 patients.”</p>
 <p>Go back to your data validation paragraph and replace every number
 you typed by hand with inline code. Then add a sentence to your
@@ -765,7 +759,7 @@ this is nearly always the reason.</p>
 <p>Then test that it really works. Temporarily change your import chunk
 so it keeps only the first 100 patients, by adding this line at the end
 of the chunk:</p>
-<div class="sourceCode" id="cb8"><pre class="sourceCode md"><code class="sourceCode markdown"><span id="cb8-1"><a href="#cb8-1" tabindex="-1"></a>cardiac &lt;- head(cardiac, 100)</span></code></pre></div>
+<div class="sourceCode" id="cb7"><pre class="sourceCode md"><code class="sourceCode markdown"><span id="cb7-1"><a href="#cb7-1" tabindex="-1"></a>cardiac &lt;- head(cardiac, 100)</span></code></pre></div>
 <p>Knit, and watch your sentence update itself. Then delete that line
 and knit again.</p>
 <p> </p>
@@ -789,7 +783,7 @@ plot you exported in <strong>Exercise 6, Q9</strong>,
 <code>ex6_admissions.png</code>, to your report.</p>
 <p>The simplest way needs no chunk at all. Type this straight into your
 text, changing the path to wherever your file actually is:</p>
-<div class="sourceCode" id="cb9"><pre class="sourceCode md"><code class="sourceCode markdown"><span id="cb9-1"><a href="#cb9-1" tabindex="-1"></a><span class="al">![Alcohol-related hospital admissions by council area.](output/ex6_admissions.png)</span></span></code></pre></div>
+<div class="sourceCode" id="cb8"><pre class="sourceCode md"><code class="sourceCode markdown"><span id="cb8-1"><a href="#cb8-1" tabindex="-1"></a><span class="al">![Alcohol-related hospital admissions by council area.](output/ex6_admissions.png)</span></span></code></pre></div>
 <p>An exclamation mark, then the caption in square brackets, then the
 file path in round brackets. Knit and check the figure appears.</p>
 <p>If you no longer have the file, <a

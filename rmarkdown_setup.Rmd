@@ -1,0 +1,132 @@
+---
+title: 'Setting up R markdown'
+output:
+  html_document:
+    toc: true
+    toc_depth: 2
+    toc_float:
+      collapsed: false
+---
+
+\
+
+## Before you start
+
+You need this for Exercise 7, and you'll need it again for your report assessment, because
+both of them produce PDF documents. It takes about fifteen minutes, most of which is a
+download running by itself while you do something else.
+
+Please work through it **before** the Exercise 7 practical rather than during it. If you hit
+a real problem, bring it to the start of the session and we'll help you, but we can't get
+everybody set up and still have time to teach anything, so do try first.
+
+You only ever do this once per computer. Unlike the Git and GitHub setup, there's nothing
+here that expires, so you can do it as early in the course as you like.
+
+\
+
+## Step 1: Check you have the R markdown packages
+
+Two packages do the work, `rmarkdown` and `knitr`. Both normally arrive with RStudio, so
+check what you already have before installing anything. In the console:
+
+```{r step1a, eval=FALSE}
+library(rmarkdown)
+library(knitr)
+```
+
+If neither of those gives you an error then you already have what you need and you can go
+straight to Step 2. If either one complains that there is no such package, install it with:
+
+```{r step1b, eval=FALSE}
+install.packages("rmarkdown")
+```
+
+which brings `knitr` along with it.
+
+[Appendix A](https://intro2r.com/install-rm.html) of the Introduction to R book covers this
+in more detail, with separate instructions for Windows, macOS and Linux.
+
+\
+
+## Step 2: Install LaTeX
+
+This is the step that takes the time, so start it and go and make a cup of tea.
+
+To turn your document into a PDF, R markdown hands it to a typesetting system called LaTeX,
+and you need one of those installed. The good news is that you don't have to learn anything
+about it. You will never see it, you will never edit it, and once it's installed it simply
+works in the background.
+
+The easy way is a small LaTeX distribution called TinyTeX, which was built for exactly this
+job. A full LaTeX installation is several gigabytes and needs its own installer, whereas
+TinyTeX is a few hundred megabytes and installs itself from inside R. Run these two lines
+in the console:
+
+```{r step2, eval=FALSE}
+install.packages("tinytex")
+
+tinytex::install_tinytex()
+```
+
+The second line is the one that does the downloading. Give it a few minutes and a decent
+connection, and don't be alarmed if it prints a great deal of text at you while it works.
+You may also get a security or firewall prompt, which you should allow. Restart RStudio
+once it has finished.
+
+If you already have a LaTeX installation such as MiKTeX or MacTeX, you don't need TinyTeX
+and can skip this step.
+
+\
+
+## Step 3: Check it worked
+
+First, ask R:
+
+```{r step3a, eval=FALSE}
+tinytex::is_tinytex()
+```
+
+which should return `TRUE`.
+
+That only tells you the installation is there, though. The real test is making a PDF, so do
+that now rather than finding out in the session:
+
+1. In RStudio, go to `File` -> `New File` -> `R Markdown...`
+2. Put anything you like in the Title box, select **PDF** on the left, and click OK
+3. RStudio opens a document already full of example content about cars. Leave it exactly as
+   it is
+4. Save it somewhere sensible, then click the **Knit** button at the top of the editor
+
+If a PDF appears with a small table of car speeds and a plot in it, you're done and you can
+delete the file.
+
+\
+
+## If something goes wrong
+
+**The first knit fails with an error mentioning a file ending in `.sty`.** This is the
+common one and it usually fixes itself. TinyTeX downloads the extra pieces it needs the
+first time it meets them, so knit a second time before you do anything else.
+
+**`is_tinytex()` returns `FALSE` after you installed it.** Restart RStudio and try again.
+R needs restarting before it notices.
+
+**You already had LaTeX installed and things are behaving oddly.** Having two can confuse
+matters. Run `tinytex::tinytex_root()` to see which installation R is actually using.
+
+**Knitting to HTML works but PDF doesn't.** That's the expected symptom of Step 2 not having
+worked, since HTML needs no LaTeX at all. Go back and run it again.
+
+If none of that helps, bring the error message with you to the session. Copy the whole
+thing, not just the last line, because the useful part is usually further up.
+
+\
+
+## Where to go if you're stuck
+
+The TinyTeX website at [yihui.org/tinytex](https://yihui.org/tinytex/) covers installation
+problems in far more detail than this page does.
+
+For R markdown itself, [R Markdown: The Definitive Guide](https://bookdown.org/yihui/rmarkdown/)
+is free online and is the standard reference.

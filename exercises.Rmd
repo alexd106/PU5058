@@ -60,6 +60,12 @@ cat("- [Exercise (optional): Basic programming in R](exercise_programming.html){
 
 cat("\n\n")
 
+cat("Exercise 7 needs R markdown and a LaTeX installation so that you can make PDF ",
+    "documents. Please work through ",
+    "[Setting up R markdown](rmarkdown_setup.html){target='_blank'} before that session.")
+
+cat("\n\n")
+
 cat("Exercise 9 needs Git installed and a GitHub account. Please work through ",
     "[Setting up Git and GitHub](git_setup.html){target='_blank'} before that session.")
 ```

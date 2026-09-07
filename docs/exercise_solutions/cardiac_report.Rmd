@@ -1,0 +1,95 @@
+---
+title: "Cardiac study report"
+author: "Your Name"
+date: "20 August 2026"
+output:
+  pdf_document:
+    toc: true
+    number_sections: true
+---
+
+```{r setup, include = FALSE}
+knitr::opts_chunk$set(warning = FALSE, message = FALSE)
+```
+
+# Cardiac study report
+
+## Background
+
+These data come from a **cohort study** of the risk factors for cardiovascular disease.
+A group of adults aged between 55 and 75 were examined at the start of the study, and a
+range of measurements was *measured* on each of them. Each row is one patient and each
+column is one of those measurements.
+
+The variables used in this report are:
+
+- age, in years
+- systolic blood pressure, in mmHg
+- HDL cholesterol, in mmol/l
+- smoking status
+
+```{r import}
+cardiac <- read.table('data/cardiacdata.txt', header = TRUE, sep = "\t",
+                      stringsAsFactors = TRUE)
+
+cardiac$Fsex <- factor(cardiac$sex, levels = c(1, 2),
+                       labels = c("Female", "Male"))
+
+cardiac$Fsmoking <- factor(cardiac$smoking, levels = c(1, 2, 3),
+                           labels = c("Current", "Ex", "Never"))
+```
+
+## Data validation
+
+The dataset contains `r nrow(cardiac)` patients, with a mean age of
+`r round(mean(cardiac$age), 1)` years.
+
+```{r validation}
+cardiac$bmi[cardiac$bmi > 100] <- NA
+cardiac$triglyceride[cardiac$triglyceride == 0] <- NA
+cardiac$hdlchol[cardiac$hdlchol == 0] <- NA
+```
+
+Three variables contained values that are not biologically possible. Two patients had an
+HDL cholesterol of 0 mmol/l and one had a triglyceride of 0 mmol/l, and nobody can have no
+fat at all in their blood. One patient had a body mass index of 514.6, which is almost
+certainly 51.46 with the decimal point in the wrong place. All four values were set to
+`NA` rather than deleted or corrected. Deleting the patients would throw away their other
+measurements, which are perfectly good, and correcting the body mass index would mean
+putting a number into the data that nobody measured.
+
+```{r alcohol-transform, fig.cap = 'Weekly alcohol consumption before and after square root transformation.'}
+cardiac$alcohol_sqrt <- sqrt(cardiac$alcohol)
+
+par(mfrow = c(1, 2))
+hist(cardiac$alcohol, main = "", xlab = "alcohol (units/week)")
+hist(cardiac$alcohol_sqrt, main = "", xlab = "sqrt(alcohol)")
+```
+
+A small number of patients drink a great deal more than the rest, which leaves weekly
+alcohol units with a long tail to the right. Alcohol is recorded as a count of units, so
+the square root is the usual transformation for it, and it spreads the values out much
+more evenly.
+
+## Results
+
+```{r chol-plot, fig.cap = 'HDL cholesterol by smoking status.', fig.width = 4}
+boxplot(hdlchol ~ Fsmoking, data = cardiac,
+        xlab = "Smoking status", ylab = "HDL cholesterol (mmol/l)")
+```
+
+Patients who have never smoked have a higher HDL cholesterol than either the current
+smokers or the ex-smokers.
+
+```{r summary-table}
+smoke_summary <- aggregate(cardiac[, c("age", "systolic", "tchol")],
+                           by = list(Smoking = cardiac$Fsmoking),
+                           mean, na.rm = TRUE)
+
+knitr::kable(smoke_summary, digits = 1,
+             caption = "Mean age, systolic blood pressure and total cholesterol by smoking status.")
+```
+
+## An externally produced figure
+
+![Alcohol-related hospital admissions by council area.](output/ex6_admissions.png)

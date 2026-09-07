@@ -516,37 +516,36 @@ it. That takes about half an hour and is fiddly the first time, so
 please work through the <strong><a href="git_setup.html"
 target="_blank">Setting up Git and GitHub</a></strong> page before you
 arrive. If you hit a real problem, bring it to the start of the session
-and we will help you, but we cannot get everybody set up and still teach
+and we’ll help you, but we can’t get everybody set up and still teach
 anything, so please try first.</p>
 <p> </p>
-<p>So far, your safety net has been saving your script and hoping.
-Version control replaces that with something better: a record of every
-version of your work, who changed what and when, and why. It is the
-difference between a folder full of
-<code>analysis_final_v2_REALLY_final.R</code> and a project with a
-history you can actually read.</p>
+<p>Up to now your safety net has been saving your script and hoping for
+the best. Version control gives you something a good deal better. It
+keeps a record of every version of your work, along with who changed
+what, when, and why. If you’ve ever ended up with a folder containing
+<code>analysis_final_v2_REALLY_final.R</code>, this is the thing that
+saves you from it.</p>
 <p>Git is the program that keeps that history on your computer. GitHub
 is a website that keeps a copy, which makes it a backup, a way to share
-work, and somewhere to point people who ask what you have been
-doing.</p>
-<p>We will only cover the everyday loop in this exercise. That loop is
-what you will use ninety-nine times out of a hundred.</p>
+work, and somewhere to point people who ask what you’ve been doing.</p>
+<p>We’ll only cover the everyday loop in this exercise, which is what
+you’ll use ninety-nine times out of a hundred.</p>
 <p> </p>
 <p>1. Start by checking your setup is healthy. In the R console run the
 situation report:</p>
 <div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" tabindex="-1"></a>usethis<span class="sc">::</span><span class="fu">git_sitrep</span>()</span></code></pre></div>
-<p>This prints a lot at once, which is normal. You are looking for just
-two things: your name and email address near the top, under the Git
+<p>This prints a lot at once, which is normal. You’re looking for just
+two things: your name and email address near the top under the Git
 config heading, and a line further down confirming that a personal
 access token was found. Everything else you can ignore for now.</p>
 <p>If either of those is missing, go back to the <a
 href="git_setup.html" target="_blank">setup page</a> and work out which
-step did not take. Ask for help now rather than at Q4, when the symptom
+step didn’t take. Ask for help now rather than at Q4, when the symptom
 will be an error message rather than a missing line.</p>
 <p> </p>
-<p>2. Now create somewhere for your work to live. We are going to make
+<p>2. Now create somewhere for your work to live. We’re going to make
 the repository on GitHub first and then bring it down to your computer,
-because that way the two ends are connected from the start and there is
+because that way the two ends are connected from the start and there’s
 less to go wrong.</p>
 <ol style="list-style-type: lower-alpha">
 <li><p>Go to <a href="https://github.com">github.com</a> and log in.
@@ -567,74 +566,96 @@ box. The ‘Project directory name’ box fills in on its own. Under ‘Create
 project as a subdirectory of’, browse to wherever you keep your work for
 this course, then click <strong>Create Project</strong>.</p></li>
 </ol>
+<p>If there’s no <strong>Version Control</strong> option in that first
+window, RStudio hasn’t found Git on your computer. That’s Step 3 of the
+<a href="git_setup.html" target="_blank">setup page</a>, and the
+situation report in Q1 doesn’t check it, so this is where you find
+out.</p>
 <p>RStudio restarts and opens a new Project containing the README and
 the <code>.gitignore</code> that GitHub made for you. You now have the
-same repository in two places: one on your computer and one on GitHub.
+same repository in two places, one on your computer and one on GitHub.
 Keeping those two in step is what the rest of this exercise is
 about.</p>
-<p>Note this is a <em>different</em> Project from the one you have used
-for Exercises 1 to 7. That is deliberate, so you are not putting the
-whole course under version control today.</p>
+<p>Note this is a <em>different</em> Project from the one you’ve used
+for Exercises 1 to 7. That’s deliberate, so you’re not putting the whole
+course under version control today.</p>
 <p> </p>
-<p>3. Look before you touch anything. Find the <strong>Git</strong> tab
-in the top right pane of RStudio (it appears only in a Project that is
-under version control, which is why Q2 came first). Identify each of the
-following, without clicking yet:</p>
+<p>3. Before you touch anything, get your bearings. Find the
+<strong>Git</strong> tab in the top right pane of RStudio. It only
+appears in a Project that’s under version control, which is why Q2 came
+first.</p>
+<p>There isn’t much in it yet. You should see a single file,
+<code>pu5058-practical.Rproj</code>, which is the Project file RStudio
+made for you a moment ago. Everything else that came down from GitHub is
+already being looked after by Git, so there’s nothing to report about
+it.</p>
+<p>Find each of these, without clicking yet:</p>
 <ul>
 <li>the <strong>Staged</strong> column of tick boxes</li>
-<li>the coloured status icons and what they mean: a yellow
-<code>?</code> for a file Git has never seen, a blue <code>M</code> for
-a file that has been modified, a green <code>A</code> for a file you
-have staged</li>
-<li>the <strong>Diff</strong> button, which shows what changed</li>
+<li>the <strong>Diff</strong> button, which shows you what changed</li>
 <li>the <strong>Commit</strong> button</li>
 <li>the <strong>Pull</strong> and <strong>Push</strong> buttons, the
 down and up arrows</li>
 <li>the <strong>History</strong> button, the little clock</li>
 </ul>
+<p>The coloured icon beside a file tells you what Git currently makes of
+it. A yellow <code>?</code> means Git can see the file but isn’t keeping
+track of it, which is the case for <code>pu5058-practical.Rproj</code>
+right now. You’ll meet a blue <code>M</code> for a file that’s been
+modified and a green <code>A</code> for one you’ve staged as you work
+through the next few questions.</p>
 <p> </p>
-<p>4. Time for the full cycle, once, slowly. First you need something
+<p>4. Time for the full cycle, once, slowly. First you’ll need something
 worth saving.</p>
 <ol style="list-style-type: lower-alpha">
 <li><p>Using your computer’s file manager (Finder on a Mac, File
 Explorer on Windows), make a <code>data</code> folder inside your new
-Project folder and copy <code>cardiacdata.txt</code> into it. You are
-copying it because this is a different Project from the one you have
-been using.</p></li>
+Project folder and copy <code>cardiacdata.txt</code> into it. You’re
+copying it because this is a different Project from the one you’ve been
+using.</p></li>
 <li><p>In RStudio, create a new R script (<code>File</code> -&gt;
 <code>New File</code> -&gt; <code>R Script</code>) and save it as
 <code>cardiac_analysis.R</code>. In it, import the data with
 <code>read.table()</code> as you did in <strong>Exercise 3, Q5</strong>,
-and draw the boxplot of total cholesterol by smoking status from
-<strong>Exercise 5, Q11</strong>. Do not forget the factor recoding from
+and draw the boxplot of HDL cholesterol by smoking status from
+<strong>Exercise 5, Q11</strong>. Don’t forget the factor recoding from
 <strong>Exercise 5, Q4</strong>. Save the file.</p></li>
+</ol>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" tabindex="-1"></a>cardiac <span class="ot">&lt;-</span> <span class="fu">read.table</span>(<span class="st">&#39;data/cardiacdata.txt&#39;</span>, <span class="at">header =</span> <span class="cn">TRUE</span>, <span class="at">sep =</span> <span class="st">&quot;</span><span class="sc">\t</span><span class="st">&quot;</span>,</span>
+<span id="cb2-2"><a href="#cb2-2" tabindex="-1"></a>                      <span class="at">stringsAsFactors =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb2-3"><a href="#cb2-3" tabindex="-1"></a></span>
+<span id="cb2-4"><a href="#cb2-4" tabindex="-1"></a>cardiac<span class="sc">$</span>Fsmoking <span class="ot">&lt;-</span> <span class="fu">factor</span>(cardiac<span class="sc">$</span>smoking, <span class="at">levels =</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">3</span>),</span>
+<span id="cb2-5"><a href="#cb2-5" tabindex="-1"></a>                           <span class="at">labels =</span> <span class="fu">c</span>(<span class="st">&quot;Current&quot;</span>, <span class="st">&quot;Ex&quot;</span>, <span class="st">&quot;Never&quot;</span>))</span>
+<span id="cb2-6"><a href="#cb2-6" tabindex="-1"></a></span>
+<span id="cb2-7"><a href="#cb2-7" tabindex="-1"></a><span class="fu">boxplot</span>(hdlchol <span class="sc">~</span> Fsmoking, <span class="at">data =</span> cardiac,</span>
+<span id="cb2-8"><a href="#cb2-8" tabindex="-1"></a>        <span class="at">xlab =</span> <span class="st">&quot;Smoking status&quot;</span>, <span class="at">ylab =</span> <span class="st">&quot;HDL cholesterol (mmol/l)&quot;</span>)</span></code></pre></div>
+<ol start="3" style="list-style-type: lower-alpha">
 <li><p>Look at the Git pane. <code>cardiac_analysis.R</code> has
 appeared with a yellow <code>?</code> beside it, meaning Git can see it
-but is not yet keeping track of it. Tick the <strong>Staged</strong> box
+but isn’t yet keeping track of it. Tick the <strong>Staged</strong> box
 next to it. The icon changes to a green <code>A</code>, for
 ‘added’.</p></li>
 <li><p>Click <strong>Commit</strong>. A window opens showing the file
-you staged and, underneath, every line you are about to record. Type a
-message in the box on the right. Make it say <em>why</em> rather than
-<em>what</em>: “add script to plot cholesterol by smoking status” is a
-useful message, “update” is not, and in six months you will be grateful.
-Click the <strong>Commit</strong> button, read the confirmation, and
-close it.</p></li>
+you staged and, underneath, every line you’re about to record. Type a
+message in the box on the right. Make it say why you made the change
+rather than just what you changed. ‘add script to plot cholesterol by
+smoking status’ is a useful message, ‘update’ is not, and in six months
+you’ll be grateful. Click the <strong>Commit</strong> button, read the
+confirmation, and close it.</p></li>
 <li><p>Your change is now saved in the history on your computer, but
 GitHub knows nothing about it. Click the green <strong>Push</strong>
 arrow. Wait for it to finish, then go to your repository page on GitHub
 in your browser and refresh. Your script is there.</p></li>
 </ol>
 <p>If the push fails with a message about authentication, your token is
-the problem rather than anything you have done here. See the last
-section of the <a href="git_setup.html" target="_blank">setup
-page</a>.</p>
+the problem rather than anything you’ve done here. See the last section
+of the <a href="git_setup.html" target="_blank">setup page</a>.</p>
 <p> </p>
-<p>5. Once is a demonstration, twice is a habit. Open
-<code>cardiac_analysis.R</code>, change something small (adding a title
-to your plot with the <code>main</code> argument will do), and save it.
-The file reappears in the Git pane, this time with a blue <code>M</code>
-for ‘modified’.</p>
+<p>5. Now do it again, because the loop only becomes useful once it’s
+automatic. Open <code>cardiac_analysis.R</code>, change something small
+(adding a title to your plot with the <code>main</code> argument will
+do), and save it. The file reappears in the Git pane, this time with a
+blue <code>M</code> for ‘modified’.</p>
 <ol style="list-style-type: lower-alpha">
 <li><p>Before you commit, select the file and click
 <strong>Diff</strong>. Read what it shows you: added lines in green,
@@ -644,12 +665,12 @@ before committing catches an enormous number of mistakes.</p></li>
 <li><p>Now click <strong>History</strong>, the clock icon. You should
 see both of your commits, most recent first, with their messages,
 authors and dates. Click on the first commit to see exactly what it
-contained. This is the record that makes version control worth the
-trouble: not the backup, but being able to see what past you did and
-what past you was thinking.</p></li>
+contained. This history is the part that makes version control worth the
+trouble. The backup is useful, but being able to look back at what you
+did, and why you did it, is more useful still.</p></li>
 </ol>
 <p> </p>
-<p>6. Everyone makes changes they wish they had not. Git gives you a way
+<p>6. Everyone makes changes they wish they hadn’t. Git gives you a way
 back.</p>
 <ol style="list-style-type: lower-alpha">
 <li>Open your script, delete the whole line that draws the boxplot, and
@@ -658,10 +679,10 @@ right-click on the file and choose <strong>Revert</strong>. Say yes to
 the warning, then look at your script again: the deleted line is
 back.</li>
 </ol>
-<p>Be careful with this one. It is not an undo button. It throws away
-<em>everything</em> you have changed since your last commit, not just
-the last thing you did, and there is no way back. Commit often and you
-will rarely need it.</p>
+<p>Be careful with this one. It’s not an undo button. It throws away
+<em>everything</em> you’ve changed since your last commit, not just the
+last thing you did, and there’s no way back. Commit often and you’ll
+rarely need it.</p>
 <ol start="2" style="list-style-type: lower-alpha">
 <li>Now a subtler one. Commit a change, but <strong>do not push
 it</strong>. Realise you forgot to include something, add it, and then
@@ -677,17 +698,18 @@ flows the other way too, and this is the half people forget.</p>
 <ol style="list-style-type: lower-alpha">
 <li><p>In your browser, open your repository on GitHub, click on
 <code>README.md</code>, and click the pencil icon to edit it. Write a
-couple of sentences describing what the project is for. Scroll down and
-click <strong>Commit changes</strong>.</p></li>
+couple of sentences describing what the project is for, then commit the
+change. GitHub asks you for a commit message in much the same way
+RStudio does.</p></li>
 <li><p>Your computer knows nothing about this. In RStudio, click
 <strong>Pull</strong>, the blue down arrow. Open the README in RStudio
 and your change is there.</p></li>
-<li><p>Now think about why this matters. If you had edited the README on
+<li><p>Now think about why this matters. If you’d edited the README on
 your computer as well before pulling, Git would have had two different
-versions of the same file and would have asked you to sort it out. That
-is a merge conflict, and it is why the advice is always <strong>pull
-before you push</strong>. Get into the habit now, while you are working
-alone and there is nothing to conflict with.</p></li>
+versions of the same file and would have asked you to sort it out.
+That’s a merge conflict, and it’s why the advice is always <strong>pull
+before you push</strong>. Get into the habit now, while you’re working
+alone and there’s nothing to conflict with.</p></li>
 </ol>
 <p> </p>
 <p>8. Finally, what not to put in a repository. Open the
@@ -698,18 +720,21 @@ when you chose the R template in Q2.</p>
 <li><p>Read through it. You should recognise <code>.Rhistory</code> and
 <code>.RData</code>.</p></li>
 <li><p>Add a line ignoring anything in an <code>output</code> directory,
-since generated files can always be regenerated and do not need a
-history.</p></li>
-<li><p>Right-click a file in the Git pane and notice there is an
+since generated files can always be regenerated and don’t need a
+history. A directory is written with a slash after it.</p></li>
+</ol>
+<div class="sourceCode" id="cb3"><pre
+class="sourceCode md foldable"><code class="sourceCode markdown"><span id="cb3-1"><a href="#cb3-1" tabindex="-1"></a>output/</span></code></pre></div>
+<ol start="3" style="list-style-type: lower-alpha">
+<li><p>Right-click a file in the Git pane and notice there’s an
 <strong>Ignore</strong> option, which adds it to <code>.gitignore</code>
 for you.</p></li>
 <li><p>Think about your data. <code>cardiacdata.txt</code> is small,
 unchanging and not confidential, so committing it is reasonable and
 makes the project self-contained. Real patient data would be a different
-matter entirely, and the rule there is simple: <strong>never put
-confidential data or passwords in a repository</strong>, and be
-especially careful with public ones, because deleting a file does not
-remove it from the history.</p></li>
+matter entirely. <strong>Never put confidential data or passwords in a
+repository</strong>, and be especially careful with public ones, because
+deleting a file doesn’t remove it from the history.</p></li>
 </ol>
 <p> </p>
 <div id="where-to-go-next" class="section level3">
@@ -719,7 +744,7 @@ remove it from the history.</p></li>
 you work on something risky without disturbing the version that works.
 <strong>Forks</strong> and <strong>pull requests</strong> are how people
 contribute to each other’s projects. <strong>Merge conflicts</strong>,
-which you will meet the first time you and somebody else edit the same
+which you’ll meet the first time you and somebody else edit the same
 file, have their own set of tools. None of that is needed for this
 course, and all of it is easier to learn once the everyday loop in this
 exercise is second nature.</p>
@@ -728,10 +753,10 @@ href="https://happygitwithr.com">Happy Git and GitHub for the useR</a>,
 which is free online. Section <a
 href="https://intro2r.com/use_git.html">9.6.4</a> of the Introduction to
 R book gives an overview of how collaboration works.</p>
-<p>One last thing worth knowing: the website you are reading this on is
-built from a public GitHub repository, using exactly the tools in this
-exercise. The <strong>Source code</strong> link in the menu at the top
-of this page will take you to it.</p>
+<p>One last thing. The website you’re reading this on is built from a
+public GitHub repository, using exactly the tools in this exercise. The
+<strong>Source code</strong> link in the menu at the top of this page
+will take you to it.</p>
 <p> </p>
 <p>End of Exercise 9</p>
 </div>

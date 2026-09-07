@@ -545,7 +545,9 @@ something.</p>
 <p> </p>
 <p>1. Open the RStudio Project you have been using for this course.
 Create a new R markdown document by going to <code>File</code> -&gt;
-<code>New File</code> -&gt; <code>R Markdown...</code>.</p>
+<code>New File</code> -&gt; <code>R Markdown...</code> (see <a
+href="https://intro2r.com/new_rm.html">Section 8.4</a> of the
+Introduction to R book if you would like to read about this first).</p>
 <p>The first time you do this, RStudio may tell you it needs to install
 some packages. Let it, and wait for it to finish.</p>
 <p>In the dialogue box that appears, type
@@ -564,7 +566,9 @@ wrong later is something you can fix.</p>
 <p> </p>
 <p>2. Look at the PDF that appeared alongside the R markdown file that
 produced it. An R markdown file has only three kinds of content, and
-everything else is a variation on them:</p>
+everything else is a variation on them (<a
+href="https://intro2r.com/r-markdown-anatomy.html">Section 8.5</a> of
+the book takes each of them in turn):</p>
 <ul>
 <li>the <strong>YAML header</strong> at the very top, between the two
 lines of <code>---</code>, which controls the document as a whole</li>
@@ -583,10 +587,11 @@ called <code>setup</code>, leaving the YAML header and that chunk in
 place. Knit again to check you have an empty but working document. This
 is your starting point.</p>
 <p> </p>
-<p>3. Now take control of the YAML header. At the moment it has a title,
-an author and a date, and an <code>output</code> line saying
-<code>pdf_document</code>. Replace that line with the four shown
-below.</p>
+<p>3. Now take control of the YAML header (see <a
+href="https://intro2r.com/r-markdown-anatomy.html#yaml-header">Section
+8.5.1</a> of the book). At the moment it has a title, an author and a
+date, and an <code>output</code> line saying <code>pdf_document</code>.
+Replace that line with the four shown below.</p>
 <p>Two warnings, because this is where people lose ten minutes.
 Indentation in YAML matters, so copy the spacing exactly. And use
 spaces, never tabs.</p>
@@ -612,9 +617,9 @@ first few sentences of it into your document underneath the setup chunk,
 then use markdown to format it. There is no code in this question at
 all.</p>
 <ul>
-<li>put a heading above it, written as <code># My heading</code>, and a
-second smaller heading below that, written as
-<code>## My smaller heading</code></li>
+<li>put a heading above it, written as <code># Introduction</code>, and
+a second smaller heading below that, written as
+<code>## Data description</code></li>
 <li>put <strong>cohort study</strong> in bold, by writing it as
 <code>**cohort study**</code></li>
 <li>put <em>measured</em> in italics, by writing it as
@@ -648,13 +653,14 @@ class="sourceCode md foldable"><code class="sourceCode markdown"><span id="cb3-1
 <span id="cb3-13"><a href="#cb3-13" tabindex="-1"></a><span class="ss">- </span>body mass index</span>
 <span id="cb3-14"><a href="#cb3-14" tabindex="-1"></a><span class="ss">- </span>smoking status</span></code></pre></div>
 <p> </p>
-<p>5. Next comes the data. Insert a new code chunk using the
-<strong>Insert</strong> button at the top right of the editor and
-choosing R, or with the keyboard shortcut Ctrl+Alt+I (Cmd+Option+I on a
-Mac). An empty chunk appears. If you’d rather, there’s nothing magic
-about the button: you can simply type <code>```{r}</code> on a line of
-its own and <code>```</code> on another line below it, and anything you
-put between them is a chunk.</p>
+<p>5. Next comes the data. Insert a new code chunk (see <a
+href="https://intro2r.com/r-markdown-anatomy.html#code_chunks">Section
+8.5.3</a> of the book) using the <strong>Insert</strong> button at the
+top right of the editor and choosing R, or with the keyboard shortcut
+Ctrl+Alt+I (Cmd+Option+I on a Mac). An empty chunk appears. If you’d
+rather, there’s nothing magic about the button: you can simply type
+<code>```{r}</code> on a line of its own and <code>```</code> on another
+line below it, and anything you put between them is a chunk.</p>
 <p>Give the chunk a name by typing it straight after the <code>r</code>,
 so the first line reads <code>```{r import}</code>. Naming chunks costs
 nothing and makes them far easier to find when something goes wrong.</p>
@@ -665,10 +671,16 @@ did in <strong>Exercise 3, Q5</strong>: with the
 assigning the result to <code>cardiac</code>. In the same chunk, add the
 two <code>factor()</code> lines from <strong>Exercise 3, Q7</strong>
 that create <code>Fsex</code> and <code>Fsmoking</code>. You’ll remember
-that <code>sex</code> and <code>smoking</code> are stored in the file as
-numbers but are really categories, so you made a labelled factor version
-of each and left the originals alone. You’ll need both of them later
-on.</p>
+why. <code>sex</code> and <code>smoking</code> arrive from the file as
+the numbers they were coded as, 1 and 2 for sex and 1, 2 and 3 for
+smoking, but they are really categories rather than quantities, so you
+use <code>factor()</code> to attach a meaningful label to each code and
+leave the original columns untouched (see <code>?factor</code> and <a
+href="https://intro2r.com/data-types.html#data-types">Section 3.1</a> of
+the book for where factors sit among R’s data types). You’ll need
+<code>Fsmoking</code> for the boxplot in Q7 and the table in Q8, and
+both of them read a great deal better with words in them than with
+numbers.</p>
 <p>Run the chunk in the editor with the small green arrow at its top
 right, then knit the whole document. Notice that knitting starts a
 completely fresh R session: anything you made earlier in the console
@@ -686,10 +698,10 @@ class="sourceCode md foldable"><code class="sourceCode markdown"><span id="cb4-1
 <span id="cb4-8"><a href="#cb4-8" tabindex="-1"></a><span class="in">                           labels = c(&quot;Current&quot;, &quot;Ex&quot;, &quot;Never&quot;))</span></span>
 <span id="cb4-9"><a href="#cb4-9" tabindex="-1"></a><span class="in">```</span></span></code></pre></div>
 <p> </p>
-<p>6. You have the data in, so the next thing a reader needs to know is
-whether you can trust it, and what you did about the bits you couldn’t.
-This question asks you not just to do something to the data but to
-explain why, which is most of what report writing is.</p>
+<p>6. Now you have the data imported, so the next thing a reader needs
+to know is whether you can trust it, and what you did about the bits you
+couldn’t. This question asks you not just to do something to the data
+but to explain why, which is most of what report writing is.</p>
 <p>Add a new heading called <code>## Data validation</code> below the
 previous chunk, and underneath it a chunk named <code>validation</code>
 holding the three lines from <strong>Exercise 4, Q1</strong> that set
@@ -700,8 +712,12 @@ cleaning isn’t in the document then it hasn’t happened.</p>
 <p>Then write a short paragraph beneath the chunk, two or three
 sentences, saying which variables you changed, how many values in each,
 and why you set them to <code>NA</code> rather than deleting those
-patients or correcting the numbers yourself. Type the counts in for now,
-and you’ll come back to them in Q9.</p>
+patients or correcting the numbers yourself. Write the counts into your
+sentences as ordinary numbers for now, so something like ‘two patients
+had an HDL cholesterol of 0 mmol/l’.</p>
+<p>Start that paragraph with one more sentence saying how many patients
+are in the dataset, again with the number written in. You’ll come back
+to that one in Q9.</p>
 <p>You’ll remember from <strong>Exercise 5, Q9</strong> that the
 variable <code>alcohol</code> needed some work as well. A small number
 of patients drink a great deal more than the rest, which leaves the
@@ -715,32 +731,34 @@ two underneath saying why you did it.</p>
 <div class="sourceCode" id="cb5"><pre
 class="sourceCode md foldable"><code class="sourceCode markdown"><span id="cb5-1"><a href="#cb5-1" tabindex="-1"></a><span class="fu">## Data validation</span></span>
 <span id="cb5-2"><a href="#cb5-2" tabindex="-1"></a></span>
-<span id="cb5-3"><a href="#cb5-3" tabindex="-1"></a><span class="in">```{r validation}</span></span>
-<span id="cb5-4"><a href="#cb5-4" tabindex="-1"></a><span class="in">cardiac$bmi[cardiac$bmi &gt; 100] &lt;- NA</span></span>
-<span id="cb5-5"><a href="#cb5-5" tabindex="-1"></a><span class="in">cardiac$triglyceride[cardiac$triglyceride == 0] &lt;- NA</span></span>
-<span id="cb5-6"><a href="#cb5-6" tabindex="-1"></a><span class="in">cardiac$hdlchol[cardiac$hdlchol == 0] &lt;- NA</span></span>
-<span id="cb5-7"><a href="#cb5-7" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb5-8"><a href="#cb5-8" tabindex="-1"></a></span>
-<span id="cb5-9"><a href="#cb5-9" tabindex="-1"></a>Three variables contained values that are not biologically possible. Two patients had an</span>
-<span id="cb5-10"><a href="#cb5-10" tabindex="-1"></a>HDL cholesterol of 0 mmol/l and one had a triglyceride of 0 mmol/l, and nobody can have no</span>
-<span id="cb5-11"><a href="#cb5-11" tabindex="-1"></a>fat at all in their blood. One patient had a body mass index of 514.6, which is almost</span>
-<span id="cb5-12"><a href="#cb5-12" tabindex="-1"></a>certainly 51.46 with the decimal point in the wrong place. All four values were set to</span>
-<span id="cb5-13"><a href="#cb5-13" tabindex="-1"></a><span class="in">`NA`</span> rather than deleted or corrected. Deleting the patients would throw away their other</span>
-<span id="cb5-14"><a href="#cb5-14" tabindex="-1"></a>measurements, which are perfectly good, and correcting the body mass index would mean</span>
-<span id="cb5-15"><a href="#cb5-15" tabindex="-1"></a>putting a number into the data that nobody measured.</span>
-<span id="cb5-16"><a href="#cb5-16" tabindex="-1"></a></span>
-<span id="cb5-17"><a href="#cb5-17" tabindex="-1"></a><span class="in">```{r alcohol-transform}</span></span>
-<span id="cb5-18"><a href="#cb5-18" tabindex="-1"></a><span class="in">cardiac$alcohol_sqrt &lt;- sqrt(cardiac$alcohol)</span></span>
-<span id="cb5-19"><a href="#cb5-19" tabindex="-1"></a></span>
-<span id="cb5-20"><a href="#cb5-20" tabindex="-1"></a><span class="in">par(mfrow = c(1, 2))</span></span>
-<span id="cb5-21"><a href="#cb5-21" tabindex="-1"></a><span class="in">hist(cardiac$alcohol, main = &quot;&quot;, xlab = &quot;alcohol (units/week)&quot;)</span></span>
-<span id="cb5-22"><a href="#cb5-22" tabindex="-1"></a><span class="in">hist(cardiac$alcohol_sqrt, main = &quot;&quot;, xlab = &quot;sqrt(alcohol)&quot;)</span></span>
-<span id="cb5-23"><a href="#cb5-23" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb5-24"><a href="#cb5-24" tabindex="-1"></a></span>
-<span id="cb5-25"><a href="#cb5-25" tabindex="-1"></a>A small number of patients drink a great deal more than the rest, which leaves weekly</span>
-<span id="cb5-26"><a href="#cb5-26" tabindex="-1"></a>alcohol units with a long tail to the right. Alcohol is recorded as a count of units, so</span>
-<span id="cb5-27"><a href="#cb5-27" tabindex="-1"></a>the square root is the usual transformation for it, and it spreads the values out much</span>
-<span id="cb5-28"><a href="#cb5-28" tabindex="-1"></a>more evenly.</span></code></pre></div>
+<span id="cb5-3"><a href="#cb5-3" tabindex="-1"></a>The dataset contains 163 patients.</span>
+<span id="cb5-4"><a href="#cb5-4" tabindex="-1"></a></span>
+<span id="cb5-5"><a href="#cb5-5" tabindex="-1"></a><span class="in">```{r validation}</span></span>
+<span id="cb5-6"><a href="#cb5-6" tabindex="-1"></a><span class="in">cardiac$bmi[cardiac$bmi &gt; 100] &lt;- NA</span></span>
+<span id="cb5-7"><a href="#cb5-7" tabindex="-1"></a><span class="in">cardiac$triglyceride[cardiac$triglyceride == 0] &lt;- NA</span></span>
+<span id="cb5-8"><a href="#cb5-8" tabindex="-1"></a><span class="in">cardiac$hdlchol[cardiac$hdlchol == 0] &lt;- NA</span></span>
+<span id="cb5-9"><a href="#cb5-9" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb5-10"><a href="#cb5-10" tabindex="-1"></a></span>
+<span id="cb5-11"><a href="#cb5-11" tabindex="-1"></a>Three variables contained values that are not biologically possible. Two patients had an</span>
+<span id="cb5-12"><a href="#cb5-12" tabindex="-1"></a>HDL cholesterol of 0 mmol/l and one had a triglyceride of 0 mmol/l, and nobody can have no</span>
+<span id="cb5-13"><a href="#cb5-13" tabindex="-1"></a>fat at all in their blood. One patient had a body mass index of 514.6, which is almost</span>
+<span id="cb5-14"><a href="#cb5-14" tabindex="-1"></a>certainly 51.46 with the decimal point in the wrong place. All four values were set to</span>
+<span id="cb5-15"><a href="#cb5-15" tabindex="-1"></a><span class="in">`NA`</span> rather than deleted or corrected. Deleting the patients would throw away their other</span>
+<span id="cb5-16"><a href="#cb5-16" tabindex="-1"></a>measurements, which are perfectly good, and correcting the body mass index would mean</span>
+<span id="cb5-17"><a href="#cb5-17" tabindex="-1"></a>putting a number into the data that nobody measured.</span>
+<span id="cb5-18"><a href="#cb5-18" tabindex="-1"></a></span>
+<span id="cb5-19"><a href="#cb5-19" tabindex="-1"></a><span class="in">```{r alcohol-transform}</span></span>
+<span id="cb5-20"><a href="#cb5-20" tabindex="-1"></a><span class="in">cardiac$alcohol_sqrt &lt;- sqrt(cardiac$alcohol)</span></span>
+<span id="cb5-21"><a href="#cb5-21" tabindex="-1"></a></span>
+<span id="cb5-22"><a href="#cb5-22" tabindex="-1"></a><span class="in">par(mfrow = c(1, 2))</span></span>
+<span id="cb5-23"><a href="#cb5-23" tabindex="-1"></a><span class="in">hist(cardiac$alcohol, main = &quot;&quot;, xlab = &quot;alcohol (units/week)&quot;)</span></span>
+<span id="cb5-24"><a href="#cb5-24" tabindex="-1"></a><span class="in">hist(cardiac$alcohol_sqrt, main = &quot;&quot;, xlab = &quot;sqrt(alcohol)&quot;)</span></span>
+<span id="cb5-25"><a href="#cb5-25" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb5-26"><a href="#cb5-26" tabindex="-1"></a></span>
+<span id="cb5-27"><a href="#cb5-27" tabindex="-1"></a>A small number of patients drink a great deal more than the rest, which leaves weekly</span>
+<span id="cb5-28"><a href="#cb5-28" tabindex="-1"></a>alcohol units with a long tail to the right. Alcohol is recorded as a count of units, so</span>
+<span id="cb5-29"><a href="#cb5-29" tabindex="-1"></a>the square root is the usual transformation for it, and it spreads the values out much</span>
+<span id="cb5-30"><a href="#cb5-30" tabindex="-1"></a>more evenly.</span></code></pre></div>
 <p>Note the two things these paragraphs do that a list of results would
 not. They say what was done, and they say why, which is the difference
 between a set of numbers and a piece of work somebody else can rely
@@ -765,8 +783,8 @@ chunk from Q6 and give that figure a caption too, so both of your
 figures have one.</p>
 <p>There are a great many other chunk options for figures, controlling
 height, alignment, resolution and so on. You don’t need them today. <a
-href="https://intro2r.com/rmarkdown_r.html">Chapter 8</a> of the book
-lists the ones you’re most likely to need.</p>
+href="https://intro2r.com/r-markdown-anatomy.html#adding-figures">Section
+8.5.4</a> of the book covers the ones you’re most likely to need.</p>
 <div class="sourceCode" id="cb7"><pre
 class="sourceCode md foldable"><code class="sourceCode markdown"><span id="cb7-1"><a href="#cb7-1" tabindex="-1"></a><span class="in">```{r chol-plot, fig.cap = &#39;HDL cholesterol by smoking status.&#39;, fig.width = 4}</span></span>
 <span id="cb7-2"><a href="#cb7-2" tabindex="-1"></a><span class="in">boxplot(hdlchol ~ Fsmoking, data = cardiac,</span></span>
@@ -778,91 +796,89 @@ Q6, with its caption added:</p>
 class="sourceCode md foldable"><code class="sourceCode markdown"><span id="cb8-1"><a href="#cb8-1" tabindex="-1"></a><span class="in">```{r alcohol-transform, fig.cap = &#39;Weekly alcohol consumption before and after square root transformation.&#39;}</span></span>
 <span id="cb8-2"><a href="#cb8-2" tabindex="-1"></a><span class="in">```</span></span></code></pre></div>
 <p> </p>
-<p>8. A figure visualises your data, but a reader will usually want the
-numbers as well, so add a table to go alongside it.</p>
+<p>8. A figure visualises your data, but a reader will usually want
+tabulated summaries as well, so add a table to go alongside it (see <a
+href="https://intro2r.com/r-markdown-anatomy.html#adding-tables">Section
+8.5.5</a> of the book).</p>
 <p>Insert a chunk, name it <code>summary-table</code>, and recreate the
 <code>aggregate()</code> summary from <strong>Exercise 4, Q4</strong>:
 the mean of <code>age</code>, <code>systolic</code> and
 <code>tchol</code> for each smoking category. Assign it to an object
-called <code>smoke_summary</code>, put <code>smoke_summary</code> on the
-line below so that it prints, and knit.</p>
-<p>What you get is the console output, monospaced and squeezed into a
-grey box, which is fine while you’re working but not something you would
-put in front of anybody. The <code>kable()</code> function from the
+called <code>smoke_summary</code>. Then, on the next line down, write
+<code>smoke_summary</code> on its own. A chunk prints anything that
+isn’t assigned to something, so that second line is what makes the
+summary appear in your document at all. Knit and see what you get.</p>
+<p>It’s the console output, monospaced and squeezed into a grey box,
+which is fine while you’re working but not something you would put in
+front of anybody else. The <code>kable()</code> function from the
 <code>knitr</code> package turns a dataframe into a properly formatted
-table instead, with the columns lined up and the row of names picked out
-as a header. Replace the line that prints <code>smoke_summary</code>
-with <code>knitr::kable(smoke_summary)</code>, knit again, and compare
-the two. Finally add <code>digits = 1</code> and a <code>caption</code>
-to the <code>kable()</code> call to tidy it up.</p>
+table instead, with the columns lined up and the variable names picked
+out as a header row. Change that second line from
+<code>smoke_summary</code> to <code>knitr::kable(smoke_summary)</code>,
+knit again, and compare the two. Finally add <code>digits = 1</code> and
+a <code>caption</code> to the <code>kable()</code> call to tidy it
+up.</p>
+<p>The first version, which prints the raw console output:</p>
 <div class="sourceCode" id="cb9"><pre
 class="sourceCode md foldable"><code class="sourceCode markdown"><span id="cb9-1"><a href="#cb9-1" tabindex="-1"></a><span class="in">```{r summary-table}</span></span>
 <span id="cb9-2"><a href="#cb9-2" tabindex="-1"></a><span class="in">smoke_summary &lt;- aggregate(cardiac[, c(&quot;age&quot;, &quot;systolic&quot;, &quot;tchol&quot;)],</span></span>
 <span id="cb9-3"><a href="#cb9-3" tabindex="-1"></a><span class="in">                           by = list(Smoking = cardiac$Fsmoking),</span></span>
 <span id="cb9-4"><a href="#cb9-4" tabindex="-1"></a><span class="in">                           mean, na.rm = TRUE)</span></span>
 <span id="cb9-5"><a href="#cb9-5" tabindex="-1"></a></span>
-<span id="cb9-6"><a href="#cb9-6" tabindex="-1"></a><span class="in">knitr::kable(smoke_summary, digits = 1,</span></span>
-<span id="cb9-7"><a href="#cb9-7" tabindex="-1"></a><span class="in">             caption = &quot;Mean age, systolic blood pressure and total cholesterol by smoking status.&quot;)</span></span>
-<span id="cb9-8"><a href="#cb9-8" tabindex="-1"></a><span class="in">```</span></span></code></pre></div>
+<span id="cb9-6"><a href="#cb9-6" tabindex="-1"></a><span class="in">smoke_summary</span></span>
+<span id="cb9-7"><a href="#cb9-7" tabindex="-1"></a><span class="in">```</span></span></code></pre></div>
+<p>And the finished version:</p>
+<div class="sourceCode" id="cb10"><pre
+class="sourceCode md foldable"><code class="sourceCode markdown"><span id="cb10-1"><a href="#cb10-1" tabindex="-1"></a><span class="in">```{r summary-table}</span></span>
+<span id="cb10-2"><a href="#cb10-2" tabindex="-1"></a><span class="in">smoke_summary &lt;- aggregate(cardiac[, c(&quot;age&quot;, &quot;systolic&quot;, &quot;tchol&quot;)],</span></span>
+<span id="cb10-3"><a href="#cb10-3" tabindex="-1"></a><span class="in">                           by = list(Smoking = cardiac$Fsmoking),</span></span>
+<span id="cb10-4"><a href="#cb10-4" tabindex="-1"></a><span class="in">                           mean, na.rm = TRUE)</span></span>
+<span id="cb10-5"><a href="#cb10-5" tabindex="-1"></a></span>
+<span id="cb10-6"><a href="#cb10-6" tabindex="-1"></a><span class="in">knitr::kable(smoke_summary, digits = 1,</span></span>
+<span id="cb10-7"><a href="#cb10-7" tabindex="-1"></a><span class="in">             caption = &quot;Mean age, systolic blood pressure and total cholesterol by smoking status.&quot;)</span></span>
+<span id="cb10-8"><a href="#cb10-8" tabindex="-1"></a><span class="in">```</span></span></code></pre></div>
 <p> </p>
 <p>9. Your report is now more or less complete, so the rest of the
-exercise is about tidying it up. Start with the data validation
-paragraph you wrote in Q6. In it you said how many HDL cholesterol
-values and how many triglyceride values you set to <code>NA</code>, and
-you typed those two counts in yourself. Numbers typed into your writing
-go stale. If the data changes, or you correct something later, your
-writing quietly stops matching your results and nothing tells you.</p>
-<p>R markdown fixes this with <strong>inline code</strong>. In the
-middle of an ordinary sentence you write a backtick, then the letter
-<code>r</code>, then some R code, then a closing backtick, and when you
-knit, the answer of that code appears in your text instead. Like
-this:</p>
-<div class="sourceCode" id="cb10"><pre
-class="sourceCode md"><code class="sourceCode markdown"><span id="cb10-1"><a href="#cb10-1" tabindex="-1"></a>The study included <span class="in">`r nrow(cardiac)`</span> patients.</span></code></pre></div>
-<p>which comes out as “The study included 163 patients.”</p>
-<p>Now use it on those two counts. The catch is that you can’t count the
-zeros after you’ve already turned them into <code>NA</code>, so add two
-lines to the top of your <code>validation</code> chunk that count them
-first and store each count in an object, something like
-<code>n_hdl</code> and <code>n_trig</code>. Then go back to your
-paragraph, delete the two numbers you typed and put
-<code>`r n_hdl`</code> and <code>`r n_trig`</code> in their place.</p>
-<p>While you’re there, add a sentence to the same section giving the
-number of patients and their mean age the same way, working both out
-from <code>cardiac</code> rather than typing them. Use
-<code>round()</code> on the mean so you don’t get six decimal
-places.</p>
-<p>Then test that it really works. Temporarily change your import chunk
-so it keeps only the first 100 patients, by adding this line at the end
-of the chunk:</p>
+exercise is about tidying it up. Start with the sentence you wrote at
+the top of your data validation section in Q6, the one saying how many
+patients are in the dataset. You wrote 163 into it yourself, and a
+number written into your text that way goes stale. If the data changes,
+or you correct something later, your writing quietly stops matching your
+results and nothing tells you.</p>
+<p>R markdown fixes this with <strong>inline code</strong> (see <a
+href="https://intro2r.com/r-markdown-anatomy.html#inline-r-code">Section
+8.5.6</a> of the book). In the middle of an ordinary sentence you write
+a backtick, then the letter <code>r</code>, then some R code, then a
+closing backtick. When you knit, the answer of that code appears in your
+text in place of the whole thing:</p>
 <div class="sourceCode" id="cb11"><pre
-class="sourceCode md"><code class="sourceCode markdown"><span id="cb11-1"><a href="#cb11-1" tabindex="-1"></a>cardiac &lt;- head(cardiac, 100)</span></code></pre></div>
-<p>Knit, and watch your sentences update themselves. Then delete that
-line and knit again.</p>
-<p>The two counts, taken at the top of the <code>validation</code> chunk
-before anything is changed:</p>
+class="sourceCode md"><code class="sourceCode markdown"><span id="cb11-1"><a href="#cb11-1" tabindex="-1"></a>The dataset contains <span class="in">`r nrow(cardiac)`</span> patients.</span></code></pre></div>
+<p>which comes out as “The dataset contains 163 patients.”</p>
+<ol style="list-style-type: lower-alpha">
+<li><p>Go back to that sentence and swap the number 163 for
+<code>`r nrow(cardiac)`</code>. Knit and check it still says the same
+thing.</p></li>
+<li><p>Now add the mean age to the same sentence, worked out the same
+way with <code>mean()</code>. Wrap it in <code>round()</code> so you
+don’t get six decimal places.</p></li>
+<li><p>Then test that it really is live. Temporarily change your import
+chunk so it keeps only the first 100 patients, by adding this line at
+the end of the chunk:</p></li>
+</ol>
 <div class="sourceCode" id="cb12"><pre
-class="sourceCode md foldable"><code class="sourceCode markdown"><span id="cb12-1"><a href="#cb12-1" tabindex="-1"></a><span class="in">```{r validation}</span></span>
-<span id="cb12-2"><a href="#cb12-2" tabindex="-1"></a><span class="in">n_hdl  &lt;- sum(cardiac$hdlchol == 0, na.rm = TRUE)</span></span>
-<span id="cb12-3"><a href="#cb12-3" tabindex="-1"></a><span class="in">n_trig &lt;- sum(cardiac$triglyceride == 0, na.rm = TRUE)</span></span>
-<span id="cb12-4"><a href="#cb12-4" tabindex="-1"></a></span>
-<span id="cb12-5"><a href="#cb12-5" tabindex="-1"></a><span class="in">cardiac$bmi[cardiac$bmi &gt; 100] &lt;- NA</span></span>
-<span id="cb12-6"><a href="#cb12-6" tabindex="-1"></a><span class="in">cardiac$triglyceride[cardiac$triglyceride == 0] &lt;- NA</span></span>
-<span id="cb12-7"><a href="#cb12-7" tabindex="-1"></a><span class="in">cardiac$hdlchol[cardiac$hdlchol == 0] &lt;- NA</span></span>
-<span id="cb12-8"><a href="#cb12-8" tabindex="-1"></a><span class="in">```</span></span></code></pre></div>
-<p>And the sentences that use them:</p>
+class="sourceCode md"><code class="sourceCode markdown"><span id="cb12-1"><a href="#cb12-1" tabindex="-1"></a>cardiac &lt;- head(cardiac, 100)</span></code></pre></div>
+<p>Knit, and watch your sentence update itself without you touching it.
+Then delete that line and knit again.</p>
 <div class="sourceCode" id="cb13"><pre
-class="sourceCode md foldable"><code class="sourceCode markdown"><span id="cb13-1"><a href="#cb13-1" tabindex="-1"></a><span class="in">`r n_hdl`</span> patients had an HDL cholesterol of 0 mmol/l and <span class="in">`r n_trig`</span> had a</span>
-<span id="cb13-2"><a href="#cb13-2" tabindex="-1"></a>triglyceride of 0 mmol/l.</span>
-<span id="cb13-3"><a href="#cb13-3" tabindex="-1"></a></span>
-<span id="cb13-4"><a href="#cb13-4" tabindex="-1"></a>The study included <span class="in">`r nrow(cardiac)`</span> patients, with a mean age of</span>
-<span id="cb13-5"><a href="#cb13-5" tabindex="-1"></a><span class="in">`r round(mean(cardiac$age), 1)`</span> years.</span></code></pre></div>
+class="sourceCode md foldable"><code class="sourceCode markdown"><span id="cb13-1"><a href="#cb13-1" tabindex="-1"></a>The dataset contains <span class="in">`r nrow(cardiac)`</span> patients, with a mean age of</span>
+<span id="cb13-2"><a href="#cb13-2" tabindex="-1"></a><span class="in">`r round(mean(cardiac$age), 1)`</span> years.</span></code></pre></div>
 <p>Which knits to:</p>
 <blockquote>
-<p>2 patients had an HDL cholesterol of 0 mmol/l and 1 had a
-triglyceride of 0 mmol/l.</p>
-<p>The study included 163 patients, with a mean age of 65 years.</p>
+<p>The dataset contains 163 patients, with a mean age of 65 years.</p>
 </blockquote>
+<p>Anything you can calculate in a chunk you can put in a sentence this
+way, so it’s worth using for any number in your writing that comes out
+of your data.</p>
 <p> </p>
 <p>10. Now think about who’s going to read your report, because it
 decides how much of your working they should see. This one is a
@@ -872,7 +888,9 @@ you’ll often write for readers who don’t know R at all, a clinical team,
 a service manager, a patient group, and for them a wall of code is just
 something to scroll past on the way to the results.</p>
 <p>You control this chunk by chunk with the <code>echo</code> option, in
-the same curly braces as the caption you added in Q7. Add
+the same curly braces as the caption you added in Q7. <a
+href="https://intro2r.com/r-markdown-anatomy.html#code_chunks">Section
+8.5.3</a> of the book lists the chunk options alongside it. Add
 <code>echo = FALSE</code> to your <code>chol-plot</code> chunk and knit.
 The plot is still there, but the code that drew it is not. Take it off
 again afterwards, since we want the code visible in this report.</p>
@@ -909,8 +927,11 @@ invisibly.</p>
 <p> </p>
 <p>11. Not every figure in a report will be one you constructed with R
 code. You might need a diagram, a photograph, a map, or a figure
-somebody else made. Add the plot you exported in <strong>Exercise 6,
-Q9</strong>, <code>ex6_admissions.png</code>, to your report.</p>
+somebody else made (see <a
+href="https://intro2r.com/r-markdown-anatomy.html#adding-figures">Section
+8.5.4</a> of the book again). Add the plot you exported in
+<strong>Exercise 6, Q9</strong>, <code>ex6_admissions.png</code>, to
+your report.</p>
 <p>The simplest way needs no chunk at all. Type this straight into your
 text, changing the path to wherever your file actually is:</p>
 <div class="sourceCode" id="cb16"><pre
@@ -952,6 +973,21 @@ format straight from the menu, which overrides whatever your YAML header
 says for that one knit. It’s quicker for a look, but the YAML is where
 you set what your document actually is.</p>
 <p> </p>
+<div id="the-finished-report" class="section level3">
+<h3>The finished report</h3>
+<p> </p>
+<p>Here is the whole thing in one piece: <strong><a
+href="exercise_solutions/cardiac_report.Rmd">cardiac_report.Rmd</a></strong>,
+the document this exercise builds, with every question’s answer already
+in it. Right click and choose ‘save link as’ if it opens in your browser
+rather than downloading.</p>
+<p>It needs <code>data/cardiacdata.txt</code> and
+<code>output/ex6_admissions.png</code> alongside it in a Project,
+exactly as the exercise describes, and then it will knit to PDF as it
+stands. Use it to check your own against, or keep it as a template to
+start your next report from.</p>
+<p> </p>
+</div>
 <div id="two-things-we-havent-covered" class="section level3">
 <h3>Two things we haven’t covered</h3>
 <p> </p>

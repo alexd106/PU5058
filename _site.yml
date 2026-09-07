@@ -70,7 +70,8 @@ output:
     #  - https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css
     #  - styles.css
 
-include: [".nojekyll", "data/*", "exercises/*.pdf", "exercise_solutions/*.R"]
+include: [".nojekyll", "data/*", "exercises/*.pdf", "exercise_solutions/*.R",
+          "exercise_solutions/*.Rmd"]
 exclude: ["LICENSE", "README.md", "*.Rproj", "*.key", "*.psd", "rmd_archive",
           "R_Factsheet_Unit_1.pdf", "_data_raw", "plans"]
 # NOTE: `exclude` only stops files being copied as site resources. It does NOT stop

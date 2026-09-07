@@ -30,11 +30,9 @@
 ## ````{.md .foldable}
 ## ## Data validation
 ## 
-## ```{r validation}
-## # count the impossible values before changing them, so we can report how many
-## n_hdl  <- sum(cardiac$hdlchol == 0, na.rm = TRUE)
-## n_trig <- sum(cardiac$triglyceride == 0, na.rm = TRUE)
+## The dataset contains 163 patients.
 ## 
+## ```{r validation}
 ## cardiac$bmi[cardiac$bmi > 100] <- NA
 ## cardiac$triglyceride[cardiac$triglyceride == 0] <- NA
 ## cardiac$hdlchol[cardiac$hdlchol == 0] <- NA
@@ -48,7 +46,7 @@
 ## measurements, which are perfectly good, and correcting the body mass index would mean
 ## putting a number into the data that nobody measured.
 ## 
-## ```{r alcohol-transform, fig.cap = 'Weekly alcohol consumption before and after square root transformation.'}
+## ```{r alcohol-transform}
 ## cardiac$alcohol_sqrt <- sqrt(cardiac$alcohol)
 ## 
 ## par(mfrow = c(1, 2))
@@ -72,7 +70,28 @@
 ##         xlab = "Smoking status", ylab = "HDL cholesterol (mmol/l)")
 ## ```
 ## ````
+## 
+## And the first line of the `alcohol-transform` chunk from Q6, with its caption added:
+## 
+## ````{.md .foldable}
+## ```{r alcohol-transform, fig.cap = 'Weekly alcohol consumption before and after square root transformation.'}
+## ```
+## ````
 
+## The first version, which prints the raw console output:
+## 
+## ````{.md .foldable}
+## ```{r summary-table}
+## smoke_summary <- aggregate(cardiac[, c("age", "systolic", "tchol")],
+##                            by = list(Smoking = cardiac$Fsmoking),
+##                            mean, na.rm = TRUE)
+## 
+## smoke_summary
+## ```
+## ````
+## 
+## And the finished version:
+## 
 ## ````{.md .foldable}
 ## ```{r summary-table}
 ## smoke_summary <- aggregate(cardiac[, c("age", "systolic", "tchol")],
@@ -85,27 +104,16 @@
 ## ````
 
 ## ````{.md .foldable}
-## The study included `r nrow(cardiac)` patients, with a mean age of
+## The dataset contains `r nrow(cardiac)` patients, with a mean age of
 ## `r round(mean(cardiac$age), 1)` years.
 ## ````
 ## 
 ## Which knits to:
 ## 
-## > The study included 163 patients, with a mean age of 65 years.
+## > The dataset contains 163 patients, with a mean age of 65 years.
 ## 
-## The counts in the validation paragraph use the `n_hdl` and `n_trig` objects the validation
-## chunk made:
-## 
-## ````{.md .foldable}
-## `r n_hdl` patients had an HDL cholesterol of 0 mmol/l and `r n_trig` had a
-## triglyceride of 0 mmol/l.
-## ````
-## 
-## And here is the wrinkle. It's tempting to write `sum(is.na(cardiac$hdlchol))` in your
-## sentence instead and be done with it, but that returns 4 rather than 2, because `hdlchol`
-## already had two genuinely missing values in the file before you touched it. That's why the
-## validation chunk counts the zeros *before* it sets anything to `NA`. If you want to report
-## what you changed, you have to count it before you change it.
+## Anything you can calculate in a chunk you can put in a sentence this way, so it's worth
+## using for any number in your writing that comes out of your data.
 
 ## Hiding the code for a single chunk:
 ## 
@@ -140,3 +148,11 @@
 ## knitr::include_graphics("output/ex6_admissions.png")
 ## ```
 ## ````
+
+## ### The finished report
+## 
+## \
+## 
+## Here is the whole thing in one piece: **[cardiac_report.Rmd](exercise_solutions/cardiac_report.Rmd)**, the document this exercise builds, with every question's answer already in it. Right click and choose 'save link as' if it opens in your browser rather than downloading.
+## 
+## It needs `data/cardiacdata.txt` and `output/ex6_admissions.png` alongside it in a Project, exactly as the exercise describes, and then it will knit to PDF as it stands. Use it to check your own against, or keep it as a template to start your next report from.

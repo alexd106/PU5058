@@ -454,15 +454,16 @@ plotting device into 2 rows and 2 columns (see <a
 href="https://intro2r.com/mult_graphs.html#mult_graphs">Section 4.4</a>
 of the book).</p>
 <p> </p>
-<p>7. That lone point away on the right of the <code>bmi</code> dotplot
-is the value you met in Exercise 4, when you ran <code>summary()</code>
-and found a maximum of 514.60. A body mass index of 514 is not possible:
-it is 51.46 with the decimal point in the wrong place. Notice how much
-less work the dotplot made of finding it. In Exercise 4 you had to know
-to go looking, read down a column of numbers and spot that one of them
-was absurd. Here it announces itself the moment you draw the plot.
-That’s what dotplots are for, and it’s why they’re worth drawing for
-every continuous variable before you do anything else with them.</p>
+<p>7. That single point over on the right of the <code>bmi</code>
+dotplot is the value you met in Exercise 4, when you ran
+<code>summary()</code> and found a maximum of 514.60. A body mass index
+of 514 isn’t possible - it’s 51.46 with the decimal point in the wrong
+place. Notice how much easier the dotplot has made this to spot. In
+Exercise 4 you had to work your way through the <code>summary()</code>
+output and check the minimum and maximum of each variable in turn,
+whereas here it stands out as soon as you draw the plot. That’s a good
+reason to make a dotplot of each of your continuous variables early
+on.</p>
 <p>Remember that you imported the raw file again in Q4, so none of the
 cleaning you did in Exercise 4 is in this dataframe. Redo all three of
 those fixes now. Use the <code>which()</code> function to identify which
@@ -478,42 +479,45 @@ rest. Which ones, and what should you do about them?</p>
 a continuous variable (see <a
 href="https://intro2r.com/simple-base-r-plots.html#histograms">Section
 4.2.2</a>). Create histograms for <code>bmi</code> and
-<code>alcohol</code>, either separately or in one figure as you did in
-Q6. Put the two side by side and you’ll see they look nothing like each
-other. How would you describe the difference?</p>
+<code>alcohol</code> and put them side by side in a single figure, by
+splitting your plotting device into 1 row and 2 columns with
+<code>par(mfrow = c(1, 2))</code>. The two distributions look quite
+different - how would you describe them?</p>
 <p>One thing to be careful of is that a histogram can look quite
-different depending on the number of ‘breaks’ used. The
-<code>hist()</code> function chooses breaks for you, but they are only a
-suggestion. Redraw the histogram of <code>systolic</code> twice, once
-with wide bins and once with narrow ones, and compare them. Which one
-would you show somebody, and what does the difference tell you about how
-much you should trust the shape of a histogram?</p>
+different depending on the number of ‘breaks’ (bins) used. The
+<code>hist()</code> function chooses these for you, but they’re only a
+suggestion, so it’s always worth trying a few values of the
+<code>breaks</code> argument before you settle on one (see
+<code>?hist</code>).</p>
 <p> </p>
-<p>9. Straight on from that, then. Your histogram has identified a
-problem: <code>alcohol</code> is badly skewed, and skew is a nuisance in
-a plot because most of the points end up squashed into a corner. Naming
-the problem is the easy half. The other half is doing something about
-it, and then checking whether what you did has actually worked.</p>
-<p><code>alcohol</code> is a count. It is the number of units drunk in a
-week, so it is made of whole numbers and a good many of them are zero.
-For count data the square root is the standard choice, and it copes with
-the zeros without complaint because <code>sqrt(0)</code> is simply 0.
-Notice that this is a different answer from the one you used in Exercise
-4 Q6, where you took logs of <code>triglyceride</code>, and the reason
-is the data rather than fashion. A blood concentration is a continuous
-measurement and takes a log happily. A count is not and does not.</p>
+<p>9. Have another look at the histogram of <code>alcohol</code> you
+have just drawn. A small number of patients drink a great deal more than
+everybody else, and those few stretch the distribution out into a long
+tail to the right. Data like this are described as right skewed, and
+they are very common in health data. It’s worth doing something about,
+because a lot of what you might want to do with a variable later on,
+from summarising it to modelling it, works better when the values are
+more evenly spread.</p>
+<p>One way of dealing with this is to transform the variable.
+<code>alcohol</code> is a count, the number of units drunk in a week,
+and the square root is the usual choice for count data. It also copes
+with the patients who drank nothing, because <code>sqrt(0)</code> is
+simply 0. Notice that this is a different choice from Exercise 4 Q6,
+where you took logs of <code>triglyceride</code>. A blood concentration
+and a count of units are different sorts of measurement and they don’t
+call for the same transformation.</p>
 <p>Create a new variable in the <code>cardiac</code> dataframe holding
-the square root of <code>alcohol</code>, plot its histogram next to the
-untransformed one, and then check the result the way you checked
-Exercise 4 Q6, by looking at what happens to the gap between the mean
-and the median. Has it fixed the problem?</p>
+the square root of <code>alcohol</code>, then plot its histogram next to
+the untransformed one. Looking at the two, has the tail been pulled
+in?</p>
 <p> </p>
 <p>10. Scatterplots are great for visualising relationships between two
 continuous variables (<a
 href="https://intro2r.com/simple-base-r-plots.html#scatterplot">Section
 4.2.1</a>). Before you draw one, decide which variable belongs on which
 axis. By convention the explanatory variable goes on the x axis and the
-response goes on the y axis, so the choice is not cosmetic.</p>
+response goes on the y axis, so have a think about which is which before
+you draw anything.</p>
 <p>Start with <code>bmi</code> and <code>systolic</code> blood pressure.
 Which is the explanatory variable, and which the response? Plot them the
 right way round. Now do the same for <code>hdlchol</code> and
@@ -529,11 +533,6 @@ Make sure you understand the anatomy of a boxplot before moving on -
 please ask if you’re not sure (also see <a
 href="https://intro2r.com/simple-base-r-plots.html#box-and-violin-plots">Section
 4.2.3</a> of the book).</p>
-<p>Now draw exactly the same plot for total cholesterol instead. Same
-patients, same factor, one line of code different, and the two figures
-do not say remotely the same thing. Which of the two shows a difference
-between the groups? And if you were writing this up, which would you be
-tempted to leave out?</p>
 <p> </p>
 <p>12. An alternative to the boxplot is the violin plot, which combines
 a boxplot with a <a
@@ -568,22 +567,22 @@ href="https://intro2r.com/simple-base-r-plots.html#pairs-plots">Section
 4.2.5</a> of the book for more details). If it looks a little cramped in
 RStudio then click on the ‘zoom’ button in the plot viewer to see a
 larger version.</p>
-<p>One of the useful things about <code>pairs()</code> is that you can
-choose what goes into each panel. Modify your plot to add a smoother (a
-wiggly line) to the lower triangle, which makes the shape of each
-relationship much easier to see. The book and <code>?pairs</code> show
-you how. Then, just by looking, which pair of variables is most strongly
-related, and which variable is related to almost nothing?</p>
-<p> </p>
-<p>14. (optional, and a stretch) <code>pairs()</code> will put whatever
-you like in the upper triangle, including the correlation coefficients
-themselves, but there is no ready made function for it so you have to
-write one. This is a step beyond anything else in the exercise, and
-writing your own functions is not covered until the optional programming
-exercise, so treat it as a look ahead rather than something you are
-expected to manage now. If you fancy a go, <code>?pairs</code> has an
-example you can adapt. Do the numbers agree with what you concluded by
-eye?</p>
+<p>These take a little practice to read, so it’s worth going slowly the
+first time. The variable names run down the diagonal and every other
+panel is a scatterplot of two of your variables. To work out which two,
+look at the row and the column the panel sits in: the variable named in
+that row is on the y axis and the variable named in that column is on
+the x axis. This also means that the panels above the diagonal show
+exactly the same pairs of variables as the panels below it, just with
+the axes swapped over, so you only need to look at one half. Which pair
+of variables looks most strongly related to you, and which variable
+seems to be related to almost nothing?</p>
+<p>The <code>pairs()</code> function is very flexible and you can change
+what is drawn in each panel, adding things like smoothers or correlation
+coefficients. Have a look at <a
+href="https://intro2r.com/simple-base-r-plots.html#pairs-plots">Section
+4.2.5</a> of the book and the examples in <code>?pairs</code> if you
+would like to try this.</p>
 <p> </p>
 <p>End of Exercise 5</p>
 </div>

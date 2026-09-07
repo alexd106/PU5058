@@ -615,15 +615,16 @@ of the book).</p>
 <span id="cb3-10"><a href="#cb3-10" tabindex="-1"></a><span class="co"># setting the scale for all 163.</span></span></code></pre></div>
 <p><img src="exercise_5_solution_files/figure-html/Q6-1.png" alt="" width="768" /></p>
 <p> </p>
-<p>7. That lone point away on the right of the <code>bmi</code> dotplot
-is the value you met in Exercise 4, when you ran <code>summary()</code>
-and found a maximum of 514.60. A body mass index of 514 is not possible:
-it is 51.46 with the decimal point in the wrong place. Notice how much
-less work the dotplot made of finding it. In Exercise 4 you had to know
-to go looking, read down a column of numbers and spot that one of them
-was absurd. Here it announces itself the moment you draw the plot.
-That’s what dotplots are for, and it’s why they’re worth drawing for
-every continuous variable before you do anything else with them.</p>
+<p>7. That single point over on the right of the <code>bmi</code>
+dotplot is the value you met in Exercise 4, when you ran
+<code>summary()</code> and found a maximum of 514.60. A body mass index
+of 514 isn’t possible - it’s 51.46 with the decimal point in the wrong
+place. Notice how much easier the dotplot has made this to spot. In
+Exercise 4 you had to work your way through the <code>summary()</code>
+output and check the minimum and maximum of each variable in turn,
+whereas here it stands out as soon as you draw the plot. That’s a good
+reason to make a dotplot of each of your continuous variables early
+on.</p>
 <p>Remember that you imported the raw file again in Q4, so none of the
 cleaning you did in Exercise 4 is in this dataframe. Redo all three of
 those fixes now. Use the <code>which()</code> function to identify which
@@ -669,89 +670,62 @@ rest. Which ones, and what should you do about them?</p>
 a continuous variable (see <a
 href="https://intro2r.com/simple-base-r-plots.html#histograms">Section
 4.2.2</a>). Create histograms for <code>bmi</code> and
-<code>alcohol</code>, either separately or in one figure as you did in
-Q6. Put the two side by side and you’ll see they look nothing like each
-other. How would you describe the difference?</p>
+<code>alcohol</code> and put them side by side in a single figure, by
+splitting your plotting device into 1 row and 2 columns with
+<code>par(mfrow = c(1, 2))</code>. The two distributions look quite
+different - how would you describe them?</p>
 <p>One thing to be careful of is that a histogram can look quite
-different depending on the number of ‘breaks’ used. The
-<code>hist()</code> function chooses breaks for you, but they are only a
-suggestion. Redraw the histogram of <code>systolic</code> twice, once
-with wide bins and once with narrow ones, and compare them. Which one
-would you show somebody, and what does the difference tell you about how
-much you should trust the shape of a histogram?</p>
+different depending on the number of ‘breaks’ (bins) used. The
+<code>hist()</code> function chooses these for you, but they’re only a
+suggestion, so it’s always worth trying a few values of the
+<code>breaks</code> argument before you settle on one (see
+<code>?hist</code>).</p>
 <div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" tabindex="-1"></a><span class="fu">par</span>(<span class="at">mfrow =</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">2</span>))</span>
 <span id="cb5-2"><a href="#cb5-2" tabindex="-1"></a><span class="fu">hist</span>(cardiac<span class="sc">$</span>bmi, <span class="at">main =</span> <span class="st">&quot;&quot;</span>, <span class="at">xlab =</span> <span class="st">&quot;bmi&quot;</span>)</span>
 <span id="cb5-3"><a href="#cb5-3" tabindex="-1"></a><span class="fu">hist</span>(cardiac<span class="sc">$</span>alcohol, <span class="at">main =</span> <span class="st">&quot;&quot;</span>, <span class="at">xlab =</span> <span class="st">&quot;alcohol (units/week)&quot;</span>)</span>
 <span id="cb5-4"><a href="#cb5-4" tabindex="-1"></a></span>
-<span id="cb5-5"><a href="#cb5-5" tabindex="-1"></a><span class="co"># bmi is roughly symmetric, a nice recognisable hump with a modest tail to the</span></span>
-<span id="cb5-6"><a href="#cb5-6" tabindex="-1"></a><span class="co"># right. alcohol isn&#39;t anything like it: a big spike at zero and a long thin</span></span>
-<span id="cb5-7"><a href="#cb5-7" tabindex="-1"></a><span class="co"># tail stretching out to 82 units. Hang on to that, you come straight back to</span></span>
-<span id="cb5-8"><a href="#cb5-8" tabindex="-1"></a><span class="co"># it in Q9.</span></span>
-<span id="cb5-9"><a href="#cb5-9" tabindex="-1"></a></span>
-<span id="cb5-10"><a href="#cb5-10" tabindex="-1"></a><span class="co"># wide bins and narrow bins, drawn from exactly the same 163 numbers</span></span>
-<span id="cb5-11"><a href="#cb5-11" tabindex="-1"></a><span class="fu">par</span>(<span class="at">mfrow =</span> <span class="fu">c</span>(<span class="dv">2</span>, <span class="dv">1</span>))</span>
-<span id="cb5-12"><a href="#cb5-12" tabindex="-1"></a><span class="fu">hist</span>(cardiac<span class="sc">$</span>systolic, <span class="at">xlab =</span> <span class="st">&quot;systolic&quot;</span>, <span class="at">main =</span> <span class="st">&quot;bins of 20 mmHg&quot;</span>,</span>
-<span id="cb5-13"><a href="#cb5-13" tabindex="-1"></a>     <span class="at">breaks =</span> <span class="fu">seq</span>(<span class="at">from =</span> <span class="dv">100</span>, <span class="at">to =</span> <span class="dv">240</span>, <span class="at">by =</span> <span class="dv">20</span>))</span>
-<span id="cb5-14"><a href="#cb5-14" tabindex="-1"></a><span class="fu">hist</span>(cardiac<span class="sc">$</span>systolic, <span class="at">xlab =</span> <span class="st">&quot;systolic&quot;</span>, <span class="at">main =</span> <span class="st">&quot;bins of 2 mmHg&quot;</span>,</span>
-<span id="cb5-15"><a href="#cb5-15" tabindex="-1"></a>     <span class="at">breaks =</span> <span class="fu">seq</span>(<span class="at">from =</span> <span class="dv">100</span>, <span class="at">to =</span> <span class="dv">240</span>, <span class="at">by =</span> <span class="dv">2</span>))</span>
-<span id="cb5-16"><a href="#cb5-16" tabindex="-1"></a></span>
-<span id="cb5-17"><a href="#cb5-17" tabindex="-1"></a><span class="co"># with 20 mmHg bins the distribution looks smooth and roughly symmetric; with</span></span>
-<span id="cb5-18"><a href="#cb5-18" tabindex="-1"></a><span class="co"># 2 mmHg bins it looks spiky and full of gaps. Nothing about the patients has</span></span>
-<span id="cb5-19"><a href="#cb5-19" tabindex="-1"></a><span class="co"># changed, only the picture. The narrow version cuts 163 patients into 70 bins,</span></span>
-<span id="cb5-20"><a href="#cb5-20" tabindex="-1"></a><span class="co"># so a typical bin holds about two people and one patient either way visibly</span></span>
-<span id="cb5-21"><a href="#cb5-21" tabindex="-1"></a><span class="co"># changes its height. You aren&#39;t seeing more detail there, you&#39;re seeing noise,</span></span>
-<span id="cb5-22"><a href="#cb5-22" tabindex="-1"></a><span class="co"># so it&#39;s worth treating the shape of a histogram as a rough guide rather than</span></span>
-<span id="cb5-23"><a href="#cb5-23" tabindex="-1"></a><span class="co"># as evidence.</span></span></code></pre></div>
-<p><img src="exercise_5_solution_files/figure-html/Q8-1.png" alt="" width="768" /><img src="exercise_5_solution_files/figure-html/Q8-2.png" alt="" width="768" /></p>
+<span id="cb5-5"><a href="#cb5-5" tabindex="-1"></a><span class="co"># bmi is roughly symmetric, with most patients in the middle and a modest tail</span></span>
+<span id="cb5-6"><a href="#cb5-6" tabindex="-1"></a><span class="co"># to the right. alcohol looks quite different: most patients drink little or</span></span>
+<span id="cb5-7"><a href="#cb5-7" tabindex="-1"></a><span class="co"># nothing, and a small number drink a great deal, which gives a long tail</span></span>
+<span id="cb5-8"><a href="#cb5-8" tabindex="-1"></a><span class="co"># stretching out to 82 units. You&#39;ll come back to alcohol in Q9.</span></span></code></pre></div>
+<p><img src="exercise_5_solution_files/figure-html/Q8-1.png" alt="" width="864" /></p>
 <p> </p>
-<p>9. Straight on from that, then. Your histogram has identified a
-problem: <code>alcohol</code> is badly skewed, and skew is a nuisance in
-a plot because most of the points end up squashed into a corner. Naming
-the problem is the easy half. The other half is doing something about
-it, and then checking whether what you did has actually worked.</p>
-<p><code>alcohol</code> is a count. It is the number of units drunk in a
-week, so it is made of whole numbers and a good many of them are zero.
-For count data the square root is the standard choice, and it copes with
-the zeros without complaint because <code>sqrt(0)</code> is simply 0.
-Notice that this is a different answer from the one you used in Exercise
-4 Q6, where you took logs of <code>triglyceride</code>, and the reason
-is the data rather than fashion. A blood concentration is a continuous
-measurement and takes a log happily. A count is not and does not.</p>
+<p>9. Have another look at the histogram of <code>alcohol</code> you
+have just drawn. A small number of patients drink a great deal more than
+everybody else, and those few stretch the distribution out into a long
+tail to the right. Data like this are described as right skewed, and
+they are very common in health data. It’s worth doing something about,
+because a lot of what you might want to do with a variable later on,
+from summarising it to modelling it, works better when the values are
+more evenly spread.</p>
+<p>One way of dealing with this is to transform the variable.
+<code>alcohol</code> is a count, the number of units drunk in a week,
+and the square root is the usual choice for count data. It also copes
+with the patients who drank nothing, because <code>sqrt(0)</code> is
+simply 0. Notice that this is a different choice from Exercise 4 Q6,
+where you took logs of <code>triglyceride</code>. A blood concentration
+and a count of units are different sorts of measurement and they don’t
+call for the same transformation.</p>
 <p>Create a new variable in the <code>cardiac</code> dataframe holding
-the square root of <code>alcohol</code>, plot its histogram next to the
-untransformed one, and then check the result the way you checked
-Exercise 4 Q6, by looking at what happens to the gap between the mean
-and the median. Has it fixed the problem?</p>
+the square root of <code>alcohol</code>, then plot its histogram next to
+the untransformed one. Looking at the two, has the tail been pulled
+in?</p>
 <div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" tabindex="-1"></a>cardiac<span class="sc">$</span>alcohol_sqrt <span class="ot">&lt;-</span> <span class="fu">sqrt</span>(cardiac<span class="sc">$</span>alcohol)</span>
 <span id="cb6-2"><a href="#cb6-2" tabindex="-1"></a></span>
 <span id="cb6-3"><a href="#cb6-3" tabindex="-1"></a><span class="fu">par</span>(<span class="at">mfrow =</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">2</span>))</span>
 <span id="cb6-4"><a href="#cb6-4" tabindex="-1"></a><span class="fu">hist</span>(cardiac<span class="sc">$</span>alcohol, <span class="at">main =</span> <span class="st">&quot;untransformed&quot;</span>, <span class="at">xlab =</span> <span class="st">&quot;alcohol (units/week)&quot;</span>)</span>
 <span id="cb6-5"><a href="#cb6-5" tabindex="-1"></a><span class="fu">hist</span>(cardiac<span class="sc">$</span>alcohol_sqrt, <span class="at">main =</span> <span class="st">&quot;square root&quot;</span>, <span class="at">xlab =</span> <span class="st">&quot;sqrt(alcohol)&quot;</span>)</span>
 <span id="cb6-6"><a href="#cb6-6" tabindex="-1"></a></span>
-<span id="cb6-7"><a href="#cb6-7" tabindex="-1"></a><span class="co"># the check, exactly the one you used in Exercise 4 Q6</span></span>
-<span id="cb6-8"><a href="#cb6-8" tabindex="-1"></a><span class="fu">mean</span>(cardiac<span class="sc">$</span>alcohol)         <span class="co"># 6.91</span></span>
-<span id="cb6-9"><a href="#cb6-9" tabindex="-1"></a><span class="fu">median</span>(cardiac<span class="sc">$</span>alcohol)       <span class="co"># 2.00,  a gap of 4.91</span></span>
+<span id="cb6-7"><a href="#cb6-7" tabindex="-1"></a><span class="co"># Yes. The heavy drinkers are no longer strung out along a long tail, the</span></span>
+<span id="cb6-8"><a href="#cb6-8" tabindex="-1"></a><span class="co"># values are spread much more evenly across the range, and all 163 patients</span></span>
+<span id="cb6-9"><a href="#cb6-9" tabindex="-1"></a><span class="co"># are still in the plot.</span></span>
 <span id="cb6-10"><a href="#cb6-10" tabindex="-1"></a></span>
-<span id="cb6-11"><a href="#cb6-11" tabindex="-1"></a><span class="fu">mean</span>(cardiac<span class="sc">$</span>alcohol_sqrt)    <span class="co"># 1.86</span></span>
-<span id="cb6-12"><a href="#cb6-12" tabindex="-1"></a><span class="fu">median</span>(cardiac<span class="sc">$</span>alcohol_sqrt)  <span class="co"># 1.41,  a gap of 0.44</span></span>
-<span id="cb6-13"><a href="#cb6-13" tabindex="-1"></a></span>
-<span id="cb6-14"><a href="#cb6-14" tabindex="-1"></a><span class="co"># Yes. The long tail has been pulled in, the gap between the mean and the</span></span>
-<span id="cb6-15"><a href="#cb6-15" tabindex="-1"></a><span class="co"># median has fallen from 4.91 to 0.44, and all 163 patients are still in the</span></span>
-<span id="cb6-16"><a href="#cb6-16" tabindex="-1"></a><span class="co"># plot.</span></span>
-<span id="cb6-17"><a href="#cb6-17" tabindex="-1"></a></span>
-<span id="cb6-18"><a href="#cb6-18" tabindex="-1"></a><span class="co"># Why not a log here, as in Exercise 4? Try it and watch what happens:</span></span>
-<span id="cb6-19"><a href="#cb6-19" tabindex="-1"></a><span class="co"># hist(log(cardiac$alcohol))</span></span>
-<span id="cb6-20"><a href="#cb6-20" tabindex="-1"></a><span class="co"># 58 of the 163 patients drank nothing at all, log(0) is -Inf, and R throws</span></span>
-<span id="cb6-21"><a href="#cb6-21" tabindex="-1"></a><span class="co"># more than a third of your data out of the plot with nothing more than a</span></span>
-<span id="cb6-22"><a href="#cb6-22" tabindex="-1"></a><span class="co"># warning. Triglyceride never had that problem, because its one zero had</span></span>
-<span id="cb6-23"><a href="#cb6-23" tabindex="-1"></a><span class="co"># already been set to NA back in Exercise 4 Q1. The zeros in alcohol are real</span></span>
-<span id="cb6-24"><a href="#cb6-24" tabindex="-1"></a><span class="co"># readings, so there is nothing to clean, and that is the whole reason the</span></span>
-<span id="cb6-25"><a href="#cb6-25" tabindex="-1"></a><span class="co"># square root is the right tool for this variable.</span></span>
-<span id="cb6-26"><a href="#cb6-26" tabindex="-1"></a></span>
-<span id="cb6-27"><a href="#cb6-27" tabindex="-1"></a><span class="co"># The one thing no transformation can do is make 58 patients stop being zero.</span></span>
-<span id="cb6-28"><a href="#cb6-28" tabindex="-1"></a><span class="co"># They are still a third of your data sitting on a single value. A</span></span>
-<span id="cb6-29"><a href="#cb6-29" tabindex="-1"></a><span class="co"># transformation pulls a tail in; it cannot turn a variable into something it</span></span>
-<span id="cb6-30"><a href="#cb6-30" tabindex="-1"></a><span class="co"># is not.</span></span></code></pre></div>
+<span id="cb6-11"><a href="#cb6-11" tabindex="-1"></a><span class="co"># Why not a log, as you used in Exercise 4? Try it and see what happens:</span></span>
+<span id="cb6-12"><a href="#cb6-12" tabindex="-1"></a><span class="co"># hist(log(cardiac$alcohol))</span></span>
+<span id="cb6-13"><a href="#cb6-13" tabindex="-1"></a><span class="co"># 58 of these patients drank nothing at all, log(0) is -Inf, and R will drop</span></span>
+<span id="cb6-14"><a href="#cb6-14" tabindex="-1"></a><span class="co"># more than a third of your data from the plot with nothing more than a</span></span>
+<span id="cb6-15"><a href="#cb6-15" tabindex="-1"></a><span class="co"># warning. Triglyceride didn&#39;t have this problem, because its single zero had</span></span>
+<span id="cb6-16"><a href="#cb6-16" tabindex="-1"></a><span class="co"># already been set to NA back in Exercise 4 Q1.</span></span></code></pre></div>
 <p><img src="exercise_5_solution_files/figure-html/Q9-1.png" alt="" width="864" /></p>
 <p> </p>
 <p>10. Scatterplots are great for visualising relationships between two
@@ -759,7 +733,8 @@ continuous variables (<a
 href="https://intro2r.com/simple-base-r-plots.html#scatterplot">Section
 4.2.1</a>). Before you draw one, decide which variable belongs on which
 axis. By convention the explanatory variable goes on the x axis and the
-response goes on the y axis, so the choice is not cosmetic.</p>
+response goes on the y axis, so have a think about which is which before
+you draw anything.</p>
 <p>Start with <code>bmi</code> and <code>systolic</code> blood pressure.
 Which is the explanatory variable, and which the response? Plot them the
 right way round. Now do the same for <code>hdlchol</code> and
@@ -790,30 +765,15 @@ Make sure you understand the anatomy of a boxplot before moving on -
 please ask if you’re not sure (also see <a
 href="https://intro2r.com/simple-base-r-plots.html#box-and-violin-plots">Section
 4.2.3</a> of the book).</p>
-<p>Now draw exactly the same plot for total cholesterol instead. Same
-patients, same factor, one line of code different, and the two figures
-do not say remotely the same thing. Which of the two shows a difference
-between the groups? And if you were writing this up, which would you be
-tempted to leave out?</p>
 <div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" tabindex="-1"></a><span class="co"># note: Fsmoking is the recoded smoking variable created in Q4</span></span>
 <span id="cb8-2"><a href="#cb8-2" tabindex="-1"></a><span class="fu">boxplot</span>(hdlchol <span class="sc">~</span> Fsmoking, <span class="at">data =</span> cardiac,</span>
 <span id="cb8-3"><a href="#cb8-3" tabindex="-1"></a>        <span class="at">xlab =</span> <span class="st">&quot;smoking status&quot;</span>, <span class="at">ylab =</span> <span class="st">&quot;HDL cholesterol (mmol/l)&quot;</span>)</span>
 <span id="cb8-4"><a href="#cb8-4" tabindex="-1"></a></span>
-<span id="cb8-5"><a href="#cb8-5" tabindex="-1"></a><span class="fu">boxplot</span>(tchol <span class="sc">~</span> Fsmoking, <span class="at">data =</span> cardiac,</span>
-<span id="cb8-6"><a href="#cb8-6" tabindex="-1"></a>        <span class="at">xlab =</span> <span class="st">&quot;smoking status&quot;</span>, <span class="at">ylab =</span> <span class="st">&quot;total cholesterol (mmol/l)&quot;</span>)</span>
-<span id="cb8-7"><a href="#cb8-7" tabindex="-1"></a></span>
-<span id="cb8-8"><a href="#cb8-8" tabindex="-1"></a><span class="co"># HDL is the one with something in it. The never-smokers sit clearly above the</span></span>
-<span id="cb8-9"><a href="#cb8-9" tabindex="-1"></a><span class="co"># other two, with a median of 1.60 against 1.31 for current smokers and 1.21</span></span>
-<span id="cb8-10"><a href="#cb8-10" tabindex="-1"></a><span class="co"># for ex-smokers, and their median is above the upper quartile of both other</span></span>
-<span id="cb8-11"><a href="#cb8-11" tabindex="-1"></a><span class="co"># groups. Total cholesterol shows nothing at all: three boxes at much the same</span></span>
-<span id="cb8-12"><a href="#cb8-12" tabindex="-1"></a><span class="co"># height, medians of 6.91, 6.58 and 7.03.</span></span>
-<span id="cb8-13"><a href="#cb8-13" tabindex="-1"></a></span>
-<span id="cb8-14"><a href="#cb8-14" tabindex="-1"></a><span class="co"># Which would you leave out? The honest answer is that the temptation is to</span></span>
-<span id="cb8-15"><a href="#cb8-15" tabindex="-1"></a><span class="co"># report the HDL plot and let the cholesterol one quietly disappear. Do not.</span></span>
-<span id="cb8-16"><a href="#cb8-16" tabindex="-1"></a><span class="co"># A plot that shows you there is nothing to see has still told you something,</span></span>
-<span id="cb8-17"><a href="#cb8-17" tabindex="-1"></a><span class="co"># and keeping only the comparisons that worked is how a set of results stops</span></span>
-<span id="cb8-18"><a href="#cb8-18" tabindex="-1"></a><span class="co"># being evidence.</span></span></code></pre></div>
-<p><img src="exercise_5_solution_files/figure-html/Q11-1.png" alt="" width="672" /><img src="exercise_5_solution_files/figure-html/Q11-2.png" alt="" width="672" /></p>
+<span id="cb8-5"><a href="#cb8-5" tabindex="-1"></a><span class="co"># the patients who have never smoked have a higher HDL cholesterol than either</span></span>
+<span id="cb8-6"><a href="#cb8-6" tabindex="-1"></a><span class="co"># the current smokers or the ex-smokers. Their median is 1.60, against 1.31 for</span></span>
+<span id="cb8-7"><a href="#cb8-7" tabindex="-1"></a><span class="co"># the current smokers and 1.21 for the ex-smokers, and it sits above the upper</span></span>
+<span id="cb8-8"><a href="#cb8-8" tabindex="-1"></a><span class="co"># quartile of both of the other groups.</span></span></code></pre></div>
+<p><img src="exercise_5_solution_files/figure-html/Q11-1.png" alt="" width="672" /></p>
 <p> </p>
 <p>12. An alternative to the boxplot is the violin plot, which combines
 a boxplot with a <a
@@ -868,57 +828,37 @@ href="https://intro2r.com/simple-base-r-plots.html#pairs-plots">Section
 4.2.5</a> of the book for more details). If it looks a little cramped in
 RStudio then click on the ‘zoom’ button in the plot viewer to see a
 larger version.</p>
-<p>One of the useful things about <code>pairs()</code> is that you can
-choose what goes into each panel. Modify your plot to add a smoother (a
-wiggly line) to the lower triangle, which makes the shape of each
-relationship much easier to see. The book and <code>?pairs</code> show
-you how. Then, just by looking, which pair of variables is most strongly
-related, and which variable is related to almost nothing?</p>
+<p>These take a little practice to read, so it’s worth going slowly the
+first time. The variable names run down the diagonal and every other
+panel is a scatterplot of two of your variables. To work out which two,
+look at the row and the column the panel sits in: the variable named in
+that row is on the y axis and the variable named in that column is on
+the x axis. This also means that the panels above the diagonal show
+exactly the same pairs of variables as the panels below it, just with
+the axes swapped over, so you only need to look at one half. Which pair
+of variables looks most strongly related to you, and which variable
+seems to be related to almost nothing?</p>
+<p>The <code>pairs()</code> function is very flexible and you can change
+what is drawn in each panel, adding things like smoothers or correlation
+coefficients. Have a look at <a
+href="https://intro2r.com/simple-base-r-plots.html#pairs-plots">Section
+4.2.5</a> of the book and the examples in <code>?pairs</code> if you
+would like to try this.</p>
 <div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" tabindex="-1"></a>plot_vars <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;age&quot;</span>, <span class="st">&quot;systolic&quot;</span>, <span class="st">&quot;diastolic&quot;</span>, <span class="st">&quot;tchol&quot;</span>, <span class="st">&quot;hdlchol&quot;</span>,</span>
 <span id="cb10-2"><a href="#cb10-2" tabindex="-1"></a>               <span class="st">&quot;triglyceride&quot;</span>, <span class="st">&quot;bmi&quot;</span>)</span>
 <span id="cb10-3"><a href="#cb10-3" tabindex="-1"></a></span>
-<span id="cb10-4"><a href="#cb10-4" tabindex="-1"></a><span class="co"># vanilla pairs plot</span></span>
-<span id="cb10-5"><a href="#cb10-5" tabindex="-1"></a><span class="fu">pairs</span>(cardiac[, plot_vars])</span>
-<span id="cb10-6"><a href="#cb10-6" tabindex="-1"></a></span>
-<span id="cb10-7"><a href="#cb10-7" tabindex="-1"></a><span class="co"># panel.smooth adds the wiggly line. Note that it keeps its dot: it is a base R</span></span>
-<span id="cb10-8"><a href="#cb10-8" tabindex="-1"></a><span class="co"># function, not something you wrote</span></span>
-<span id="cb10-9"><a href="#cb10-9" tabindex="-1"></a><span class="fu">pairs</span>(cardiac[, plot_vars], <span class="at">lower.panel =</span> panel.smooth)</span>
+<span id="cb10-4"><a href="#cb10-4" tabindex="-1"></a><span class="fu">pairs</span>(cardiac[, plot_vars])</span>
+<span id="cb10-5"><a href="#cb10-5" tabindex="-1"></a></span>
+<span id="cb10-6"><a href="#cb10-6" tabindex="-1"></a><span class="co"># systolic and diastolic are the most strongly related pair, which is no</span></span>
+<span id="cb10-7"><a href="#cb10-7" tabindex="-1"></a><span class="co"># surprise given that they are the same measurement taken at two points in the</span></span>
+<span id="cb10-8"><a href="#cb10-8" tabindex="-1"></a><span class="co"># heartbeat. hdlchol against triglyceride is the next most obvious, sloping the</span></span>
+<span id="cb10-9"><a href="#cb10-9" tabindex="-1"></a><span class="co"># other way.</span></span>
 <span id="cb10-10"><a href="#cb10-10" tabindex="-1"></a></span>
-<span id="cb10-11"><a href="#cb10-11" tabindex="-1"></a><span class="co"># systolic and diastolic are the most strongly related pair, which is no</span></span>
-<span id="cb10-12"><a href="#cb10-12" tabindex="-1"></a><span class="co"># surprise given that they are the same measurement taken at two points in the</span></span>
-<span id="cb10-13"><a href="#cb10-13" tabindex="-1"></a><span class="co"># heartbeat. hdlchol against triglyceride is the next most obvious, sloping the</span></span>
-<span id="cb10-14"><a href="#cb10-14" tabindex="-1"></a><span class="co"># other way. age is related to almost nothing here, and that is worth</span></span>
-<span id="cb10-15"><a href="#cb10-15" tabindex="-1"></a><span class="co"># thinking about: everyone in this study is between 55 and 75, so there simply</span></span>
-<span id="cb10-16"><a href="#cb10-16" tabindex="-1"></a><span class="co"># is not enough spread in age for a relationship to show itself. A variable can</span></span>
-<span id="cb10-17"><a href="#cb10-17" tabindex="-1"></a><span class="co"># look unimportant purely because of who was recruited.</span></span></code></pre></div>
-<p><img src="exercise_5_solution_files/figure-html/Q13-1.png" alt="" width="864" /><img src="exercise_5_solution_files/figure-html/Q13-2.png" alt="" width="864" /></p>
-<p> </p>
-<p>14. (optional, and a stretch) <code>pairs()</code> will put whatever
-you like in the upper triangle, including the correlation coefficients
-themselves, but there is no ready made function for it so you have to
-write one. This is a step beyond anything else in the exercise, and
-writing your own functions is not covered until the optional programming
-exercise, so treat it as a look ahead rather than something you are
-expected to manage now. If you fancy a go, <code>?pairs</code> has an
-example you can adapt. Do the numbers agree with what you concluded by
-eye?</p>
-<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" tabindex="-1"></a>panel_cor <span class="ot">&lt;-</span> <span class="cf">function</span>(x, y, <span class="at">digits =</span> <span class="dv">2</span>, ...) {</span>
-<span id="cb11-2"><a href="#cb11-2" tabindex="-1"></a>  usr <span class="ot">&lt;-</span> <span class="fu">par</span>(<span class="st">&quot;usr&quot;</span>); <span class="fu">on.exit</span>(<span class="fu">par</span>(<span class="at">usr =</span> usr))</span>
-<span id="cb11-3"><a href="#cb11-3" tabindex="-1"></a>  <span class="fu">par</span>(<span class="at">usr =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">1</span>, <span class="dv">0</span>, <span class="dv">1</span>))</span>
-<span id="cb11-4"><a href="#cb11-4" tabindex="-1"></a>  r <span class="ot">&lt;-</span> <span class="fu">cor</span>(x, y, <span class="at">use =</span> <span class="st">&quot;pairwise.complete.obs&quot;</span>)</span>
-<span id="cb11-5"><a href="#cb11-5" tabindex="-1"></a>  <span class="fu">text</span>(<span class="fl">0.5</span>, <span class="fl">0.5</span>, <span class="fu">format</span>(r, <span class="at">digits =</span> digits), <span class="at">cex =</span> <span class="fl">1.4</span>)</span>
-<span id="cb11-6"><a href="#cb11-6" tabindex="-1"></a>}</span>
-<span id="cb11-7"><a href="#cb11-7" tabindex="-1"></a></span>
-<span id="cb11-8"><a href="#cb11-8" tabindex="-1"></a><span class="fu">pairs</span>(cardiac[, plot_vars], <span class="at">upper.panel =</span> panel_cor, <span class="at">lower.panel =</span> panel.smooth)</span>
-<span id="cb11-9"><a href="#cb11-9" tabindex="-1"></a></span>
-<span id="cb11-10"><a href="#cb11-10" tabindex="-1"></a><span class="co"># systolic with diastolic is the strongest at r = 0.56, hdlchol with</span></span>
-<span id="cb11-11"><a href="#cb11-11" tabindex="-1"></a><span class="co"># triglyceride the next at r = -0.51, and age never gets above 0.21 with</span></span>
-<span id="cb11-12"><a href="#cb11-12" tabindex="-1"></a><span class="co"># anything. The eye had it right.</span></span>
-<span id="cb11-13"><a href="#cb11-13" tabindex="-1"></a></span>
-<span id="cb11-14"><a href="#cb11-14" tabindex="-1"></a><span class="co"># That -0.51 is worth a second look. Before the cleaning in Q7 it was -0.43,</span></span>
-<span id="cb11-15"><a href="#cb11-15" tabindex="-1"></a><span class="co"># and the whole of the difference is two patients recorded with an HDL of</span></span>
-<span id="cb11-16"><a href="#cb11-16" tabindex="-1"></a><span class="co"># zero. Two impossible values out of 163 moved a correlation by 0.08.</span></span></code></pre></div>
-<p><img src="exercise_5_solution_files/figure-html/Q14-1.png" alt="" width="864" /></p>
+<span id="cb10-11"><a href="#cb10-11" tabindex="-1"></a><span class="co"># age is related to almost nothing here, and that&#39;s worth thinking about.</span></span>
+<span id="cb10-12"><a href="#cb10-12" tabindex="-1"></a><span class="co"># Everyone in this study is between 55 and 75, so there isn&#39;t much spread in</span></span>
+<span id="cb10-13"><a href="#cb10-13" tabindex="-1"></a><span class="co"># age for a relationship to show itself in. A variable can look unimportant</span></span>
+<span id="cb10-14"><a href="#cb10-14" tabindex="-1"></a><span class="co"># just because of who was recruited.</span></span></code></pre></div>
+<p><img src="exercise_5_solution_files/figure-html/Q13-1.png" alt="" width="864" /></p>
 <p> </p>
 <p>End of Exercise 5</p>
 </div>

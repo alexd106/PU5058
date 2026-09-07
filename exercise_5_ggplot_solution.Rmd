@@ -122,17 +122,16 @@ ggplot(data = cardiac) +
 
 \  
 
-8\. Histograms of `bmi` and `alcohol`, and the effect of changing the bin width. `ggplot2` will warn you that it has picked a bin number for you, which is a good deal more honest than `hist()` doing it silently.
+8\. Histograms of `bmi` and `alcohol`, side by side.
 
 ```{r Q8}
 g1 <- ggplot(data = cardiac) + geom_histogram(aes(bmi))
 g2 <- ggplot(data = cardiac) + geom_histogram(aes(alcohol))
 grid.arrange(g1, g2, nrow = 1)
 
-# the same 163 systolic values at two bin widths
-b1 <- ggplot(data = cardiac) + geom_histogram(aes(systolic), binwidth = 20) + ggtitle("binwidth: 20")
-b2 <- ggplot(data = cardiac) + geom_histogram(aes(systolic), binwidth = 2) + ggtitle("binwidth: 2")
-grid.arrange(b1, b2, nrow = 2)
+# on the number of bins, ggplot2 warns you that it has picked one for you,
+# which is a good deal more honest than hist() doing it silently. Set it
+# yourself with binwidth or bins.
 ```
 
 \  
@@ -174,19 +173,12 @@ ggplot(data = cardiac, aes(x = triglyceride, y = hdlchol)) +
 
 \  
 
-11\. Boxplots by smoking status, for HDL cholesterol and then for total cholesterol.
+11\. A boxplot of HDL cholesterol by smoking status.
 
 ```{r Q11}
 ggplot(data = cardiac, aes(x = Fsmoking, y = hdlchol)) +
   geom_boxplot() +
   labs(x = "smoking status", y = "HDL cholesterol (mmol/l)")
-
-ggplot(data = cardiac, aes(x = Fsmoking, y = tchol)) +
-  geom_boxplot() +
-  labs(x = "smoking status", y = "total cholesterol (mmol/l)")
-
-# HDL separates the groups and total cholesterol does not, exactly as in the
-# base R solutions. Report both.
 ```
 
 \  
@@ -206,15 +198,11 @@ ggsave('output/ex5_hdl_violin.pdf', hdl_violin, width = 7, height = 5)
 
 \  
 
-13\. A pairs plot. `GGally::ggpairs()` is the `ggplot2` equivalent of `pairs()`, and gives you the histograms and correlations without having to write panel functions. That also makes the optional Q14 in the base R solutions unnecessary here: the correlations you would have had to write a `panel_cor()` function for are printed for you.
+13\. A pairs plot. `GGally::ggpairs()` is the `ggplot2` equivalent of `pairs()`. It is read the same way as the base R version, with the variable names down the diagonal, and it adds the distribution of each variable and the correlation coefficients without you having to ask.
 
 ```{r Q13}
 ggpairs(cardiac[, c("age", "systolic", "diastolic", "tchol", "hdlchol",
                     "triglyceride", "bmi")])
-
-# coloured by a factor, which is where ggpairs earns its keep
-ggpairs(cardiac[, c("systolic", "diastolic", "tchol", "bmi", "Fsex")],
-        aes(colour = Fsex, alpha = 0.5))
 ```
 
 \  

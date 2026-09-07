@@ -125,7 +125,7 @@ dotchart(cardiac$alcohol, main = "alcohol")
 
 \  
 
-7\. That lone point away on the right of the `bmi` dotplot is the value you met in Exercise 4, when you ran `summary()` and found a maximum of 514.60. A body mass index of 514 is not possible: it is 51.46 with the decimal point in the wrong place. Notice how much less work the dotplot made of finding it. In Exercise 4 you had to know to go looking, read down a column of numbers and spot that one of them was absurd. Here it announces itself the moment you draw the plot. That's what dotplots are for, and it's why they're worth drawing for every continuous variable before you do anything else with them.
+7\. That single point over on the right of the `bmi` dotplot is the value you met in Exercise 4, when you ran `summary()` and found a maximum of 514.60. A body mass index of 514 isn't possible - it's 51.46 with the decimal point in the wrong place. Notice how much easier the dotplot has made this to spot. In Exercise 4 you had to work your way through the `summary()` output and check the minimum and maximum of each variable in turn, whereas here it stands out as soon as you draw the plot. That's a good reason to make a dotplot of each of your continuous variables early on.
 
 Remember that you imported the raw file again in Q4, so none of the cleaning you did in Exercise 4 is in this dataframe. Redo all three of those fixes now. Use the `which()` function to identify which observation the impossible `bmi` is, confirm the value with the square bracket `[ ]` notation, then set that `bmi`, the single `triglyceride` of 0 and the two `hdlchol` values of 0 to `NA`, exactly as you did in Exercise 4. Redraw the `bmi` dotchart. Now look again at all four plots from Q6. Several points still sit well away from the rest. Which ones, and what should you do about them?
 
@@ -163,80 +163,51 @@ dotchart(cardiac$bmi, main = "bmi")
 
 \  
 
-8\. Histograms are the standard way of looking at the distribution of a continuous variable (see [Section 4.2.2](https://intro2r.com/simple-base-r-plots.html#histograms)). Create histograms for `bmi` and `alcohol`, either separately or in one figure as you did in Q6. Put the two side by side and you'll see they look nothing like each other. How would you describe the difference?
+8\. Histograms are the standard way of looking at the distribution of a continuous variable (see [Section 4.2.2](https://intro2r.com/simple-base-r-plots.html#histograms)). Create histograms for `bmi` and `alcohol` and put them side by side in a single figure, by splitting your plotting device into 1 row and 2 columns with `par(mfrow = c(1, 2))`. The two distributions look quite different - how would you describe them?
 
-One thing to be careful of is that a histogram can look quite different depending on the number of 'breaks' used. The `hist()` function chooses breaks for you, but they are only a suggestion. Redraw the histogram of `systolic` twice, once with wide bins and once with narrow ones, and compare them. Which one would you show somebody, and what does the difference tell you about how much you should trust the shape of a histogram?
+One thing to be careful of is that a histogram can look quite different depending on the number of 'breaks' (bins) used. The `hist()` function chooses these for you, but they're only a suggestion, so it's always worth trying a few values of the `breaks` argument before you settle on one (see `?hist`).
 
-```{r Q8, echo=SOLUTIONS, eval=SOLUTIONS, fig.width=8, fig.height=6}
+```{r Q8, echo=SOLUTIONS, eval=SOLUTIONS, fig.width=9, fig.height=4.5}
 par(mfrow = c(1, 2))
 hist(cardiac$bmi, main = "", xlab = "bmi")
 hist(cardiac$alcohol, main = "", xlab = "alcohol (units/week)")
 
-# bmi is roughly symmetric, a nice recognisable hump with a modest tail to the
-# right. alcohol isn't anything like it: a big spike at zero and a long thin
-# tail stretching out to 82 units. Hang on to that, you come straight back to
-# it in Q9.
-
-# wide bins and narrow bins, drawn from exactly the same 163 numbers
-par(mfrow = c(2, 1))
-hist(cardiac$systolic, xlab = "systolic", main = "bins of 20 mmHg",
-     breaks = seq(from = 100, to = 240, by = 20))
-hist(cardiac$systolic, xlab = "systolic", main = "bins of 2 mmHg",
-     breaks = seq(from = 100, to = 240, by = 2))
-
-# with 20 mmHg bins the distribution looks smooth and roughly symmetric; with
-# 2 mmHg bins it looks spiky and full of gaps. Nothing about the patients has
-# changed, only the picture. The narrow version cuts 163 patients into 70 bins,
-# so a typical bin holds about two people and one patient either way visibly
-# changes its height. You aren't seeing more detail there, you're seeing noise,
-# so it's worth treating the shape of a histogram as a rough guide rather than
-# as evidence.
+# bmi is roughly symmetric, with most patients in the middle and a modest tail
+# to the right. alcohol looks quite different: most patients drink little or
+# nothing, and a small number drink a great deal, which gives a long tail
+# stretching out to 82 units. You'll come back to alcohol in Q9.
 ```
 
 \  
 
-9\. Straight on from that, then. Your histogram has identified a problem: `alcohol` is badly skewed, and skew is a nuisance in a plot because most of the points end up squashed into a corner. Naming the problem is the easy half. The other half is doing something about it, and then checking whether what you did has actually worked.
+9\. Have another look at the histogram of `alcohol` you have just drawn. A small number of patients drink a great deal more than everybody else, and those few stretch the distribution out into a long tail to the right. Data like this are described as right skewed, and they are very common in health data. It's worth doing something about, because a lot of what you might want to do with a variable later on, from summarising it to modelling it, works better when the values are more evenly spread.
 
-`alcohol` is a count. It is the number of units drunk in a week, so it is made of whole numbers and a good many of them are zero. For count data the square root is the standard choice, and it copes with the zeros without complaint because `sqrt(0)` is simply 0. Notice that this is a different answer from the one you used in Exercise 4 Q6, where you took logs of `triglyceride`, and the reason is the data rather than fashion. A blood concentration is a continuous measurement and takes a log happily. A count is not and does not.
+One way of dealing with this is to transform the variable. `alcohol` is a count, the number of units drunk in a week, and the square root is the usual choice for count data. It also copes with the patients who drank nothing, because `sqrt(0)` is simply 0. Notice that this is a different choice from Exercise 4 Q6, where you took logs of `triglyceride`. A blood concentration and a count of units are different sorts of measurement and they don't call for the same transformation.
 
-Create a new variable in the `cardiac` dataframe holding the square root of `alcohol`, plot its histogram next to the untransformed one, and then check the result the way you checked Exercise 4 Q6, by looking at what happens to the gap between the mean and the median. Has it fixed the problem?
+Create a new variable in the `cardiac` dataframe holding the square root of `alcohol`, then plot its histogram next to the untransformed one. Looking at the two, has the tail been pulled in?
 
-```{r Q9, echo=SOLUTIONS, eval=SOLUTIONS, fig.width=9, fig.height=4.5, results='hide'}
+```{r Q9, echo=SOLUTIONS, eval=SOLUTIONS, fig.width=9, fig.height=4.5}
 cardiac$alcohol_sqrt <- sqrt(cardiac$alcohol)
 
 par(mfrow = c(1, 2))
 hist(cardiac$alcohol, main = "untransformed", xlab = "alcohol (units/week)")
 hist(cardiac$alcohol_sqrt, main = "square root", xlab = "sqrt(alcohol)")
 
-# the check, exactly the one you used in Exercise 4 Q6
-mean(cardiac$alcohol)         # 6.91
-median(cardiac$alcohol)       # 2.00,  a gap of 4.91
+# Yes. The heavy drinkers are no longer strung out along a long tail, the
+# values are spread much more evenly across the range, and all 163 patients
+# are still in the plot.
 
-mean(cardiac$alcohol_sqrt)    # 1.86
-median(cardiac$alcohol_sqrt)  # 1.41,  a gap of 0.44
-
-# Yes. The long tail has been pulled in, the gap between the mean and the
-# median has fallen from 4.91 to 0.44, and all 163 patients are still in the
-# plot.
-
-# Why not a log here, as in Exercise 4? Try it and watch what happens:
+# Why not a log, as you used in Exercise 4? Try it and see what happens:
 # hist(log(cardiac$alcohol))
-# 58 of the 163 patients drank nothing at all, log(0) is -Inf, and R throws
-# more than a third of your data out of the plot with nothing more than a
-# warning. Triglyceride never had that problem, because its one zero had
-# already been set to NA back in Exercise 4 Q1. The zeros in alcohol are real
-# readings, so there is nothing to clean, and that is the whole reason the
-# square root is the right tool for this variable.
-
-# The one thing no transformation can do is make 58 patients stop being zero.
-# They are still a third of your data sitting on a single value. A
-# transformation pulls a tail in; it cannot turn a variable into something it
-# is not.
+# 58 of these patients drank nothing at all, log(0) is -Inf, and R will drop
+# more than a third of your data from the plot with nothing more than a
+# warning. Triglyceride didn't have this problem, because its single zero had
+# already been set to NA back in Exercise 4 Q1.
 ```
 
 \  
 
-10\. Scatterplots are great for visualising relationships between two continuous variables ([Section 4.2.1](https://intro2r.com/simple-base-r-plots.html#scatterplot)). Before you draw one, decide which variable belongs on which axis. By convention the explanatory variable goes on the x axis and the response goes on the y axis, so the choice is not cosmetic.
+10\. Scatterplots are great for visualising relationships between two continuous variables ([Section 4.2.1](https://intro2r.com/simple-base-r-plots.html#scatterplot)). Before you draw one, decide which variable belongs on which axis. By convention the explanatory variable goes on the x axis and the response goes on the y axis, so have a think about which is which before you draw anything.
 
 Start with `bmi` and `systolic` blood pressure. Which is the explanatory variable, and which the response? Plot them the right way round. Now do the same for `hdlchol` and `triglyceride`. Is the choice as easy this time?
 
@@ -261,27 +232,15 @@ plot(cardiac$triglyceride, cardiac$hdlchol,
 
 11\. When visualising differences in a continuous variable between levels of a factor (categorical variable) then a boxplot is your friend (avoid using bar plots - Google 'bar plots are evil' for more info). Create a boxplot to visualise the differences in HDL cholesterol at each level of smoking status (don't forget to use the recoded version of this variable you created in Q4). Include x and y axis labels in your plot. Make sure you understand the anatomy of a boxplot before moving on - please ask if you're not sure (also see [Section 4.2.3](https://intro2r.com/simple-base-r-plots.html#box-and-violin-plots) of the book).
 
-Now draw exactly the same plot for total cholesterol instead. Same patients, same factor, one line of code different, and the two figures do not say remotely the same thing. Which of the two shows a difference between the groups? And if you were writing this up, which would you be tempted to leave out?
-
 ```{r Q11, echo=SOLUTIONS, eval=SOLUTIONS}
 # note: Fsmoking is the recoded smoking variable created in Q4
 boxplot(hdlchol ~ Fsmoking, data = cardiac,
         xlab = "smoking status", ylab = "HDL cholesterol (mmol/l)")
 
-boxplot(tchol ~ Fsmoking, data = cardiac,
-        xlab = "smoking status", ylab = "total cholesterol (mmol/l)")
-
-# HDL is the one with something in it. The never-smokers sit clearly above the
-# other two, with a median of 1.60 against 1.31 for current smokers and 1.21
-# for ex-smokers, and their median is above the upper quartile of both other
-# groups. Total cholesterol shows nothing at all: three boxes at much the same
-# height, medians of 6.91, 6.58 and 7.03.
-
-# Which would you leave out? The honest answer is that the temptation is to
-# report the HDL plot and let the cholesterol one quietly disappear. Do not.
-# A plot that shows you there is nothing to see has still told you something,
-# and keeping only the comparisons that worked is how a set of results stops
-# being evidence.
+# the patients who have never smoked have a higher HDL cholesterol than either
+# the current smokers or the ex-smokers. Their median is 1.60, against 1.31 for
+# the current smokers and 1.21 for the ex-smokers, and it sits above the upper
+# quartile of both of the other groups.
 ```
 
 \  
@@ -316,49 +275,25 @@ dev.off()
 
 13\. To explore the relationships between several continuous variables at once it's hard to beat a pairs plot. Create a pairs plot for the variables; `age`, `systolic`, `diastolic`, `tchol`, `hdlchol`, `triglyceride` and `bmi` (see [Section 4.2.5](https://intro2r.com/simple-base-r-plots.html#pairs-plots) of the book for more details). If it looks a little cramped in RStudio then click on the 'zoom' button in the plot viewer to see a larger version.
 
-One of the useful things about `pairs()` is that you can choose what goes into each panel. Modify your plot to add a smoother (a wiggly line) to the lower triangle, which makes the shape of each relationship much easier to see. The book and `?pairs` show you how. Then, just by looking, which pair of variables is most strongly related, and which variable is related to almost nothing?
+These take a little practice to read, so it's worth going slowly the first time. The variable names run down the diagonal and every other panel is a scatterplot of two of your variables. To work out which two, look at the row and the column the panel sits in: the variable named in that row is on the y axis and the variable named in that column is on the x axis. This also means that the panels above the diagonal show exactly the same pairs of variables as the panels below it, just with the axes swapped over, so you only need to look at one half. Which pair of variables looks most strongly related to you, and which variable seems to be related to almost nothing?
+
+The `pairs()` function is very flexible and you can change what is drawn in each panel, adding things like smoothers or correlation coefficients. Have a look at [Section 4.2.5](https://intro2r.com/simple-base-r-plots.html#pairs-plots) of the book and the examples in `?pairs` if you would like to try this.
 
 ```{r Q13, echo=SOLUTIONS, eval=SOLUTIONS, fig.width=9, fig.height=9}
 plot_vars <- c("age", "systolic", "diastolic", "tchol", "hdlchol",
                "triglyceride", "bmi")
 
-# vanilla pairs plot
 pairs(cardiac[, plot_vars])
-
-# panel.smooth adds the wiggly line. Note that it keeps its dot: it is a base R
-# function, not something you wrote
-pairs(cardiac[, plot_vars], lower.panel = panel.smooth)
 
 # systolic and diastolic are the most strongly related pair, which is no
 # surprise given that they are the same measurement taken at two points in the
 # heartbeat. hdlchol against triglyceride is the next most obvious, sloping the
-# other way. age is related to almost nothing here, and that is worth
-# thinking about: everyone in this study is between 55 and 75, so there simply
-# is not enough spread in age for a relationship to show itself. A variable can
-# look unimportant purely because of who was recruited.
-```
+# other way.
 
-\  
-
-14\. (optional, and a stretch) `pairs()` will put whatever you like in the upper triangle, including the correlation coefficients themselves, but there is no ready made function for it so you have to write one. This is a step beyond anything else in the exercise, and writing your own functions is not covered until the optional programming exercise, so treat it as a look ahead rather than something you are expected to manage now. If you fancy a go, `?pairs` has an example you can adapt. Do the numbers agree with what you concluded by eye?
-
-```{r Q14, echo=SOLUTIONS, eval=SOLUTIONS, fig.width=9, fig.height=9}
-panel_cor <- function(x, y, digits = 2, ...) {
-  usr <- par("usr"); on.exit(par(usr = usr))
-  par(usr = c(0, 1, 0, 1))
-  r <- cor(x, y, use = "pairwise.complete.obs")
-  text(0.5, 0.5, format(r, digits = digits), cex = 1.4)
-}
-
-pairs(cardiac[, plot_vars], upper.panel = panel_cor, lower.panel = panel.smooth)
-
-# systolic with diastolic is the strongest at r = 0.56, hdlchol with
-# triglyceride the next at r = -0.51, and age never gets above 0.21 with
-# anything. The eye had it right.
-
-# That -0.51 is worth a second look. Before the cleaning in Q7 it was -0.43,
-# and the whole of the difference is two patients recorded with an HDL of
-# zero. Two impossible values out of 163 moved a correlation by 0.08.
+# age is related to almost nothing here, and that's worth thinking about.
+# Everyone in this study is between 55 and 75, so there isn't much spread in
+# age for a relationship to show itself in. A variable can look unimportant
+# just because of who was recruited.
 ```
 
 \  

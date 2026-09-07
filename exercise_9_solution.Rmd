@@ -37,13 +37,15 @@ We'll only cover the everyday loop in this exercise, which is what you'll use ni
 
 1\. Start by checking your setup is healthy. In the R console run the situation report:
 
-```{r Q1, echo=TRUE}
+```{r Q1, echo=TRUE, class.source="fold-none"}
 library(usethis)
 
 git_sitrep()
 ```
 
-This prints a lot at once, which is normal. You're looking for just two things: your name and email address near the top under the Git config heading, and a line further down confirming that a personal access token was found. Everything else you can ignore for now.
+This prints a lot at once, which is normal. You're looking for just two things, circled below: your name and email address near the top under the Git global heading, and a line further down confirming that a personal access token was found. Everything else you can ignore for now.
+
+![The two lines to check in the `git_sitrep()` output.](images/git_sitrep.png)
 
 If either of those is missing, go back to the [setup page](git_setup.html){target="_blank"} and work out which step didn't take. Ask for help now rather than at Q4, when the symptom will be an error message rather than a missing line.
 
@@ -51,11 +53,17 @@ If either of those is missing, go back to the [setup page](git_setup.html){targe
 
 2\. Now create somewhere for your work to live. We're going to make the repository on GitHub first and then bring it down to your computer, because that way the two ends are connected from the start and there's less to go wrong.
 
-a) Go to [github.com](https://github.com) and log in. Click the **+** in the top right and choose **New repository**.
+a) Go to [github.com](https://github.com) and log in. Click the **+** in the top right and choose **New repository**. If you can't see it, your **Repositories** tab has a green **New** button that does the same thing.
 
-b) Name it `pu5058-practical`. Leave it **Public**. Tick **Add a README file**. From the **Add .gitignore** dropdown, choose the **R** template. Click **Create repository**.
+![Starting a new repository on GitHub.](images/new_repo.png)
 
-c) On the page that appears, click the green **Code** button and copy the HTTPS web address. It will end in `.git`.
+b) Name it `pu5058-practical`. Leave the visibility as **Public**. Switch **Add README** on. Then, in the **Add .gitignore** dropdown just below it, choose the **R** template, which the screenshot below does not have set. Click **Create repository**.
+
+![The new repository form. Set the .gitignore dropdown to R as well.](images/new_repo_opt.png)
+
+c) On the page that appears, click the green **Code** button, make sure **HTTPS** is selected rather than SSH, and copy the web address. It will end in `.git`.
+
+![Copying the HTTPS address of your new repository.](images/new_repo_clone.png)
 
 d) In RStudio, go to `File` -> `New Project...`. Choose **Version Control**, then **Git**. Paste the address into the 'Repository URL' box. The 'Project directory name' box fills in on its own. Under 'Create project as a subdirectory of', browse to wherever you keep your work for this course, then click **Create Project**.
 
@@ -79,40 +87,45 @@ Find each of these, without clicking yet:
 - the **Pull** and **Push** buttons, the down and up arrows
 - the **History** button, the little clock
 
-The coloured icon beside a file tells you what Git currently makes of it. A yellow `?` means Git can see the file but isn't keeping track of it, which is the case for `pu5058-practical.Rproj` right now. You'll meet a blue `M` for a file that's been modified and a green `A` for one you've staged as you work through the next few questions.
+![The Git pane, with the Staged column, the status icons and the buttons along the top.](images/GitTab.png)
+
+The coloured icon beside a file tells you what Git currently makes of it. A yellow `?` means Git can see the file but isn't keeping track of it, which is the case for `pu5058-practical.Rproj` right now. You'll meet a blue `M` for a file that's been modified and a green `A` for one you've staged as you work through the next few questions. Here is the full set:
+
+![What each status icon means.](images/rstudio_git_cols.png)
 
 \  
 
-4\. Time for the full cycle, once, slowly. First you'll need something worth saving.
+4\. Time for the full cycle, once, slowly. First you'll need something worth saving, and rather than invent something you'll use the report you built in Exercise 7.
 
-a) Using your computer's file manager (Finder on a Mac, File Explorer on Windows), make a `data` folder inside your new Project folder and copy `cardiacdata.txt` into it. You're copying it because this is a different Project from the one you've been using.
+a) That report needs two folders alongside it to knit, so using your computer's file manager (Finder on a Mac, File Explorer on Windows) copy all three of these into your new Project folder:
 
-b) In RStudio, create a new R script (`File` -> `New File` -> `R Script`) and save it as `cardiac_analysis.R`. In it, import the data with `read.table()` as you did in **Exercise 3, Q5**, and draw the boxplot of HDL cholesterol by smoking status from **Exercise 5, Q11**. Don't forget the factor recoding from **Exercise 5, Q4**. Save the file.
+- `cardiac_report.Rmd` itself
+- a `data` folder containing `cardiacdata.txt`
+- an `output` folder containing `ex6_admissions.png`
 
-```{r Q4, echo=SOLUTIONS}
-cardiac <- read.table('data/cardiacdata.txt', header = TRUE, sep = "\t",
-                      stringsAsFactors = TRUE)
+The paths written inside the report are relative to the `.Rmd` file, so those two folders have to keep their names and sit right next to it. You're copying rather than moving because this is a different Project from the one you've been working in. If you haven't got a working report of your own, download the finished one from the [Exercise 7 solutions](exercise_7_solution.html){target="_blank"}.
 
-cardiac$Fsmoking <- factor(cardiac$smoking, levels = c(1, 2, 3),
-                           labels = c("Current", "Ex", "Never"))
+b) Open `cardiac_report.Rmd` in RStudio and knit it. Do this before you go anywhere near Git, so that you know it works in its new home. Knitting also produces `cardiac_report.pdf`, which you'll come back to in Q8.
 
-boxplot(hdlchol ~ Fsmoking, data = cardiac,
-        xlab = "Smoking status", ylab = "HDL cholesterol (mmol/l)")
-```
+c) Now look at the Git pane. Several things have appeared, all with a yellow `?`, because Git can see them but isn't keeping track of any of them yet. Tick the **Staged** box next to `cardiac_report.Rmd` and that one only. Its icon changes to a green `A`, for 'added'. Leaving the others alone is the point here: you choose what goes into a commit rather than sweeping up everything that happens to be lying around.
 
-c) Look at the Git pane. `cardiac_analysis.R` has appeared with a yellow `?` beside it, meaning Git can see it but isn't yet keeping track of it. Tick the **Staged** box next to it. The icon changes to a green `A`, for 'added'.
+d) Click **Commit**. A window opens showing the file you staged and, underneath, every line you're about to record. Type a message in the box on the right. Make it say why you made the change rather than just what you changed. 'add cardiac report from Exercise 7' is a useful message, 'update' is not, and in six months you'll be grateful. Click the **Commit** button, read the confirmation, and close it.
 
-d) Click **Commit**. A window opens showing the file you staged and, underneath, every line you're about to record. Type a message in the box on the right. Make it say why you made the change rather than just what you changed. 'add script to plot cholesterol by smoking status' is a useful message, 'update' is not, and in six months you'll be grateful. Click the **Commit** button, read the confirmation, and close it.
+![The Commit window. Staged files on the left with green `A` icons, your message on the right, and the lines you are about to record along the bottom.](images/FirstCommit.png)
 
-e) Your change is now saved in the history on your computer, but GitHub knows nothing about it. Click the green **Push** arrow. Wait for it to finish, then go to your repository page on GitHub in your browser and refresh. Your script is there.
+e) Your change is now saved in the history on your computer, but GitHub knows nothing about it. Click the green **Push** arrow. Wait for it to finish, then go to your repository page on GitHub in your browser and refresh. Your report is there.
 
 If the push fails with a message about authentication, your token is the problem rather than anything you've done here. See the last section of the [setup page](git_setup.html){target="_blank"}.
 
 \  
 
-5\. Now do it again, because the loop only becomes useful once it's automatic. Open `cardiac_analysis.R`, change something small (adding a title to your plot with the `main` argument will do), and save it. The file reappears in the Git pane, this time with a blue `M` for 'modified'.
+5\. Now do it again, because the loop only becomes useful once it's automatic. Open `cardiac_report.Rmd` and make a small change to the writing, a sentence added to your data validation section will do, then knit it and save. The file reappears in the Git pane, this time with a blue `M` for 'modified'.
 
-a) Before you commit, select the file and click **Diff**. Read what it shows you: added lines in green, removed lines in red. Getting into the habit of looking at the diff before committing catches an enormous number of mistakes.
+a) Before you commit, select the file and click **Diff**. Read what it shows you: added lines in green, removed lines in red, and the unchanged lines around them for context. Getting into the habit of looking at the diff before committing catches an enormous number of mistakes.
+
+![The Diff window, showing one line removed in red and its replacement added in green.](images/Diff.png)
+
+Notice that the diff is of your `.Rmd` file rather than the PDF. Git is designed for plain text, which is exactly what an R markdown file is, and it is one of the reasons for writing a report this way rather than in Word.
 
 b) Stage, commit with a sensible message, and push.
 
@@ -122,7 +135,7 @@ c) Now click **History**, the clock icon. You should see both of your commits, m
 
 6\. Everyone makes changes they wish they hadn't. Git gives you a way back.
 
-a) Open your script, delete the whole line that draws the boxplot, and save it. Do **not** commit. Now, in the Git pane, right-click on the file and choose **Revert**. Say yes to the warning, then look at your script again: the deleted line is back.
+a) Open your report, delete the whole `chol-plot` chunk that draws the boxplot, and save it. Do **not** commit. Now, in the Git pane, right-click on the file and choose **Revert**. Say yes to the warning, then look at your report again and the deleted chunk is back.
 
 Be careful with this one. It's not an undo button. It throws away *everything* you've changed since your last commit, not just the last thing you did, and there's no way back. Commit often and you'll rarely need it.
 
@@ -144,17 +157,27 @@ c) Now think about why this matters. If you'd edited the README on your computer
 
 a) Read through it. You should recognise `.Rhistory` and `.RData`.
 
-b) Add a line ignoring anything in an `output` directory, since generated files can always be regenerated and don't need a history. A directory is written with a slash after it.
+b) Look back at the Git pane. `cardiac_report.pdf` is still sitting there with a yellow `?` from Q4, and it will reappear every time you knit. It doesn't need a history, because anybody with your `.Rmd` file and the data can produce it again in one click. Add a line to `.gitignore` that ignores it and watch it disappear from the pane.
 
 `````{asis, echo=SOLUTIONS}
 ````{.md .foldable}
-output/
+cardiac_report.pdf
+````
+
+Or, to catch every PDF the Project ever produces:
+
+````{.md .foldable}
+*.pdf
 ````
 `````
 
 c) Right-click a file in the Git pane and notice there's an **Ignore** option, which adds it to `.gitignore` for you.
 
-d) Think about your data. `cardiacdata.txt` is small, unchanging and not confidential, so committing it is reasonable and makes the project self-contained. Real patient data would be a different matter entirely. **Never put confidential data or passwords in a repository**, and be especially careful with public ones, because deleting a file doesn't remove it from the history.
+d) Now a judgement call, because 'ignore anything you generated' is too blunt a rule. Your `output` folder holds `ex6_admissions.png`, and your report can't knit without it. If you ignored that folder, anybody who cloned your repository would get a report that fails on the last figure. The question to ask is not 'did I generate this?' but 'could somebody rebuild it from what is already in the repository?'. The PDF, yes. The png, no, because you made it in a different Project from data that isn't here.
+
+e) Last of all, think about your data. `cardiacdata.txt` is small, unchanging and not confidential, so committing it is reasonable and makes the project self-contained. Real patient data would be a different matter entirely. **Never put confidential data or passwords in a repository**, and be especially careful with public ones, because deleting a file doesn't remove it from the history.
+
+Stage and commit whatever you have decided should be in there, push, and you're done.
 
 \  
 

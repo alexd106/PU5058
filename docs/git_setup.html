@@ -566,17 +566,17 @@ div.tocify {
 <p> </p>
 <div id="before-you-start" class="section level2">
 <h2>Before you start</h2>
-<p><strong>You do not need this at the start of the course.</strong> It
-is needed for Exercise 9, and there is no advantage in doing it earlier;
-the access token you create in Step 5 has a limited life, so setting it
-up months in advance only means renewing it sooner.</p>
+<p><strong>You don’t need this at the start of the course.</strong> It’s
+needed for Exercise 9, and there’s no advantage in doing it earlier. The
+access token you create in Step 5 has a limited life, so setting it up
+months in advance only means renewing it sooner.</p>
 <p> </p>
 <p>This page gets your computer talking to GitHub. It takes about half
-an hour and it is fiddly the first time, which is why we ask you to do
-it <strong>before</strong> the Exercise 9 practical rather than during
+an hour and it’s fiddly the first time, which is why we ask you to do it
+<strong>before</strong> the Exercise 9 practical rather than during
 it.</p>
 <p>Please work through it beforehand. If you hit a real problem, bring
-it to the start of the session and we will help you, but we cannot get
+it to the start of the session and we’ll help you, but we can’t get
 everybody set up and still have time to teach anything, so do try
 first.</p>
 <p>You only ever do this once per computer.</p>
@@ -592,14 +592,14 @@ B</a> of the Introduction to R book.</p>
 href="https://gitforwindows.org/">Git for Windows</a> and run the
 installer. There are a lot of screens and you can accept every default
 on all of them. The installer also adds a program called Git Bash, which
-we will not use on this course but which does no harm.</p>
+we won’t use on this course but which does no harm.</p>
 <p><strong>macOS.</strong> The simplest route is to let your Mac install
 it for you. Open the Terminal application (press Cmd+Space, type
 <code>Terminal</code>, press Enter), type <code>git --version</code> and
-press Enter. If Git is not installed, macOS will offer to install the
-command line developer tools; accept, and wait for it to finish. This is
-the only time on this course you will need the Terminal. If you would
-rather use an installer, there is one at <a
+press Enter. If Git isn’t installed, macOS will offer to install the
+command line developer tools. Accept, and wait for it to finish. This is
+the only time on this course you’ll need the Terminal. If you’d rather
+use an installer, there’s one at <a
 href="https://git-scm.com/download/mac">git-scm.com</a>.</p>
 <p><strong>Linux.</strong> Git is often installed already. Check with
 <code>git --version</code>. If not, use your package manager:
@@ -614,14 +614,13 @@ your work and is what makes it a backup rather than just a filing
 system.</p>
 <p>Sign up for a free account at <a
 href="https://github.com/join">github.com/join</a>. You need a username,
-an email address and a strong password. Choose a username you would be
-happy for a future employer to see: quite a lot of people put their
+an email address and a strong password. Choose a username you’d be happy
+for a future employer to see, because quite a lot of people put their
 GitHub profile on a CV.</p>
 <p>Two-factor authentication is a good idea and takes about five minutes
-to set up with an authenticator app on your phone. It is
-<strong>not</strong> required for what we are doing, so do not let it
-hold you up now. You can add it later from your GitHub account
-settings.</p>
+to set up with an authenticator app on your phone. It’s
+<strong>not</strong> required for what we’re doing, so don’t let it hold
+you up now. You can add it later from your GitHub account settings.</p>
 <p> </p>
 </div>
 <div id="step-3-tell-rstudio-where-git-is" class="section level2">
@@ -635,16 +634,21 @@ usually ends in <code>git.exe</code>, on macOS and Linux in
 <code>git</code>.</p>
 <p>If the box is empty, click <code>Browse...</code> and find the
 program you installed in Step 1. Restart RStudio afterwards.</p>
+<div class="float">
+<img src="images/git_path.png"
+alt="The Git/SVN pane of Global Options. The tick box and the Git executable path are the two things to check." />
+<div class="figcaption">The Git/SVN pane of Global Options. The tick box
+and the Git executable path are the two things to check.</div>
+</div>
 <p> </p>
 </div>
 <div id="step-4-tell-git-who-you-are" class="section level2">
 <h2>Step 4: Tell Git who you are</h2>
 <p>Git labels every change you make with a name and an email address, so
 you need to give it those once.</p>
-<p>You may have seen this done in a terminal. We will use the
+<p>You may have seen this done in a terminal. We’ll use the
 <code>usethis</code> package instead, so that everything happens in the
-R console you already know. Install it first if you have not
-already:</p>
+R console you already know. Install it first if you haven’t already:</p>
 <div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" tabindex="-1"></a><span class="fu">install.packages</span>(<span class="st">&quot;usethis&quot;</span>)</span></code></pre></div>
 <p>Then:</p>
 <div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" tabindex="-1"></a><span class="fu">library</span>(usethis)</span>
@@ -652,21 +656,25 @@ already:</p>
 <span id="cb2-3"><a href="#cb2-3" tabindex="-1"></a><span class="fu">use_git_config</span>(<span class="at">user.name =</span> <span class="st">&quot;Your Name&quot;</span>, <span class="at">user.email =</span> <span class="st">&quot;you@example.com&quot;</span>)</span></code></pre></div>
 <p>Use the same email address you signed up to GitHub with. The name is
 what will appear against your changes, so use your real one.</p>
-<p>While you are here, set the default name for the main line of work in
+<p>That <code>library(usethis)</code> line lasts as long as your R
+session and no longer, so if you come back to this page in a few weeks
+you’ll need to run it again before any of these functions will work.</p>
+<p>While you’re here, set the default name for the main line of work in
 new projects:</p>
 <div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" tabindex="-1"></a><span class="fu">use_git_config</span>(<span class="at">init.defaultBranch =</span> <span class="st">&quot;main&quot;</span>)</span></code></pre></div>
 <p>GitHub has called this <code>main</code> since 2020. Git itself still
 uses the older name <code>master</code> unless you tell it otherwise,
-and the mismatch causes confusing errors later. You will meet both names
+and the mismatch causes confusing errors later. You’ll meet both names
 in the wild.</p>
 <p> </p>
 </div>
 <div id="step-5-create-a-personal-access-token" class="section level2">
 <h2>Step 5: Create a personal access token</h2>
-<p>This is the step people get stuck on, so read it carefully. <a
+<p>This is the step people get stuck on, so it’s worth reading
+carefully. <a
 href="https://intro2r.com/setup_git.html#github-auth">Section 9.4.5</a>
 of the Introduction to R book covers the same ground.</p>
-<p>When you send your work to GitHub, it needs to know it is really you.
+<p>When you send your work to GitHub, it needs to know it’s really you.
 GitHub <strong>stopped accepting your account password for this in
 2021</strong>. Instead you use a <em>personal access token</em>, which
 is a long string of characters that works like a password for one
@@ -685,14 +693,26 @@ that will still mean something to you in six months, such as
 <code>Custom</code>, then pick a date about six months from now. GitHub
 suggests 30 days by default. Thirty days is better security practice,
 but it means your token stops working part way through this course,
-probably during the assessment. We are deliberately trading a little
-security for not being locked out at the worst moment. When you finish
-this course, go back to shorter-lived tokens.</p></li>
+probably at the worst possible moment. We’re deliberately trading a
+little security for not being locked out when you most need it. When you
+finish this course, go back to shorter-lived tokens.</p></li>
 </ol>
+<div class="float">
+<img src="images/git_pat_form.png"
+alt="The token form, with the two things to change before you generate it." />
+<div class="figcaption">The token form, with the two things to change
+before you generate it.</div>
+</div>
 <p>Now click <strong>Generate token</strong>. GitHub shows you the token
 exactly once, on a green background. Copy it now. If you navigate away
-without copying it, you cannot get it back and will have to make another
+without copying it you can’t get it back and will have to make another
 one, which is annoying but harmless.</p>
+<div class="float">
+<img src="images/git_pat_token.png"
+alt="Your token, shown once and never again. Copy it before you leave this page." />
+<div class="figcaption">Your token, shown once and never again. Copy it
+before you leave this page.</div>
+</div>
 <p> </p>
 </div>
 <div id="step-6-store-the-token" class="section level2">
@@ -703,24 +723,32 @@ type it again:</p>
 <span id="cb5-2"><a href="#cb5-2" tabindex="-1"></a></span>
 <span id="cb5-3"><a href="#cb5-3" tabindex="-1"></a><span class="fu">gitcreds_set</span>()</span></code></pre></div>
 <p>Paste the token when prompted and press Enter. You already have
-<code>gitcreds</code> installed, because <code>usethis</code> depends on
-it.</p>
+<code>gitcreds</code>, because it comes along with <code>usethis</code>,
+so there’s nothing extra to install. If R tells you there is no such
+package, run <code>install.packages("gitcreds")</code> and try
+again.</p>
 <p> </p>
 </div>
 <div id="step-7-check-it-all-worked" class="section level2">
 <h2>Step 7: Check it all worked</h2>
 <div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" tabindex="-1"></a><span class="fu">git_sitrep</span>()</span></code></pre></div>
 <p><code>git_sitrep()</code> is short for ‘Git situation report’. It
-prints everything about your setup in one go: which Git you have, the
-name and email you set in Step 4, and whether it can find and use your
-token.</p>
+prints everything about your setup in one go, including which Git you
+have, the name and email you set in Step 4, and whether it can find and
+use your token.</p>
 <p>Read the output even though nothing has gone wrong. Knowing what it
-looks like when things are healthy is exactly what makes it useful when
-they are not. The lines to check are your name and email, and a line
+looks like when things are healthy is what makes it useful later on when
+they aren’t. The lines to check are your name and email, and a line
 confirming a personal access token was found.</p>
+<div class="float">
+<img src="images/git_sitrep.png"
+alt="The two lines to look for in the git_sitrep() output." />
+<div class="figcaption">The two lines to look for in the
+<code>git_sitrep()</code> output.</div>
+</div>
 <p>If anything looks wrong, go back to the step that set it. If you
-cannot see what is wrong, bring the <code>git_sitrep()</code> output to
-the session and we will look at it together.</p>
+can’t see what’s wrong, bring the <code>git_sitrep()</code> output to
+the session and we’ll look at it together.</p>
 <p> </p>
 </div>
 <div id="when-your-token-expires" class="section level2">
@@ -729,12 +757,16 @@ the session and we will look at it together.</p>
 when it happens.</p>
 <p>The symptom is that pushing or pulling, which worked perfectly well
 last week, suddenly fails with a message about authentication. The fix
-is to repeat Steps 5 and 6:</p>
-<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" tabindex="-1"></a><span class="fu">create_github_token</span>()   <span class="co"># generate a fresh one</span></span>
-<span id="cb7-2"><a href="#cb7-2" tabindex="-1"></a><span class="fu">gitcreds_set</span>()          <span class="co"># it will offer to replace the old one - say yes</span></span>
-<span id="cb7-3"><a href="#cb7-3" tabindex="-1"></a><span class="fu">git_sitrep</span>()            <span class="co"># check</span></span></code></pre></div>
-<p>Your work is on your computer and on GitHub throughout. An expired
-token is a five minute annoyance, not a disaster.</p>
+is to repeat Steps 5 and 6. You’ll be doing this in a new R session,
+weeks or months later, so load the two packages again first:</p>
+<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" tabindex="-1"></a><span class="fu">library</span>(usethis)</span>
+<span id="cb7-2"><a href="#cb7-2" tabindex="-1"></a><span class="fu">library</span>(gitcreds)</span>
+<span id="cb7-3"><a href="#cb7-3" tabindex="-1"></a></span>
+<span id="cb7-4"><a href="#cb7-4" tabindex="-1"></a><span class="fu">create_github_token</span>()   <span class="co"># generate a fresh one</span></span>
+<span id="cb7-5"><a href="#cb7-5" tabindex="-1"></a><span class="fu">gitcreds_set</span>()          <span class="co"># it will offer to replace the old one - say yes</span></span>
+<span id="cb7-6"><a href="#cb7-6" tabindex="-1"></a><span class="fu">git_sitrep</span>()            <span class="co"># check</span></span></code></pre></div>
+<p>Your work is on your computer and on GitHub throughout, so an expired
+token is a five minute annoyance rather than a disaster.</p>
 <p> </p>
 </div>
 <div id="where-to-go-if-you-are-stuck" class="section level2">
@@ -742,7 +774,7 @@ token is a five minute annoyance, not a disaster.</p>
 <p>The standard reference for R users is <a
 href="https://happygitwithr.com">Happy Git and GitHub for the useR</a>,
 which covers everything on this page in far more detail, including what
-to do when the usual routes fail.</p>
+to do when the usual routes don’t work.</p>
 </div>
 
 

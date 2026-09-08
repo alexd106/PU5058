@@ -326,7 +326,7 @@ You can use `git revert` on any commit in your history, not just the most recent
 
 Git can do a great deal more than this. **Branches** let you work on something risky without disturbing the version that works. **Forks** and **pull requests** are how people contribute to each other's projects. **Merge conflicts**, the ones described in Q9, have a set of tools of their own once they get beyond the straightforward. None of that is needed for this course, and all of it is easier to learn once the everyday loop in this exercise is second nature.
 
-When you want to go further, the standard reference for R users is [Happy Git and GitHub for the useR](https://happygitwithr.com), which is free online. Section [9.6.4](https://intro2r.com/use_git.html) of the Introduction to R book gives an overview of how collaboration works.
+When you want to go further, the standard reference for R users is [Happy Git and GitHub for the useR](https://happygitwithr.com), which is free online. [Section 9.6.4](https://intro2r.com/use_git.html) of the Introduction to R book gives an overview of how collaboration works.
 
 One last thing. The website you're reading this on is built from a public GitHub repository, using exactly the tools in this exercise. The **Source code** link in the menu at the top of this page will take you to it.
 

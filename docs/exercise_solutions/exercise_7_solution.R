@@ -89,7 +89,6 @@
 ## ```{r chol-plot, fig.cap = 'HDL cholesterol by smoking status.', fig.width = 4}
 ## ggplot(cardiac, aes(x = Fsmoking, y = hdlchol)) +
 ##   geom_boxplot() +
-##   scale_x_discrete(na.translate = FALSE) +
 ##   labs(x = "Smoking status", y = "HDL cholesterol (mmol/l)") +
 ##   theme_minimal()
 ## ```

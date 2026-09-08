@@ -46,7 +46,7 @@ Read [Chapter 5](https://intro2r.com/graphics_r.html) to help you complete the q
 
 \  
 
-Everything you plotted in Exercise 5 was for graphical data exploration (GDE). Exploratory plots are quick, sometimes a bit ugly, and their only job is to show you what your data looks like. It doesn't matter that the axis label says `cardiac$tchol` because you're the only person who'll ever see it. This exercise is about the other kind of plot, the one that goes on a poster or in a report, where the reader isn't you, has about fifteen seconds, and won't ask you what the axis means. 
+Everything you plotted in Exercise 5 was for graphical data exploration (GDE). Exploratory plots are quick, sometimes a bit ugly, and their only job is to show you what your data looks like. It doesn't matter that the axis label says `cardiac$tchol` because you're the only person who'll ever see it. This exercise is about the other kind of plot, the one that goes on a poster or in a report, where the reader isn't you, has about fifteen seconds, and won't ask you what the axis means.
 
 We'll also change graphics package for this exercise. Base R, which you used in Exercise 5, is great for GDE. For a figure somebody else has to read, `ggplot2` is (arguably) the better tool. It builds a plot up in layers, it works out the legend for you, and it lets you say what you want rather than how to draw it, which leaves you free to think about the decisions this exercise is really about. Having said that, this doesn't mean the `ggplot2` package is inherently better than base R, it's just a different tool for the job.
 
@@ -54,7 +54,7 @@ We will also take this as an opportunity to switch datasets (just in case you ar
 
 \  
 
-1\. As in previous exercises, either create a new R script or continue with your previous R script in your RStudio Project. Again, make sure you include any metadata you feel is appropriate (title, description of task, date of creation etc) and  don't forget to comment out your metadata with a `#` at the beginning of the line. 
+1\. As in previous exercises, either create a new R script or continue with your previous R script in your RStudio Project. Again, make sure you include any metadata you feel is appropriate (title, description of task, date of creation etc) and  don't forget to comment out your metadata with a `#` at the beginning of the line.
 
 \  
 
@@ -72,7 +72,7 @@ scotpho <- read.table('data/scotpho_alcohol_admissions.txt', header = TRUE, sep 
 
 \  
 
-4\. Before plotting anything, get your bearings, exactly as you did in Exercise 3. Use `str()` and `summary()` on `scotpho`. How many rows are there? Use `table()` on `area_type` to see how the rows split between council areas and Scotland. Then check something that might matter before you draw a line through points: does every area have a value for every year? (hint: `table()` on `area_name` will tell you how many rows each area has). 
+4\. Before plotting anything, get your bearings, exactly as you did in Exercise 3. Use `str()` and `summary()` on `scotpho`. How many rows are there? Use `table()` on `area_type` to see how the rows split between council areas and Scotland. Then check something that might matter before you draw a line through points: does every area have a value for every year? (hint: `table()` on `area_name` will tell you how many rows each area has).
 
 ```{r Q4, echo=SOLUTIONS, eval=SOLUTIONS, results='hide'}
 str(scotpho)
@@ -99,7 +99,7 @@ range(scotpho$year)      # 2010 2019
 
 5\. Right, let's plot something. Start with the simplest possible communication plot: how have alcohol-related admissions across Scotland as a whole changed over the ten years? Extract just the rows where `area_name` is "Scotland", using the square bracket notation from Exercise 3, and put them in a dataframe called `scot`.
 
-Now for your first ggplot. Every ggplot is built out of the same three pieces (Section [5.2.1](https://intro2r.com/the-start-of-the-end.html#the-purest-of-ggplots) of the book walks through them slowly):
+Now for your first ggplot. Every ggplot is built out of the same three pieces ([Section 5.2.1](https://intro2r.com/the-start-of-the-end.html#the-purest-of-ggplots) of the book walks through them slowly):
 
 - the **data**, the dataframe you're plotting
 - the **aesthetics**, written inside `aes()`, which say which column of that dataframe goes on which part of the plot. Here it's `year` along the x axis and `measure` up the y axis
@@ -168,9 +168,9 @@ ggplot(data = three_areas, aes(x = year, y = measure, colour = area_name)) +
 
 \  
 
-7\. Now, let's think about those colours. ggplot's defaults are not too bad, but they're not chosen with anybody's eyesight in mind. Roughly 1 in 12 men has some form of colour vision deficiency, most commonly difficulty telling red from green, and red and blue aren't a safe pairing either. 
+7\. Now, let's think about those colours. ggplot's defaults are not too bad, but they're not chosen with anybody's eyesight in mind. Roughly 1 in 12 men has some form of colour vision deficiency, most commonly difficulty telling red from green, and red and blue aren't a safe pairing either.
 
-a) Let's redraw the plot with a colour-blind friendly palette. Base R has one built in, and `palette.colors(3, palette = "Okabe-Ito")` will give you three colours from it. Assign these to `cols`, then hand them over to ggplot by adding a `scale_colour_manual(values = cols)` layer onto the end of your plot. A scale layer is how you overrule any of the decisions ggplot has made for you (see Section [5.2.4](https://intro2r.com/the-start-of-the-end.html#make-it-your-own) for more).
+a) Let's redraw the plot with a colour-blind friendly palette. Base R has one built in, and `palette.colors(3, palette = "Okabe-Ito")` will give you three colours from it. Assign these to `cols`, then hand them over to ggplot by adding a `scale_colour_manual(values = cols)` layer onto the end of your plot. A scale layer is how you overrule any of the decisions ggplot has made for you (see [Section 5.2.4](https://intro2r.com/the-start-of-the-end.html#make-it-your-own) for more).
 
 ```{r Q7a, echo=SOLUTIONS, eval=SOLUTIONS, results='hide', fig.width=8, fig.height=4.5}
 cols <- palette.colors(3, palette = "Okabe-Ito")
@@ -184,7 +184,7 @@ ggplot(data = three_areas, aes(x = year, y = measure, colour = area_name)) +
 
 \  
 
-b) Now let's test it. Draw the plot again, this time swapping those colours for their greyscale equivalents, `grey(c(0, 0.64, 0.62))`, and see whether you can still tell the three lines apart. If you can't, what could you change other than the colour?
+b) Now let's test it. Posters get photocopied and printed in black and white, so it's worth knowing whether your figure still works with no colour at all. Draw the plot again, this time swapping those colours for their greyscale equivalents, `grey(c(0, 0.64, 0.62))`, and see whether you can still tell the three lines apart. If you can't, what could you change other than the colour?
 
 ```{r Q7b, echo=SOLUTIONS, eval=SOLUTIONS, fig.width=8, fig.height=4.5}
 greys <- grey(c(0, 0.64, 0.62))
@@ -217,15 +217,15 @@ ggplot(data = three_areas,
 
 8\. Next, let's sort out the text. Every plot needs axis labels a non-specialist can read with units on them, a title that says what the reader is looking at, and a note saying where the data came from. Write the labels for someone who has never heard the phrase 'age-sex standardised'. Your reader is a public health colleague or a member of the public, not a data scientist. We'll revisit this again in Q9.
 
-In ggplot all of the words live in a single `labs()` layer, which takes `x`, `y`, `title` and `caption` arguments(see Section [5.2.6](https://intro2r.com/the-start-of-the-end.html#prettification)). The caption is where the source note goes. While you're there, adding `colour = NULL` and `linetype = NULL` to the same `labs()` will get rid of the 'area_name' heading above the legend, which is another column name your reader doesn't need to see.
+In ggplot all of the words live in a single `labs()` layer, which takes `x`, `y`, `title` and `caption` arguments (see [Section 5.2.6](https://intro2r.com/the-start-of-the-end.html#prettification)). The caption is where the source note goes. While you're there, adding `colour = NULL` and `linetype = NULL` to the same `labs()` will get rid of the 'area_name' heading above the legend, which is another column name your reader doesn't need to see.
 
 There are three more things to sort out, and each one is another layer.
 
 a) The x axis is still labelled with half years, which is a bit odd. Add `scale_x_continuous(breaks = seq(2010, 2019, by = 2))` to put the breaks on whole years instead.
 
-b) Now have a think about the y axis. Should it start at zero? There's no single right answer here, but you should be able to justify whichever you go for. If you decide it should, `scale_y_continuous(limits = c(0, 1600))` will do it (see Section [5.3.2](https://intro2r.com/tips.html#axis-limits-and-zooms)).
+b) Now have a think about the y axis. Should it start at zero? There's no single right answer here, but you should be able to justify whichever you go for. If you decide it should, `scale_y_continuous(limits = c(0, 1600))` will do it (see [Section 5.3.2](https://intro2r.com/tips.html#axis-limits-and-zooms)).
 
-c) Finally, the overall look of the plot. ggplot's grey panel is fine on screen but can come out a bit muddy in print. A **theme** controls everything about the plot that isn't your data, and there are several ready-made ones to choose from (see Section [5.2.5](https://intro2r.com/the-start-of-the-end.html#setting-the-theme)). Add `theme_minimal()` and see what you think. If you'd rather the legend sat underneath the plot than beside it, `theme(legend.position = "bottom")` will move it. Just add it after `theme_minimal()`, otherwise it gets overwritten.
+c) Finally, the overall look of the plot. ggplot's grey panel is fine on screen but can come out a bit muddy in print. A **theme** controls everything about the plot that isn't your data, and there are several ready-made ones to choose from (see [Section 5.2.5](https://intro2r.com/the-start-of-the-end.html#setting-the-theme)). Add `theme_minimal()` and see what you think. If you'd rather the legend sat underneath the plot than beside it, `theme(legend.position = "bottom")` will move it. Just add it after `theme_minimal()`, otherwise it gets overwritten.
 
 ```{r Q8, echo=SOLUTIONS, eval=SOLUTIONS, fig.width=9, fig.height=5}
 ggplot(data = three_areas,
@@ -262,7 +262,7 @@ ggplot(data = three_areas,
 
 This is a bit easier if you give the plot a name first. Assign the whole thing from Q8 to an object called `admissions_plot`, exactly as you would assign anything else in R. Don't worry when nothing appears, that's normal. You've stored the plot rather than drawn it, so type `admissions_plot` in the console to see it.
 
-Now save it with `ggsave()`, which is ggplot's version of the three step business you met in Exercise 5, Q12. There's no device to close this time, because `ggsave()` opens and closes it for you, and it works out which format you want from the file extension you give it (see the end of Section [5.2.6](https://intro2r.com/the-start-of-the-end.html#prettification)).
+Now save it with `ggsave()`, which is ggplot's version of the three step business you met in Exercise 5, Q12. There's no device to close this time, because `ggsave()` opens and closes it for you, and it works out which format you want from the file extension you give it (see the end of [Section 5.2.6](https://intro2r.com/the-start-of-the-end.html#prettification)).
 
 Save your plot twice into the `output` directory you created in Exercise 1, once as `ex6_admissions.pdf` and once as `ex6_admissions.png`. Use `width = 10` and `height = 5.625`, which gives you a 16:9 shape and is what most poster and slide templates expect, and for the png also set `dpi = 300`, which is the usual minimum for print. Open both files and have a look at them at full size before you believe them.
 

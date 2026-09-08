@@ -63,14 +63,16 @@ certainly 51.46 with the decimal point in the wrong place. All four values were 
 measurements, which are perfectly good, and correcting the body mass index would mean
 putting a number into the data that nobody measured.
 
-```{r alcohol-transform, fig.cap = 'Weekly alcohol consumption before and after square root transformation.', fig.show = 'hold', out.width = '50%'}
+```{r alcohol-transform, fig.cap = 'Weekly alcohol consumption.'}
 cardiac$alcohol_sqrt <- sqrt(cardiac$alcohol)
 
 ggplot(cardiac, aes(x = alcohol)) +
   geom_histogram(bins = 15) +
   labs(x = "Alcohol (units per week)", y = "Number of patients") +
   theme_minimal()
+```
 
+```{r alcohol-sqrt, fig.cap = 'Weekly alcohol consumption after a square root transformation.'}
 ggplot(cardiac, aes(x = alcohol_sqrt)) +
   geom_histogram(bins = 15) +
   labs(x = "Square root of alcohol units", y = "Number of patients") +
@@ -109,7 +111,12 @@ kable(smoke_summary, digits = 1,
 include_graphics("output/ex6_admissions.png")
 ```
 
-Alcohol-related hospital admissions vary enormously between council areas. Glasgow City
+Alcohol-related hospital admissions vary between council areas. Glasgow City
 has consistently the highest rate in Scotland over this period and Aberdeenshire one of
-the lowest, with the national average falling somewhere between the two. The figure was
-produced from the ScotPHO data in Exercise 6 and exported as a png at 300 dpi.
+the lowest, with the national average falling between the two.
+
+## Session information
+
+```{r session-info}
+sessionInfo()
+```

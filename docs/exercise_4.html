@@ -514,7 +514,8 @@ you complete the questions in this exercise.</p>
 same <code>cardiac</code> dataframe. If you are starting a fresh R
 session, either continue with the R script you wrote for Exercise 3 or
 run the two lines below before you go any further. They are the import
-from Exercise 3, Q5 and the two factors from Exercise 3, Q7.</p>
+from <strong>Exercise 3, Q5</strong> and the two factors from
+<strong>Exercise 3, Q7</strong>.</p>
 <div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" tabindex="-1"></a>cardiac <span class="ot">&lt;-</span> <span class="fu">read.table</span>(<span class="st">&#39;data/cardiacdata.txt&#39;</span>, <span class="at">header =</span> <span class="cn">TRUE</span>, <span class="at">sep =</span> <span class="st">&quot;</span><span class="sc">\t</span><span class="st">&quot;</span>, <span class="at">stringsAsFactors =</span> <span class="cn">TRUE</span>)</span>
 <span id="cb1-2"><a href="#cb1-2" tabindex="-1"></a></span>
 <span id="cb1-3"><a href="#cb1-3" tabindex="-1"></a>cardiac<span class="sc">$</span>Fsex <span class="ot">&lt;-</span> <span class="fu">factor</span>(cardiac<span class="sc">$</span>sex, <span class="at">levels =</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">2</span>),</span>
@@ -580,17 +581,19 @@ diastolic pressure and total cholesterol for each smoking category.</p>
 <p>The grouping variable goes inside the <code>by</code> argument
 wrapped in <code>list()</code>, because a list is how
 <code>aggregate()</code> accepts more than one of them at once. Use
-<code>Fsmoking</code>, the factor you created in Exercise 3 Q7, rather
-than the original <code>smoking</code> column, so that your output comes
-back labelled Current, Ex and Never instead of 1, 2 and 3.</p>
+<code>Fsmoking</code>, the factor you created in <strong>Exercise 3,
+Q7</strong>, rather than the original <code>smoking</code> column, so
+that your output comes back labelled Current, Ex and Never instead of 1,
+2 and 3.</p>
 <p>Run it exactly as it comes, with no special handling of anything, and
 then look hard at the <code>tchol</code> column. Something has gone
 wrong. What, and why?</p>
 <p> </p>
 <p>4. Now fix it. <code>aggregate()</code> hands any extra arguments
 straight on to the function you asked it to use, so the
-<code>na.rm</code> argument you met in Exercise 3 Q11 works here too.
-Add it and check that all three cholesterol means appear.</p>
+<code>na.rm</code> argument you met in <strong>Exercise 3, Q11</strong>
+works here too. Add it and check that all three cholesterol means
+appear.</p>
 <p>Then calculate the same means for each combination of smoking
 category and sex. Two grouping variables go inside the same
 <code>list()</code>, and again use the factor versions,

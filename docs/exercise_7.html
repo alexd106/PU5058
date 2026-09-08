@@ -511,43 +511,43 @@ class="section level2">
 help you complete the questions in this exercise.</p>
 <p> </p>
 <p><strong>Before the session.</strong> This exercise needs the
-<code>rmarkdown</code> and <code>knitr</code> packages, a LaTeX
-installation so that you can make PDF documents, and
-<code>ggplot2</code>, which you installed for Exercise 6. Work through
-<strong><a href="rmarkdown_setup.html" target="_blank">Setting up R
-markdown</a></strong>, under the Setup menu above, before you come to
-the session. It takes about fifteen minutes and most of that is a
+<code>rmarkdown</code>, <code>knitr</code> R packages, a LaTeX
+installation so that you can make PDF documents, and the
+<code>ggplot2</code> package, which you installed for Exercise 6. Work
+through <strong><a href="rmarkdown_setup.html" target="_blank">Setting
+up R markdown</a></strong>, under the Setup menu above, before you come
+to the session. It takes about fifteen minutes and most of that is a
 download running by itself, but please don’t leave it until the morning
 of the session. If you hit a real problem we’ll help you at the start of
 the session, but we can’t get everybody set up and still have time to
-teach anything.</p>
+cover everything in this exercise.</p>
 <p> </p>
-<p>Up to now everything you’ve written has been code, for your own use.
-This exercise is about producing a <em>document</em> for somebody else
-to read, in which your writing, your code and your results all live in
-the same R markdown file. Because they’re in the same file they can’t
-drift apart, which is what we mean by a reproducible report. Change the
-data, press one button, and every number, figure and table in the output
-file updates itself.</p>
-<p>It’s also the exercise where the rest of the course comes together,
-and you won’t be learning much new R here. Instead you’ll be taking the
-things you already know how to do, importing data, checking it for
-values that can’t be right, transforming a variable, drawing a plot and
-summarising into a table, and setting them out in the order a reader
-needs them, what the data are, what you did to them and why, and what
-you found.</p>
-<p>That order is the point. A report is not a pile of results, it’s an
-account of a piece of work.</p>
+<p>Up until now everything you’ve written has been R code. This exercise
+is about producing a <em>document</em> for somebody else to read
+(including you, or the future you), in which your writing, your code and
+your results and interpretation all live in the same R markdown file.
+Because they’re in the same file they can’t drift apart, which is what
+we mean by a reproducible report. Change the data, press one button, and
+every number, figure and table in the output file updates itself.</p>
+<p>It’s also the exercise that brings a lot of what you have learned so
+far on this course together. So, you’ll be importing data, checking your
+data, transforming variables, drawing plots and summarising data into
+tables. You’ll set these processes out in an order that best makes sense
+to your reader and describes what your data is, what you did to your
+data and why, and what you found.</p>
+<p>That order is the point. A report is not just a pile of results, it’s
+a reproducible account of your work.</p>
 <p>The figures in this exercise use <code>ggplot2</code>, the way
-Exercise 6 did. If you’d rather draw them with base R then please do,
-and nothing else here changes. That’s one of the nice things about R.
-Nobody makes you work in one particular way, so use whichever you’re
-quickest and most confident with.</p>
+Exercise 6 did. If you’d rather draw them with base R then please do.
+That’s one of the nice things about R. Nobody makes you work in one
+particular way, so use whichever you’re quickest and most confident
+with. If you want to follow this exercise (and solutions exactly) then I
+recommend that you use <code>ggplot2</code>.</p>
 <p>You’ll build <strong>one document</strong> across the whole exercise,
 adding something to it at each question, so don’t start a new file each
 time. There’s a lot of new vocabulary here, so take it slowly and knit
 often. Knitting after every small change is the quickest way to see what
-each thing does, and the quickest way to find out which change broke
+each thing does and the quickest way to find out which change broke
 something.</p>
 <p> </p>
 <p>1. Right, let’s make a start. Open the RStudio Project you have been
@@ -556,8 +556,10 @@ using for this course. Create a new R markdown document by going to
 <code>R Markdown...</code> (see <a
 href="https://intro2r.com/new_rm.html">Section 8.4</a> of the
 Introduction to R book if you would like to read about this first).</p>
-<p>The first time you do this, RStudio may tell you it needs to install
-some packages. Let it, and wait for it to finish.</p>
+<p>The first time you do this, RStudio might tell you it needs to
+install some packages (although if you have followed the setup
+instructions this probably won’t happen). Let it, and wait for it to
+finish.</p>
 <p>In the dialogue box that appears, type
 <code>Cardiac study report</code> in the Title box, put your name in the
 Author box, choose <strong>PDF</strong> as the default output format,
@@ -573,9 +575,8 @@ on a Mac.</p>
 setup is working, and you can be confident that anything which goes
 wrong later is something you can fix.</p>
 <p> </p>
-<p>2. Let’s look at the PDF that appeared alongside the R markdown file
-that produced it. An R markdown file has only three kinds of content,
-and everything else is a variation on them (<a
+<p>2. An R markdown file has only three kinds of content, and everything
+else is a variation on them (<a
 href="https://intro2r.com/r-markdown-anatomy.html">Section 8.5</a> of
 the book takes each of them in turn):</p>
 <ul>
@@ -595,15 +596,22 @@ when we start changing them. Then delete everything in
 called <code>setup</code>, leaving the YAML header and that chunk in
 place. Knit again to check you have an empty but working document. This
 is your starting point.</p>
+<p>While you’re in that <code>setup</code> chunk, add
+<code>library(knitr)</code> and <code>library(ggplot2)</code> to it.
+You’ll want a couple of functions from <code>knitr</code> later on and
+<code>ggplot2</code> for the figures, and the best place for a
+<code>library()</code> call is at the top of a document rather than
+buried in the middle of it. Do it now and you won’t have to think about
+it again.</p>
 <p> </p>
 <p>3. Now let’s take control of the YAML header (see <a
 href="https://intro2r.com/r-markdown-anatomy.html#yaml-header">Section
 8.5.1</a> of the book). Find the <code>output:</code> line, which
 currently says <code>pdf_document</code> on the same line as it, and
 turn it into the indented block shown below.</p>
-<p>Two warnings, because this is where people lose ten minutes.
-Indentation in YAML matters, so copy the spacing exactly. And use
-spaces, never tabs.</p>
+<p>Two warnings (because this is where people lose ten minutes),
+indentation in YAML matters, so copy the spacing exactly and use spaces,
+never tabs.</p>
 <p>Build it up rather than pasting it in one go. Put
 <code>pdf_document:</code> on its own line first, with
 <code>toc: true</code> indented underneath, and knit. Then add
@@ -621,33 +629,34 @@ class="sourceCode yaml"><code class="sourceCode yaml"><span id="cb2-1"><a href="
 <span id="cb2-8"><a href="#cb2-8" tabindex="-1"></a><span class="at">    </span><span class="fu">number_sections</span><span class="kw">:</span><span class="at"> </span><span class="ch">true</span></span>
 <span id="cb2-9"><a href="#cb2-9" tabindex="-1"></a><span class="pp">---</span></span></code></pre></div>
 <p> </p>
-<p>4. Every report starts by telling the reader what the data are, so
+<p>4. Most reports start by telling the reader what the data are, so
 that’s where we’ll start too. You already have a description of these
-data: it’s the one you read in <strong>Exercise 3, Q4</strong>. Copy the
-first few sentences of it into your document underneath the setup chunk,
-then use markdown to format it. There is no code in this question at
-all.</p>
+data in <strong>Exercise 3, Q4</strong>. Copy the first 3 sentences of
+the data description into your document underneath the setup chunk, then
+use markdown to format it. There is no R code in this question.</p>
 <ul>
 <li>put a heading above it, written as <code># Introduction</code>, and
 a second smaller heading below that, written as
 <code>## Data description</code></li>
-<li>put <strong>cohort study</strong> in bold, by writing it as
-<code>**cohort study**</code></li>
+<li>in the text, change <strong>cohort study</strong> in bold, by
+writing it as <code>**cohort study**</code></li>
 <li>put <em>measurements</em> in italics the first time it appears, by
 writing it as <code>*measurements*</code></li>
-<li>pick four of the variables the description mentions and set them out
-as a bulleted list at the end, each line starting with a dash and a
-space</li>
+<li>set four of the variables out as a bulleted list at the end, each
+line starting with a dash and a space. Use age, systolic blood pressure,
+HDL cholesterol and smoking status, since those are the four the rest of
+the report uses</li>
 </ul>
-<p>That’s enough to be going on with. If you want to add a link, a
+<p>OK, that’s enough to be going on with. If you want to add a link, a
 numbered list, a quotation or a table, <a
 href="https://intro2r.com/r-markdown-anatomy.html#formatted-text">Section
 8.5.2</a> of the book has the syntax for all of them, and there’s a
 summary on the R markdown cheat sheet under <code>Help</code> -&gt;
 <code>Cheat Sheets</code>.</p>
-<p>Knit, and put the R markdown file and the PDF side by side. Notice
-that the headings you wrote have appeared in the table of contents on
-their own, because of the <code>toc: true</code> you added in Q3.</p>
+<p>Knit, and look at the R markdown file and the PDF side by side.
+Notice that the headings you wrote have appeared in the table of
+contents on their own, because of the <code>toc: true</code> you added
+in Q3.</p>
 <p> </p>
 <p>5. Next, let’s deal with the data. There are a few small steps here,
 so take them one at a time.</p>
@@ -664,147 +673,141 @@ Anything you put between them is a chunk.</p></li>
 <code>r</code>, so the first line reads <code>```{r import}</code>.
 Naming chunks costs nothing and makes them far easier to find when
 something goes wrong.</p></li>
-<li><p>Inside the chunk, import <code>cardiacdata.txt</code> exactly as
-you did in <strong>Exercise 3, Q5</strong>, with the
+<li><p>Inside the chunk, import the <code>cardiacdata.txt</code> file
+exactly as you did in <strong>Exercise 3, Q5</strong>, with the
 <code>read.table()</code> function, writing out the <code>header</code>,
 <code>sep</code> and <code>stringsAsFactors</code> arguments, and
 assigning the result to <code>cardiac</code>.</p></li>
 <li><p>In the same chunk, add the two <code>factor()</code> lines from
 <strong>Exercise 3, Q7</strong> that create <code>Fsex</code> and
-<code>Fsmoking</code>. You’ll remember why. <code>sex</code> and
-<code>smoking</code> arrive from the file as the numbers they were coded
-as, 1 and 2 for sex and 1, 2 and 3 for smoking, but they’re really
-categories rather than quantities. <code>factor()</code> attaches a
-meaningful label to each code and leaves the original columns untouched
-(see <code>?factor</code> and <a
-href="https://intro2r.com/data-types.html#data-types">Section 3.1</a> of
-the book for where factors sit among R’s data types).</p></li>
+<code>Fsmoking</code>. Hopefully you’ll remember why, but just in case
+you’ve forgotten, the original <code>sex</code> and <code>smoking</code>
+variables are coded in the file as numbers, 1 and 2 for sex and 1, 2 and
+3 for smoking, but they’re really categories not numbers. The
+<code>factor()</code> function attaches a meaningful label to each code
+and leaves the original columns untouched (see <code>?factor</code> and
+<a href="https://intro2r.com/data-types.html#data-types">Section 3.1</a>
+of the book for where factors sit among R’s data types).</p></li>
 </ol>
 <p>You’ll need <code>Fsmoking</code> for the boxplot in Q7 and the table
-in Q8, and both of them read a great deal better with words in them than
-with numbers.</p>
+in Q8, and both of them read better with words in them rather than
+numbers.</p>
 <ol start="5" style="list-style-type: lower-alpha">
-<li><p>One more thing while you’re in there. Later on you’ll want a
-couple of functions from the <code>knitr</code> package and
-<code>ggplot2</code> for the figures, and the tidy place for a
-<code>library()</code> call is at the top of a document rather than
-buried in the middle of it. Add <code>library(knitr)</code> and
-<code>library(ggplot2)</code> to your <code>setup</code> chunk now, the
-one you kept back in Q2, and you won’t have to think about them
-again.</p></li>
-<li><p>Now run the import chunk in the editor with the small green arrow
-at its top right corner, the rightmost of the three little buttons
-there. If you can’t see it, <code>Code</code> -&gt;
-<code>Run Region</code> -&gt; <code>Run Current Chunk</code> does the
-same job, and so does Ctrl+Alt+C, or Cmd+Alt+C on a Mac.</p></li>
+<li>Now run the import chunk in the editor with the small green arrow at
+its top right corner of your R markdown document in RStudio. It’s the
+rightmost of the three little buttons there. If you can’t see it,
+<code>Code</code> -&gt; <code>Run Region</code> -&gt;
+<code>Run Current Chunk</code> does the same job, and so does
+Ctrl+Alt+C, or Cmd+Alt+C on a Mac.</li>
 </ol>
-<p>Then knit the whole document. Notice that knitting starts a
-completely fresh R session, so anything you made earlier in the console
-doesn’t exist when the document knits. That’s exactly what makes it
-reproducible, and it also means the chunk that imports the data has to
-come before any chunk that uses it.</p>
+<p>Running the chunk puts <code>cardiac</code> into your Environment, so
+you can check the import has worked before you go any further and so the
+dataframe is there if you want to try something out in the console. It’s
+worth getting into the habit of running a chunk before you rely on
+it.</p>
+<p>Then knit the whole document by clicking on the knit button. Notice
+that knitting starts a completely fresh R session, so anything you made
+earlier in the console doesn’t exist when the document knits. That’s
+exactly what makes it reproducible, and it also means the chunk that
+imports the data has to come before any chunk that uses it.</p>
 <p> </p>
-<p>6. OK, now we have the data imported, so the next thing a reader
-needs to know is whether you can trust it, and what you did about the
-bits you couldn’t. This question asks you not just to do something to
-the data but to explain why, which is most of what report writing
-is.</p>
+<p>6. OK, now we have the data imported, the next thing to do is
+validate the data by checking for mistakes or inconsistencies. So, in
+this question we’ll not only perform the validation with R code but also
+explain what the validation shows and any decisions that we make along
+the way.</p>
 <p>Add a new heading called <code>## Data validation</code> below the
 previous chunk, then build the section up underneath it in four
 pieces.</p>
 <ol style="list-style-type: lower-alpha">
 <li><p>One sentence directly under the heading saying how many patients
-are in the dataset, with the number written in as an ordinary number.
-You’ll come back to that sentence in Q9.</p></li>
-<li><p>Below it, a chunk named <code>validation</code> holding the three
-lines from <strong>Exercise 4, Q1</strong> that set the impossible
-<code>bmi</code>, <code>triglyceride</code> and <code>hdlchol</code>
-values to <code>NA</code>. Remember that your report imports the raw
-file from scratch every time it knits, so if the cleaning isn’t in the
-document then it hasn’t happened.</p></li>
-<li><p>Beneath that chunk, a short paragraph of two or three sentences
-saying which variables you changed, how many values in each, and why you
-set them to <code>NA</code> rather than deleting those patients or
-correcting the numbers yourself. Write the counts in as ordinary numbers
-too, so something like ‘two patients had an HDL cholesterol of 0
-mmol/l’.</p></li>
-<li><p>Last of all, the variable <code>alcohol</code>, which you’ll
-remember from <strong>Exercise 5, Q9</strong> needed some work as well.
-A small number of patients drink a great deal more than the rest, which
-leaves the distribution with a long tail to the right, and you took the
-square root to pull that tail in. That’s a data preparation step exactly
-like the cleaning above, so it belongs in this section too.</p></li>
+are in the dataset. There are 163, and for now just type that straight
+in as an ordinary number. You’ll come back to that sentence in
+Q9.</p></li>
+<li><p>Below it, insert a code chunk named <code>validation</code>
+holding the three lines from <strong>Exercise 4, Q1</strong> that set
+the impossible <code>bmi</code>, <code>triglyceride</code> and
+<code>hdlchol</code> values to <code>NA</code>. Remember that your
+report imports the raw file from scratch every time it knits, so if the
+cleaning isn’t in the document then it won’t happen.</p></li>
+<li><p>Beneath that chunk, write a short paragraph of two or three
+sentences saying which variables you changed and why you set them to
+<code>NA</code> rather than deleting those patients or correcting the
+numbers yourself.</p></li>
+<li><p>Lastly, the variable <code>alcohol</code>, which you’ll remember
+from <strong>Exercise 5, Q9</strong> needed some work as well. A small
+number of patients drink a great deal more than the rest, which leaves
+the distribution with a long tail to the right, and you took the square
+root to pull that tail in. That’s a data preparation step exactly like
+the cleaning above, so it belongs in this section too.</p></li>
 </ol>
-<p>Add a chunk named <code>alcohol-transform</code> that creates the
-square root of <code>alcohol</code> and then draws two histograms, one
-of <code>alcohol</code> and one of the square root, so a reader can see
-what the transformation did. Write a sentence or two underneath saying
-why you did it.</p>
-<p>Two plots in one chunk come out one above the other by default. To
-sit them side by side, add <code>fig.show = 'hold'</code> and
-<code>out.width = '50%'</code> to the chunk options, in the curly braces
-after the chunk name. That’s R markdown laying the page out for you
-rather than anything to do with the plotting, so it works whichever
-package you draw with.</p>
+<p>Add another chunk and name it <code>alcohol-transform</code>. In it,
+create the square root of <code>alcohol</code> as you did in
+<strong>Exercise 5, Q9</strong>, then draw a histogram of
+<code>alcohol</code>. Add a second chunk below it, named
+<code>alcohol-sqrt</code>, with a histogram of the square root. That way
+a reader gets the two one under the other and can see what the
+transformation did. Write a sentence or two underneath saying why you
+did it.</p>
 <p> </p>
 <p>7. So, with the data in and tidied up, we can start showing the
 reader what’s in it. Insert another chunk, name it
 <code>chol-plot</code>, and use it to draw a boxplot of HDL cholesterol
-by smoking status. It’s the same comparison you drew in <strong>Exercise
-5, Q11</strong>, built with <code>ggplot2</code> this time, with
+by smoking status. It’s the same plot you drew in <strong>Exercise 5,
+Q11</strong>, built with <code>ggplot2</code> this time, with
 <code>Fsmoking</code> along the x axis, <code>hdlchol</code> up the y
 axis and <code>geom_boxplot()</code> as the geom. You already have
 <code>Fsmoking</code> from your import chunk.</p>
 <p>You’ll get a fourth box, labelled NA, which is the seven patients
 whose smoking status wasn’t recorded. Base R quietly left those out of
 the same plot back in Exercise 5, whereas ggplot puts them in front of
-you. Leave it as it is.</p>
+you. Leave it as it is for transparency.</p>
 <p>Now give the figure a caption. Chunk options go inside the curly
 braces, after the chunk name, separated by commas. The first line of
 your chunk should read:</p>
 <div class="sourceCode" id="cb3"><pre class="sourceCode md"><code class="sourceCode markdown"><span id="cb3-1"><a href="#cb3-1" tabindex="-1"></a><span class="in">```{r chol-plot, fig.cap = &#39;HDL cholesterol by smoking status.&#39;}</span></span>
 <span id="cb3-2"><a href="#cb3-2" tabindex="-1"></a><span class="in">```</span></span></code></pre></div>
-<p>Knit and find your caption underneath the plot. Then add
-<code>fig.width = 4</code> to the same line, knit again, and see what
-happens to the size of the text relative to the plot.</p>
-<p>While you’re at it, go back to your <code>alcohol-transform</code>
-chunk from Q6 and give that figure a caption too, so both of your
-figures have one.</p>
-<p>There are a great many other chunk options for figures, controlling
-height, alignment, resolution and so on. You don’t need them today. <a
+<p>Knit the document and notice that your caption is underneath the
+plot. Then add <code>fig.width = 4</code> to the same code chunck
+options, knit again, and see what happens to the size of the text
+relative to the plot.</p>
+<p>While you’re at it, go back to your two alcohol chunks from Q6 and
+give those figures a caption each, so every figure in the report has
+one.</p>
+<p>There are many other chunk options for figures, controlling height,
+alignment, resolution and so on. You don’t need them today. <a
 href="https://intro2r.com/r-markdown-anatomy.html#adding-figures">Section
 8.5.4</a> of the book covers the ones you’re most likely to need.</p>
 <p> </p>
-<p>8. A figure visualises your data, but a reader will usually want
-tabulated summaries as well, so let’s add a table to go alongside it
-(see <a
+<p>8. A figure visualises your data, but a reader will usually find
+tabulated summaries useful as well, so let’s add a table to go alongside
+it (see <a
 href="https://intro2r.com/r-markdown-anatomy.html#adding-tables">Section
 8.5.5</a> of the book).</p>
 <p>Insert a chunk, name it <code>summary-table</code>, and recreate the
-<code>aggregate()</code> summary from <strong>Exercise 4, Q4</strong>:
+<code>aggregate()</code> summary from <strong>Exercise 4, Q4</strong>,
 the mean of <code>age</code>, <code>systolic</code> and
 <code>tchol</code> for each smoking category. Assign it to an object
-called <code>smoke_summary</code>. Then, on the next line down, write
+called <code>smoke_summary</code>. Then, on the next line, write
 <code>smoke_summary</code> on its own. A chunk prints anything that
 isn’t assigned to something, so that second line is what makes the
-summary appear in your document at all. Knit and see what you get.</p>
+summary appear in your document. Knit and see what you get.</p>
 <p>It’s the console output, monospaced and squeezed into a grey box,
-which is fine while you’re working but not something you would put in
-front of anybody else. The <code>kable()</code> function, from the
-<code>knitr</code> package you loaded in Q5, turns a dataframe into a
+which is fine while you’re working but not something you would want for
+a more general audience. The <code>kable()</code> function, from the
+<code>knitr</code> package you loaded in Q2, turns a dataframe into a
 properly formatted table instead, with the columns lined up and the
 variable names picked out as a header row. Change that second line from
-<code>smoke_summary</code> to <code>kable(smoke_summary)</code>, knit
-again, and compare the two. Finally add <code>digits = 1</code> and a
-<code>caption</code> to the <code>kable()</code> call to tidy it up.</p>
+<code>smoke_summary</code> to <code>kable(smoke_summary)</code>and knit
+again. Finally add <code>digits = 1</code> and a <code>caption</code> to
+the <code>kable()</code> code to tidy it up.</p>
 <p> </p>
 <p>9. Your report is now more or less complete, so the rest of the
 exercise is about tidying it up. Let’s start with the sentence you wrote
 at the top of your data validation section in Q6, the one saying how
-many patients are in the dataset. You wrote 163 into it yourself, and a
-number written into your text that way goes stale. If the data changes,
-or you correct something later, your writing quietly stops matching your
-results and nothing tells you.</p>
+many patients are in the dataset. You wrote 163 and a number written
+into your text that way can go out of date. If the data changes, or you
+correct something later, your writing stops matching your results.</p>
 <p>R markdown fixes this with <strong>inline code</strong> (see <a
 href="https://intro2r.com/r-markdown-anatomy.html#inline-r-code">Section
 8.5.6</a> of the book). In the middle of an ordinary sentence you write
@@ -813,43 +816,40 @@ closing backtick. When you knit, the answer of that code appears in your
 text in place of the whole thing:</p>
 <div class="sourceCode" id="cb4"><pre class="sourceCode md"><code class="sourceCode markdown"><span id="cb4-1"><a href="#cb4-1" tabindex="-1"></a>The dataset contains <span class="in">`r nrow(cardiac)`</span> patients.</span></code></pre></div>
 <p>which comes out as “The dataset contains 163 patients.”</p>
+<p> </p>
 <ol style="list-style-type: lower-alpha">
 <li><p>Go back to that sentence and swap the number 163 for
 <code>`r nrow(cardiac)`</code>. Knit and check it still says the same
 thing.</p></li>
 <li><p>Now add the mean age to the same sentence, worked out the same
-way with <code>mean()</code>. Wrap it in <code>round()</code> so you
-don’t get six decimal places.</p></li>
-<li><p>Now add a second sentence saying how old the youngest and oldest
+way with <code>mean()</code>.</p></li>
+<li><p>Now add a second sentence saying what age the youngest and oldest
 patients were, using <code>min()</code> and <code>max()</code> inside
-inline code. Put <code>round()</code> around each one so you don’t get
-the decimals. Knit and compare what you get with the age range given in
+inline code. Knit and compare what you get with the age range given in
 the description of the data back in <strong>Exercise 3,
 Q4</strong>.</p></li>
 </ol>
-<p>Every one of these numbers is worked out from <code>cardiac</code>
-each time you knit, so none of them can drift out of step with the data
-the way a number you typed in would.</p>
+<p>Every one of these numbers is worked out from the
+<code>cardiac</code> dataframe each time you knit, so none of them can
+drift out of step with the data the way a number you typed in would.</p>
 <p> </p>
 <p>10. Now, let’s think about who’s going to read your report, because
 it decides how much of your working they should see. This one is a
 technical document, written for people who know R, so showing the code
-is exactly right and everything you’ve done so far is fine as it is. But
+is appropriate and everything you’ve done so far is fine as it is. But
 you’ll often write for readers who don’t know R at all, a clinical team,
 a service manager, a patient group, and for them a wall of code is just
 something to scroll past on the way to the results.</p>
-<ol style="list-style-type: lower-alpha">
-<li><p>You control this chunk by chunk with the <code>echo</code>
-option, in the same curly braces as the caption you added in Q7 (<a
+<p>You control this on a chunk by chunk basis with the <code>echo</code>
+chunk option (see <a
 href="https://intro2r.com/r-markdown-anatomy.html#code_chunks">Section
-8.5.3</a> of the book lists the chunk options alongside it). Add
-<code>echo = FALSE</code> to your <code>chol-plot</code> chunk and knit.
-The plot is still there, but the code that drew it is not. Take it off
-again afterwards, since we want the code visible in this
-report.</p></li>
-<li><p>Code isn’t the only thing that can end up in your document
-without you asking for it.</p></li>
-</ol>
+8.5.3</a> of the book, which lists the chunk options alongside it).</p>
+<p>Add <code>echo = FALSE</code> to your <code>chol-plot</code> chunk
+and knit. The plot is still there, but the code that drew it is not.
+Take it off again afterwards, since we want the code visible in this
+report.</p>
+<p>Code isn’t the only thing that can end up in your document without
+you asking for it.</p>
 <p><strong>Messages</strong> are the chatty output R produces while it’s
 doing something in the background, most often when you load a package
 with <code>library()</code>, and they can easily run to half a dozen
@@ -865,7 +865,7 @@ switch them off in the same way as the code, with
 <code>message = FALSE</code> and <code>warning = FALSE</code>, either on
 a single chunk or on all of them at once by putting them inside the
 <code>knitr::opts_chunk$set()</code> call in your <code>setup</code>
-chunk.</p>
+chunk right at the top of your document.</p>
 <p>Be careful with <code>warning = FALSE</code> though. You’re hiding
 warnings from your reader, not from yourself, so keep an eye on the ones
 that turn up while you work, because some of them matter.</p>
@@ -880,20 +880,20 @@ your report under a heading of its own. If you no longer have the file,
 <a href="images/ex6_admissions.png">download it here</a> and save it
 into your <code>output</code> directory, the one you created in
 <strong>Exercise 1, Q12</strong>.</p>
-<p>There are two ways of doing it and it’s worth trying both.</p>
+<p>There are two ways of doing this, so let’s try both.</p>
 <ol style="list-style-type: lower-alpha">
-<li>The quick way needs no chunk at all, just a line typed in among your
-text. It looks like this, and you replace the two parts in capitals with
-your own:</li>
+<li>The quick way doesn’t need a code chunk at all, just a line typed in
+among your text. It looks like this, and you replace the two parts in
+capitals with your own:</li>
 </ol>
 <div class="sourceCode" id="cb5"><pre class="sourceCode md"><code class="sourceCode markdown"><span id="cb5-1"><a href="#cb5-1" tabindex="-1"></a><span class="al">![YOUR CAPTION](PATH/TO/YOUR/FILE.png)</span></span></code></pre></div>
 <p>An exclamation mark, then square brackets, then round brackets, with
 no spaces anywhere between them. Knit and check the figure appears.</p>
 <ol start="2" style="list-style-type: lower-alpha">
-<li>The other way puts the file into a chunk instead, using the
+<li>The other way puts the file into a code chunk instead, using the
 <code>include_graphics()</code> function, which is another one from the
-<code>knitr</code> package you loaded in Q5. On its own that looks like
-more work for the same result, but it buys you something. Because the
+<code>knitr</code> package you loaded in Q2. On its own that looks like
+more work for the same result, but it’s more flexible. Because the
 figure is now coming out of a chunk, all the chunk options are available
 to it, so you can caption it with <code>fig.cap</code> exactly as you
 did in Q7 and set how much of the page width it takes up with
@@ -906,34 +906,44 @@ did in Q7 and set how much of the page width it takes up with
 until the figure sits sensibly on the page.</p>
 <ol start="3" style="list-style-type: lower-alpha">
 <li>Now write two or three sentences underneath it. Say what the figure
-shows, where it came from, and what a reader should take away from it. A
-figure dropped into a report with nothing said about it leaves the
-reader to work out for themselves why it is there, which is your job
-rather than theirs.</li>
+shows and what a reader should take away from it. A figure dropped into
+a report with nothing said about it leaves the reader to work out for
+themselves why it is there, which is your job rather than theirs.</li>
 </ol>
-<p>Typing the line straight into your text is quicker, and putting it in
-a chunk gives you control over how the figure is presented, which is
-usually what you want in a report.</p>
-<p>One thing that catches everybody out: the path is relative to where
+<p>One thing that catches everybody out. The path is relative to where
 the <code>.Rmd</code> file is, not to your working directory. If the
 image doesn’t appear, the path is almost always the reason.</p>
 <p> </p>
 <p>12. Last of all, if you have time, here’s one of the nicer things
 about R markdown. The same file will give you a completely different
-kind of document without you rewriting a word of it.</p>
+kind of document without you rewriting anything.</p>
 <p>In your YAML header, change <code>pdf_document</code> to
-<code>html_document</code> and knit. You’ll get a web page instead,
-built from exactly the same text, code and figures. While you’re there,
-add <code>toc_float: true</code> on its own line underneath
-<code>toc: true</code> and knit again to see the contents float
-alongside the page as you scroll. That option only works in HTML, so
-change the header back to <code>pdf_document</code> and delete the
-<code>toc_float</code> line before you finish.</p>
+<code>html_document</code> and knit. You’ll get a html file instead
+which you can open in your browser. This has been built from exactly the
+same text, code and figures. Change the header back to
+<code>pdf_document</code> before you finish.</p>
 <p>You don’t have to edit the YAML to do this. Click the small black
 triangle next to the <strong>Knit</strong> button and you can pick a
 format straight from the menu, which overrides whatever your YAML header
 says for that one knit. It’s quicker for a look, but the YAML is where
 you set what your document actually is.</p>
+<p> </p>
+<p>13. One last thing. Your report records what you did to your data,
+but it doesn’t record what you did it <em>with</em>, and that matters
+more than it sounds. R gets updated, packages get updated, and code that
+gives you one answer today can give you a slightly different one in a
+year or two.</p>
+<p>The <code>sessionInfo()</code> function writes all of that down for
+you. It prints your R version, your operating system, and every package
+that was loaded when the document was knitted, along with its version
+number. Add a heading at the very end of your report,
+<code>## Session information</code>, and a code chunk underneath it that
+calls <code>sessionInfo()</code>.</p>
+<p>Knit and have a look at what comes out. It isn’t pretty and nobody’s
+going to read it the way they read the rest of the report, but if you or
+somebody else ever reruns this and gets a different answer, that list is
+the first place to look. It costs you two lines and it’s what makes your
+report properly reproducible.</p>
 <p> </p>
 <p> </p>
 <div id="two-things-we-havent-covered" class="section level3">

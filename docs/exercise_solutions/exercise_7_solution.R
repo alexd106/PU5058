@@ -1,3 +1,14 @@
+## Your `setup` chunk, with the two packages loaded at the top of the document:
+## 
+## ````{.md .foldable}
+## ```{r setup, include = FALSE}
+## knitr::opts_chunk$set(echo = TRUE)
+## 
+## library(knitr)
+## library(ggplot2)
+## ```
+## ````
+
 ## ````{.md .foldable}
 ## # Introduction
 ## 
@@ -17,18 +28,7 @@
 ## - smoking status
 ## ````
 
-## The setup chunk, with the package loaded at the top of the document:
-## 
-## ````{.md .foldable}
-## ```{r setup, include = FALSE}
-## knitr::opts_chunk$set(echo = TRUE)
-## 
-## library(knitr)
-## library(ggplot2)
-## ```
-## ````
-## 
-## And the import chunk:
+## The import chunk:
 ## 
 ## ````{.md .foldable}
 ## ```{r import}
@@ -61,14 +61,16 @@
 ## measurements, which are perfectly good, and correcting the body mass index would mean
 ## putting a number into the data that nobody measured.
 ## 
-## ```{r alcohol-transform, fig.show = 'hold', out.width = '50%'}
+## ```{r alcohol-transform}
 ## cardiac$alcohol_sqrt <- sqrt(cardiac$alcohol)
 ## 
 ## ggplot(cardiac, aes(x = alcohol)) +
 ##   geom_histogram(bins = 15) +
 ##   labs(x = "Alcohol (units per week)", y = "Number of patients") +
 ##   theme_minimal()
+## ```
 ## 
+## ```{r alcohol-sqrt}
 ## ggplot(cardiac, aes(x = alcohol_sqrt)) +
 ##   geom_histogram(bins = 15) +
 ##   labs(x = "Square root of alcohol units", y = "Number of patients") +
@@ -81,9 +83,8 @@
 ## more evenly.
 ## ````
 ## 
-## Note the two things these paragraphs do that a list of results would not. They say what was
-## done, and they say why, which is the difference between a set of numbers and a piece of
-## work somebody else can rely on.
+## Notice what those paragraphs do. They say what was done and they say why, which is what
+## turns a set of numbers into something somebody else can rely on.
 
 ## ````{.md .foldable}
 ## ```{r chol-plot, fig.cap = 'HDL cholesterol by smoking status.', fig.width = 4}
@@ -94,10 +95,13 @@
 ## ```
 ## ````
 ## 
-## And the first line of the `alcohol-transform` chunk from Q6, with its caption added:
+## And the first lines of the two alcohol chunks from Q6, with their captions added:
 ## 
 ## ````{.md .foldable}
-## ```{r alcohol-transform, fig.cap = 'Weekly alcohol consumption before and after square root transformation.'}
+## ```{r alcohol-transform, fig.cap = 'Weekly alcohol consumption.'}
+## ```
+## 
+## ```{r alcohol-sqrt, fig.cap = 'Weekly alcohol consumption after a square root transformation.'}
 ## ```
 ## ````
 
@@ -137,6 +141,12 @@
 ## > The dataset contains 163 patients, with a mean age of 65 years. The youngest patient
 ## > was 55 and the oldest was 75.
 ## 
+## Notice the `round()` wrapped around three of those. Without it, `mean(cardiac$age)` comes
+## out as 64.9779141104294 and `min(cardiac$age)` as 54.95, neither of which you want sitting
+## in the middle of a sentence. `round(mean(cardiac$age), 1)` asks for one decimal place, and
+## `round()` with no second argument rounds to a whole number. It's worth getting into the
+## habit of rounding anything you drop into your text.
+## 
 ## Anything you can calculate in a chunk you can put in a sentence this way, so it's worth
 ## using for any number in your writing that comes out of your data.
 
@@ -160,10 +170,10 @@
 ## completely invisibly.
 ## 
 ## You may also be wondering about the `knitr::` that RStudio put in front of
-## `opts_chunk$set()` when it made the document. That is just another way of reaching a
+## `opts_chunk$set()` when it made the document. That's just another way of reaching a
 ## single function without loading the whole package first, and you can read it as 'the
 ## `opts_chunk` from `knitr`'. Now that you have `library(knitr)` in the same chunk you could
-## drop it, but there is no need to.
+## drop it, but there's no need to.
 
 ## Typed straight into your text:
 ## 
@@ -184,16 +194,23 @@
 ## With a few sentences to go under it:
 ## 
 ## ````{.md .foldable}
-## Alcohol-related hospital admissions vary enormously between council areas. Glasgow City
+## Alcohol-related hospital admissions vary between council areas. Glasgow City
 ## has consistently the highest rate in Scotland over this period and Aberdeenshire one of
-## the lowest, with the national average falling somewhere between the two. The figure was
-## produced from the ScotPHO data in Exercise 6 and exported as a png at 300 dpi.
+## the lowest, with the national average falling between the two.
+## ````
+
+## ````{.md .foldable}
+## ## Session information
+## 
+## ```{r session-info}
+## sessionInfo()
+## ```
 ## ````
 
 ## ### The finished report
 ## 
 ## \
 ## 
-## Here is the whole thing in one piece: **[cardiac_report.Rmd](exercise_solutions/cardiac_report.Rmd)**, the document this exercise builds, with every question's answer already in it. Right click and choose 'save link as' if it opens in your browser rather than downloading.
+## Here's the whole thing in one piece. **[cardiac_report.Rmd](exercise_solutions/cardiac_report.Rmd)** is the document this exercise builds, with every question's answer already in it. Right click and choose 'save link as' if it opens in your browser rather than downloading.
 ## 
 ## It needs `data/cardiacdata.txt` and `output/ex6_admissions.png` alongside it in a Project, exactly as the exercise describes, and then it will knit to PDF as it stands. Use it to check your own against, or keep it as a template to start your next report from.

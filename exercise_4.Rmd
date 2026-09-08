@@ -23,7 +23,7 @@ Read [Chapter 3](https://intro2r.com/data_r.html) to help you complete the quest
 
 \  
 
-This exercise picks up exactly where Exercise 3 left off and uses the same `cardiac` dataframe. If you are starting a fresh R session, either continue with the R script you wrote for Exercise 3 or run the two lines below before you go any further. They are the import from Exercise 3, Q5 and the two factors from Exercise 3, Q7.
+This exercise picks up exactly where Exercise 3 left off and uses the same `cardiac` dataframe. If you are starting a fresh R session, either continue with the R script you wrote for Exercise 3 or run the two lines below before you go any further. They are the import from **Exercise 3, Q5** and the two factors from **Exercise 3, Q7**.
 
 ```{r Q0, echo=TRUE}
 cardiac <- read.table('data/cardiacdata.txt', header = TRUE, sep = "\t", stringsAsFactors = TRUE)
@@ -118,7 +118,7 @@ length(cardiac$tchol)      # number of observations
 
 Perhaps more interestingly, you might want to summarise one variable conditional on the level of another categorical variable, and to do several variables at once. The `aggregate()` function does exactly this (see [Section 3.5](https://intro2r.com/summarising-data-frames.html#summarising-data-frames) of the Introduction to R book, or `?aggregate`). Use `aggregate()` to calculate the mean age, systolic pressure, diastolic pressure and total cholesterol for each smoking category.
 
-The grouping variable goes inside the `by` argument wrapped in `list()`, because a list is how `aggregate()` accepts more than one of them at once. Use `Fsmoking`, the factor you created in Exercise 3 Q7, rather than the original `smoking` column, so that your output comes back labelled Current, Ex and Never instead of 1, 2 and 3.
+The grouping variable goes inside the `by` argument wrapped in `list()`, because a list is how `aggregate()` accepts more than one of them at once. Use `Fsmoking`, the factor you created in **Exercise 3, Q7**, rather than the original `smoking` column, so that your output comes back labelled Current, Ex and Never instead of 1, 2 and 3.
 
 Run it exactly as it comes, with no special handling of anything, and then look hard at the `tchol` column. Something has gone wrong. What, and why?
 
@@ -142,7 +142,7 @@ aggregate(cardiac[, c(2, 4, 5, 6)],
 
 \  
 
-4\. Now fix it. `aggregate()` hands any extra arguments straight on to the function you asked it to use, so the `na.rm` argument you met in Exercise 3 Q11 works here too. Add it and check that all three cholesterol means appear.
+4\. Now fix it. `aggregate()` hands any extra arguments straight on to the function you asked it to use, so the `na.rm` argument you met in **Exercise 3, Q11** works here too. Add it and check that all three cholesterol means appear.
 
 Then calculate the same means for each combination of smoking category and sex. Two grouping variables go inside the same `list()`, and again use the factor versions, `Fsmoking` and `Fsex`, rather than the original `smoking` and `sex` columns. When you have your answer, count up the patients in it. Are they all there?
 

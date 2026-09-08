@@ -20,9 +20,9 @@ unique(table(scotpho$area_name))   # 10 - so every area has all 10 years
 
 range(scotpho$year)      # 2010 2019
 
-# If an area were missing a year, the line would simply be drawn straight
-# through the gap, joining the points either side of it. Nothing would warn
-# you, and the plot would imply data you do not have.
+# Why it's worth checking: if an area were missing a year, the line would be
+# drawn straight through the gap, joining the points either side of it.
+# Nothing would warn you, and the plot would imply data you don't have.
 
 
 ## ----Q5, echo=SOLUTIONS-------------------------------------------------------
@@ -43,8 +43,8 @@ ggplot(data = scot, aes(x = year, y = measure)) +
 #    exaggerates the decline
 #  - there is nothing to say where the data came from
 #
-# The plot is not wrong. It is just useless to anybody who is not already
-# holding the dataset.
+# The plot is not wrong. It is just not very useful to anybody who doesn't already
+# have the dataset.
 
 
 ## ----Q6, echo=SOLUTIONS-------------------------------------------------------
@@ -55,15 +55,7 @@ three_areas <- scotpho[scotpho$area_name %in% areas, ]
 
 nrow(three_areas)   # 30 - three areas, ten years each
 
-# b) one geom_line(), three lines, and a legend you did not have to write
-ggplot(data = three_areas, aes(x = year, y = measure, colour = area_name)) +
-  geom_line(linewidth = 1)
-
-# c) the legend comes out alphabetically, Aberdeenshire, Glasgow City,
-# Scotland. Rebuilding the factor with the levels in the order you want puts
-# the national figure first and the two council areas either side of it.
-three_areas$area_name <- factor(three_areas$area_name, levels = areas)
-
+# b) one geom_line(), three lines, and a legend you didn't have to write
 ggplot(data = three_areas, aes(x = year, y = measure, colour = area_name)) +
   geom_line(linewidth = 1)
 
@@ -91,7 +83,7 @@ ggplot(data = three_areas, aes(x = year, y = measure, colour = area_name)) +
 
 # The orange and the sky blue are different enough on screen, but in grey they
 # come out at 0.64 and 0.62, which is practically the same. Anyone printing
-# your poster in black and white cannot tell Glasgow from Aberdeenshire.
+# your poster in black and white can't tell Glasgow from Scotland.
 
 # c) a second cue, so the plot still works with no colour at all
 ggplot(data = three_areas,
@@ -101,7 +93,7 @@ ggplot(data = three_areas,
 
 # mapping both colour and linetype to the same variable gives you a single
 # legend showing both, which is what you want. Try it with greys instead of
-# cols and you will find the plot still reads perfectly well.
+# cols and you'll find the plot still reads perfectly well.
 
 
 ## ----Q8, echo=SOLUTIONS-------------------------------------------------------
@@ -120,16 +112,17 @@ ggplot(data = three_areas,
   theme(legend.position = "bottom", plot.caption = element_text(hjust = 0))
 
 # plot.caption = element_text(hjust = 0) pushes the source note over to the
-# left. ggplot right aligns it by default, which looks like an afterthought.
+# left. ggplot right aligns it by default, which doesn't look quite right.
 
 # Should the y axis start at zero?
 # Starting at zero, as here, shows the true relative size of the difference
-# between areas: Glasgow really is about four times Aberdeenshire. Starting at
-# the minimum instead would fill the panel with the year to year wiggles and
-# make a modest national decline look dramatic. For a rate like this, where
-# zero is meaningful and the comparison between areas is the point, starting at
-# zero is the honest choice. For something like average age, where zero is
-# nowhere near the data, it would be absurd. Decide, and be able to say why.
+# between the areas, and Glasgow really is about four times Aberdeenshire.
+# Starting at the minimum instead would fill the panel with the year to year
+# wiggles and make a fairly modest national decline look dramatic. For a rate
+# like this, where zero is meaningful and the comparison between areas is the
+# point, starting at zero is the honest choice. For something like average age,
+# where zero is nowhere near the data, it wouldn't make much sense. Whichever
+# you go for, just be able to say why.
 
 
 ## ----Q9, echo=SOLUTIONS-------------------------------------------------------
@@ -166,5 +159,6 @@ ggsave('output/ex6_admissions.png', plot = admissions_plot,
 # or fuzzy.
 
 # If you leave out plot = admissions_plot, ggsave() saves the last plot you
-# drew, which is usually what you wanted but not always. Naming it is safer.
+# drew. That's usually the one you wanted, but not always, so naming it is
+# safer.
 

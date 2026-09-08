@@ -717,13 +717,20 @@ way rather than in Word.</p>
 <ol start="2" style="list-style-type: lower-alpha">
 <li><p>Stage it and commit it with a sensible message, again without
 pushing.</p></li>
-<li><p>Now click <strong>History</strong>, the clock icon. You should
-see both of your commits, most recent first, with their messages,
-authors and dates. Click on the first commit to see exactly what it
-contained. This history is the part that makes version control worth the
-trouble. The backup is useful, but being able to look back at what you
-did, and why you did it, is more useful still.</p></li>
+<li><p>Now click <strong>History</strong>, the clock icon. You’ll see
+your two commits at the top, most recent first, with the
+<code>Initial commit</code> that GitHub made for you sitting underneath
+them. Click on the top one and the panel below fills in with the details
+of just that commit, including the changes it contained and its
+<strong>SHA</strong>, the long string of letters and numbers that is the
+commit’s name. You’ll come back to that panel in Q10.</p></li>
 </ol>
+<p><img src="images/ex9_history.png"
+alt="The History window showing three commits, with the details of the selected one in the panel below" /></p>
+<p> </p>
+<p>This history is the part that makes version control worth the
+trouble. The backup is useful, but being able to look back at what you
+did, and why you did it, is more useful still.</p>
 <p> </p>
 <p>6. Everyone makes changes they wish they hadn’t. Git gives you a way
 back.</p>
@@ -785,8 +792,12 @@ one click. Add a line to <code>.gitignore</code> that ignores it and
 watch it disappear from the pane.</p></li>
 </ol>
 <p><img src="images/ex9_gitignore_edit.png"
-alt="A line added to the end of the gitignore file, with the PDF gone from the Git pane" /></p>
+alt="The Git pane after the gitignore edit, with the PDF gone and gitignore now showing M" /></p>
 <p> </p>
+<p>If you’re on a Mac you may also see a file called
+<code>.DS_Store</code> in the pane, which Finder writes into every
+folder you open and which has nothing to do with your work. Add that to
+<code>.gitignore</code> too.</p>
 <ol start="3" style="list-style-type: lower-alpha">
 <li><p>Notice that the gear menu you used in Q6 also has an
 <strong>Ignore…</strong> option, which adds the selected file to

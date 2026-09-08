@@ -145,7 +145,13 @@ Notice too that the diff is of your `.Rmd` file rather than the PDF. Git is desi
 
 b) Stage it and commit it with a sensible message, again without pushing.
 
-c) Now click **History**, the clock icon. You should see both of your commits, most recent first, with their messages, authors and dates. Click on the first commit to see exactly what it contained. This history is the part that makes version control worth the trouble. The backup is useful, but being able to look back at what you did, and why you did it, is more useful still.
+c) Now click **History**, the clock icon. You'll see your two commits at the top, most recent first, with the `Initial commit` that GitHub made for you sitting underneath them. Click on the top one and the panel below fills in with the details of just that commit, including the changes it contained and its **SHA**, the long string of letters and numbers that is the commit's name. You'll come back to that panel in Q10.
+
+![](images/ex9_history.png){alt="The History window showing three commits, with the details of the selected one in the panel below"}
+
+\  
+
+This history is the part that makes version control worth the trouble. The backup is useful, but being able to look back at what you did, and why you did it, is more useful still.
 
 \  
 
@@ -193,9 +199,11 @@ Or, to catch every PDF the Project ever produces:
 ````
 `````
 
-![](images/ex9_gitignore_edit.png){alt="A line added to the end of the gitignore file, with the PDF gone from the Git pane"}
+![](images/ex9_gitignore_edit.png){alt="The Git pane after the gitignore edit, with the PDF gone and gitignore now showing M"}
 
 \  
+
+If you're on a Mac you may also see a file called `.DS_Store` in the pane, which Finder writes into every folder you open and which has nothing to do with your work. Add that to `.gitignore` too.
 
 c) Notice that the gear menu you used in Q6 also has an **Ignore...** option, which adds the selected file to `.gitignore` for you rather than making you type it.
 

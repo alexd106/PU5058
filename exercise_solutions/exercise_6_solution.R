@@ -64,8 +64,7 @@ ggplot(data = three_areas, aes(x = year, y = measure, colour = area_name)) +
 # 100,000. The national line, on its own, describes almost nobody.
 
 
-## ----Q7, echo=SOLUTIONS, eval=SOLUTIONS, results='hide', fig.width=8, fig.height=4.5----
-# a) a colour-blind friendly palette
+## ----Q7a, echo=SOLUTIONS, eval=SOLUTIONS, results='hide', fig.width=8, fig.height=4.5----
 cols <- palette.colors(3, palette = "Okabe-Ito")
 cols
 # "#000000" "#E69F00" "#56B4E9"   black, orange, sky blue
@@ -74,7 +73,8 @@ ggplot(data = three_areas, aes(x = year, y = measure, colour = area_name)) +
   geom_line(linewidth = 1) +
   scale_colour_manual(values = cols)
 
-# b) the same plot in greyscale
+
+## ----Q7b, echo=SOLUTIONS, eval=SOLUTIONS, fig.width=8, fig.height=4.5---------
 greys <- grey(c(0, 0.64, 0.62))
 
 ggplot(data = three_areas, aes(x = year, y = measure, colour = area_name)) +
@@ -85,7 +85,8 @@ ggplot(data = three_areas, aes(x = year, y = measure, colour = area_name)) +
 # come out at 0.64 and 0.62, which is practically the same. Anyone printing
 # your poster in black and white can't tell Glasgow from Scotland.
 
-# c) a second cue, so the plot still works with no colour at all
+
+## ----Q7c, echo=SOLUTIONS, eval=SOLUTIONS, fig.width=8, fig.height=4.5---------
 ggplot(data = three_areas,
        aes(x = year, y = measure, colour = area_name, linetype = area_name)) +
   geom_line(linewidth = 1) +

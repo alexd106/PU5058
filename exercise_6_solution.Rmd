@@ -172,12 +172,7 @@ ggplot(data = three_areas, aes(x = year, y = measure, colour = area_name)) +
 
 a) Let's redraw the plot with a colour-blind friendly palette. Base R has one built in, and `palette.colors(3, palette = "Okabe-Ito")` will give you three colours from it. Assign these to `cols`, then hand them over to ggplot by adding a `scale_colour_manual(values = cols)` layer onto the end of your plot. A scale layer is how you overrule any of the decisions ggplot has made for you (see Section [5.2.4](https://intro2r.com/the-start-of-the-end.html#make-it-your-own) for more).
 
-b) Now let's test it. Draw the plot again, this time swapping those colours for their greyscale equivalents, `grey(c(0, 0.64, 0.62))`, and see whether you can still tell the three lines apart. If you can't, what could you change other than the colour?
-
-c) So let's fix it. Colour on its own is rarely enough, so it's a good idea to give your reader a second cue as well. Add `linetype = area_name` inside `aes()`, next to the `colour = area_name` you already have, and each area gets its own style of line as well as its own colour. Notice that ggplot works out that the two are describing the same thing and gives you a single legend rather than two.
-
-```{r Q7, echo=SOLUTIONS, eval=SOLUTIONS, results='hide', fig.width=8, fig.height=4.5}
-# a) a colour-blind friendly palette
+```{r Q7a, echo=SOLUTIONS, eval=SOLUTIONS, results='hide', fig.width=8, fig.height=4.5}
 cols <- palette.colors(3, palette = "Okabe-Ito")
 cols
 # "#000000" "#E69F00" "#56B4E9"   black, orange, sky blue
@@ -185,8 +180,13 @@ cols
 ggplot(data = three_areas, aes(x = year, y = measure, colour = area_name)) +
   geom_line(linewidth = 1) +
   scale_colour_manual(values = cols)
+```
 
-# b) the same plot in greyscale
+\  
+
+b) Now let's test it. Draw the plot again, this time swapping those colours for their greyscale equivalents, `grey(c(0, 0.64, 0.62))`, and see whether you can still tell the three lines apart. If you can't, what could you change other than the colour?
+
+```{r Q7b, echo=SOLUTIONS, eval=SOLUTIONS, fig.width=8, fig.height=4.5}
 greys <- grey(c(0, 0.64, 0.62))
 
 ggplot(data = three_areas, aes(x = year, y = measure, colour = area_name)) +
@@ -196,8 +196,13 @@ ggplot(data = three_areas, aes(x = year, y = measure, colour = area_name)) +
 # The orange and the sky blue are different enough on screen, but in grey they
 # come out at 0.64 and 0.62, which is practically the same. Anyone printing
 # your poster in black and white can't tell Glasgow from Scotland.
+```
 
-# c) a second cue, so the plot still works with no colour at all
+\  
+
+c) So let's fix it. Colour on its own is rarely enough, so it's a good idea to give your reader a second cue as well. Add `linetype = area_name` inside `aes()`, next to the `colour = area_name` you already have, and each area gets its own style of line as well as its own colour. Notice that ggplot works out that the two are describing the same thing and gives you a single legend rather than two.
+
+```{r Q7c, echo=SOLUTIONS, eval=SOLUTIONS, fig.width=8, fig.height=4.5}
 ggplot(data = three_areas,
        aes(x = year, y = measure, colour = area_name, linetype = area_name)) +
   geom_line(linewidth = 1) +

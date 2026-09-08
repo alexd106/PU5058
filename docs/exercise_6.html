@@ -544,8 +544,8 @@ too bad, but they’re not chosen with anybody’s eyesight in mind. Roughly
 difficulty telling red from green, and red and blue aren’t a safe
 pairing either.</p>
 <ol style="list-style-type: lower-alpha">
-<li><p>Let’s redraw the plot with a colour-blind friendly palette. Base
-R has one built in, and
+<li>Let’s redraw the plot with a colour-blind friendly palette. Base R
+has one built in, and
 <code>palette.colors(3, palette = "Okabe-Ito")</code> will give you
 three colours from it. Assign these to <code>cols</code>, then hand them
 over to ggplot by adding a
@@ -553,19 +553,25 @@ over to ggplot by adding a
 your plot. A scale layer is how you overrule any of the decisions ggplot
 has made for you (see Section <a
 href="https://intro2r.com/the-start-of-the-end.html#make-it-your-own">5.2.4</a>
-for more).</p></li>
-<li><p>Now let’s test it. Draw the plot again, this time swapping those
+for more).</li>
+</ol>
+<p> </p>
+<ol start="2" style="list-style-type: lower-alpha">
+<li>Now let’s test it. Draw the plot again, this time swapping those
 colours for their greyscale equivalents,
 <code>grey(c(0, 0.64, 0.62))</code>, and see whether you can still tell
 the three lines apart. If you can’t, what could you change other than
-the colour?</p></li>
-<li><p>So let’s fix it. Colour on its own is rarely enough, so it’s a
-good idea to give your reader a second cue as well. Add
+the colour?</li>
+</ol>
+<p> </p>
+<ol start="3" style="list-style-type: lower-alpha">
+<li>So let’s fix it. Colour on its own is rarely enough, so it’s a good
+idea to give your reader a second cue as well. Add
 <code>linetype = area_name</code> inside <code>aes()</code>, next to the
 <code>colour = area_name</code> you already have, and each area gets its
 own style of line as well as its own colour. Notice that ggplot works
 out that the two are describing the same thing and gives you a single
-legend rather than two.</p></li>
+legend rather than two.</li>
 </ol>
 <p> </p>
 <p>8. Next, let’s sort out the text. Every plot needs axis labels a

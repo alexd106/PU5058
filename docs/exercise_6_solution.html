@@ -711,8 +711,8 @@ too bad, but they’re not chosen with anybody’s eyesight in mind. Roughly
 difficulty telling red from green, and red and blue aren’t a safe
 pairing either.</p>
 <ol style="list-style-type: lower-alpha">
-<li><p>Let’s redraw the plot with a colour-blind friendly palette. Base
-R has one built in, and
+<li>Let’s redraw the plot with a colour-blind friendly palette. Base R
+has one built in, and
 <code>palette.colors(3, palette = "Okabe-Ito")</code> will give you
 three colours from it. Assign these to <code>cols</code>, then hand them
 over to ggplot by adding a
@@ -720,50 +720,53 @@ over to ggplot by adding a
 your plot. A scale layer is how you overrule any of the decisions ggplot
 has made for you (see Section <a
 href="https://intro2r.com/the-start-of-the-end.html#make-it-your-own">5.2.4</a>
-for more).</p></li>
-<li><p>Now let’s test it. Draw the plot again, this time swapping those
+for more).</li>
+</ol>
+<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" tabindex="-1"></a>cols <span class="ot">&lt;-</span> <span class="fu">palette.colors</span>(<span class="dv">3</span>, <span class="at">palette =</span> <span class="st">&quot;Okabe-Ito&quot;</span>)</span>
+<span id="cb6-2"><a href="#cb6-2" tabindex="-1"></a>cols</span>
+<span id="cb6-3"><a href="#cb6-3" tabindex="-1"></a><span class="co"># &quot;#000000&quot; &quot;#E69F00&quot; &quot;#56B4E9&quot;   black, orange, sky blue</span></span>
+<span id="cb6-4"><a href="#cb6-4" tabindex="-1"></a></span>
+<span id="cb6-5"><a href="#cb6-5" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data =</span> three_areas, <span class="fu">aes</span>(<span class="at">x =</span> year, <span class="at">y =</span> measure, <span class="at">colour =</span> area_name)) <span class="sc">+</span></span>
+<span id="cb6-6"><a href="#cb6-6" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="at">linewidth =</span> <span class="dv">1</span>) <span class="sc">+</span></span>
+<span id="cb6-7"><a href="#cb6-7" tabindex="-1"></a>  <span class="fu">scale_colour_manual</span>(<span class="at">values =</span> cols)</span></code></pre></div>
+<p><img src="exercise_6_solution_files/figure-html/Q7a-1.png" alt="" width="768" /></p>
+<p> </p>
+<ol start="2" style="list-style-type: lower-alpha">
+<li>Now let’s test it. Draw the plot again, this time swapping those
 colours for their greyscale equivalents,
 <code>grey(c(0, 0.64, 0.62))</code>, and see whether you can still tell
 the three lines apart. If you can’t, what could you change other than
-the colour?</p></li>
-<li><p>So let’s fix it. Colour on its own is rarely enough, so it’s a
-good idea to give your reader a second cue as well. Add
+the colour?</li>
+</ol>
+<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" tabindex="-1"></a>greys <span class="ot">&lt;-</span> <span class="fu">grey</span>(<span class="fu">c</span>(<span class="dv">0</span>, <span class="fl">0.64</span>, <span class="fl">0.62</span>))</span>
+<span id="cb7-2"><a href="#cb7-2" tabindex="-1"></a></span>
+<span id="cb7-3"><a href="#cb7-3" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data =</span> three_areas, <span class="fu">aes</span>(<span class="at">x =</span> year, <span class="at">y =</span> measure, <span class="at">colour =</span> area_name)) <span class="sc">+</span></span>
+<span id="cb7-4"><a href="#cb7-4" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="at">linewidth =</span> <span class="dv">1</span>) <span class="sc">+</span></span>
+<span id="cb7-5"><a href="#cb7-5" tabindex="-1"></a>  <span class="fu">scale_colour_manual</span>(<span class="at">values =</span> greys)</span>
+<span id="cb7-6"><a href="#cb7-6" tabindex="-1"></a></span>
+<span id="cb7-7"><a href="#cb7-7" tabindex="-1"></a><span class="co"># The orange and the sky blue are different enough on screen, but in grey they</span></span>
+<span id="cb7-8"><a href="#cb7-8" tabindex="-1"></a><span class="co"># come out at 0.64 and 0.62, which is practically the same. Anyone printing</span></span>
+<span id="cb7-9"><a href="#cb7-9" tabindex="-1"></a><span class="co"># your poster in black and white can&#39;t tell Glasgow from Scotland.</span></span></code></pre></div>
+<p><img src="exercise_6_solution_files/figure-html/Q7b-1.png" alt="" width="768" /></p>
+<p> </p>
+<ol start="3" style="list-style-type: lower-alpha">
+<li>So let’s fix it. Colour on its own is rarely enough, so it’s a good
+idea to give your reader a second cue as well. Add
 <code>linetype = area_name</code> inside <code>aes()</code>, next to the
 <code>colour = area_name</code> you already have, and each area gets its
 own style of line as well as its own colour. Notice that ggplot works
 out that the two are describing the same thing and gives you a single
-legend rather than two.</p></li>
+legend rather than two.</li>
 </ol>
-<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" tabindex="-1"></a><span class="co"># a) a colour-blind friendly palette</span></span>
-<span id="cb6-2"><a href="#cb6-2" tabindex="-1"></a>cols <span class="ot">&lt;-</span> <span class="fu">palette.colors</span>(<span class="dv">3</span>, <span class="at">palette =</span> <span class="st">&quot;Okabe-Ito&quot;</span>)</span>
-<span id="cb6-3"><a href="#cb6-3" tabindex="-1"></a>cols</span>
-<span id="cb6-4"><a href="#cb6-4" tabindex="-1"></a><span class="co"># &quot;#000000&quot; &quot;#E69F00&quot; &quot;#56B4E9&quot;   black, orange, sky blue</span></span>
-<span id="cb6-5"><a href="#cb6-5" tabindex="-1"></a></span>
-<span id="cb6-6"><a href="#cb6-6" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data =</span> three_areas, <span class="fu">aes</span>(<span class="at">x =</span> year, <span class="at">y =</span> measure, <span class="at">colour =</span> area_name)) <span class="sc">+</span></span>
-<span id="cb6-7"><a href="#cb6-7" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="at">linewidth =</span> <span class="dv">1</span>) <span class="sc">+</span></span>
-<span id="cb6-8"><a href="#cb6-8" tabindex="-1"></a>  <span class="fu">scale_colour_manual</span>(<span class="at">values =</span> cols)</span>
-<span id="cb6-9"><a href="#cb6-9" tabindex="-1"></a></span>
-<span id="cb6-10"><a href="#cb6-10" tabindex="-1"></a><span class="co"># b) the same plot in greyscale</span></span>
-<span id="cb6-11"><a href="#cb6-11" tabindex="-1"></a>greys <span class="ot">&lt;-</span> <span class="fu">grey</span>(<span class="fu">c</span>(<span class="dv">0</span>, <span class="fl">0.64</span>, <span class="fl">0.62</span>))</span>
-<span id="cb6-12"><a href="#cb6-12" tabindex="-1"></a></span>
-<span id="cb6-13"><a href="#cb6-13" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data =</span> three_areas, <span class="fu">aes</span>(<span class="at">x =</span> year, <span class="at">y =</span> measure, <span class="at">colour =</span> area_name)) <span class="sc">+</span></span>
-<span id="cb6-14"><a href="#cb6-14" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="at">linewidth =</span> <span class="dv">1</span>) <span class="sc">+</span></span>
-<span id="cb6-15"><a href="#cb6-15" tabindex="-1"></a>  <span class="fu">scale_colour_manual</span>(<span class="at">values =</span> greys)</span>
-<span id="cb6-16"><a href="#cb6-16" tabindex="-1"></a></span>
-<span id="cb6-17"><a href="#cb6-17" tabindex="-1"></a><span class="co"># The orange and the sky blue are different enough on screen, but in grey they</span></span>
-<span id="cb6-18"><a href="#cb6-18" tabindex="-1"></a><span class="co"># come out at 0.64 and 0.62, which is practically the same. Anyone printing</span></span>
-<span id="cb6-19"><a href="#cb6-19" tabindex="-1"></a><span class="co"># your poster in black and white can&#39;t tell Glasgow from Scotland.</span></span>
-<span id="cb6-20"><a href="#cb6-20" tabindex="-1"></a></span>
-<span id="cb6-21"><a href="#cb6-21" tabindex="-1"></a><span class="co"># c) a second cue, so the plot still works with no colour at all</span></span>
-<span id="cb6-22"><a href="#cb6-22" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data =</span> three_areas,</span>
-<span id="cb6-23"><a href="#cb6-23" tabindex="-1"></a>       <span class="fu">aes</span>(<span class="at">x =</span> year, <span class="at">y =</span> measure, <span class="at">colour =</span> area_name, <span class="at">linetype =</span> area_name)) <span class="sc">+</span></span>
-<span id="cb6-24"><a href="#cb6-24" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="at">linewidth =</span> <span class="dv">1</span>) <span class="sc">+</span></span>
-<span id="cb6-25"><a href="#cb6-25" tabindex="-1"></a>  <span class="fu">scale_colour_manual</span>(<span class="at">values =</span> cols)</span>
-<span id="cb6-26"><a href="#cb6-26" tabindex="-1"></a></span>
-<span id="cb6-27"><a href="#cb6-27" tabindex="-1"></a><span class="co"># mapping both colour and linetype to the same variable gives you a single</span></span>
-<span id="cb6-28"><a href="#cb6-28" tabindex="-1"></a><span class="co"># legend showing both, which is what you want. Try it with greys instead of</span></span>
-<span id="cb6-29"><a href="#cb6-29" tabindex="-1"></a><span class="co"># cols and you&#39;ll find the plot still reads perfectly well.</span></span></code></pre></div>
-<p><img src="exercise_6_solution_files/figure-html/Q7-1.png" alt="" width="768" /><img src="exercise_6_solution_files/figure-html/Q7-2.png" alt="" width="768" /><img src="exercise_6_solution_files/figure-html/Q7-3.png" alt="" width="768" /></p>
+<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data =</span> three_areas,</span>
+<span id="cb8-2"><a href="#cb8-2" tabindex="-1"></a>       <span class="fu">aes</span>(<span class="at">x =</span> year, <span class="at">y =</span> measure, <span class="at">colour =</span> area_name, <span class="at">linetype =</span> area_name)) <span class="sc">+</span></span>
+<span id="cb8-3"><a href="#cb8-3" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="at">linewidth =</span> <span class="dv">1</span>) <span class="sc">+</span></span>
+<span id="cb8-4"><a href="#cb8-4" tabindex="-1"></a>  <span class="fu">scale_colour_manual</span>(<span class="at">values =</span> cols)</span>
+<span id="cb8-5"><a href="#cb8-5" tabindex="-1"></a></span>
+<span id="cb8-6"><a href="#cb8-6" tabindex="-1"></a><span class="co"># mapping both colour and linetype to the same variable gives you a single</span></span>
+<span id="cb8-7"><a href="#cb8-7" tabindex="-1"></a><span class="co"># legend showing both, which is what you want. Try it with greys instead of</span></span>
+<span id="cb8-8"><a href="#cb8-8" tabindex="-1"></a><span class="co"># cols and you&#39;ll find the plot still reads perfectly well.</span></span></code></pre></div>
+<p><img src="exercise_6_solution_files/figure-html/Q7c-1.png" alt="" width="768" /></p>
 <p> </p>
 <p>8. Next, let’s sort out the text. Every plot needs axis labels a
 non-specialist can read with units on them, a title that says what the
@@ -804,32 +807,32 @@ the legend sat underneath the plot than beside it,
 after <code>theme_minimal()</code>, otherwise it gets
 overwritten.</p></li>
 </ol>
-<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data =</span> three_areas,</span>
-<span id="cb7-2"><a href="#cb7-2" tabindex="-1"></a>       <span class="fu">aes</span>(<span class="at">x =</span> year, <span class="at">y =</span> measure, <span class="at">colour =</span> area_name, <span class="at">linetype =</span> area_name)) <span class="sc">+</span></span>
-<span id="cb7-3"><a href="#cb7-3" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="at">linewidth =</span> <span class="dv">1</span>) <span class="sc">+</span></span>
-<span id="cb7-4"><a href="#cb7-4" tabindex="-1"></a>  <span class="fu">scale_colour_manual</span>(<span class="at">values =</span> cols) <span class="sc">+</span></span>
-<span id="cb7-5"><a href="#cb7-5" tabindex="-1"></a>  <span class="fu">scale_x_continuous</span>(<span class="at">breaks =</span> <span class="fu">seq</span>(<span class="dv">2010</span>, <span class="dv">2019</span>, <span class="at">by =</span> <span class="dv">2</span>)) <span class="sc">+</span></span>
-<span id="cb7-6"><a href="#cb7-6" tabindex="-1"></a>  <span class="fu">scale_y_continuous</span>(<span class="at">limits =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">1600</span>)) <span class="sc">+</span></span>
-<span id="cb7-7"><a href="#cb7-7" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">&quot;Year&quot;</span>,</span>
-<span id="cb7-8"><a href="#cb7-8" tabindex="-1"></a>       <span class="at">y =</span> <span class="st">&quot;Hospital admissions per 100,000 people&quot;</span>,</span>
-<span id="cb7-9"><a href="#cb7-9" tabindex="-1"></a>       <span class="at">title =</span> <span class="st">&quot;Alcohol-related hospital admissions, 2010 to 2019&quot;</span>,</span>
-<span id="cb7-10"><a href="#cb7-10" tabindex="-1"></a>       <span class="at">caption =</span> <span class="st">&quot;Source: Scottish Public Health Observatory. Rates are age-sex standardised.&quot;</span>,</span>
-<span id="cb7-11"><a href="#cb7-11" tabindex="-1"></a>       <span class="at">colour =</span> <span class="cn">NULL</span>, <span class="at">linetype =</span> <span class="cn">NULL</span>) <span class="sc">+</span></span>
-<span id="cb7-12"><a href="#cb7-12" tabindex="-1"></a>  <span class="fu">theme_minimal</span>() <span class="sc">+</span></span>
-<span id="cb7-13"><a href="#cb7-13" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">legend.position =</span> <span class="st">&quot;bottom&quot;</span>, <span class="at">plot.caption =</span> <span class="fu">element_text</span>(<span class="at">hjust =</span> <span class="dv">0</span>))</span>
-<span id="cb7-14"><a href="#cb7-14" tabindex="-1"></a></span>
-<span id="cb7-15"><a href="#cb7-15" tabindex="-1"></a><span class="co"># plot.caption = element_text(hjust = 0) pushes the source note over to the</span></span>
-<span id="cb7-16"><a href="#cb7-16" tabindex="-1"></a><span class="co"># left. ggplot right aligns it by default, which doesn&#39;t look quite right.</span></span>
-<span id="cb7-17"><a href="#cb7-17" tabindex="-1"></a></span>
-<span id="cb7-18"><a href="#cb7-18" tabindex="-1"></a><span class="co"># Should the y axis start at zero?</span></span>
-<span id="cb7-19"><a href="#cb7-19" tabindex="-1"></a><span class="co"># Starting at zero, as here, shows the true relative size of the difference</span></span>
-<span id="cb7-20"><a href="#cb7-20" tabindex="-1"></a><span class="co"># between the areas, and Glasgow really is about four times Aberdeenshire.</span></span>
-<span id="cb7-21"><a href="#cb7-21" tabindex="-1"></a><span class="co"># Starting at the minimum instead would fill the panel with the year to year</span></span>
-<span id="cb7-22"><a href="#cb7-22" tabindex="-1"></a><span class="co"># wiggles and make a fairly modest national decline look dramatic. For a rate</span></span>
-<span id="cb7-23"><a href="#cb7-23" tabindex="-1"></a><span class="co"># like this, where zero is meaningful and the comparison between areas is the</span></span>
-<span id="cb7-24"><a href="#cb7-24" tabindex="-1"></a><span class="co"># point, starting at zero is the honest choice. For something like average age,</span></span>
-<span id="cb7-25"><a href="#cb7-25" tabindex="-1"></a><span class="co"># where zero is nowhere near the data, it wouldn&#39;t make much sense. Whichever</span></span>
-<span id="cb7-26"><a href="#cb7-26" tabindex="-1"></a><span class="co"># you go for, just be able to say why.</span></span></code></pre></div>
+<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data =</span> three_areas,</span>
+<span id="cb9-2"><a href="#cb9-2" tabindex="-1"></a>       <span class="fu">aes</span>(<span class="at">x =</span> year, <span class="at">y =</span> measure, <span class="at">colour =</span> area_name, <span class="at">linetype =</span> area_name)) <span class="sc">+</span></span>
+<span id="cb9-3"><a href="#cb9-3" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="at">linewidth =</span> <span class="dv">1</span>) <span class="sc">+</span></span>
+<span id="cb9-4"><a href="#cb9-4" tabindex="-1"></a>  <span class="fu">scale_colour_manual</span>(<span class="at">values =</span> cols) <span class="sc">+</span></span>
+<span id="cb9-5"><a href="#cb9-5" tabindex="-1"></a>  <span class="fu">scale_x_continuous</span>(<span class="at">breaks =</span> <span class="fu">seq</span>(<span class="dv">2010</span>, <span class="dv">2019</span>, <span class="at">by =</span> <span class="dv">2</span>)) <span class="sc">+</span></span>
+<span id="cb9-6"><a href="#cb9-6" tabindex="-1"></a>  <span class="fu">scale_y_continuous</span>(<span class="at">limits =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">1600</span>)) <span class="sc">+</span></span>
+<span id="cb9-7"><a href="#cb9-7" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">&quot;Year&quot;</span>,</span>
+<span id="cb9-8"><a href="#cb9-8" tabindex="-1"></a>       <span class="at">y =</span> <span class="st">&quot;Hospital admissions per 100,000 people&quot;</span>,</span>
+<span id="cb9-9"><a href="#cb9-9" tabindex="-1"></a>       <span class="at">title =</span> <span class="st">&quot;Alcohol-related hospital admissions, 2010 to 2019&quot;</span>,</span>
+<span id="cb9-10"><a href="#cb9-10" tabindex="-1"></a>       <span class="at">caption =</span> <span class="st">&quot;Source: Scottish Public Health Observatory. Rates are age-sex standardised.&quot;</span>,</span>
+<span id="cb9-11"><a href="#cb9-11" tabindex="-1"></a>       <span class="at">colour =</span> <span class="cn">NULL</span>, <span class="at">linetype =</span> <span class="cn">NULL</span>) <span class="sc">+</span></span>
+<span id="cb9-12"><a href="#cb9-12" tabindex="-1"></a>  <span class="fu">theme_minimal</span>() <span class="sc">+</span></span>
+<span id="cb9-13"><a href="#cb9-13" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">legend.position =</span> <span class="st">&quot;bottom&quot;</span>, <span class="at">plot.caption =</span> <span class="fu">element_text</span>(<span class="at">hjust =</span> <span class="dv">0</span>))</span>
+<span id="cb9-14"><a href="#cb9-14" tabindex="-1"></a></span>
+<span id="cb9-15"><a href="#cb9-15" tabindex="-1"></a><span class="co"># plot.caption = element_text(hjust = 0) pushes the source note over to the</span></span>
+<span id="cb9-16"><a href="#cb9-16" tabindex="-1"></a><span class="co"># left. ggplot right aligns it by default, which doesn&#39;t look quite right.</span></span>
+<span id="cb9-17"><a href="#cb9-17" tabindex="-1"></a></span>
+<span id="cb9-18"><a href="#cb9-18" tabindex="-1"></a><span class="co"># Should the y axis start at zero?</span></span>
+<span id="cb9-19"><a href="#cb9-19" tabindex="-1"></a><span class="co"># Starting at zero, as here, shows the true relative size of the difference</span></span>
+<span id="cb9-20"><a href="#cb9-20" tabindex="-1"></a><span class="co"># between the areas, and Glasgow really is about four times Aberdeenshire.</span></span>
+<span id="cb9-21"><a href="#cb9-21" tabindex="-1"></a><span class="co"># Starting at the minimum instead would fill the panel with the year to year</span></span>
+<span id="cb9-22"><a href="#cb9-22" tabindex="-1"></a><span class="co"># wiggles and make a fairly modest national decline look dramatic. For a rate</span></span>
+<span id="cb9-23"><a href="#cb9-23" tabindex="-1"></a><span class="co"># like this, where zero is meaningful and the comparison between areas is the</span></span>
+<span id="cb9-24"><a href="#cb9-24" tabindex="-1"></a><span class="co"># point, starting at zero is the honest choice. For something like average age,</span></span>
+<span id="cb9-25"><a href="#cb9-25" tabindex="-1"></a><span class="co"># where zero is nowhere near the data, it wouldn&#39;t make much sense. Whichever</span></span>
+<span id="cb9-26"><a href="#cb9-26" tabindex="-1"></a><span class="co"># you go for, just be able to say why.</span></span></code></pre></div>
 <p><img src="exercise_6_solution_files/figure-html/Q8-1.png" alt="" width="864" /></p>
 <p> </p>
 <p>9. Last of all, let’s get the plot out of R at a size and resolution
@@ -857,41 +860,41 @@ files and have a look at them at full size before you believe them.</p>
 <p><strong>Hang on to that png.</strong> You’ll put it into a report in
 Exercise 7 and then into a repository in Exercise 9, so it needs to
 still be there in a fortnight.</p>
-<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" tabindex="-1"></a><span class="co"># give the plot a name. Nothing is drawn until you ask for it by name</span></span>
-<span id="cb8-2"><a href="#cb8-2" tabindex="-1"></a>admissions_plot <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(<span class="at">data =</span> three_areas,</span>
-<span id="cb8-3"><a href="#cb8-3" tabindex="-1"></a>       <span class="fu">aes</span>(<span class="at">x =</span> year, <span class="at">y =</span> measure, <span class="at">colour =</span> area_name, <span class="at">linetype =</span> area_name)) <span class="sc">+</span></span>
-<span id="cb8-4"><a href="#cb8-4" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="at">linewidth =</span> <span class="dv">1</span>) <span class="sc">+</span></span>
-<span id="cb8-5"><a href="#cb8-5" tabindex="-1"></a>  <span class="fu">scale_colour_manual</span>(<span class="at">values =</span> cols) <span class="sc">+</span></span>
-<span id="cb8-6"><a href="#cb8-6" tabindex="-1"></a>  <span class="fu">scale_x_continuous</span>(<span class="at">breaks =</span> <span class="fu">seq</span>(<span class="dv">2010</span>, <span class="dv">2019</span>, <span class="at">by =</span> <span class="dv">2</span>)) <span class="sc">+</span></span>
-<span id="cb8-7"><a href="#cb8-7" tabindex="-1"></a>  <span class="fu">scale_y_continuous</span>(<span class="at">limits =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">1600</span>)) <span class="sc">+</span></span>
-<span id="cb8-8"><a href="#cb8-8" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">&quot;Year&quot;</span>,</span>
-<span id="cb8-9"><a href="#cb8-9" tabindex="-1"></a>       <span class="at">y =</span> <span class="st">&quot;Hospital admissions per 100,000 people&quot;</span>,</span>
-<span id="cb8-10"><a href="#cb8-10" tabindex="-1"></a>       <span class="at">title =</span> <span class="st">&quot;Alcohol-related hospital admissions, 2010 to 2019&quot;</span>,</span>
-<span id="cb8-11"><a href="#cb8-11" tabindex="-1"></a>       <span class="at">caption =</span> <span class="st">&quot;Source: Scottish Public Health Observatory. Rates are age-sex standardised.&quot;</span>,</span>
-<span id="cb8-12"><a href="#cb8-12" tabindex="-1"></a>       <span class="at">colour =</span> <span class="cn">NULL</span>, <span class="at">linetype =</span> <span class="cn">NULL</span>) <span class="sc">+</span></span>
-<span id="cb8-13"><a href="#cb8-13" tabindex="-1"></a>  <span class="fu">theme_minimal</span>() <span class="sc">+</span></span>
-<span id="cb8-14"><a href="#cb8-14" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">legend.position =</span> <span class="st">&quot;bottom&quot;</span>, <span class="at">plot.caption =</span> <span class="fu">element_text</span>(<span class="at">hjust =</span> <span class="dv">0</span>))</span>
-<span id="cb8-15"><a href="#cb8-15" tabindex="-1"></a></span>
-<span id="cb8-16"><a href="#cb8-16" tabindex="-1"></a>admissions_plot     <span class="co"># draw it in the plot pane</span></span>
-<span id="cb8-17"><a href="#cb8-17" tabindex="-1"></a></span>
-<span id="cb8-18"><a href="#cb8-18" tabindex="-1"></a><span class="co"># pdf: a vector format, so it stays sharp at any size. Sizes are in inches.</span></span>
-<span id="cb8-19"><a href="#cb8-19" tabindex="-1"></a><span class="fu">ggsave</span>(<span class="st">&#39;output/ex6_admissions.pdf&#39;</span>, <span class="at">plot =</span> admissions_plot,</span>
-<span id="cb8-20"><a href="#cb8-20" tabindex="-1"></a>       <span class="at">width =</span> <span class="dv">10</span>, <span class="at">height =</span> <span class="fl">5.625</span>, <span class="at">units =</span> <span class="st">&quot;in&quot;</span>)</span>
-<span id="cb8-21"><a href="#cb8-21" tabindex="-1"></a></span>
-<span id="cb8-22"><a href="#cb8-22" tabindex="-1"></a><span class="co"># png: pixels, so the resolution matters. 10 x 5.625 inches at 300 dpi gives</span></span>
-<span id="cb8-23"><a href="#cb8-23" tabindex="-1"></a><span class="co"># you a 3000 x 1687 pixel image that will print cleanly.</span></span>
-<span id="cb8-24"><a href="#cb8-24" tabindex="-1"></a><span class="fu">ggsave</span>(<span class="st">&#39;output/ex6_admissions.png&#39;</span>, <span class="at">plot =</span> admissions_plot,</span>
-<span id="cb8-25"><a href="#cb8-25" tabindex="-1"></a>       <span class="at">width =</span> <span class="dv">10</span>, <span class="at">height =</span> <span class="fl">5.625</span>, <span class="at">units =</span> <span class="st">&quot;in&quot;</span>, <span class="at">dpi =</span> <span class="dv">300</span>)</span>
-<span id="cb8-26"><a href="#cb8-26" tabindex="-1"></a></span>
-<span id="cb8-27"><a href="#cb8-27" tabindex="-1"></a><span class="co"># Use the pdf for anything going to a printer and the png for anything going</span></span>
-<span id="cb8-28"><a href="#cb8-28" tabindex="-1"></a><span class="co"># into a Word document, PowerPoint or a web page. If your poster template asks</span></span>
-<span id="cb8-29"><a href="#cb8-29" tabindex="-1"></a><span class="co"># for a particular figure size, set width and height to that size here rather</span></span>
-<span id="cb8-30"><a href="#cb8-30" tabindex="-1"></a><span class="co"># than resizing the image afterwards, which is what makes text look squashed</span></span>
-<span id="cb8-31"><a href="#cb8-31" tabindex="-1"></a><span class="co"># or fuzzy.</span></span>
-<span id="cb8-32"><a href="#cb8-32" tabindex="-1"></a></span>
-<span id="cb8-33"><a href="#cb8-33" tabindex="-1"></a><span class="co"># If you leave out plot = admissions_plot, ggsave() saves the last plot you</span></span>
-<span id="cb8-34"><a href="#cb8-34" tabindex="-1"></a><span class="co"># drew. That&#39;s usually the one you wanted, but not always, so naming it is</span></span>
-<span id="cb8-35"><a href="#cb8-35" tabindex="-1"></a><span class="co"># safer.</span></span></code></pre></div>
+<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" tabindex="-1"></a><span class="co"># give the plot a name. Nothing is drawn until you ask for it by name</span></span>
+<span id="cb10-2"><a href="#cb10-2" tabindex="-1"></a>admissions_plot <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(<span class="at">data =</span> three_areas,</span>
+<span id="cb10-3"><a href="#cb10-3" tabindex="-1"></a>       <span class="fu">aes</span>(<span class="at">x =</span> year, <span class="at">y =</span> measure, <span class="at">colour =</span> area_name, <span class="at">linetype =</span> area_name)) <span class="sc">+</span></span>
+<span id="cb10-4"><a href="#cb10-4" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="at">linewidth =</span> <span class="dv">1</span>) <span class="sc">+</span></span>
+<span id="cb10-5"><a href="#cb10-5" tabindex="-1"></a>  <span class="fu">scale_colour_manual</span>(<span class="at">values =</span> cols) <span class="sc">+</span></span>
+<span id="cb10-6"><a href="#cb10-6" tabindex="-1"></a>  <span class="fu">scale_x_continuous</span>(<span class="at">breaks =</span> <span class="fu">seq</span>(<span class="dv">2010</span>, <span class="dv">2019</span>, <span class="at">by =</span> <span class="dv">2</span>)) <span class="sc">+</span></span>
+<span id="cb10-7"><a href="#cb10-7" tabindex="-1"></a>  <span class="fu">scale_y_continuous</span>(<span class="at">limits =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">1600</span>)) <span class="sc">+</span></span>
+<span id="cb10-8"><a href="#cb10-8" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">&quot;Year&quot;</span>,</span>
+<span id="cb10-9"><a href="#cb10-9" tabindex="-1"></a>       <span class="at">y =</span> <span class="st">&quot;Hospital admissions per 100,000 people&quot;</span>,</span>
+<span id="cb10-10"><a href="#cb10-10" tabindex="-1"></a>       <span class="at">title =</span> <span class="st">&quot;Alcohol-related hospital admissions, 2010 to 2019&quot;</span>,</span>
+<span id="cb10-11"><a href="#cb10-11" tabindex="-1"></a>       <span class="at">caption =</span> <span class="st">&quot;Source: Scottish Public Health Observatory. Rates are age-sex standardised.&quot;</span>,</span>
+<span id="cb10-12"><a href="#cb10-12" tabindex="-1"></a>       <span class="at">colour =</span> <span class="cn">NULL</span>, <span class="at">linetype =</span> <span class="cn">NULL</span>) <span class="sc">+</span></span>
+<span id="cb10-13"><a href="#cb10-13" tabindex="-1"></a>  <span class="fu">theme_minimal</span>() <span class="sc">+</span></span>
+<span id="cb10-14"><a href="#cb10-14" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">legend.position =</span> <span class="st">&quot;bottom&quot;</span>, <span class="at">plot.caption =</span> <span class="fu">element_text</span>(<span class="at">hjust =</span> <span class="dv">0</span>))</span>
+<span id="cb10-15"><a href="#cb10-15" tabindex="-1"></a></span>
+<span id="cb10-16"><a href="#cb10-16" tabindex="-1"></a>admissions_plot     <span class="co"># draw it in the plot pane</span></span>
+<span id="cb10-17"><a href="#cb10-17" tabindex="-1"></a></span>
+<span id="cb10-18"><a href="#cb10-18" tabindex="-1"></a><span class="co"># pdf: a vector format, so it stays sharp at any size. Sizes are in inches.</span></span>
+<span id="cb10-19"><a href="#cb10-19" tabindex="-1"></a><span class="fu">ggsave</span>(<span class="st">&#39;output/ex6_admissions.pdf&#39;</span>, <span class="at">plot =</span> admissions_plot,</span>
+<span id="cb10-20"><a href="#cb10-20" tabindex="-1"></a>       <span class="at">width =</span> <span class="dv">10</span>, <span class="at">height =</span> <span class="fl">5.625</span>, <span class="at">units =</span> <span class="st">&quot;in&quot;</span>)</span>
+<span id="cb10-21"><a href="#cb10-21" tabindex="-1"></a></span>
+<span id="cb10-22"><a href="#cb10-22" tabindex="-1"></a><span class="co"># png: pixels, so the resolution matters. 10 x 5.625 inches at 300 dpi gives</span></span>
+<span id="cb10-23"><a href="#cb10-23" tabindex="-1"></a><span class="co"># you a 3000 x 1687 pixel image that will print cleanly.</span></span>
+<span id="cb10-24"><a href="#cb10-24" tabindex="-1"></a><span class="fu">ggsave</span>(<span class="st">&#39;output/ex6_admissions.png&#39;</span>, <span class="at">plot =</span> admissions_plot,</span>
+<span id="cb10-25"><a href="#cb10-25" tabindex="-1"></a>       <span class="at">width =</span> <span class="dv">10</span>, <span class="at">height =</span> <span class="fl">5.625</span>, <span class="at">units =</span> <span class="st">&quot;in&quot;</span>, <span class="at">dpi =</span> <span class="dv">300</span>)</span>
+<span id="cb10-26"><a href="#cb10-26" tabindex="-1"></a></span>
+<span id="cb10-27"><a href="#cb10-27" tabindex="-1"></a><span class="co"># Use the pdf for anything going to a printer and the png for anything going</span></span>
+<span id="cb10-28"><a href="#cb10-28" tabindex="-1"></a><span class="co"># into a Word document, PowerPoint or a web page. If your poster template asks</span></span>
+<span id="cb10-29"><a href="#cb10-29" tabindex="-1"></a><span class="co"># for a particular figure size, set width and height to that size here rather</span></span>
+<span id="cb10-30"><a href="#cb10-30" tabindex="-1"></a><span class="co"># than resizing the image afterwards, which is what makes text look squashed</span></span>
+<span id="cb10-31"><a href="#cb10-31" tabindex="-1"></a><span class="co"># or fuzzy.</span></span>
+<span id="cb10-32"><a href="#cb10-32" tabindex="-1"></a></span>
+<span id="cb10-33"><a href="#cb10-33" tabindex="-1"></a><span class="co"># If you leave out plot = admissions_plot, ggsave() saves the last plot you</span></span>
+<span id="cb10-34"><a href="#cb10-34" tabindex="-1"></a><span class="co"># drew. That&#39;s usually the one you wanted, but not always, so naming it is</span></span>
+<span id="cb10-35"><a href="#cb10-35" tabindex="-1"></a><span class="co"># safer.</span></span></code></pre></div>
 <p><img src="exercise_6_solution_files/figure-html/Q9-1.png" alt="" width="864" /></p>
 <p> </p>
 <p>End of Exercise 6</p>

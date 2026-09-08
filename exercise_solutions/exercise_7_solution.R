@@ -24,6 +24,7 @@
 ## knitr::opts_chunk$set(echo = TRUE)
 ## 
 ## library(knitr)
+## library(ggplot2)
 ## ```
 ## ````
 ## 
@@ -60,12 +61,18 @@
 ## measurements, which are perfectly good, and correcting the body mass index would mean
 ## putting a number into the data that nobody measured.
 ## 
-## ```{r alcohol-transform}
+## ```{r alcohol-transform, fig.show = 'hold', out.width = '50%'}
 ## cardiac$alcohol_sqrt <- sqrt(cardiac$alcohol)
 ## 
-## par(mfrow = c(1, 2))
-## hist(cardiac$alcohol, main = "", xlab = "alcohol (units/week)")
-## hist(cardiac$alcohol_sqrt, main = "", xlab = "sqrt(alcohol)")
+## ggplot(cardiac, aes(x = alcohol)) +
+##   geom_histogram(bins = 15) +
+##   labs(x = "Alcohol (units per week)", y = "Number of patients") +
+##   theme_minimal()
+## 
+## ggplot(cardiac, aes(x = alcohol_sqrt)) +
+##   geom_histogram(bins = 15) +
+##   labs(x = "Square root of alcohol units", y = "Number of patients") +
+##   theme_minimal()
 ## ```
 ## 
 ## A small number of patients drink a great deal more than the rest, which leaves weekly
@@ -80,8 +87,11 @@
 
 ## ````{.md .foldable}
 ## ```{r chol-plot, fig.cap = 'HDL cholesterol by smoking status.', fig.width = 4}
-## boxplot(hdlchol ~ Fsmoking, data = cardiac,
-##         xlab = "Smoking status", ylab = "HDL cholesterol (mmol/l)")
+## ggplot(cardiac, aes(x = Fsmoking, y = hdlchol)) +
+##   geom_boxplot() +
+##   scale_x_discrete(na.translate = FALSE) +
+##   labs(x = "Smoking status", y = "HDL cholesterol (mmol/l)") +
+##   theme_minimal()
 ## ```
 ## ````
 ## 

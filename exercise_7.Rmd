@@ -23,13 +23,15 @@ Read [Chapter 8](https://intro2r.com/rmarkdown_r.html) to help you complete the 
 
 \  
 
-**Before the session.** This exercise needs the `rmarkdown` and `knitr` packages, and a LaTeX installation so that you can make PDF documents. Work through **[Setting up R markdown](rmarkdown_setup.html){target="_blank"}**, under the Setup menu above, before you come to the session. It takes about fifteen minutes and most of that is a download running by itself, but please don't leave it until the morning of the session. If you hit a real problem we'll help you at the start of the session, but we can't get everybody set up and still have time to teach anything.
+**Before the session.** This exercise needs the `rmarkdown` and `knitr` packages, a LaTeX installation so that you can make PDF documents, and `ggplot2`, which you installed for Exercise 6. Work through **[Setting up R markdown](rmarkdown_setup.html){target="_blank"}**, under the Setup menu above, before you come to the session. It takes about fifteen minutes and most of that is a download running by itself, but please don't leave it until the morning of the session. If you hit a real problem we'll help you at the start of the session, but we can't get everybody set up and still have time to teach anything.
 
 \  
 
 Up to now everything you've written has been code, for your own use. This exercise is about producing a *document* for somebody else to read, in which your writing, your code and your results all live in the same R markdown file. Because they're in the same file they can't drift apart, which is what we mean by a reproducible report. Change the data, press one button, and every number, figure and table in the output file updates itself.
 
 It's also the exercise where the rest of the course comes together. You won't be learning much new R here. Instead you'll be taking the things you already know how to do, importing data, checking it for values that can't be right, transforming a variable, drawing a plot and summarising into a table, and setting them out in the order a reader needs them: what the data are, what you did to them and why, and what you found. That order is the point. A report is not a pile of results, it's an account of a piece of work.
+
+The figures in this exercise use `ggplot2`, the way Exercise 6 did. If you'd rather draw them with base R then please do, and nothing else here changes. That's one of the nice things about R. Nobody makes you work in one particular way, so use whichever you're quickest and most confident with.
 
 You'll build **one document** across the whole exercise, adding something to it at each question, so don't start a new file each time. There's a lot of new vocabulary here, so take it slowly and knit often. Knitting after every small change is the quickest way to see what each thing does, and the quickest way to find out which change broke something.
 
@@ -123,7 +125,7 @@ Give the chunk a name by typing it straight after the `r`, so the first line rea
 
 Inside the chunk, import `cardiacdata.txt` exactly as you did in **Exercise 3, Q5**: with the `read.table()` function, writing out the `header`, `sep` and `stringsAsFactors` arguments, and assigning the result to `cardiac`. In the same chunk, add the two `factor()` lines from **Exercise 3, Q7** that create `Fsex` and `Fsmoking`. You'll remember why. `sex` and `smoking` arrive from the file as the numbers they were coded as, 1 and 2 for sex and 1, 2 and 3 for smoking, but they are really categories rather than quantities, so you use `factor()` to attach a meaningful label to each code and leave the original columns untouched (see `?factor` and [Section 3.1](https://intro2r.com/data-types.html#data-types) of the book for where factors sit among R's data types). You'll need `Fsmoking` for the boxplot in Q7 and the table in Q8, and both of them read a great deal better with words in them than with numbers.
 
-One more thing while you're in there. Later in this exercise you'll want a couple of functions from the `knitr` package, and the tidy place for a `library()` call is at the top of a document rather than buried in the middle of it. Add `library(knitr)` to your `setup` chunk now, the one you kept back in Q2, and you won't have to think about it again.
+One more thing while you're in there. Later in this exercise you'll want a couple of functions from the `knitr` package, and you'll want `ggplot2` for the figures, and the tidy place for a `library()` call is at the top of a document rather than buried in the middle of it. Add `library(knitr)` and `library(ggplot2)` to your `setup` chunk now, the one you kept back in Q2, and you won't have to think about them again.
 
 Run the import chunk in the editor with the small green arrow at its top right corner, the rightmost of the three little buttons there. If you can't see it, `Code` -> `Run Region` -> `Run Current Chunk` does the same job, and so does Ctrl+Alt+C, or Cmd+Alt+C on a Mac. Then knit the whole document. Notice that knitting starts a completely fresh R session: anything you made earlier in the console doesn't exist when the document knits, which is exactly what makes it reproducible. It also means the chunk that imports the data has to come before any chunk that uses it.
 
@@ -135,6 +137,7 @@ The setup chunk, with the package loaded at the top of the document:
 knitr::opts_chunk$set(echo = TRUE)
 
 library(knitr)
+library(ggplot2)
 ```
 ````
 
@@ -165,7 +168,9 @@ Second, below it, a chunk named `validation` holding the three lines from **Exer
 
 Third, beneath that chunk, a short paragraph of two or three sentences saying which variables you changed, how many values in each, and why you set them to `NA` rather than deleting those patients or correcting the numbers yourself. Write the counts in as ordinary numbers too, so something like 'two patients had an HDL cholesterol of 0 mmol/l'.
 
-You'll remember from **Exercise 5, Q9** that the variable `alcohol` needed some work as well. A small number of patients drink a great deal more than the rest, which leaves the distribution with a long tail to the right, and you took the square root to pull that tail in. That's a data preparation step exactly like the cleaning above, so it belongs in this section too. Add a chunk named `alcohol-transform` that creates the square root of `alcohol` and draws the histograms of `alcohol` and `sqrt(alcohol)` side by side, then write a sentence or two underneath saying why you did it.
+You'll remember from **Exercise 5, Q9** that the variable `alcohol` needed some work as well. A small number of patients drink a great deal more than the rest, which leaves the distribution with a long tail to the right, and you took the square root to pull that tail in. That's a data preparation step exactly like the cleaning above, so it belongs in this section too. Add a chunk named `alcohol-transform` that creates the square root of `alcohol` and then draws two histograms, one of `alcohol` and one of the square root, so a reader can see what the transformation did. Write a sentence or two underneath saying why you did it.
+
+Two plots in one chunk come out one above the other by default. To sit them side by side, add `fig.show = 'hold'` and `out.width = '50%'` to the chunk options, in the curly braces after the chunk name. That's R markdown laying the page out for you rather than anything to do with the plotting, so it works whichever package you draw with.
 
 `````{asis, echo=SOLUTIONS}
 ````{.md .foldable}
@@ -187,12 +192,18 @@ certainly 51.46 with the decimal point in the wrong place. All four values were 
 measurements, which are perfectly good, and correcting the body mass index would mean
 putting a number into the data that nobody measured.
 
-```{r alcohol-transform}
+```{r alcohol-transform, fig.show = 'hold', out.width = '50%'}
 cardiac$alcohol_sqrt <- sqrt(cardiac$alcohol)
 
-par(mfrow = c(1, 2))
-hist(cardiac$alcohol, main = "", xlab = "alcohol (units/week)")
-hist(cardiac$alcohol_sqrt, main = "", xlab = "sqrt(alcohol)")
+ggplot(cardiac, aes(x = alcohol)) +
+  geom_histogram(bins = 15) +
+  labs(x = "Alcohol (units per week)", y = "Number of patients") +
+  theme_minimal()
+
+ggplot(cardiac, aes(x = alcohol_sqrt)) +
+  geom_histogram(bins = 15) +
+  labs(x = "Square root of alcohol units", y = "Number of patients") +
+  theme_minimal()
 ```
 
 A small number of patients drink a great deal more than the rest, which leaves weekly
@@ -208,7 +219,9 @@ work somebody else can rely on.
 
 \  
 
-7\. With the data in and tidied up, you can start showing the reader what's in it. Insert another chunk, name it `chol-plot`, and use it to redraw the boxplot of HDL cholesterol by smoking status from **Exercise 5, Q11**. You already have `Fsmoking` from your import chunk, so this is just the `boxplot()` call.
+7\. With the data in and tidied up, you can start showing the reader what's in it. Insert another chunk, name it `chol-plot`, and use it to draw a boxplot of HDL cholesterol by smoking status. It's the same comparison you drew in **Exercise 5, Q11**, built with `ggplot2` this time: `Fsmoking` along the x axis, `hdlchol` up the y axis, and `geom_boxplot()` as the geom. You already have `Fsmoking` from your import chunk.
+
+One thing to watch out for. The seven patients with no recorded smoking status get a box of their own, labelled NA, which isn't something you want in front of a reader. Adding a `scale_x_discrete(na.translate = FALSE)` layer leaves them out.
 
 Now give the figure a caption. Chunk options go inside the curly braces, after the chunk name, separated by commas. The first line of your chunk should read:
 
@@ -226,8 +239,11 @@ There are a great many other chunk options for figures, controlling height, alig
 `````{asis, echo=SOLUTIONS}
 ````{.md .foldable}
 ```{r chol-plot, fig.cap = 'HDL cholesterol by smoking status.', fig.width = 4}
-boxplot(hdlchol ~ Fsmoking, data = cardiac,
-        xlab = "Smoking status", ylab = "HDL cholesterol (mmol/l)")
+ggplot(cardiac, aes(x = Fsmoking, y = hdlchol)) +
+  geom_boxplot() +
+  scale_x_discrete(na.translate = FALSE) +
+  labs(x = "Smoking status", y = "HDL cholesterol (mmol/l)") +
+  theme_minimal()
 ```
 ````
 
@@ -316,7 +332,7 @@ using for any number in your writing that comes out of your data.
 
 You control this chunk by chunk with the `echo` option, in the same curly braces as the caption you added in Q7. [Section 8.5.3](https://intro2r.com/r-markdown-anatomy.html#code_chunks) of the book lists the chunk options alongside it. Add `echo = FALSE` to your `chol-plot` chunk and knit. The plot is still there, but the code that drew it is not. Take it off again afterwards, since we want the code visible in this report.
 
-Code isn't the only thing that can end up in your document without you asking for it. **Messages** are the chatty output R produces while it's doing something in the background, most often when you load a package with `library()`, and they can easily run to half a dozen lines. **Warnings** are R telling you that something might not be right, and they tend to look a lot more alarming to a reader than they usually deserve to. Both of them land in the middle of your writing. You switch them off in the same way as the code, with `message = FALSE` and `warning = FALSE`, either on a single chunk or on all of them at once by putting them inside the `knitr::opts_chunk$set()` call in your `setup` chunk.
+Code isn't the only thing that can end up in your document without you asking for it. **Messages** are the chatty output R produces while it's doing something in the background, most often when you load a package with `library()`, and they can easily run to half a dozen lines. **Warnings** are R telling you that something might not be right, and they tend to look a lot more alarming to a reader than they usually deserve to. You've met one already: when ggplot drew your boxplot it warned that it had removed four rows, because four patients have no HDL cholesterol value. That's worth knowing about and it isn't worth showing a reader. Both messages and warnings land in the middle of your writing. You switch them off in the same way as the code, with `message = FALSE` and `warning = FALSE`, either on a single chunk or on all of them at once by putting them inside the `knitr::opts_chunk$set()` call in your `setup` chunk.
 
 Be careful with `warning = FALSE` though. You're hiding warnings from your reader, not from yourself, so keep an eye on the ones appearing in the console while you work, because some of them matter.
 

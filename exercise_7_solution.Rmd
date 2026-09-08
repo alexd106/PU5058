@@ -73,7 +73,7 @@ Build it up rather than pasting it in one go. Put `pdf_document:` on its own lin
 ---
 title: "Cardiac study report"
 author: "Your Name"
-date: "20 August 2026"
+date: "2 November 2026"
 output:
   pdf_document:
     toc: true

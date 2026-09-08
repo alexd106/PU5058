@@ -15,8 +15,8 @@ summary(cardiac)
 # bmi has a maximum of 514.60. A blood concentration of zero is not a low
 # reading, it is impossible; you cannot have no cholesterol in your blood and
 # still be alive to take part in a study. And a body mass index of 514 is not
-# a very large person, it is a decimal point in the wrong place: 51.46 typed
-# as 514.6.
+# a very large person. It is almost certainly 51.46 with the decimal point in
+# the wrong place, although we have no way of confirming that.
 
 # which patient has the impossible bmi?
 cardiac[cardiac$bmi > 100, ]     # patient 1630L
@@ -58,7 +58,7 @@ summary(cardiac)   # check: the minima and maximum are now sensible
 
 
 ## ----Q2, echo=SOLUTIONS-------------------------------------------------------
-# now systolic within smoking status. smoking comes first because it is the
+# systolic within smoking status. smoking comes first because it is the
 # grouping you want, systolic second because it sorts within each group
 cardiac_sorted <- cardiac[order(cardiac$Fsmoking, cardiac$systolic), ]
 

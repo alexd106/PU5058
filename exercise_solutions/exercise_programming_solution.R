@@ -7,10 +7,10 @@ circle_area <- function(d){
 	pi * (d/2)^2
 }
 
-# to use your new function
+# to use your new function on a circle with a diameter of 3.4 cm
 
-circle_area(10)
-# [1] 78.53982
+circle_area(3.4)
+# [1] 9.079203
 
 # to test on a vector of diameters
 # first create a vector with diameters ranging from 0 to 50 in steps of 10

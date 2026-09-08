@@ -504,7 +504,7 @@ $(document).ready(function () {
 
 <p> </p>
 <div id="exercise-2-basic-r-operations" class="section level2">
-<h2>Exercise 2 : Basic R operations</h2>
+<h2>Exercise 2: Basic R operations</h2>
 <p> </p>
 <p>Read <a href="https://intro2r.com/basics_r.html">Chapter 2</a> to
 help you complete the questions in this exercise.</p>
@@ -586,7 +586,7 @@ variable.</p>
 <span id="cb4-7"><a href="#cb4-7" tabindex="-1"></a>first_five <span class="ot">&lt;-</span> weight[<span class="dv">1</span><span class="sc">:</span><span class="dv">5</span>]                  <span class="co"># extract first 5 weight values</span></span>
 <span id="cb4-8"><a href="#cb4-8" tabindex="-1"></a>first_five <span class="ot">&lt;-</span> weight[<span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">3</span>, <span class="dv">4</span>, <span class="dv">5</span>)]     <span class="co"># alternative method</span></span></code></pre></div>
 <p> </p>
-<p>6. We’re now going to use the the <code>c()</code> function again to
+<p>6. We’re now going to use the <code>c()</code> function again to
 create another vector called <code>height</code> containing the height
 (in cm) of the same 10 children:
 <code>112, 102, 83, 84, 99, 90, 77, 112, 133, 112</code>. Use the
@@ -611,7 +611,7 @@ equal to 99 cm and assign to a variable called
 <p>7. Now you can use the information in your <code>weight</code> and
 <code>height</code> variables to calculate the body mass index (BMI) for
 each child. The BMI is calculated as weight (in kg) divided by the
-square of the height (<strong>in meters</strong>).</p>
+square of the height (<strong>in metres</strong>).</p>
 <p><span class="math display">\[bmi_i = \frac{weight_i}
 {height_i^2}\]</span></p>
 <p>Store the results of this calculation in a variable called
@@ -620,7 +620,7 @@ child individually, you can use both vectors in the BMI equation – this
 is called vectorisation (see <a
 href="https://intro2r.com/vectors.html#vectorisation">Section 2.4.4</a>
 of the Introduction to R book).</p>
-<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" tabindex="-1"></a>bmi <span class="ot">&lt;-</span> weight<span class="sc">/</span>(height<span class="sc">/</span><span class="dv">100</span>)<span class="sc">^</span><span class="dv">2</span>    <span class="co"># don&#39;t forget to convert height to meters</span></span></code></pre></div>
+<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" tabindex="-1"></a>bmi <span class="ot">&lt;-</span> weight<span class="sc">/</span>(height<span class="sc">/</span><span class="dv">100</span>)<span class="sc">^</span><span class="dv">2</span>    <span class="co"># don&#39;t forget to convert height to metres</span></span></code></pre></div>
 <p> </p>
 <p>8. Now let’s practice a very useful skill - creating sequences
 (honestly it is…). Take a look at <a
@@ -643,9 +643,9 @@ search for <code>'rev'</code>).</p>
 following two sequences. You will need to experiment with the arguments
 of the <code>rep()</code> function to generate them (see <a
 href="https://intro2r.com/using-functions-in-r.html#using-functions-in-r">Section
-2.3</a> for some clues). The two sequences use the same four elements
-but repeat them differently, so pay attention to which argument you need
-in each case:</p>
+2.3</a> for some clues). The two sequences repeat their elements in
+different ways, so pay attention to which argument you need in each
+case:</p>
 <ul>
 <li>1 2 3 1 2 3 1 2 3</li>
 <li>a a a c c c e e e g g g</li>
@@ -676,8 +676,8 @@ bracket notation <code>[ ]</code>. Have a peep at <a
 href="https://intro2r.com/vectors.html#vec_ord">Section 2.4.3</a> for
 some details. Create a new variable called <code>names_sort</code> to
 store the names of the children ordered by child height (from shortest
-to tallest). Who is the shortest? who is the tallest child? If you’re
-not sure how to do this, please ask one of the instructors.</p>
+to tallest). Who is the shortest, and who is the tallest? If you’re not
+sure how to do this, please ask one of the instructors.</p>
 <div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" tabindex="-1"></a>height_ord <span class="ot">&lt;-</span> <span class="fu">order</span>(height)   <span class="co"># get the indexes of the heights, smallest to tallest</span></span>
 <span id="cb11-2"><a href="#cb11-2" tabindex="-1"></a>names_sort <span class="ot">&lt;-</span> child_names[height_ord]     <span class="co"># Louise is shortest, Ronald is tallest</span></span></code></pre></div>
 <p> </p>

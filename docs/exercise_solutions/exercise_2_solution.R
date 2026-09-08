@@ -37,7 +37,7 @@ shorter_child <- height[height <= 99]     # extract all heights less than or equ
 
 
 ## ----Q7,echo=SOLUTIONS--------------------------------------------------------
-bmi <- weight/(height/100)^2    # don't forget to convert height to meters
+bmi <- weight/(height/100)^2    # don't forget to convert height to metres
 
 
 ## ----Q8,echo=SOLUTIONS--------------------------------------------------------

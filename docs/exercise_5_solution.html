@@ -625,13 +625,13 @@ of the book).</p>
 <p>7. That single point over on the right of the <code>bmi</code>
 dotplot is the value you met in Exercise 4, when you ran
 <code>summary()</code> and found a maximum of 514.60. A body mass index
-of 514 isn’t possible - it’s 51.46 with the decimal point in the wrong
-place. Notice how much easier the dotplot has made this to spot. In
-Exercise 4 you had to work your way through the <code>summary()</code>
-output and check the minimum and maximum of each variable in turn,
-whereas here it stands out as soon as you draw the plot. That’s a good
-reason to make a dotplot of each of your continuous variables early
-on.</p>
+of 514 isn’t possible. It’s almost certainly 51.46 with the decimal
+point in the wrong place, although we can’t confirm that. Notice how
+much easier the dotplot has made this to spot. In Exercise 4 you had to
+work your way through the <code>summary()</code> output and check the
+minimum and maximum of each variable in turn, whereas here it stands out
+as soon as you draw the plot. That’s a good reason to make a dotplot of
+each of your continuous variables early on.</p>
 <p>Remember that you imported the raw file again in Q4, so none of the
 cleaning you did in Exercise 4 is in this dataframe. Redo all three of
 those fixes now. Use the <code>which()</code> function to identify which
@@ -669,8 +669,8 @@ rest. Which ones, and what should you do about them?</p>
 <span id="cb4-25"><a href="#cb4-25" tabindex="-1"></a><span class="co"># people really do drink that much. These are not errors, they are patients.</span></span>
 <span id="cb4-26"><a href="#cb4-26" tabindex="-1"></a><span class="co"># The difference between this question and the last one is the difference</span></span>
 <span id="cb4-27"><a href="#cb4-27" tabindex="-1"></a><span class="co"># between a value that CANNOT be right and a value you did not expect, and only</span></span>
-<span id="cb4-28"><a href="#cb4-28" tabindex="-1"></a><span class="co"># the first of those is yours to change. Deleting inconvenient data because it</span></span>
-<span id="cb4-29"><a href="#cb4-29" tabindex="-1"></a><span class="co"># looks untidy is scientific fraud.</span></span></code></pre></div>
+<span id="cb4-28"><a href="#cb4-28" tabindex="-1"></a><span class="co"># the first of those is yours to change. Never delete a value simply because it</span></span>
+<span id="cb4-29"><a href="#cb4-29" tabindex="-1"></a><span class="co"># looks untidy. It changes your results, and nobody reading them would know.</span></span></code></pre></div>
 <p><img src="exercise_5_solution_files/figure-html/Q7-1.png" alt="" width="672" /></p>
 <p> </p>
 <p>8. Histograms are the standard way of looking at the distribution of
@@ -794,9 +794,9 @@ works in much the same way as <code>boxplot()</code>. Draw the HDL
 comparison from Q11 again as a violin plot and compare the two.</p>
 <p>Every plot so far has appeared in the RStudio plot pane, which is
 fine while you’re exploring but no use at all when you need the figure
-in a document. Getting a plot out of R is a three step sandwich. You
-open a graphics device that is a file rather than a window, you draw the
-plot exactly as you have been doing, and then you close the device with
+in a document. Getting a plot out of R takes three steps. You open a
+graphics device that is a file rather than a window, you draw the plot
+exactly as you have been doing, and then you close the device with
 <code>dev.off()</code>. Nothing appears on screen while you do it, and
 if you forget the <code>dev.off()</code> your file will be unreadable
 (see <a

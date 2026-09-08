@@ -550,8 +550,8 @@ patient record or guessing what the value should have been?</p>
 <span id="cb2-4"><a href="#cb2-4" tabindex="-1"></a><span class="co"># bmi has a maximum of 514.60. A blood concentration of zero is not a low</span></span>
 <span id="cb2-5"><a href="#cb2-5" tabindex="-1"></a><span class="co"># reading, it is impossible; you cannot have no cholesterol in your blood and</span></span>
 <span id="cb2-6"><a href="#cb2-6" tabindex="-1"></a><span class="co"># still be alive to take part in a study. And a body mass index of 514 is not</span></span>
-<span id="cb2-7"><a href="#cb2-7" tabindex="-1"></a><span class="co"># a very large person, it is a decimal point in the wrong place: 51.46 typed</span></span>
-<span id="cb2-8"><a href="#cb2-8" tabindex="-1"></a><span class="co"># as 514.6.</span></span>
+<span id="cb2-7"><a href="#cb2-7" tabindex="-1"></a><span class="co"># a very large person. It is almost certainly 51.46 with the decimal point in</span></span>
+<span id="cb2-8"><a href="#cb2-8" tabindex="-1"></a><span class="co"># the wrong place, although we have no way of confirming that.</span></span>
 <span id="cb2-9"><a href="#cb2-9" tabindex="-1"></a></span>
 <span id="cb2-10"><a href="#cb2-10" tabindex="-1"></a><span class="co"># which patient has the impossible bmi?</span></span>
 <span id="cb2-11"><a href="#cb2-11" tabindex="-1"></a>cardiac[cardiac<span class="sc">$</span>bmi <span class="sc">&gt;</span> <span class="dv">100</span>, ]     <span class="co"># patient 1630L</span></span>
@@ -606,7 +606,7 @@ result to a variable with a sensible name. The trick is to remember that
 order you give them in matters. Now take a look at the bottom of your
 sorted dataframe. Where have the patients with a missing smoking status
 ended up, and why?</p>
-<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" tabindex="-1"></a><span class="co"># now systolic within smoking status. smoking comes first because it is the</span></span>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" tabindex="-1"></a><span class="co"># systolic within smoking status. smoking comes first because it is the</span></span>
 <span id="cb3-2"><a href="#cb3-2" tabindex="-1"></a><span class="co"># grouping you want, systolic second because it sorts within each group</span></span>
 <span id="cb3-3"><a href="#cb3-3" tabindex="-1"></a>cardiac_sorted <span class="ot">&lt;-</span> cardiac[<span class="fu">order</span>(cardiac<span class="sc">$</span>Fsmoking, cardiac<span class="sc">$</span>systolic), ]</span>
 <span id="cb3-4"><a href="#cb3-4" tabindex="-1"></a></span>
@@ -616,16 +616,16 @@ ended up, and why?</p>
 <p> </p>
 <p>3. Often, we would like to summarise variables by, for example,
 calculating a mean, median or counting the number of observations. To do
-this for a single variable it’s fairly straight forward :</p>
+this for a single variable it’s fairly straightforward:</p>
 <p> </p>
 <div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" tabindex="-1"></a><span class="fu">mean</span>(cardiac<span class="sc">$</span>age)          <span class="co"># mean age</span></span>
 <span id="cb4-2"><a href="#cb4-2" tabindex="-1"></a><span class="fu">median</span>(cardiac<span class="sc">$</span>systolic)   <span class="co"># median systolic blood pressure</span></span>
 <span id="cb4-3"><a href="#cb4-3" tabindex="-1"></a><span class="fu">length</span>(cardiac<span class="sc">$</span>tchol)      <span class="co"># number of observations</span></span></code></pre></div>
 <p> </p>
-<p>3. (cont) Perhaps more interestingly, you might want to summarise one
-variable conditional on the level of another categorical variable, and
-to do several variables at once. The <code>aggregate()</code> function
-does exactly this (see <a
+<p>Perhaps more interestingly, you might want to summarise one variable
+conditional on the level of another categorical variable, and to do
+several variables at once. The <code>aggregate()</code> function does
+exactly this (see <a
 href="https://intro2r.com/summarising-data-frames.html#summarising-data-frames">Section
 3.5</a> of the Introduction to R book, or <code>?aggregate</code>). Use
 <code>aggregate()</code> to calculate the mean age, systolic pressure,
@@ -714,16 +714,16 @@ missing?</p>
 <span id="cb7-16"><a href="#cb7-16" tabindex="-1"></a><span class="fu">table</span>(cardiac<span class="sc">$</span>Fsmoking, <span class="at">useNA =</span> <span class="st">&quot;ifany&quot;</span>)</span></code></pre></div>
 <p> </p>
 <p>6. Not every variable has its values distributed symmetrically about
-the centre, and several of the ones here do not. Look back at
-<code>triglyceride</code> in your <code>summary()</code> output. The
-mean, 1.556, sits above the median, 1.380, and the rest of the summary
-is lopsided in the same direction: the third quartile is 0.50 above the
-median while the first is only 0.32 below it, and the maximum is 3.29
-above while the minimum is 0.86 below. Everything is stretched out to
-the right, which is what a long right hand tail looks like in a table of
-numbers, a few patients with much higher values than everybody else.
-Transforming to a log scale pulls that tail in, and it is a common way
-of dealing with skewed variables.</p>
+the centre. Look back at <code>triglyceride</code> in your
+<code>summary()</code> output. The mean, 1.556, sits above the median,
+1.380, and the rest of the summary is lopsided in the same direction:
+the third quartile is 0.50 above the median while the first is only 0.32
+below it, and the maximum is 3.29 above while the minimum is 0.86 below.
+Everything is stretched out to the right, which is what a long right
+hand tail looks like in a table of numbers, a few patients with much
+higher values than everybody else. Transforming to a log scale pulls
+that tail in, and it is a common way of dealing with skewed
+variables.</p>
 <p>Create a new variable in the <code>cardiac</code> dataframe called
 <code>log_triglyceride</code>, holding the base 10 logarithm of
 <code>triglyceride</code> (see <code>?log10</code>, and <a
@@ -772,10 +772,13 @@ separate file. Download <em>‘cardiac_followup.txt’</em> from the
 <strong><a href="data.html"><i class="fa fa-download"></i>
 Data</a></strong> link, save it to your <code>data</code> directory and
 import it with <code>read.table()</code> into a variable called
-<code>followup</code>. How many rows does it have, and how does that
-compare with <code>cardiac</code>? The <code>nrow()</code> function will
-tell you, and it does exactly what the name suggests: give it a
-dataframe and it returns the number of rows.</p>
+<code>followup</code>. It holds the patient number, <code>patno</code>,
+along with the systolic blood pressure and body mass index measured at
+follow-up, <code>systolic10</code> and <code>bmi10</code>. How many rows
+does it have, and how does that compare with <code>cardiac</code>? The
+<code>nrow()</code> function will tell you, and it does exactly what the
+name suggests: give it a dataframe and it returns the number of
+rows.</p>
 <p>Now use the <code>merge()</code> function to link the two together on
 the patient number, and assign the result to <code>cardiac_fu</code>.
 Left to its own devices <code>merge()</code> performs what is called an

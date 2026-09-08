@@ -27,7 +27,7 @@ Read [Chapter 3](https://intro2r.com/data_r.html) to help you complete the quest
 
 \  
 
-2\. If you haven't already, download the data file *'cardiacdata.xlsx'* from the **[<i class="fa fa-download"></i> Data](data.html)** link and save it to the `data` directory you created in Exercise 1 in your RStudio project. You will use this same dataset for the next three practicals, so it is worth putting it somewhere sensible now.
+2\. If you haven't already, download the data file *'cardiacdata.xlsx'* from the **[<i class="fa fa-download"></i> Data](data.html)** link and save it to the `data` directory you created in Exercise 1 in your RStudio project. You will use this same dataset for this practical and the next two, so it is worth putting it somewhere sensible now.
 
 \  
 
@@ -47,7 +47,7 @@ cardiac <- read.table('data/cardiacdata.txt', header = TRUE, sep = "\t", strings
 
 \  
 
-6\. Once you've imported your data file nothing much seems to happen (don't worry, this is normal). To examine the contents of the dataframe one option would be to just type the variable name (`cardiac`) into the console. This is probably not a good idea and doesn't really tell you anything about the dataframe other than there's alot of data (try it)! A slightly better option is to use the `head()` function to display the first few rows of your dataframe. Again, this is likely to just fill up your console. A better option would be to use the `names()` function which will return a vector of variable names from your dataset. However, all you get are the names of the variables but no other information. A much, much better option is to use the `str()` function to display the structure of the dataset and a neat summary of your variables. Another advantage is that you can copy this information from the console and paste it into your R script (making sure it's commented) for later reference. 
+6\. Once you've imported your data file nothing much seems to happen (don't worry, this is normal). To examine the contents of the dataframe one option would be to just type the variable name (`cardiac`) into the console. This is probably not a good idea and doesn't really tell you anything about the dataframe other than there's a lot of data (try it)! A slightly better option is to use the `head()` function to display the first few rows of your dataframe. Again, this is likely to just fill up your console. A better option would be to use the `names()` function which will return a vector of variable names from your dataset. However, all you get are the names of the variables but no other information. A much, much better option is to use the `str()` function to display the structure of the dataset and a neat summary of your variables. Another advantage is that you can copy this information from the console and paste it into your R script (making sure it's commented) for later reference. 
 
 So, from the output of the `str()` function, how many observations does this dataset have? How many variables? And now the important question: what type of variable does R think `sex` and `smoking` are, and is it right?
 
@@ -204,9 +204,9 @@ cardiac_notex <- cardiac[cardiac$Fsmoking != "Ex", ]
 
 \  
 
-11\. A really neat feature of conditional statements is that you can put R functions inside them, so the threshold is worked out from the data rather than typed in by hand (see [Section 3.4.2](https://intro2r.com/wrangling-data-frames.html#logical-indexes) again). This is useful becuase if you hard code the median as 76, as you did in Q10, your code becomes silently wrong the moment somebody adds another twenty patients to the study, whereas `median(cardiac$diastolic)` is still right.
+11\. A really neat feature of conditional statements is that you can put R functions inside them, so the threshold is worked out from the data rather than typed in by hand (see [Section 3.4.2](https://intro2r.com/wrangling-data-frames.html#logical-indexes) again). This is useful because if you hard code the median as 76, as you did in Q10, your code becomes silently wrong the moment somebody adds another twenty patients to the study, whereas `median(cardiac$diastolic)` is still right.
 
-Put let's put this into practice by building on your solution to Q10. Write some code to extract all rows from the `cardiac` dataframe with a systolic pressure greater than 160 mmHg and a total cholesterol greater than average (hint: use the `mean()` function inside your conditional statement). Now look carefully at what comes back. Can you see a problem with it? Have a look at [Section 2.3](https://intro2r.com/vectors.html#na_vals) of the Introduction to R book, discuss the cause of this problem with an instructor and explore possible solutions.
+So let's put this into practice by building on your solution to Q10. Write some code to extract all rows from the `cardiac` dataframe with a systolic pressure greater than 160 mmHg and a total cholesterol greater than average (hint: use the `mean()` function inside your conditional statement). Now look carefully at what comes back. Can you see a problem with it? Have a look at [Section 2.4.5](https://intro2r.com/vectors.html#na_vals) of the Introduction to R book, discuss the cause of this problem with an instructor and explore possible solutions.
 
 ```{r Q11, echo=SOLUTIONS, tidy = TRUE}
 # This results in a dataframe filled with NAs. Why?

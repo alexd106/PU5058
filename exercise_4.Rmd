@@ -46,8 +46,8 @@ summary(cardiac)
 # bmi has a maximum of 514.60. A blood concentration of zero is not a low
 # reading, it is impossible; you cannot have no cholesterol in your blood and
 # still be alive to take part in a study. And a body mass index of 514 is not
-# a very large person, it is a decimal point in the wrong place: 51.46 typed
-# as 514.6.
+# a very large person. It is almost certainly 51.46 with the decimal point in
+# the wrong place, although we have no way of confirming that.
 
 # which patient has the impossible bmi?
 cardiac[cardiac$bmi > 100, ]     # patient 1630L
@@ -93,7 +93,7 @@ summary(cardiac)   # check: the minima and maximum are now sensible
 2\. Another useful way to manipulate your dataframes is to sort the rows based on the value of a variable, or on a combination of variables. Rather counter-intuitively you should use the `order()` function to sort your dataframes, not the `sort()` function (see [Section 3.4.3](https://intro2r.com/wrangling-data-frames.html#ordering-data-frames) of the Introduction to R book for an explanation). Ordering dataframes uses the same logic you practised in Q12 in Exercise 2. Sort all rows in the `cardiac` dataframe by ascending order of systolic pressure within each level of smoking status, and assign the result to a variable with a sensible name. The trick is to remember that `order()` will take more than one variable, and that the order you give them in matters. Now take a look at the bottom of your sorted dataframe. Where have the patients with a missing smoking status ended up, and why?
 
 ```{r Q2, echo=SOLUTIONS}
-# now systolic within smoking status. smoking comes first because it is the
+# systolic within smoking status. smoking comes first because it is the
 # grouping you want, systolic second because it sorts within each group
 cardiac_sorted <- cardiac[order(cardiac$Fsmoking, cardiac$systolic), ]
 
@@ -104,7 +104,7 @@ tail(cardiac_sorted)
 
 \    
 
-3\. Often, we would like to summarise variables by, for example, calculating a mean, median or counting the number of observations. To do this for a single variable it's fairly straight forward : 
+3\. Often, we would like to summarise variables by, for example, calculating a mean, median or counting the number of observations. To do this for a single variable it's fairly straightforward:
 
 \  
 
@@ -116,7 +116,7 @@ length(cardiac$tchol)      # number of observations
 
 \  
 
-3\. (cont) Perhaps more interestingly, you might want to summarise one variable conditional on the level of another categorical variable, and to do several variables at once. The `aggregate()` function does exactly this (see [Section 3.5](https://intro2r.com/summarising-data-frames.html#summarising-data-frames) of the Introduction to R book, or `?aggregate`). Use `aggregate()` to calculate the mean age, systolic pressure, diastolic pressure and total cholesterol for each smoking category.
+Perhaps more interestingly, you might want to summarise one variable conditional on the level of another categorical variable, and to do several variables at once. The `aggregate()` function does exactly this (see [Section 3.5](https://intro2r.com/summarising-data-frames.html#summarising-data-frames) of the Introduction to R book, or `?aggregate`). Use `aggregate()` to calculate the mean age, systolic pressure, diastolic pressure and total cholesterol for each smoking category.
 
 The grouping variable goes inside the `by` argument wrapped in `list()`, because a list is how `aggregate()` accepts more than one of them at once. Use `Fsmoking`, the factor you created in Exercise 3 Q7, rather than the original `smoking` column, so that your output comes back labelled Current, Ex and Never instead of 1, 2 and 3.
 
@@ -192,7 +192,7 @@ table(cardiac$Fsmoking, useNA = "ifany")
 
 \  
 
-6\. Not every variable has its values distributed symmetrically about the centre, and several of the ones here do not. Look back at `triglyceride` in your `summary()` output. The mean, 1.556, sits above the median, 1.380, and the rest of the summary is lopsided in the same direction: the third quartile is 0.50 above the median while the first is only 0.32 below it, and the maximum is 3.29 above while the minimum is 0.86 below. Everything is stretched out to the right, which is what a long right hand tail looks like in a table of numbers, a few patients with much higher values than everybody else. Transforming to a log scale pulls that tail in, and it is a common way of dealing with skewed variables.
+6\. Not every variable has its values distributed symmetrically about the centre. Look back at `triglyceride` in your `summary()` output. The mean, 1.556, sits above the median, 1.380, and the rest of the summary is lopsided in the same direction: the third quartile is 0.50 above the median while the first is only 0.32 below it, and the maximum is 3.29 above while the minimum is 0.86 below. Everything is stretched out to the right, which is what a long right hand tail looks like in a table of numbers, a few patients with much higher values than everybody else. Transforming to a log scale pulls that tail in, and it is a common way of dealing with skewed variables.
 
 Create a new variable in the `cardiac` dataframe called `log_triglyceride`, holding the base 10 logarithm of `triglyceride` (see `?log10`, and [Section 3.4.4](https://intro2r.com/wrangling-data-frames.html#adding-columns-and-rows) for adding a column). Compare the mean and the median before and after. What has happened to the gap between them?
 
@@ -224,7 +224,7 @@ The idea is simple. You match records on something that identifies the same pers
 
 \  
 
-7\. The patients in this study were followed up ten years after their first examination, and those follow-up measurements are held in a separate file. Download *'cardiac_followup.txt'* from the **[<i class="fa fa-download"></i> Data](data.html)** link, save it to your `data` directory and import it with `read.table()` into a variable called `followup`. How many rows does it have, and how does that compare with `cardiac`? The `nrow()` function will tell you, and it does exactly what the name suggests: give it a dataframe and it returns the number of rows. 
+7\. The patients in this study were followed up ten years after their first examination, and those follow-up measurements are held in a separate file. Download *'cardiac_followup.txt'* from the **[<i class="fa fa-download"></i> Data](data.html)** link, save it to your `data` directory and import it with `read.table()` into a variable called `followup`. It holds the patient number, `patno`, along with the systolic blood pressure and body mass index measured at follow-up, `systolic10` and `bmi10`. How many rows does it have, and how does that compare with `cardiac`? The `nrow()` function will tell you, and it does exactly what the name suggests: give it a dataframe and it returns the number of rows. 
 
 Now use the `merge()` function to link the two together on the patient number, and assign the result to `cardiac_fu`. Left to its own devices `merge()` performs what is called an inner join, which keeps only the patients who appear in both sources. How many rows does the linked dataframe have, and can you explain why?
 

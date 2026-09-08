@@ -545,8 +545,8 @@ script making sure that you place a <code>#</code> at the beginning of
 every line to let R know this is a comment. See <a
 href="https://intro2r.com/proj_doc.html#proj_doc">Section 1.10</a> for a
 little more detail.</p>
-<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" tabindex="-1"></a><span class="co"># An Introduction to R course Exercise 1</span></span>
-<span id="cb1-2"><a href="#cb1-2" tabindex="-1"></a><span class="co"># Date: 24/03/25</span></span>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" tabindex="-1"></a><span class="co"># PU5058 Introduction to Health Data Science, Exercise 1</span></span>
+<span id="cb1-2"><a href="#cb1-2" tabindex="-1"></a><span class="co"># Date: 21/09/26</span></span>
 <span id="cb1-3"><a href="#cb1-3" tabindex="-1"></a><span class="co"># Created by: Professor Plum</span></span></code></pre></div>
 <p> </p>
 <p>3. Explore RStudio making sure you understand the functionality of
@@ -595,7 +595,7 @@ it the value <code>42</code>. Click on the ‘Environment’ tab in the top
 right window to display the variable and value. Now create another
 variable called <code>first_char</code> and assign it a value
 <code>"my first character"</code>. Notice this variable is now also
-displayed in the ‘Environment’ along with it’s value and class
+displayed in the ‘Environment’ along with its value and class
 (<code>chr</code> - short for character class).</p>
 <div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" tabindex="-1"></a>first_num <span class="ot">&lt;-</span> <span class="dv">42</span>    <span class="co"># create variable first_num and assign the value 42</span></span>
 <span id="cb4-2"><a href="#cb4-2" tabindex="-1"></a>first_char <span class="ot">&lt;-</span> <span class="st">&quot;my first character&quot;</span></span></code></pre></div>
@@ -613,8 +613,8 @@ variable. Assign the value <code>"my second character"</code> to the
 variable <code>first_char</code> you created in Q6. Notice the value has
 changed in the ‘Environment’. To display the value of
 <code>first_char</code> enter the name of the variable in the console.
-Don’t to forget to save your R script periodically!</p>
-<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" tabindex="-1"></a>first_char <span class="ot">&lt;-</span> <span class="st">&quot;my second variable&quot;</span></span>
+Don’t forget to save your R script periodically!</p>
+<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" tabindex="-1"></a>first_char <span class="ot">&lt;-</span> <span class="st">&quot;my second character&quot;</span></span>
 <span id="cb6-2"><a href="#cb6-2" tabindex="-1"></a>first_char    <span class="co"># display the value </span></span></code></pre></div>
 <p> </p>
 <p>9. Sometimes you may forget the exact name of a function you want to
@@ -651,11 +651,11 @@ want.</p>
 <p> </p>
 <p>11. R’s working directory is the default location of any files you
 read into R, or export from R. Although you won’t be importing or
-exporting files just yet (that’s tomorrows job) it’s useful to be able
-to determine what your current working directory is. So, read <a
-href="https://intro2r.com/work-d.html">Section 1.7</a> of the
-Introduction to R book to introduce yourself to working directories and
-figure out how to display your current working directory.</p>
+exporting files just yet (you’ll come to that in a later practical) it’s
+useful to be able to determine what your current working directory is.
+So, read <a href="https://intro2r.com/work-d.html">Section 1.7</a> of
+the Introduction to R book to introduce yourself to working directories
+and figure out how to display your current working directory.</p>
 <div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" tabindex="-1"></a><span class="fu">getwd</span>()    <span class="co"># displays the current working directory </span></span></code></pre></div>
 <p> </p>
 <p>12. Let’s finish up by creating some additional useful directories in
@@ -674,16 +674,15 @@ the ‘Files’ tab in RStudio (See <a
 href="https://intro2r.com/dir_struct.html">Section 1.8</a> of the
 Introduction to R book for more details). If you fancy it, you can also
 create a subdirectory in your <code>output</code> directory called
-<code>figures</code> to store all your fancy R plots for your thesis.
-Once you’ve created them, you can list all the files in your directories
-from the R console using the <code>list.files()</code> function. Can you
-figure out how to list the directories as well? (hint: see
-<code>?list.files</code> or <a
-href="https://intro2r.com/dir_struct.html">Section 1.8</a> of the course
-book).</p>
+<code>figures</code> to store all your fancy R plots. Once you’ve
+created them, you can list all the files in your directories from the R
+console using the <code>list.files()</code> function. Can you figure out
+how to list the directories as well? (hint: see <code>?list.files</code>
+or <a href="https://intro2r.com/dir_struct.html">Section 1.8</a> of the
+course book).</p>
 <div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" tabindex="-1"></a><span class="fu">list.files</span>(<span class="at">include.dirs =</span> <span class="cn">TRUE</span>)</span></code></pre></div>
 <p> </p>
-<p>13. Don’t to forget to save your R script. Close your Project by
+<p>13. Don’t forget to save your R script. Close your Project by
 selecting File –&gt; Close Project on the main menu.</p>
 <p> </p>
 <p>End of Exercise 1</p>

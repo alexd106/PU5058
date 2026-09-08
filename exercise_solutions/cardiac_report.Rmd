@@ -1,7 +1,7 @@
 ---
 title: "Cardiac study report"
 author: "Your Name"
-date: "20 August 2026"
+date: "2 November 2026"
 output:
   pdf_document:
     toc: true

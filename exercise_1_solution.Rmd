@@ -29,8 +29,8 @@ Read [Chapter 1](https://intro2r.com/chap1.html) to help you complete the questi
 2\. Now create a new R script inside this Project by selecting File --> New File --> R Script from the main menu (or use the shortcut button). Before you start writing any code save this script by selecting File --> Save from the main menu. Call this script 'exercise_1' or something similar (remember, files names should not [contain spaces!](https://intro2r.com/file_names.html)). Click on the 'Files' tab in the bottom right RStudio pane to see whether your file has been saved in the correct location. Ok, at the top of almost every R script (there are very few exceptions to this!) you should include some metadata to help your collaborators (and the future you) know who wrote the script, when it was written and what the script does (amongst other things). Include this information at the top of your R script making sure that you place a `#` at the beginning of every line to let R know this is a comment. See [Section 1.10](https://intro2r.com/proj_doc.html#proj_doc) for a little more detail.  
 
 ```{r Q2, echo=SOLUTIONS}
-# An Introduction to R course Exercise 1
-# Date: 24/03/25
+# PU5058 Introduction to Health Data Science, Exercise 1
+# Date: 21/09/26
 # Created by: Professor Plum
 ```
 
@@ -58,7 +58,7 @@ plot(1:10)    # dont worry about what 1:10 does just yet
 
 \  
 
-6\. Next, let's practice creating a variable and assigning a value to this variable. Take a look at [Section 2.2](https://intro2r.com/objects-in-r.html) of the Introduction to R book for further information on how to do this or if you prefer watch the [Objects in R video](https://alexd106.github.io/PU5058/howto.html#objs-vid). Create a variable called `first_num` and assign it the value `42`. Click on the 'Environment' tab in the top right window to display the variable and value. Now create another variable called `first_char` and assign it a value `"my first character"`. Notice this variable is now also displayed in the 'Environment' along with it's value and class (`chr` - short for character class).
+6\. Next, let's practice creating a variable and assigning a value to this variable. Take a look at [Section 2.2](https://intro2r.com/objects-in-r.html) of the Introduction to R book for further information on how to do this or if you prefer watch the [Objects in R video](https://alexd106.github.io/PU5058/howto.html#objs-vid). Create a variable called `first_num` and assign it the value `42`. Click on the 'Environment' tab in the top right window to display the variable and value. Now create another variable called `first_char` and assign it a value `"my first character"`. Notice this variable is now also displayed in the 'Environment' along with its value and class (`chr` - short for character class).
 
 ```{r Q6, echo=SOLUTIONS}
 first_num <- 42    # create variable first_num and assign the value 42
@@ -76,10 +76,10 @@ ls()          # list all variables in the workspace
 
 \  
 
-8\. Let's see what happens if we assign another value to an existing variable. Assign the value `"my second character"` to the variable `first_char` you created in Q6. Notice the value has changed in the 'Environment'. To display the value of `first_char` enter the name of the variable in the console. Don't to forget to save your R script periodically! 
+8\. Let's see what happens if we assign another value to an existing variable. Assign the value `"my second character"` to the variable `first_char` you created in Q6. Notice the value has changed in the 'Environment'. To display the value of `first_char` enter the name of the variable in the console. Don't forget to save your R script periodically! 
 
 ```{r Q8, echo=SOLUTIONS}
-first_char <- "my second variable"
+first_char <- "my second character"
 first_char    # display the value 
 ```
 
@@ -105,7 +105,7 @@ help.search("plot", package = "nlme")
 
 \  
 
-11\.	R's working directory is the default location of any files you read into R, or export from R. Although you won't be importing or exporting files just yet (that's tomorrows job) it's useful to be able to determine what your current working directory is. So, read [Section 1.7](https://intro2r.com/work-d.html) of the Introduction to R book to introduce yourself to working directories and figure out how to display your current working directory.
+11\.	R's working directory is the default location of any files you read into R, or export from R. Although you won't be importing or exporting files just yet (you'll come to that in a later practical) it's useful to be able to determine what your current working directory is. So, read [Section 1.7](https://intro2r.com/work-d.html) of the Introduction to R book to introduce yourself to working directories and figure out how to display your current working directory.
 
 ```{r Q11, echo=SOLUTIONS}
 getwd()    # displays the current working directory 
@@ -113,7 +113,7 @@ getwd()    # displays the current working directory
 
 \  
 
-12\.	Let's finish up by creating some additional useful directories in your Project directory. If you've followed the **Data <i class="fa fa-download" aria-hidden="true"></i>** instructions when downloading datasets for this course you will already have a directory called `data` in your Project (if you didn't then take a look at the instructions under **Data <i class="fa fa-download" aria-hidden="true"></i>** [here](https://alexd106.github.io/PU5058/data.html) to create this directory). Now let's create another directory called `output` where you'll save data files and plots you generate later on during this course. Create it the same way you created the `data` directory, by clicking on the 'New Folder' button in the 'Files' tab in RStudio (See [Section 1.8](https://intro2r.com/dir_struct.html) of the Introduction to R book for more details). If you fancy it, you can also create a subdirectory in your `output` directory called `figures` to store all your fancy R plots for your thesis. Once you've created them, you can list all the files in your directories from the R console using the `list.files()` function. Can you figure out how to list the directories as well? (hint: see `?list.files` or [Section 1.8](https://intro2r.com/dir_struct.html) of the course book).
+12\.	Let's finish up by creating some additional useful directories in your Project directory. If you've followed the **Data <i class="fa fa-download" aria-hidden="true"></i>** instructions when downloading datasets for this course you will already have a directory called `data` in your Project (if you didn't then take a look at the instructions under **Data <i class="fa fa-download" aria-hidden="true"></i>** [here](https://alexd106.github.io/PU5058/data.html) to create this directory). Now let's create another directory called `output` where you'll save data files and plots you generate later on during this course. Create it the same way you created the `data` directory, by clicking on the 'New Folder' button in the 'Files' tab in RStudio (See [Section 1.8](https://intro2r.com/dir_struct.html) of the Introduction to R book for more details). If you fancy it, you can also create a subdirectory in your `output` directory called `figures` to store all your fancy R plots. Once you've created them, you can list all the files in your directories from the R console using the `list.files()` function. Can you figure out how to list the directories as well? (hint: see `?list.files` or [Section 1.8](https://intro2r.com/dir_struct.html) of the course book).
 
 ```{r Q12, echo=SOLUTIONS}
 list.files(include.dirs = TRUE)
@@ -121,7 +121,7 @@ list.files(include.dirs = TRUE)
 
 \  
 
-13\. Don't to forget to save your R script. Close your Project by selecting File --> Close Project on the main menu.
+13\. Don't forget to save your R script. Close your Project by selecting File --> Close Project on the main menu.
 
 \  
 

@@ -125,7 +125,7 @@ dotchart(cardiac$alcohol, main = "alcohol")
 
 \  
 
-7\. That single point over on the right of the `bmi` dotplot is the value you met in Exercise 4, when you ran `summary()` and found a maximum of 514.60. A body mass index of 514 isn't possible - it's 51.46 with the decimal point in the wrong place. Notice how much easier the dotplot has made this to spot. In Exercise 4 you had to work your way through the `summary()` output and check the minimum and maximum of each variable in turn, whereas here it stands out as soon as you draw the plot. That's a good reason to make a dotplot of each of your continuous variables early on.
+7\. That single point over on the right of the `bmi` dotplot is the value you met in Exercise 4, when you ran `summary()` and found a maximum of 514.60. A body mass index of 514 isn't possible. It's almost certainly 51.46 with the decimal point in the wrong place, although we can't confirm that. Notice how much easier the dotplot has made this to spot. In Exercise 4 you had to work your way through the `summary()` output and check the minimum and maximum of each variable in turn, whereas here it stands out as soon as you draw the plot. That's a good reason to make a dotplot of each of your continuous variables early on.
 
 Remember that you imported the raw file again in Q4, so none of the cleaning you did in Exercise 4 is in this dataframe. Redo all three of those fixes now. Use the `which()` function to identify which observation the impossible `bmi` is, confirm the value with the square bracket `[ ]` notation, then set that `bmi`, the single `triglyceride` of 0 and the two `hdlchol` values of 0 to `NA`, exactly as you did in Exercise 4. Redraw the `bmi` dotchart. Now look again at all four plots from Q6. Several points still sit well away from the rest. Which ones, and what should you do about them?
 
@@ -157,8 +157,8 @@ dotchart(cardiac$bmi, main = "bmi")
 # people really do drink that much. These are not errors, they are patients.
 # The difference between this question and the last one is the difference
 # between a value that CANNOT be right and a value you did not expect, and only
-# the first of those is yours to change. Deleting inconvenient data because it
-# looks untidy is scientific fraud.
+# the first of those is yours to change. Never delete a value simply because it
+# looks untidy. It changes your results, and nobody reading them would know.
 ```
 
 \  
@@ -248,7 +248,7 @@ boxplot(hdlchol ~ Fsmoking, data = cardiac,
 
 12\. An alternative to the boxplot is the violin plot, which combines a boxplot with a [kernel density plot](https://www.statmethods.net/graphs/density.html) and shows you the shape of the distribution rather than just its quartiles. You will first need to install the `vioplot` package from CRAN and make it available with `library(vioplot)`. The `vioplot()` function then works in much the same way as `boxplot()`. Draw the HDL comparison from Q11 again as a violin plot and compare the two.
 
-Every plot so far has appeared in the RStudio plot pane, which is fine while you're exploring but no use at all when you need the figure in a document. Getting a plot out of R is a three step sandwich. You open a graphics device that is a file rather than a window, you draw the plot exactly as you have been doing, and then you close the device with `dev.off()`. Nothing appears on screen while you do it, and if you forget the `dev.off()` your file will be unreadable (see [Section 4.5](https://intro2r.com/export_plots.html#export_plots) of the book). Save your violin plot as a pdf in the `output` directory you created in Exercise 1, then find the file and open it outside RStudio to check it really worked. Exercise 6 takes this further, including how to get a figure into Word or PowerPoint at a resolution that doesn't embarrass you.
+Every plot so far has appeared in the RStudio plot pane, which is fine while you're exploring but no use at all when you need the figure in a document. Getting a plot out of R takes three steps. You open a graphics device that is a file rather than a window, you draw the plot exactly as you have been doing, and then you close the device with `dev.off()`. Nothing appears on screen while you do it, and if you forget the `dev.off()` your file will be unreadable (see [Section 4.5](https://intro2r.com/export_plots.html#export_plots) of the book). Save your violin plot as a pdf in the `output` directory you created in Exercise 1, then find the file and open it outside RStudio to check it really worked. Exercise 6 takes this further, including how to get a figure into Word or PowerPoint at a resolution that doesn't embarrass you.
 
 ```{r Q12, echo=SOLUTIONS, eval=SOLUTIONS, results='hide'}
 # violin plot. install.packages("vioplot") first if you have not already

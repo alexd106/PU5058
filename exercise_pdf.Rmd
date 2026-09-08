@@ -33,8 +33,8 @@ cat("Exercises will be released as the course progresses")
 
 ```{r, results='asis', eval = isTRUE(show_exercise)}
 ex_text <- c(": Getting to know R and RStudio", ": Basic R operations", 
-             ": Importing and inspecting data", 
-             ": Manipulating and summarising dataframes",
+             ": Importing, inspecting and subsetting data", 
+             ": Cleaning, summarising and linking data",
              ": Exploratory analysis and graphics",
              ": Graphics for communication",
              ": Reproducible reports with R markdown",

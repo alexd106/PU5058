@@ -464,13 +464,13 @@ of the book).</p>
 <p>7. That single point over on the right of the <code>bmi</code>
 dotplot is the value you met in Exercise 4, when you ran
 <code>summary()</code> and found a maximum of 514.60. A body mass index
-of 514 isn’t possible - it’s 51.46 with the decimal point in the wrong
-place. Notice how much easier the dotplot has made this to spot. In
-Exercise 4 you had to work your way through the <code>summary()</code>
-output and check the minimum and maximum of each variable in turn,
-whereas here it stands out as soon as you draw the plot. That’s a good
-reason to make a dotplot of each of your continuous variables early
-on.</p>
+of 514 isn’t possible. It’s almost certainly 51.46 with the decimal
+point in the wrong place, although we can’t confirm that. Notice how
+much easier the dotplot has made this to spot. In Exercise 4 you had to
+work your way through the <code>summary()</code> output and check the
+minimum and maximum of each variable in turn, whereas here it stands out
+as soon as you draw the plot. That’s a good reason to make a dotplot of
+each of your continuous variables early on.</p>
 <p>Remember that you imported the raw file again in Q4, so none of the
 cleaning you did in Exercise 4 is in this dataframe. Redo all three of
 those fixes now. Use the <code>which()</code> function to identify which
@@ -552,9 +552,9 @@ works in much the same way as <code>boxplot()</code>. Draw the HDL
 comparison from Q11 again as a violin plot and compare the two.</p>
 <p>Every plot so far has appeared in the RStudio plot pane, which is
 fine while you’re exploring but no use at all when you need the figure
-in a document. Getting a plot out of R is a three step sandwich. You
-open a graphics device that is a file rather than a window, you draw the
-plot exactly as you have been doing, and then you close the device with
+in a document. Getting a plot out of R takes three steps. You open a
+graphics device that is a file rather than a window, you draw the plot
+exactly as you have been doing, and then you close the device with
 <code>dev.off()</code>. Nothing appears on screen while you do it, and
 if you forget the <code>dev.off()</code> your file will be unreadable
 (see <a

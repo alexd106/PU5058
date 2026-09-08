@@ -1,6 +1,6 @@
 ## ----Q2, echo=SOLUTIONS-------------------------------------------------------
-# An Introduction to R course Exercise 1
-# Date: 24/03/25
+# PU5058 Introduction to Health Data Science, Exercise 1
+# Date: 21/09/26
 # Created by: Professor Plum
 
 
@@ -25,7 +25,7 @@ ls()          # list all variables in the workspace
 
 
 ## ----Q8, echo=SOLUTIONS-------------------------------------------------------
-first_char <- "my second variable"
+first_char <- "my second character"
 first_char    # display the value 
 
 

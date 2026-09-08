@@ -409,8 +409,9 @@ metadata with a <code>#</code> at the beginning of the line.</p>
 <em>‘cardiacdata.xlsx’</em> from the <strong><a
 href="data.html"><i class="fa fa-download"></i> Data</a></strong> link
 and save it to the <code>data</code> directory you created in Exercise 1
-in your RStudio project. You will use this same dataset for the next
-three practicals, so it is worth putting it somewhere sensible now.</p>
+in your RStudio project. You will use this same dataset for this
+practical and the next two, so it is worth putting it somewhere sensible
+now.</p>
 <p> </p>
 <p>3. Notice that the file you have just downloaded is a spreadsheet. A
 spreadsheet is a program’s own format, and R would much rather be given
@@ -484,7 +485,7 @@ if you need any further information.</p>
 one option would be to just type the variable name
 (<code>cardiac</code>) into the console. This is probably not a good
 idea and doesn’t really tell you anything about the dataframe other than
-there’s alot of data (try it)! A slightly better option is to use the
+there’s a lot of data (try it)! A slightly better option is to use the
 <code>head()</code> function to display the first few rows of your
 dataframe. Again, this is likely to just fill up your console. A better
 option would be to use the <code>names()</code> function which will
@@ -587,17 +588,17 @@ greater than the median diastolic pressure (76 mmHg)</li>
 put R functions inside them, so the threshold is worked out from the
 data rather than typed in by hand (see <a
 href="https://intro2r.com/wrangling-data-frames.html#logical-indexes">Section
-3.4.2</a> again). This is useful becuase if you hard code the median as
+3.4.2</a> again). This is useful because if you hard code the median as
 76, as you did in Q10, your code becomes silently wrong the moment
 somebody adds another twenty patients to the study, whereas
 <code>median(cardiac$diastolic)</code> is still right.</p>
-<p>Put let’s put this into practice by building on your solution to Q10.
+<p>So let’s put this into practice by building on your solution to Q10.
 Write some code to extract all rows from the <code>cardiac</code>
 dataframe with a systolic pressure greater than 160 mmHg and a total
 cholesterol greater than average (hint: use the <code>mean()</code>
 function inside your conditional statement). Now look carefully at what
 comes back. Can you see a problem with it? Have a look at <a
-href="https://intro2r.com/vectors.html#na_vals">Section 2.3</a> of the
+href="https://intro2r.com/vectors.html#na_vals">Section 2.4.5</a> of the
 Introduction to R book, discuss the cause of this problem with an
 instructor and explore possible solutions.</p>
 <p> </p>

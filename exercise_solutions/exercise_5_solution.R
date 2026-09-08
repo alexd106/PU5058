@@ -84,8 +84,8 @@ dotchart(cardiac$bmi, main = "bmi")
 # people really do drink that much. These are not errors, they are patients.
 # The difference between this question and the last one is the difference
 # between a value that CANNOT be right and a value you did not expect, and only
-# the first of those is yours to change. Deleting inconvenient data because it
-# looks untidy is scientific fraud.
+# the first of those is yours to change. Never delete a value simply because it
+# looks untidy. It changes your results, and nobody reading them would know.
 
 
 ## ----Q8, echo=SOLUTIONS, eval=SOLUTIONS, fig.width=9, fig.height=4.5----------

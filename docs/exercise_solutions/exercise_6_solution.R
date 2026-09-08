@@ -1,10 +1,10 @@
-## ----Q2, echo=SOLUTIONS-------------------------------------------------------
+## ----Q2, echo=SOLUTIONS, eval=SOLUTIONS---------------------------------------
 library(ggplot2)
 
 scotpho <- read.table('data/scotpho_alcohol_admissions.txt', header = TRUE, sep = "\t", stringsAsFactors = TRUE)
 
 
-## ----Q4, echo=SOLUTIONS-------------------------------------------------------
+## ----Q4, echo=SOLUTIONS, eval=SOLUTIONS, results='hide'-----------------------
 str(scotpho)
 summary(scotpho)
 
@@ -25,7 +25,7 @@ range(scotpho$year)      # 2010 2019
 # Nothing would warn you, and the plot would imply data you don't have.
 
 
-## ----Q5, echo=SOLUTIONS-------------------------------------------------------
+## ----Q5, echo=SOLUTIONS, eval=SOLUTIONS, fig.width=8, fig.height=4.5----------
 scot <- scotpho[scotpho$area_name == "Scotland", ]
 
 ggplot(data = scot, aes(x = year, y = measure)) +
@@ -47,7 +47,7 @@ ggplot(data = scot, aes(x = year, y = measure)) +
 # have the dataset.
 
 
-## ----Q6, echo=SOLUTIONS-------------------------------------------------------
+## ----Q6, echo=SOLUTIONS, eval=SOLUTIONS, results='hide', fig.width=8, fig.height=4.5----
 # a) the three areas in one dataframe
 areas <- c("Scotland", "Glasgow City", "Aberdeenshire")
 
@@ -64,7 +64,7 @@ ggplot(data = three_areas, aes(x = year, y = measure, colour = area_name)) +
 # 100,000. The national line, on its own, describes almost nobody.
 
 
-## ----Q7, echo=SOLUTIONS-------------------------------------------------------
+## ----Q7, echo=SOLUTIONS, eval=SOLUTIONS, results='hide', fig.width=8, fig.height=4.5----
 # a) a colour-blind friendly palette
 cols <- palette.colors(3, palette = "Okabe-Ito")
 cols
@@ -96,7 +96,7 @@ ggplot(data = three_areas,
 # cols and you'll find the plot still reads perfectly well.
 
 
-## ----Q8, echo=SOLUTIONS-------------------------------------------------------
+## ----Q8, echo=SOLUTIONS, eval=SOLUTIONS, fig.width=9, fig.height=5------------
 ggplot(data = three_areas,
        aes(x = year, y = measure, colour = area_name, linetype = area_name)) +
   geom_line(linewidth = 1) +
@@ -125,7 +125,7 @@ ggplot(data = three_areas,
 # you go for, just be able to say why.
 
 
-## ----Q9, echo=SOLUTIONS-------------------------------------------------------
+## ----Q9, echo=SOLUTIONS, eval=SOLUTIONS, fig.width=9, fig.height=5------------
 # give the plot a name. Nothing is drawn until you ask for it by name
 admissions_plot <- ggplot(data = three_areas,
        aes(x = year, y = measure, colour = area_name, linetype = area_name)) +

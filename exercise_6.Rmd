@@ -8,9 +8,28 @@ output:
 
 
 ```{r setup, echo=FALSE, purl = FALSE}
-knitr::opts_chunk$set(echo=TRUE, message = FALSE, warning = FALSE, eval = FALSE, cache = FALSE)
+knitr::opts_chunk$set(echo=TRUE, message = FALSE, warning = FALSE, eval = FALSE, cache = FALSE,
+                      results = 'hold', fig.show = 'hold')
 options(width = 80)
 SOLUTIONS <- FALSE
+```
+
+```{r sandbox, echo=FALSE, eval=TRUE, purl=FALSE}
+# Not part of the exercise. When this file is knitted as the solutions the chunks
+# below are actually run, so the plots appear on the page. They need a
+# 'data/scotpho_alcohol_admissions.txt' and an 'output' directory, which students
+# create for themselves and which deliberately do not exist in this repository.
+# Build both in a temporary sandbox and point knitr at it, so the paths shown in
+# the solutions are the paths students really type.
+if (SOLUTIONS) {
+  .sandbox <- file.path(tempdir(), "ex6_sandbox")
+  dir.create(file.path(.sandbox, "data"), recursive = TRUE, showWarnings = FALSE)
+  dir.create(file.path(.sandbox, "output"), showWarnings = FALSE)
+  file.copy("data/scotpho_alcohol_admissions.txt",
+            file.path(.sandbox, "data", "scotpho_alcohol_admissions.txt"),
+            overwrite = TRUE)
+  knitr::opts_knit$set(root.dir = .sandbox)
+}
 ```
 
 \  
@@ -41,7 +60,7 @@ We will also take this as an opportunity to switch datasets (just in case you ar
 
 2\. Download the data file *'scotpho_alcohol_admissions.txt'* from the **[<i class="fa fa-download"></i> Data](data.html)** link and save it to your `data` directory. This one is already a tab delimited text file, so there is no need to convert it. Import it with `read.table()`, remembering to write out your `header`, `sep` and `stringsAsFactors` arguments, and assign it to a variable called `scotpho`. Then make `ggplot2` available for the rest of the session with `library(ggplot2)`.
 
-```{r Q2, echo=SOLUTIONS}
+```{r Q2, echo=SOLUTIONS, eval=SOLUTIONS}
 library(ggplot2)
 
 scotpho <- read.table('data/scotpho_alcohol_admissions.txt', header = TRUE, sep = "\t", stringsAsFactors = TRUE)
@@ -55,7 +74,7 @@ scotpho <- read.table('data/scotpho_alcohol_admissions.txt', header = TRUE, sep 
 
 4\. Before plotting anything, get your bearings, exactly as you did in Exercise 3. Use `str()` and `summary()` on `scotpho`. How many rows are there? Use `table()` on `area_type` to see how the rows split between council areas and Scotland. Then check something that might matter before you draw a line through points: does every area have a value for every year? (hint: `table()` on `area_name` will tell you how many rows each area has). 
 
-```{r Q4, echo=SOLUTIONS}
+```{r Q4, echo=SOLUTIONS, eval=SOLUTIONS, results='hide'}
 str(scotpho)
 summary(scotpho)
 
@@ -96,7 +115,7 @@ ggplot(data = YOUR_DATAFRAME, aes(x = YOUR_X_COLUMN, y = YOUR_Y_COLUMN)) +
 
 Fill it in and run it. Then look at what ggplot has given you by default, and list everything a stranger would not understand about it.
 
-```{r Q5, echo=SOLUTIONS}
+```{r Q5, echo=SOLUTIONS, eval=SOLUTIONS, fig.width=8, fig.height=4.5}
 scot <- scotpho[scotpho$area_name == "Scotland", ]
 
 ggplot(data = scot, aes(x = year, y = measure)) +
@@ -130,7 +149,7 @@ So `scotpho$area_name %in% areas` gives you 330 `TRUE`s and `FALSE`s, one per ro
 
 b) Now let's plot it, with the same three pieces as Q5 and one addition. Inside `aes()`, alongside your `x` and `y`, add `colour = area_name`. That single argument is what tells ggplot the rows belong to three different areas, and it does the rest for you, a line each and a legend down the side. What do the three lines tell you that the Scotland line on its own didn't?
 
-```{r Q6, echo=SOLUTIONS}
+```{r Q6, echo=SOLUTIONS, eval=SOLUTIONS, results='hide', fig.width=8, fig.height=4.5}
 # a) the three areas in one dataframe
 areas <- c("Scotland", "Glasgow City", "Aberdeenshire")
 
@@ -157,7 +176,7 @@ b) Now let's test it. Draw the plot again, this time swapping those colours for 
 
 c) So let's fix it. Colour on its own is rarely enough, so it's a good idea to give your reader a second cue as well. Add `linetype = area_name` inside `aes()`, next to the `colour = area_name` you already have, and each area gets its own style of line as well as its own colour. Notice that ggplot works out that the two are describing the same thing and gives you a single legend rather than two.
 
-```{r Q7, echo=SOLUTIONS}
+```{r Q7, echo=SOLUTIONS, eval=SOLUTIONS, results='hide', fig.width=8, fig.height=4.5}
 # a) a colour-blind friendly palette
 cols <- palette.colors(3, palette = "Okabe-Ito")
 cols
@@ -203,7 +222,7 @@ b) Now have a think about the y axis. Should it start at zero? There's no single
 
 c) Finally, the overall look of the plot. ggplot's grey panel is fine on screen but can come out a bit muddy in print. A **theme** controls everything about the plot that isn't your data, and there are several ready-made ones to choose from (see Section [5.2.5](https://intro2r.com/the-start-of-the-end.html#setting-the-theme)). Add `theme_minimal()` and see what you think. If you'd rather the legend sat underneath the plot than beside it, `theme(legend.position = "bottom")` will move it. Just add it after `theme_minimal()`, otherwise it gets overwritten.
 
-```{r Q8, echo=SOLUTIONS}
+```{r Q8, echo=SOLUTIONS, eval=SOLUTIONS, fig.width=9, fig.height=5}
 ggplot(data = three_areas,
        aes(x = year, y = measure, colour = area_name, linetype = area_name)) +
   geom_line(linewidth = 1) +
@@ -244,7 +263,7 @@ Save your plot twice into the `output` directory you created in Exercise 1, once
 
 **Hang on to that png.** You'll put it into a report in Exercise 7 and then into a repository in Exercise 9, so it needs to still be there in a fortnight.
 
-```{r Q9, echo=SOLUTIONS}
+```{r Q9, echo=SOLUTIONS, eval=SOLUTIONS, fig.width=9, fig.height=5}
 # give the plot a name. Nothing is drawn until you ask for it by name
 admissions_plot <- ggplot(data = three_areas,
        aes(x = year, y = measure, colour = area_name, linetype = area_name)) +

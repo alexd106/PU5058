@@ -1,4 +1,6 @@
 ## ----Q2, echo=SOLUTIONS-------------------------------------------------------
+library(ggplot2)
+
 scotpho <- read.table('data/scotpho_alcohol_admissions.txt', header = TRUE, sep = "\t", stringsAsFactors = TRUE)
 
 
@@ -18,103 +20,107 @@ unique(table(scotpho$area_name))   # 10 - so every area has all 10 years
 
 range(scotpho$year)      # 2010 2019
 
-# If an area were missing a year, lines() would simply join the points either
-# side of the gap and draw a straight line straight through it. Nothing would
-# warn you, and the plot would imply data you do not have.
+# If an area were missing a year, the line would simply be drawn straight
+# through the gap, joining the points either side of it. Nothing would warn
+# you, and the plot would imply data you do not have.
 
 
 ## ----Q5, echo=SOLUTIONS-------------------------------------------------------
 scot <- scotpho[scotpho$area_name == "Scotland", ]
 
-plot(scot$year, scot$measure, type = "b")
+ggplot(data = scot, aes(x = year, y = measure)) +
+  geom_line() +
+  geom_point()
 
 # What is wrong with this plot for anyone other than you?
-#  - the x axis is labelled scot$year and the y axis scot$measure
+#  - the axes are labelled year and measure, which are column names rather
+#    than English
 #  - there are no units anywhere, so 673 could be anything
 #  - there is no title, so the reader does not know what is being counted
-#  - the y axis does not start at zero, which exaggerates the decline
+#  - the x axis is broken at 2010, 2012.5, 2015 and 2017.5, and there is no
+#    such year as 2012.5
+#  - the y axis runs from about 665 to 764 rather than from zero, which
+#    exaggerates the decline
 #  - there is nothing to say where the data came from
 #
 # The plot is not wrong. It is just useless to anybody who is not already
 # holding the dataset.
 
 
-## ----Q6, echo=SOLUTIONS, tidy = TRUE------------------------------------------
-# one dataframe per area
-scotland <- scotpho[scotpho$area_name == "Scotland", ]
-glasgow <- scotpho[scotpho$area_name == "Glasgow City", ]
-aberdeenshire <- scotpho[scotpho$area_name == "Aberdeenshire", ]
+## ----Q6, echo=SOLUTIONS-------------------------------------------------------
+# a) the three areas in one dataframe
+areas <- c("Scotland", "Glasgow City", "Aberdeenshire")
 
-# Glasgow reaches about 1500, so leave room for it
-plot(scotland$year, scotland$measure, type = "l", lwd = 2, col = "black",
-     ylim = c(0, 1600), xlab = "Year", ylab = "Admissions per 100,000")
+three_areas <- scotpho[scotpho$area_name %in% areas, ]
 
-lines(glasgow$year, glasgow$measure, lwd = 2, col = "red")
-lines(aberdeenshire$year, aberdeenshire$measure, lwd = 2, col = "blue")
+nrow(three_areas)   # 30 - three areas, ten years each
 
-legend("topright", legend = c("Scotland", "Glasgow City", "Aberdeenshire"),
-       col = c("black", "red", "blue"), lwd = 2)
+# b) one geom_line(), three lines, and a legend you did not have to write
+ggplot(data = three_areas, aes(x = year, y = measure, colour = area_name)) +
+  geom_line(linewidth = 1)
+
+# c) the legend comes out alphabetically, Aberdeenshire, Glasgow City,
+# Scotland. Rebuilding the factor with the levels in the order you want puts
+# the national figure first and the two council areas either side of it.
+three_areas$area_name <- factor(three_areas$area_name, levels = areas)
+
+ggplot(data = three_areas, aes(x = year, y = measure, colour = area_name)) +
+  geom_line(linewidth = 1)
 
 # Glasgow City is roughly twice the Scottish average and Aberdeenshire is
-# roughly half of it. The national line, on its own, describes almost nobody.
-
-# Note: with only three areas it is perfectly reasonable to write out three
-# lines() calls. If you had all 32 council areas you would want a loop instead,
-# which you can meet in the optional programming exercise.
+# roughly half of it. In 2019 the rates were 1169, 673 and 314 admissions per
+# 100,000. The national line, on its own, describes almost nobody.
 
 
-## ----Q7, echo=SOLUTIONS, tidy = TRUE------------------------------------------
+## ----Q7, echo=SOLUTIONS-------------------------------------------------------
+# a) a colour-blind friendly palette
 cols <- palette.colors(3, palette = "Okabe-Ito")
 cols
 # "#000000" "#E69F00" "#56B4E9"   black, orange, sky blue
 
-plot(scotland$year, scotland$measure, type = "l", lwd = 2, col = cols[1],
-     ylim = c(0, 1600), xlab = "Year", ylab = "Admissions per 100,000")
-lines(glasgow$year, glasgow$measure, lwd = 2, col = cols[2])
-lines(aberdeenshire$year, aberdeenshire$measure, lwd = 2, col = cols[3])
-legend("topright", legend = c("Scotland", "Glasgow City", "Aberdeenshire"),
-       col = cols, lwd = 2)
+ggplot(data = three_areas, aes(x = year, y = measure, colour = area_name)) +
+  geom_line(linewidth = 1) +
+  scale_colour_manual(values = cols)
 
-# now the same plot in greyscale
+# b) the same plot in greyscale
 greys <- grey(c(0, 0.64, 0.62))
 
-plot(scotland$year, scotland$measure, type = "l", lwd = 2, col = greys[1],
-     ylim = c(0, 1600), xlab = "Year", ylab = "Admissions per 100,000")
-lines(glasgow$year, glasgow$measure, lwd = 2, col = greys[2])
-lines(aberdeenshire$year, aberdeenshire$measure, lwd = 2, col = greys[3])
-legend("topright", legend = c("Scotland", "Glasgow City", "Aberdeenshire"),
-       col = greys, lwd = 2)
+ggplot(data = three_areas, aes(x = year, y = measure, colour = area_name)) +
+  geom_line(linewidth = 1) +
+  scale_colour_manual(values = greys)
 
 # The orange and the sky blue are different enough on screen, but in grey they
-# come out at 0.64 and 0.62 - practically the same. Anyone printing your poster
-# in black and white cannot tell Glasgow from Aberdeenshire.
+# come out at 0.64 and 0.62, which is practically the same. Anyone printing
+# your poster in black and white cannot tell Glasgow from Aberdeenshire.
 
-# Colour alone is never enough. The fix is to give the reader a second,
-# redundant cue - here a different line type for each area, set with lty - so
-# the plot still works with no colour at all.
-plot(scotland$year, scotland$measure, type = "l", lwd = 2, col = cols[1], lty = 1,
-     ylim = c(0, 1600), xlab = "Year", ylab = "Admissions per 100,000")
-lines(glasgow$year, glasgow$measure, lwd = 2, col = cols[2], lty = 2)
-lines(aberdeenshire$year, aberdeenshire$measure, lwd = 2, col = cols[3], lty = 3)
-legend("topright", legend = c("Scotland", "Glasgow City", "Aberdeenshire"),
-       col = cols, lwd = 2, lty = c(1, 2, 3))
+# c) a second cue, so the plot still works with no colour at all
+ggplot(data = three_areas,
+       aes(x = year, y = measure, colour = area_name, linetype = area_name)) +
+  geom_line(linewidth = 1) +
+  scale_colour_manual(values = cols)
+
+# mapping both colour and linetype to the same variable gives you a single
+# legend showing both, which is what you want. Try it with greys instead of
+# cols and you will find the plot still reads perfectly well.
 
 
-## ----Q8, echo=SOLUTIONS, tidy = TRUE------------------------------------------
-plot(scotland$year, scotland$measure, type = "l", lwd = 2, col = cols[1], lty = 1,
-     ylim = c(0, 1600), las = 1,
-     xlab = "Year",
-     ylab = "Hospital admissions per 100,000 people",
-     main = "Alcohol-related hospital admissions, 2010 to 2019")
+## ----Q8, echo=SOLUTIONS-------------------------------------------------------
+ggplot(data = three_areas,
+       aes(x = year, y = measure, colour = area_name, linetype = area_name)) +
+  geom_line(linewidth = 1) +
+  scale_colour_manual(values = cols) +
+  scale_x_continuous(breaks = seq(2010, 2019, by = 2)) +
+  scale_y_continuous(limits = c(0, 1600)) +
+  labs(x = "Year",
+       y = "Hospital admissions per 100,000 people",
+       title = "Alcohol-related hospital admissions, 2010 to 2019",
+       caption = "Source: Scottish Public Health Observatory. Rates are age-sex standardised.",
+       colour = NULL, linetype = NULL) +
+  theme_minimal() +
+  theme(legend.position = "bottom", plot.caption = element_text(hjust = 0))
 
-lines(glasgow$year, glasgow$measure, lwd = 2, col = cols[2], lty = 2)
-lines(aberdeenshire$year, aberdeenshire$measure, lwd = 2, col = cols[3], lty = 3)
-
-legend("bottomleft", legend = c("Scotland", "Glasgow City", "Aberdeenshire"),
-       col = cols, lwd = 2, lty = c(1, 2, 3), bty = "n")
-
-mtext("Source: Scottish Public Health Observatory. Rates are age-sex standardised.",
-      side = 1, line = 4, cex = 0.7, adj = 0)
+# plot.caption = element_text(hjust = 0) pushes the source note over to the
+# left. ggplot right aligns it by default, which looks like an afterthought.
 
 # Should the y axis start at zero?
 # Starting at zero, as here, shows the true relative size of the difference
@@ -126,67 +132,14 @@ mtext("Source: Scottish Public Health Observatory. Rates are age-sex standardise
 # nowhere near the data, it would be absurd. Decide, and be able to say why.
 
 
-## ----Q9, echo=SOLUTIONS, tidy = TRUE------------------------------------------
-# pdf: vector, so it stays sharp at any size. width and height are in inches,
-# and 10 x 5.625 is 16:9
-pdf('output/ex6_admissions.pdf', width = 10, height = 5.625, pointsize = 12)
-
-plot(scotland$year, scotland$measure, type = "l", lwd = 2, col = cols[1], lty = 1,
-     ylim = c(0, 1600), las = 1, xlab = "Year",
-     ylab = "Hospital admissions per 100,000 people",
-     main = "Alcohol-related hospital admissions, 2010 to 2019")
-lines(glasgow$year, glasgow$measure, lwd = 2, col = cols[2], lty = 2)
-lines(aberdeenshire$year, aberdeenshire$measure, lwd = 2, col = cols[3], lty = 3)
-legend("bottomleft", legend = c("Scotland", "Glasgow City", "Aberdeenshire"),
-       col = cols, lwd = 2, lty = c(1, 2, 3), bty = "n")
-mtext("Source: Scottish Public Health Observatory. Rates are age-sex standardised.",
-      side = 1, line = 4, cex = 0.7, adj = 0)
-
-dev.off()
-
-# png: pixels, so the resolution matters. units = "in" plus res = 300 gives you
-# a 3000 x 1688 pixel image that will print cleanly. It is the same plotting
-# code again - copy and paste it, or better, keep it in your script once and
-# run it twice.
-png('output/ex6_admissions.png', width = 10, height = 5.625, units = "in",
-    res = 300, pointsize = 12)
-
-plot(scotland$year, scotland$measure, type = "l", lwd = 2, col = cols[1], lty = 1,
-     ylim = c(0, 1600), las = 1, xlab = "Year",
-     ylab = "Hospital admissions per 100,000 people",
-     main = "Alcohol-related hospital admissions, 2010 to 2019")
-lines(glasgow$year, glasgow$measure, lwd = 2, col = cols[2], lty = 2)
-lines(aberdeenshire$year, aberdeenshire$measure, lwd = 2, col = cols[3], lty = 3)
-legend("bottomleft", legend = c("Scotland", "Glasgow City", "Aberdeenshire"),
-       col = cols, lwd = 2, lty = c(1, 2, 3), bty = "n")
-mtext("Source: Scottish Public Health Observatory. Rates are age-sex standardised.",
-      side = 1, line = 4, cex = 0.7, adj = 0)
-
-dev.off()
-
-# Use the pdf for anything going to a printer, and the png for anything going
-# into PowerPoint or a web page. If your poster template asks for a specific
-# figure size, set width and height to that size here rather than resizing the
-# image afterwards, which is what makes text look squashed or fuzzy.
-
-
-## ----Q10, echo=SOLUTIONS, tidy = TRUE-----------------------------------------
-library(ggplot2)
-
-areas <- c("Scotland", "Glasgow City", "Aberdeenshire")
-sub <- scotpho[scotpho$area_name %in% areas, ]
-
-# keep only the three areas as factor levels, in the order we want them
-sub$area_name <- factor(sub$area_name, levels = areas)
-
-ggplot(data = sub, aes(x = year, y = measure,
-                       colour = area_name, linetype = area_name)) +
+## ----Q9, echo=SOLUTIONS-------------------------------------------------------
+# give the plot a name. Nothing is drawn until you ask for it by name
+admissions_plot <- ggplot(data = three_areas,
+       aes(x = year, y = measure, colour = area_name, linetype = area_name)) +
   geom_line(linewidth = 1) +
-  scale_colour_manual(values = as.vector(cols)) +
+  scale_colour_manual(values = cols) +
+  scale_x_continuous(breaks = seq(2010, 2019, by = 2)) +
   scale_y_continuous(limits = c(0, 1600)) +
-  # without this ggplot labels the axis 2010.0, 2012.5, 2015.0 - decimal years,
-  # which is nonsense on a plot anyone else has to read
-  scale_x_continuous(breaks = seq(2010, 2018, by = 2)) +
   labs(x = "Year",
        y = "Hospital admissions per 100,000 people",
        title = "Alcohol-related hospital admissions, 2010 to 2019",
@@ -195,5 +148,23 @@ ggplot(data = sub, aes(x = year, y = measure,
   theme_minimal() +
   theme(legend.position = "bottom", plot.caption = element_text(hjust = 0))
 
-ggsave('output/ex6_admissions_ggplot.png', width = 10, height = 5.625, dpi = 300)
+admissions_plot     # draw it in the plot pane
+
+# pdf: a vector format, so it stays sharp at any size. Sizes are in inches.
+ggsave('output/ex6_admissions.pdf', plot = admissions_plot,
+       width = 10, height = 5.625, units = "in")
+
+# png: pixels, so the resolution matters. 10 x 5.625 inches at 300 dpi gives
+# you a 3000 x 1687 pixel image that will print cleanly.
+ggsave('output/ex6_admissions.png', plot = admissions_plot,
+       width = 10, height = 5.625, units = "in", dpi = 300)
+
+# Use the pdf for anything going to a printer and the png for anything going
+# into a Word document, PowerPoint or a web page. If your poster template asks
+# for a particular figure size, set width and height to that size here rather
+# than resizing the image afterwards, which is what makes text look squashed
+# or fuzzy.
+
+# If you leave out plot = admissions_plot, ggsave() saves the last plot you
+# drew, which is usually what you wanted but not always. Naming it is safer.
 

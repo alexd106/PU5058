@@ -395,19 +395,34 @@ $(document).ready(function () {
 <div id="exercise-6-graphics-for-communication" class="section level2">
 <h2>Exercise 6: Graphics for communication</h2>
 <p> </p>
-<p>Read <a href="https://intro2r.com/graphics_r.html">Chapter 4</a>, and
-<a href="https://intro2r.com/custom_plot.html#custom_plot">Section
-4.3</a> in particular, to help you complete the questions in this
-exercise.</p>
+<p>Read <a href="https://intro2r.com/graphics_r.html">Chapter 5</a> to
+help you complete the questions in this exercise.</p>
+<p> </p>
+<p><strong>Before the session.</strong> This exercise uses the
+<code>ggplot2</code> package, which doesn’t come with R, so please
+install it before you arrive. Run
+<code>install.packages("ggplot2")</code> in the console. You only ever
+need to do that once on a given computer, but you will need a
+<code>library(ggplot2)</code> line at the top of any script that uses
+it.</p>
 <p> </p>
 <p>Everything you plotted in Exercise 5 was for <strong>you</strong>.
-Exploratory plots are quick, ugly and disposable: their only job is to
-show you what is in your data, and it does not matter that the axis
-label says <code>cardiac$tchol</code> because you are the only person
-who will ever see it. This exercise is about the other kind of plot, the
-one that goes on a poster or in a report, where the reader is not you,
-has about fifteen seconds, and will not ask you what the axis means.
-Nearly all of the work is in the details you skipped last week.</p>
+Exploratory plots are quick, ugly and disposable, and their only job is
+to show you what’s in your data. It doesn’t matter that the axis label
+says <code>cardiac$tchol</code> because you’re the only person who’ll
+ever see it. This exercise is about the other kind of plot, the one that
+goes on a poster or in a report, where the reader isn’t you, has about
+fifteen seconds, and won’t ask you what the axis means. Nearly all of
+the work is in the details you skipped last week.</p>
+<p>We’ll also change graphics package, and it’s worth saying why. Base
+R, which you used in Exercise 5, is ideal for exploring. It’s already
+installed, a plot is one line long, and you throw it away thirty seconds
+later. For a figure somebody else has to read, <code>ggplot2</code> is
+the better tool. It builds a plot up in layers, it works out the legend
+for you, and it lets you say what you want rather than how to draw it,
+which leaves you free to think about the decisions this exercise is
+really about. A reasonable rule of thumb is base R while you’re looking
+and ggplot2 when you’re showing.</p>
 <p>You will also switch datasets. From here on the course uses data from
 the <a href="https://www.scotpho.org.uk/">Scottish Public Health
 Observatory</a>, which is the same source you will use for your own
@@ -426,7 +441,8 @@ This one is already a tab delimited text file, so there is no conversion
 to do. Import it with <code>read.table()</code>, remembering to write
 out your <code>header</code>, <code>sep</code> and
 <code>stringsAsFactors</code> arguments, and assign it to a variable
-called <code>scotpho</code>.</p>
+called <code>scotpho</code>. Then make <code>ggplot2</code> available
+for the rest of the session with <code>library(ggplot2)</code>.</p>
 <p> </p>
 <p>3. These data are an extract from the ScotPHO online profiles tool.
 The indicator is <em>alcohol-related hospital admissions</em>, and the
@@ -453,81 +469,174 @@ every year? (hint: <code>table()</code> on <code>area_name</code> will
 tell you how many rows each area has). What would your plot look like if
 one area were missing 2015?</p>
 <p> </p>
-<p>5. Start with the simplest possible communication plot: how have
-alcohol-related admissions across Scotland as a whole changed over the
-ten years? Extract just the rows where <code>area_name</code> is
-“Scotland” and use <code>plot()</code> to plot <code>measure</code> on
-the y axis against <code>year</code> on the x axis. Use the
-<code>type</code> argument to draw both points and a line joining them.
-Now look hard at what R has given you by default, and list everything a
-stranger would not understand about it.</p>
+<p>5. Right, let’s draw something. Start with the simplest possible
+communication plot: how have alcohol-related admissions across Scotland
+as a whole changed over the ten years? Extract just the rows where
+<code>area_name</code> is “Scotland”, using the square bracket notation
+from Exercise 3, and put them in a dataframe called
+<code>scot</code>.</p>
+<p>Now for your first ggplot. Every ggplot is built out of the same
+three pieces (Section <a
+href="https://intro2r.com/the-start-of-the-end.html#the-purest-of-ggplots">5.2.1</a>
+of the book walks through them slowly):</p>
+<ul>
+<li>the <strong>data</strong>, the dataframe you’re plotting</li>
+<li>the <strong>aesthetics</strong>, written inside <code>aes()</code>,
+which say which column of that dataframe goes on which part of the plot.
+Here it’s <code>year</code> along the x axis and <code>measure</code> up
+the y axis</li>
+<li>a <strong>geom</strong>, which is the thing actually drawn.
+<code>geom_line()</code> draws a line and <code>geom_point()</code>
+draws points, and you can have both</li>
+</ul>
+<p>You join them together with <code>+</code>, one layer per line. Here
+is the shape of it, with the parts you need to change in capitals:</p>
+<pre><code>ggplot(data = YOUR_DATAFRAME, aes(x = YOUR_X_COLUMN, y = YOUR_Y_COLUMN)) +
+  geom_line() +
+  geom_point()</code></pre>
+<p>Fill it in and run it. Then look hard at what ggplot has given you by
+default, and list everything a stranger would not understand about
+it.</p>
 <p> </p>
 <p>6. A single line rarely tells the whole story. Scotland’s average
-hides enormous variation between council areas. Add two council areas to
-your plot: “Glasgow City”, which has the highest rate in Scotland, and
-“Aberdeenshire”, which has one of the lowest. Pull each area out into
-its own dataframe first, exactly as you did with Scotland. Then plot one
-of them with <code>plot()</code> and add the other two on top using the
-<code>lines()</code> function. Two things will catch you out. First,
-<code>plot()</code> sets the axis limits from whatever you plot first,
-so if you start with Scotland the Glasgow line will run off the top of
-the plot; use the <code>ylim</code> argument to set limits that fit all
-three. Second, give each area its own colour, and add a
-<code>legend()</code> so the reader knows which line is which.</p>
+hides enormous variation between council areas, so let’s add two of
+them, “Glasgow City”, which has the highest rate in Scotland, and
+“Aberdeenshire”, which has one of the lowest.</p>
+<p>This is where ggplot starts to earn its keep. In base R you would
+pull each area into its own dataframe and draw three separate lines,
+keeping the colours and the legend in step by hand. ggplot works the
+other way round. You give it one dataframe holding all three areas, tell
+it which column says which area a row belongs to, and it draws one line
+per area and builds the legend for you.</p>
+<ol style="list-style-type: lower-alpha">
+<li>First get those three areas into a single dataframe. You could do it
+with three conditions joined by <code>|</code>, the ‘or’ operator, but
+there’s a tidier way. The <code>%in%</code> operator takes a value on
+its left and a vector on its right and asks whether that value appears
+anywhere in the vector. Hand it a whole column and it does that for
+every row in turn, giving you back a <code>TRUE</code> or a
+<code>FALSE</code> for each one, which is exactly what the square
+brackets want. It’s the same job you did with <code>==</code> and
+<code>&amp;</code> in Exercise 3, Q10, just against a list of
+possibilities rather than a single one.</li>
+</ol>
+<p>So <code>scotpho$area_name %in% areas</code> gives you 330
+<code>TRUE</code>s and <code>FALSE</code>s, one per row of
+<code>scotpho</code>. Make a vector called <code>areas</code> holding
+the three area names, use it to extract those rows into a dataframe
+called <code>three_areas</code>, and check with <code>nrow()</code> that
+you have the 30 rows you expect. The nice thing about writing it this
+way is that it doesn’t get any longer if you decide you want six areas
+instead of three.</p>
+<ol start="2" style="list-style-type: lower-alpha">
+<li><p>Now plot it, with the same three pieces as Q5 and one addition.
+Inside <code>aes()</code>, alongside your <code>x</code> and
+<code>y</code>, add <code>colour = area_name</code>. That single
+argument is what tells ggplot the rows belong to three different areas,
+and it does the rest, a line each and a legend down the side.</p></li>
+<li><p>Look at the legend. The areas are in alphabetical order, because
+that’s the order R put the factor levels in when it read the file, and
+it’s rarely the order you’d choose for a reader. You can set the order
+yourself by rebuilding the factor with the levels in the order you
+want:</p></li>
+</ol>
+<pre><code>three_areas$area_name &lt;- factor(three_areas$area_name, levels = areas)</code></pre>
+<p>Redraw the plot and the legend follows. What do the three lines tell
+you that the Scotland line on its own did not?</p>
 <p> </p>
-<p>7. Now think about those colours. Roughly 1 in 12 men has some form
-of colour vision deficiency, most commonly difficulty distinguishing red
-from green - and red and blue are not a safe pairing either. Posters
-also get photocopied, printed in black and white, and viewed on
-projectors that wash colour out. Redraw your plot using a colour-blind
-friendly palette: base R has one built in,
-<code>palette.colors(3, palette = "Okabe-Ito")</code>. Then test it.
-Redraw it a third time replacing those colours with their greyscale
-equivalents, which are <code>grey(c(0, 0.64, 0.62))</code>, and see
-whether the three lines are still tellable apart. If they are not, what
-could you change other than the colour?</p>
+<p>7. Now think about those colours. ggplot’s defaults are perfectly
+pleasant, but they aren’t chosen with anybody’s eyesight in mind.
+Roughly 1 in 12 men has some form of colour vision deficiency, most
+commonly difficulty distinguishing red from green, and red and blue are
+not a safe pairing either. Posters also get photocopied, printed in
+black and white, and viewed on projectors that wash the colour out.</p>
+<ol style="list-style-type: lower-alpha">
+<li><p>Redraw your plot with a colour-blind friendly palette. Base R has
+one built in, and <code>palette.colors(3, palette = "Okabe-Ito")</code>
+gives you three colours from it. Assign those to <code>cols</code>, then
+hand them to ggplot by adding a
+<code>scale_colour_manual(values = cols)</code> layer on the end of your
+plot. A scale layer is how you overrule any of the decisions ggplot has
+made for you (Section <a
+href="https://intro2r.com/the-start-of-the-end.html#make-it-your-own">5.2.4</a>).</p></li>
+<li><p>Now test it. Draw it a third time, replacing those colours with
+their greyscale equivalents, which are
+<code>grey(c(0, 0.64, 0.62))</code>, and see whether the three lines are
+still tellable apart. If they aren’t, what could you change other than
+the colour?</p></li>
+<li><p>Fix it. Colour on its own is never enough, so give the reader a
+second, redundant cue. Add <code>linetype = area_name</code> inside
+<code>aes()</code>, next to the <code>colour = area_name</code> you
+already have, and each area gets its own style of line as well as its
+own colour. Notice that ggplot works out that the two are describing the
+same thing and gives you one legend rather than two.</p></li>
+</ol>
 <p> </p>
 <p>8. Time to fix the words. Every plot that leaves your computer needs
 axis labels a non-specialist can read, including units; a title that
 says what the reader is looking at; and a note saying where the data
 came from. Write the labels for someone who has never heard the phrase
-‘age-sex standardised’ - your reader is a public health colleague or a
-member of the public, not a statistician. Add the source underneath the
-plot using <code>mtext()</code>. Finally, think about the y axis. Should
-it start at zero? There is no single right answer, but you should be
-able to justify whichever you choose. Keep this version of the code
-safe, because you will need it again in Q9.</p>
+‘age-sex standardised’. Your reader is a public health colleague or a
+member of the public, not a statistician. Keep this version of the code
+safe, because you’ll need it again in Q9.</p>
+<p>In ggplot all of the words live in one <code>labs()</code> layer,
+which takes <code>x</code>, <code>y</code>, <code>title</code> and
+<code>caption</code> (Section <a
+href="https://intro2r.com/the-start-of-the-end.html#prettification">5.2.6</a>).
+The caption is where the source note goes. While you’re in there,
+<code>colour = NULL</code> and <code>linetype = NULL</code> inside the
+same <code>labs()</code> will get rid of the ‘area_name’ heading above
+the legend, which is another column name your reader doesn’t need to
+see.</p>
+<p>Three more things to sort out, each of them a layer.</p>
+<ol style="list-style-type: lower-alpha">
+<li><p>The x axis is still labelled with half years. Add
+<code>scale_x_continuous(breaks = seq(2010, 2019, by = 2))</code> to put
+the breaks on real years.</p></li>
+<li><p>Think about the y axis. Should it start at zero? There is no
+single right answer, but you should be able to justify whichever you
+choose. If you decide it should,
+<code>scale_y_continuous(limits = c(0, 1600))</code> will do it (Section
+<a
+href="https://intro2r.com/tips.html#axis-limits-and-zooms">5.3.2</a>).</p></li>
+<li><p>Finally, the look of the thing. ggplot’s grey panel is fine on
+screen and muddy in print. A <strong>theme</strong> controls everything
+about the plot that isn’t your data, and there are several ready-made
+ones (Section <a
+href="https://intro2r.com/the-start-of-the-end.html#setting-the-theme">5.2.5</a>).
+Add <code>theme_minimal()</code> and see what you think. If you’d rather
+the legend sat under the plot than beside it,
+<code>theme(legend.position = "bottom")</code> will move it, and adding
+it after <code>theme_minimal()</code> means it isn’t
+overwritten.</p></li>
+</ol>
 <p> </p>
 <p>9. Finally, get the plot out of R at a size and resolution fit for a
-poster. Screen defaults are no use here: a plot that looks fine in the
-RStudio plot pane will be a blurry mess when blown up to A1. Save your
-finished plot twice, once as a pdf and once as a png, by putting the
-plotting code you wrote in Q8 between a <code>pdf()</code> or
-<code>png()</code> call and <code>dev.off()</code> (see <a
-href="https://intro2r.com/export_plots.html#export_plots">Section
-4.5</a>). Use a 16:9 shape, which is what most poster and slide
-templates expect. For the png, set the resolution explicitly - 300 dpi
-is the usual minimum for print. Open both files and check them at full
-size before you believe them.</p>
-<p> </p>
-<div id="optional-alternative-the-same-plot-using-ggplot2"
-class="section level3">
-<h3>Optional alternative: the same plot using ggplot2</h3>
-<p> </p>
-<p><strong>This section is entirely optional and is not
-assessed.</strong> Base R graphics are what this course teaches and what
-your assessment expects, and everything above is complete on its own. It
-is here because <code>ggplot2</code> is widely used and some of you will
-meet it elsewhere, so it is worth seeing the same figure built the other
-way.</p>
-<p>Notice that <code>ggplot2</code> saves you the repetition - one
-<code>geom_line()</code> handles all three areas because it splits them
-by <code>area_name</code> - but it does not make a single one of the
-decisions for you. The palette, the redundant line type, the labels, the
-source note and the zero on the y axis are all still yours.</p>
+poster. Screen defaults are no use here, and a plot that looks fine in
+the RStudio plot pane will be a blurry mess blown up to A1.</p>
+<p>This is easier if you give the plot a name first. Assign the whole
+thing from Q8 to an object called <code>admissions_plot</code>, exactly
+as you’d assign anything else in R. Nothing will appear when you run it,
+because you’ve stored the plot rather than drawn it; type
+<code>admissions_plot</code> on a line of its own to see it.</p>
+<p>Now save it with <code>ggsave()</code>, which is ggplot’s own version
+of the <code>pdf()</code> and <code>dev.off()</code> sandwich you met in
+Exercise 5, Q12. There’s no device to close, because
+<code>ggsave()</code> opens and closes it for you, and it works out
+which format you want from the file extension you give it (Section <a
+href="https://intro2r.com/the-start-of-the-end.html#prettification">5.2.6</a>).</p>
+<p>Save your plot twice into the <code>output</code> directory you
+created in Exercise 1, once as <code>ex6_admissions.pdf</code> and once
+as <code>ex6_admissions.png</code>. Use <code>width = 10</code> and
+<code>height = 5.625</code>, which is a 16:9 shape and what most poster
+and slide templates expect, and for the png set <code>dpi = 300</code>,
+which is the usual minimum for print. Open both files and check them at
+full size before you believe them.</p>
+<p><strong>Keep the png.</strong> You’ll put it into a report in
+Exercise 7 and then into a repository in Exercise 9, so it needs to
+still be there in a fortnight.</p>
 <p> </p>
 <p>End of Exercise 6</p>
-</div>
 </div>
 
 

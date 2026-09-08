@@ -19,11 +19,17 @@ SOLUTIONS <- TRUE
 
 \  
 
-Read [Chapter 4](https://intro2r.com/graphics_r.html), and [Section 4.3](https://intro2r.com/custom_plot.html#custom_plot) in particular, to help you complete the questions in this exercise.
+Read [Chapter 5](https://intro2r.com/graphics_r.html) to help you complete the questions in this exercise.
 
 \  
 
-Everything you plotted in Exercise 5 was for **you**. Exploratory plots are quick, ugly and disposable: their only job is to show you what is in your data, and it does not matter that the axis label says `cardiac$tchol` because you are the only person who will ever see it. This exercise is about the other kind of plot, the one that goes on a poster or in a report, where the reader is not you, has about fifteen seconds, and will not ask you what the axis means. Nearly all of the work is in the details you skipped last week.
+**Before the session.** This exercise uses the `ggplot2` package, which doesn't come with R, so please install it before you arrive. Run `install.packages("ggplot2")` in the console. You only ever need to do that once on a given computer, but you will need a `library(ggplot2)` line at the top of any script that uses it.
+
+\  
+
+Everything you plotted in Exercise 5 was for **you**. Exploratory plots are quick, ugly and disposable, and their only job is to show you what's in your data. It doesn't matter that the axis label says `cardiac$tchol` because you're the only person who'll ever see it. This exercise is about the other kind of plot, the one that goes on a poster or in a report, where the reader isn't you, has about fifteen seconds, and won't ask you what the axis means. Nearly all of the work is in the details you skipped last week.
+
+We'll also change graphics package, and it's worth saying why. Base R, which you used in Exercise 5, is ideal for exploring. It's already installed, a plot is one line long, and you throw it away thirty seconds later. For a figure somebody else has to read, `ggplot2` is the better tool. It builds a plot up in layers, it works out the legend for you, and it lets you say what you want rather than how to draw it, which leaves you free to think about the decisions this exercise is really about. A reasonable rule of thumb is base R while you're looking and ggplot2 when you're showing.
 
 You will also switch datasets. From here on the course uses data from the [Scottish Public Health Observatory](https://www.scotpho.org.uk/), which is the same source you will use for your own assessment.
 
@@ -33,9 +39,11 @@ You will also switch datasets. From here on the course uses data from the [Scott
 
 \  
 
-2\. Download the data file *'scotpho_alcohol_admissions.txt'* from the **[<i class="fa fa-download"></i> Data](data.html)** link and save it to your `data` directory. This one is already a tab delimited text file, so there is no conversion to do. Import it with `read.table()`, remembering to write out your `header`, `sep` and `stringsAsFactors` arguments, and assign it to a variable called `scotpho`.
+2\. Download the data file *'scotpho_alcohol_admissions.txt'* from the **[<i class="fa fa-download"></i> Data](data.html)** link and save it to your `data` directory. This one is already a tab delimited text file, so there is no conversion to do. Import it with `read.table()`, remembering to write out your `header`, `sep` and `stringsAsFactors` arguments, and assign it to a variable called `scotpho`. Then make `ggplot2` available for the rest of the session with `library(ggplot2)`.
 
 ```{r Q2, echo=SOLUTIONS}
+library(ggplot2)
+
 scotpho <- read.table('data/scotpho_alcohol_admissions.txt', header = TRUE, sep = "\t", stringsAsFactors = TRUE)
 ```
 
@@ -63,25 +71,47 @@ unique(table(scotpho$area_name))   # 10 - so every area has all 10 years
 
 range(scotpho$year)      # 2010 2019
 
-# If an area were missing a year, lines() would simply join the points either
-# side of the gap and draw a straight line straight through it. Nothing would
-# warn you, and the plot would imply data you do not have.
+# If an area were missing a year, the line would simply be drawn straight
+# through the gap, joining the points either side of it. Nothing would warn
+# you, and the plot would imply data you do not have.
 ```
 
 \  
 
-5\. Start with the simplest possible communication plot: how have alcohol-related admissions across Scotland as a whole changed over the ten years? Extract just the rows where `area_name` is "Scotland" and use `plot()` to plot `measure` on the y axis against `year` on the x axis. Use the `type` argument to draw both points and a line joining them. Now look hard at what R has given you by default, and list everything a stranger would not understand about it.
+5\. Right, let's draw something. Start with the simplest possible communication plot: how have alcohol-related admissions across Scotland as a whole changed over the ten years? Extract just the rows where `area_name` is "Scotland", using the square bracket notation from Exercise 3, and put them in a dataframe called `scot`.
+
+Now for your first ggplot. Every ggplot is built out of the same three pieces (Section [5.2.1](https://intro2r.com/the-start-of-the-end.html#the-purest-of-ggplots) of the book walks through them slowly):
+
+- the **data**, the dataframe you're plotting
+- the **aesthetics**, written inside `aes()`, which say which column of that dataframe goes on which part of the plot. Here it's `year` along the x axis and `measure` up the y axis
+- a **geom**, which is the thing actually drawn. `geom_line()` draws a line and `geom_point()` draws points, and you can have both
+
+You join them together with `+`, one layer per line. Here is the shape of it, with the parts you need to change in capitals:
+
+```
+ggplot(data = YOUR_DATAFRAME, aes(x = YOUR_X_COLUMN, y = YOUR_Y_COLUMN)) +
+  geom_line() +
+  geom_point()
+```
+
+Fill it in and run it. Then look hard at what ggplot has given you by default, and list everything a stranger would not understand about it.
 
 ```{r Q5, echo=SOLUTIONS}
 scot <- scotpho[scotpho$area_name == "Scotland", ]
 
-plot(scot$year, scot$measure, type = "b")
+ggplot(data = scot, aes(x = year, y = measure)) +
+  geom_line() +
+  geom_point()
 
 # What is wrong with this plot for anyone other than you?
-#  - the x axis is labelled scot$year and the y axis scot$measure
+#  - the axes are labelled year and measure, which are column names rather
+#    than English
 #  - there are no units anywhere, so 673 could be anything
 #  - there is no title, so the reader does not know what is being counted
-#  - the y axis does not start at zero, which exaggerates the decline
+#  - the x axis is broken at 2010, 2012.5, 2015 and 2017.5, and there is no
+#    such year as 2012.5
+#  - the y axis runs from about 665 to 764 rather than from zero, which
+#    exaggerates the decline
 #  - there is nothing to say where the data came from
 #
 # The plot is not wrong. It is just useless to anybody who is not already
@@ -90,92 +120,122 @@ plot(scot$year, scot$measure, type = "b")
 
 \  
 
-6\. A single line rarely tells the whole story. Scotland's average hides enormous variation between council areas. Add two council areas to your plot: "Glasgow City", which has the highest rate in Scotland, and "Aberdeenshire", which has one of the lowest. Pull each area out into its own dataframe first, exactly as you did with Scotland. Then plot one of them with `plot()` and add the other two on top using the `lines()` function. Two things will catch you out. First, `plot()` sets the axis limits from whatever you plot first, so if you start with Scotland the Glasgow line will run off the top of the plot; use the `ylim` argument to set limits that fit all three. Second, give each area its own colour, and add a `legend()` so the reader knows which line is which.
+6\. A single line rarely tells the whole story. Scotland's average hides enormous variation between council areas, so let's add two of them, "Glasgow City", which has the highest rate in Scotland, and "Aberdeenshire", which has one of the lowest.
 
-```{r Q6, echo=SOLUTIONS, tidy = TRUE}
-# one dataframe per area
-scotland <- scotpho[scotpho$area_name == "Scotland", ]
-glasgow <- scotpho[scotpho$area_name == "Glasgow City", ]
-aberdeenshire <- scotpho[scotpho$area_name == "Aberdeenshire", ]
+This is where ggplot starts to earn its keep. In base R you would pull each area into its own dataframe and draw three separate lines, keeping the colours and the legend in step by hand. ggplot works the other way round. You give it one dataframe holding all three areas, tell it which column says which area a row belongs to, and it draws one line per area and builds the legend for you.
 
-# Glasgow reaches about 1500, so leave room for it
-plot(scotland$year, scotland$measure, type = "l", lwd = 2, col = "black",
-     ylim = c(0, 1600), xlab = "Year", ylab = "Admissions per 100,000")
+a) First get those three areas into a single dataframe. You could do it with three conditions joined by `|`, the 'or' operator, but there's a tidier way. The `%in%` operator takes a value on its left and a vector on its right and asks whether that value appears anywhere in the vector. Hand it a whole column and it does that for every row in turn, giving you back a `TRUE` or a `FALSE` for each one, which is exactly what the square brackets want. It's the same job you did with `==` and `&` in Exercise 3, Q10, just against a list of possibilities rather than a single one.
 
-lines(glasgow$year, glasgow$measure, lwd = 2, col = "red")
-lines(aberdeenshire$year, aberdeenshire$measure, lwd = 2, col = "blue")
+So `scotpho$area_name %in% areas` gives you 330 `TRUE`s and `FALSE`s, one per row of `scotpho`. Make a vector called `areas` holding the three area names, use it to extract those rows into a dataframe called `three_areas`, and check with `nrow()` that you have the 30 rows you expect. The nice thing about writing it this way is that it doesn't get any longer if you decide you want six areas instead of three.
 
-legend("topright", legend = c("Scotland", "Glasgow City", "Aberdeenshire"),
-       col = c("black", "red", "blue"), lwd = 2)
+b) Now plot it, with the same three pieces as Q5 and one addition. Inside `aes()`, alongside your `x` and `y`, add `colour = area_name`. That single argument is what tells ggplot the rows belong to three different areas, and it does the rest, a line each and a legend down the side.
+
+c) Look at the legend. The areas are in alphabetical order, because that's the order R put the factor levels in when it read the file, and it's rarely the order you'd choose for a reader. You can set the order yourself by rebuilding the factor with the levels in the order you want:
+
+```
+three_areas$area_name <- factor(three_areas$area_name, levels = areas)
+```
+
+Redraw the plot and the legend follows. What do the three lines tell you that the Scotland line on its own did not?
+
+```{r Q6, echo=SOLUTIONS}
+# a) the three areas in one dataframe
+areas <- c("Scotland", "Glasgow City", "Aberdeenshire")
+
+three_areas <- scotpho[scotpho$area_name %in% areas, ]
+
+nrow(three_areas)   # 30 - three areas, ten years each
+
+# b) one geom_line(), three lines, and a legend you did not have to write
+ggplot(data = three_areas, aes(x = year, y = measure, colour = area_name)) +
+  geom_line(linewidth = 1)
+
+# c) the legend comes out alphabetically, Aberdeenshire, Glasgow City,
+# Scotland. Rebuilding the factor with the levels in the order you want puts
+# the national figure first and the two council areas either side of it.
+three_areas$area_name <- factor(three_areas$area_name, levels = areas)
+
+ggplot(data = three_areas, aes(x = year, y = measure, colour = area_name)) +
+  geom_line(linewidth = 1)
 
 # Glasgow City is roughly twice the Scottish average and Aberdeenshire is
-# roughly half of it. The national line, on its own, describes almost nobody.
-
-# Note: with only three areas it is perfectly reasonable to write out three
-# lines() calls. If you had all 32 council areas you would want a loop instead,
-# which you can meet in the optional programming exercise.
+# roughly half of it. In 2019 the rates were 1169, 673 and 314 admissions per
+# 100,000. The national line, on its own, describes almost nobody.
 ```
 
 \  
 
-7\. Now think about those colours. Roughly 1 in 12 men has some form of colour vision deficiency, most commonly difficulty distinguishing red from green - and red and blue are not a safe pairing either. Posters also get photocopied, printed in black and white, and viewed on projectors that wash colour out. Redraw your plot using a colour-blind friendly palette: base R has one built in, `palette.colors(3, palette = "Okabe-Ito")`. Then test it. Redraw it a third time replacing those colours with their greyscale equivalents, which are `grey(c(0, 0.64, 0.62))`, and see whether the three lines are still tellable apart. If they are not, what could you change other than the colour?
+7\. Now think about those colours. ggplot's defaults are perfectly pleasant, but they aren't chosen with anybody's eyesight in mind. Roughly 1 in 12 men has some form of colour vision deficiency, most commonly difficulty distinguishing red from green, and red and blue are not a safe pairing either. Posters also get photocopied, printed in black and white, and viewed on projectors that wash the colour out.
 
-```{r Q7, echo=SOLUTIONS, tidy = TRUE}
+a) Redraw your plot with a colour-blind friendly palette. Base R has one built in, and `palette.colors(3, palette = "Okabe-Ito")` gives you three colours from it. Assign those to `cols`, then hand them to ggplot by adding a `scale_colour_manual(values = cols)` layer on the end of your plot. A scale layer is how you overrule any of the decisions ggplot has made for you (Section [5.2.4](https://intro2r.com/the-start-of-the-end.html#make-it-your-own)).
+
+b) Now test it. Draw it a third time, replacing those colours with their greyscale equivalents, which are `grey(c(0, 0.64, 0.62))`, and see whether the three lines are still tellable apart. If they aren't, what could you change other than the colour?
+
+c) Fix it. Colour on its own is never enough, so give the reader a second, redundant cue. Add `linetype = area_name` inside `aes()`, next to the `colour = area_name` you already have, and each area gets its own style of line as well as its own colour. Notice that ggplot works out that the two are describing the same thing and gives you one legend rather than two.
+
+```{r Q7, echo=SOLUTIONS}
+# a) a colour-blind friendly palette
 cols <- palette.colors(3, palette = "Okabe-Ito")
 cols
 # "#000000" "#E69F00" "#56B4E9"   black, orange, sky blue
 
-plot(scotland$year, scotland$measure, type = "l", lwd = 2, col = cols[1],
-     ylim = c(0, 1600), xlab = "Year", ylab = "Admissions per 100,000")
-lines(glasgow$year, glasgow$measure, lwd = 2, col = cols[2])
-lines(aberdeenshire$year, aberdeenshire$measure, lwd = 2, col = cols[3])
-legend("topright", legend = c("Scotland", "Glasgow City", "Aberdeenshire"),
-       col = cols, lwd = 2)
+ggplot(data = three_areas, aes(x = year, y = measure, colour = area_name)) +
+  geom_line(linewidth = 1) +
+  scale_colour_manual(values = cols)
 
-# now the same plot in greyscale
+# b) the same plot in greyscale
 greys <- grey(c(0, 0.64, 0.62))
 
-plot(scotland$year, scotland$measure, type = "l", lwd = 2, col = greys[1],
-     ylim = c(0, 1600), xlab = "Year", ylab = "Admissions per 100,000")
-lines(glasgow$year, glasgow$measure, lwd = 2, col = greys[2])
-lines(aberdeenshire$year, aberdeenshire$measure, lwd = 2, col = greys[3])
-legend("topright", legend = c("Scotland", "Glasgow City", "Aberdeenshire"),
-       col = greys, lwd = 2)
+ggplot(data = three_areas, aes(x = year, y = measure, colour = area_name)) +
+  geom_line(linewidth = 1) +
+  scale_colour_manual(values = greys)
 
 # The orange and the sky blue are different enough on screen, but in grey they
-# come out at 0.64 and 0.62 - practically the same. Anyone printing your poster
-# in black and white cannot tell Glasgow from Aberdeenshire.
+# come out at 0.64 and 0.62, which is practically the same. Anyone printing
+# your poster in black and white cannot tell Glasgow from Aberdeenshire.
 
-# Colour alone is never enough. The fix is to give the reader a second,
-# redundant cue - here a different line type for each area, set with lty - so
-# the plot still works with no colour at all.
-plot(scotland$year, scotland$measure, type = "l", lwd = 2, col = cols[1], lty = 1,
-     ylim = c(0, 1600), xlab = "Year", ylab = "Admissions per 100,000")
-lines(glasgow$year, glasgow$measure, lwd = 2, col = cols[2], lty = 2)
-lines(aberdeenshire$year, aberdeenshire$measure, lwd = 2, col = cols[3], lty = 3)
-legend("topright", legend = c("Scotland", "Glasgow City", "Aberdeenshire"),
-       col = cols, lwd = 2, lty = c(1, 2, 3))
+# c) a second cue, so the plot still works with no colour at all
+ggplot(data = three_areas,
+       aes(x = year, y = measure, colour = area_name, linetype = area_name)) +
+  geom_line(linewidth = 1) +
+  scale_colour_manual(values = cols)
+
+# mapping both colour and linetype to the same variable gives you a single
+# legend showing both, which is what you want. Try it with greys instead of
+# cols and you will find the plot still reads perfectly well.
 ```
 
 \  
 
-8\. Time to fix the words. Every plot that leaves your computer needs axis labels a non-specialist can read, including units; a title that says what the reader is looking at; and a note saying where the data came from. Write the labels for someone who has never heard the phrase 'age-sex standardised' - your reader is a public health colleague or a member of the public, not a statistician. Add the source underneath the plot using `mtext()`. Finally, think about the y axis. Should it start at zero? There is no single right answer, but you should be able to justify whichever you choose. Keep this version of the code safe, because you will need it again in Q9.
+8\. Time to fix the words. Every plot that leaves your computer needs axis labels a non-specialist can read, including units; a title that says what the reader is looking at; and a note saying where the data came from. Write the labels for someone who has never heard the phrase 'age-sex standardised'. Your reader is a public health colleague or a member of the public, not a statistician. Keep this version of the code safe, because you'll need it again in Q9.
 
-```{r Q8, echo=SOLUTIONS, tidy = TRUE}
-plot(scotland$year, scotland$measure, type = "l", lwd = 2, col = cols[1], lty = 1,
-     ylim = c(0, 1600), las = 1,
-     xlab = "Year",
-     ylab = "Hospital admissions per 100,000 people",
-     main = "Alcohol-related hospital admissions, 2010 to 2019")
+In ggplot all of the words live in one `labs()` layer, which takes `x`, `y`, `title` and `caption` (Section [5.2.6](https://intro2r.com/the-start-of-the-end.html#prettification)). The caption is where the source note goes. While you're in there, `colour = NULL` and `linetype = NULL` inside the same `labs()` will get rid of the 'area_name' heading above the legend, which is another column name your reader doesn't need to see.
 
-lines(glasgow$year, glasgow$measure, lwd = 2, col = cols[2], lty = 2)
-lines(aberdeenshire$year, aberdeenshire$measure, lwd = 2, col = cols[3], lty = 3)
+Three more things to sort out, each of them a layer.
 
-legend("bottomleft", legend = c("Scotland", "Glasgow City", "Aberdeenshire"),
-       col = cols, lwd = 2, lty = c(1, 2, 3), bty = "n")
+a) The x axis is still labelled with half years. Add `scale_x_continuous(breaks = seq(2010, 2019, by = 2))` to put the breaks on real years.
 
-mtext("Source: Scottish Public Health Observatory. Rates are age-sex standardised.",
-      side = 1, line = 4, cex = 0.7, adj = 0)
+b) Think about the y axis. Should it start at zero? There is no single right answer, but you should be able to justify whichever you choose. If you decide it should, `scale_y_continuous(limits = c(0, 1600))` will do it (Section [5.3.2](https://intro2r.com/tips.html#axis-limits-and-zooms)).
+
+c) Finally, the look of the thing. ggplot's grey panel is fine on screen and muddy in print. A **theme** controls everything about the plot that isn't your data, and there are several ready-made ones (Section [5.2.5](https://intro2r.com/the-start-of-the-end.html#setting-the-theme)). Add `theme_minimal()` and see what you think. If you'd rather the legend sat under the plot than beside it, `theme(legend.position = "bottom")` will move it, and adding it after `theme_minimal()` means it isn't overwritten.
+
+```{r Q8, echo=SOLUTIONS}
+ggplot(data = three_areas,
+       aes(x = year, y = measure, colour = area_name, linetype = area_name)) +
+  geom_line(linewidth = 1) +
+  scale_colour_manual(values = cols) +
+  scale_x_continuous(breaks = seq(2010, 2019, by = 2)) +
+  scale_y_continuous(limits = c(0, 1600)) +
+  labs(x = "Year",
+       y = "Hospital admissions per 100,000 people",
+       title = "Alcohol-related hospital admissions, 2010 to 2019",
+       caption = "Source: Scottish Public Health Observatory. Rates are age-sex standardised.",
+       colour = NULL, linetype = NULL) +
+  theme_minimal() +
+  theme(legend.position = "bottom", plot.caption = element_text(hjust = 0))
+
+# plot.caption = element_text(hjust = 0) pushes the source note over to the
+# left. ggplot right aligns it by default, which looks like an afterthought.
 
 # Should the y axis start at zero?
 # Starting at zero, as here, shows the true relative size of the difference
@@ -189,79 +249,24 @@ mtext("Source: Scottish Public Health Observatory. Rates are age-sex standardise
 
 \  
 
-9\. Finally, get the plot out of R at a size and resolution fit for a poster. Screen defaults are no use here: a plot that looks fine in the RStudio plot pane will be a blurry mess when blown up to A1. Save your finished plot twice, once as a pdf and once as a png, by putting the plotting code you wrote in Q8 between a `pdf()` or `png()` call and `dev.off()` (see [Section 4.5](https://intro2r.com/export_plots.html#export_plots)). Use a 16:9 shape, which is what most poster and slide templates expect. For the png, set the resolution explicitly - 300 dpi is the usual minimum for print. Open both files and check them at full size before you believe them.
+9\. Finally, get the plot out of R at a size and resolution fit for a poster. Screen defaults are no use here, and a plot that looks fine in the RStudio plot pane will be a blurry mess blown up to A1.
 
-```{r Q9, echo=SOLUTIONS, tidy = TRUE}
-# pdf: vector, so it stays sharp at any size. width and height are in inches,
-# and 10 x 5.625 is 16:9
-pdf('output/ex6_admissions.pdf', width = 10, height = 5.625, pointsize = 12)
+This is easier if you give the plot a name first. Assign the whole thing from Q8 to an object called `admissions_plot`, exactly as you'd assign anything else in R. Nothing will appear when you run it, because you've stored the plot rather than drawn it; type `admissions_plot` on a line of its own to see it.
 
-plot(scotland$year, scotland$measure, type = "l", lwd = 2, col = cols[1], lty = 1,
-     ylim = c(0, 1600), las = 1, xlab = "Year",
-     ylab = "Hospital admissions per 100,000 people",
-     main = "Alcohol-related hospital admissions, 2010 to 2019")
-lines(glasgow$year, glasgow$measure, lwd = 2, col = cols[2], lty = 2)
-lines(aberdeenshire$year, aberdeenshire$measure, lwd = 2, col = cols[3], lty = 3)
-legend("bottomleft", legend = c("Scotland", "Glasgow City", "Aberdeenshire"),
-       col = cols, lwd = 2, lty = c(1, 2, 3), bty = "n")
-mtext("Source: Scottish Public Health Observatory. Rates are age-sex standardised.",
-      side = 1, line = 4, cex = 0.7, adj = 0)
+Now save it with `ggsave()`, which is ggplot's own version of the `pdf()` and `dev.off()` sandwich you met in Exercise 5, Q12. There's no device to close, because `ggsave()` opens and closes it for you, and it works out which format you want from the file extension you give it (Section [5.2.6](https://intro2r.com/the-start-of-the-end.html#prettification)).
 
-dev.off()
+Save your plot twice into the `output` directory you created in Exercise 1, once as `ex6_admissions.pdf` and once as `ex6_admissions.png`. Use `width = 10` and `height = 5.625`, which is a 16:9 shape and what most poster and slide templates expect, and for the png set `dpi = 300`, which is the usual minimum for print. Open both files and check them at full size before you believe them.
 
-# png: pixels, so the resolution matters. units = "in" plus res = 300 gives you
-# a 3000 x 1688 pixel image that will print cleanly. It is the same plotting
-# code again - copy and paste it, or better, keep it in your script once and
-# run it twice.
-png('output/ex6_admissions.png', width = 10, height = 5.625, units = "in",
-    res = 300, pointsize = 12)
+**Keep the png.** You'll put it into a report in Exercise 7 and then into a repository in Exercise 9, so it needs to still be there in a fortnight.
 
-plot(scotland$year, scotland$measure, type = "l", lwd = 2, col = cols[1], lty = 1,
-     ylim = c(0, 1600), las = 1, xlab = "Year",
-     ylab = "Hospital admissions per 100,000 people",
-     main = "Alcohol-related hospital admissions, 2010 to 2019")
-lines(glasgow$year, glasgow$measure, lwd = 2, col = cols[2], lty = 2)
-lines(aberdeenshire$year, aberdeenshire$measure, lwd = 2, col = cols[3], lty = 3)
-legend("bottomleft", legend = c("Scotland", "Glasgow City", "Aberdeenshire"),
-       col = cols, lwd = 2, lty = c(1, 2, 3), bty = "n")
-mtext("Source: Scottish Public Health Observatory. Rates are age-sex standardised.",
-      side = 1, line = 4, cex = 0.7, adj = 0)
-
-dev.off()
-
-# Use the pdf for anything going to a printer, and the png for anything going
-# into PowerPoint or a web page. If your poster template asks for a specific
-# figure size, set width and height to that size here rather than resizing the
-# image afterwards, which is what makes text look squashed or fuzzy.
-```
-
-\  
-
-### Optional alternative: the same plot using ggplot2
-
-\  
-
-**This section is entirely optional and is not assessed.** Base R graphics are what this course teaches and what your assessment expects, and everything above is complete on its own. It is here because `ggplot2` is widely used and some of you will meet it elsewhere, so it is worth seeing the same figure built the other way.
-
-Notice that `ggplot2` saves you the repetition - one `geom_line()` handles all three areas because it splits them by `area_name` - but it does not make a single one of the decisions for you. The palette, the redundant line type, the labels, the source note and the zero on the y axis are all still yours.
-
-```{r Q10, echo=SOLUTIONS, tidy = TRUE}
-library(ggplot2)
-
-areas <- c("Scotland", "Glasgow City", "Aberdeenshire")
-sub <- scotpho[scotpho$area_name %in% areas, ]
-
-# keep only the three areas as factor levels, in the order we want them
-sub$area_name <- factor(sub$area_name, levels = areas)
-
-ggplot(data = sub, aes(x = year, y = measure,
-                       colour = area_name, linetype = area_name)) +
+```{r Q9, echo=SOLUTIONS}
+# give the plot a name. Nothing is drawn until you ask for it by name
+admissions_plot <- ggplot(data = three_areas,
+       aes(x = year, y = measure, colour = area_name, linetype = area_name)) +
   geom_line(linewidth = 1) +
-  scale_colour_manual(values = as.vector(cols)) +
+  scale_colour_manual(values = cols) +
+  scale_x_continuous(breaks = seq(2010, 2019, by = 2)) +
   scale_y_continuous(limits = c(0, 1600)) +
-  # without this ggplot labels the axis 2010.0, 2012.5, 2015.0 - decimal years,
-  # which is nonsense on a plot anyone else has to read
-  scale_x_continuous(breaks = seq(2010, 2018, by = 2)) +
   labs(x = "Year",
        y = "Hospital admissions per 100,000 people",
        title = "Alcohol-related hospital admissions, 2010 to 2019",
@@ -270,7 +275,25 @@ ggplot(data = sub, aes(x = year, y = measure,
   theme_minimal() +
   theme(legend.position = "bottom", plot.caption = element_text(hjust = 0))
 
-ggsave('output/ex6_admissions_ggplot.png', width = 10, height = 5.625, dpi = 300)
+admissions_plot     # draw it in the plot pane
+
+# pdf: a vector format, so it stays sharp at any size. Sizes are in inches.
+ggsave('output/ex6_admissions.pdf', plot = admissions_plot,
+       width = 10, height = 5.625, units = "in")
+
+# png: pixels, so the resolution matters. 10 x 5.625 inches at 300 dpi gives
+# you a 3000 x 1687 pixel image that will print cleanly.
+ggsave('output/ex6_admissions.png', plot = admissions_plot,
+       width = 10, height = 5.625, units = "in", dpi = 300)
+
+# Use the pdf for anything going to a printer and the png for anything going
+# into a Word document, PowerPoint or a web page. If your poster template asks
+# for a particular figure size, set width and height to that size here rather
+# than resizing the image afterwards, which is what makes text look squashed
+# or fuzzy.
+
+# If you leave out plot = admissions_plot, ggsave() saves the last plot you
+# drew, which is usually what you wanted but not always. Naming it is safer.
 ```
 
 \  

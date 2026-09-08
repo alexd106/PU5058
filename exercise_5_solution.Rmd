@@ -39,7 +39,7 @@ if (SOLUTIONS) {
 
 \  
 
-Read [Chapter 4](https://intro2r.com/graphics_r.html) to help you complete the questions in this exercise.
+Read [Chapter 4](https://intro2r.com/graphics_base_r.html) to help you complete the questions in this exercise.
 
 \  
 

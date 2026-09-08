@@ -452,17 +452,9 @@ the lowest, with the national average falling between the two.
 
 \  
 
-12\. Last of all, if you have time, here's one of the nicer things about R markdown. The same file will give you a completely different kind of document without you rewriting anything.
+12\. Right, one more thing to go in the report. It records what you did to your data, but it doesn't record what you did it *with*. R gets updated, packages get updated, and code that gives you one answer today can give you a slightly different one in a year or two.
 
-In your YAML header, change `pdf_document` to `html_document` and knit. You'll get a html file instead which you can open in your browser. This has been built from exactly the same text, code and figures. Change the header back to `pdf_document` before you finish.
-
-You don't have to edit the YAML to do this. Click the small black triangle next to the **Knit** button and you can pick a format straight from the menu, which overrides whatever your YAML header says for that one knit. It's quicker for a look, but the YAML is where you set what your document actually is.
-
-\  
-
-13\. One last thing. Your report records what you did to your data, but it doesn't record what you did it *with*, and that matters more than it sounds. R gets updated, packages get updated, and code that gives you one answer today can give you a slightly different one in a year or two.
-
-The `sessionInfo()` function writes all of that down for you. It prints your R version, your operating system, and every package that was loaded when the document was knitted, along with its version number. Add a heading at the very end of your report, `## Session information`, and a code chunk underneath it that calls `sessionInfo()`.
+The `sessionInfo()` function writes all of that down for you. It prints your R version, your operating system, and every package that was loaded when the document was knitted, along with its version number. See [Section 1.10](https://intro2r.com/proj_doc.html#proj_doc) of the book for more explanation. Add a heading at the very end of your report, `## Session information`, and a code chunk underneath it that calls `sessionInfo()`.
 
 Knit and have a look at what comes out. It isn't pretty and nobody's going to read it the way they read the rest of the report, but if you or somebody else ever reruns this and gets a different answer, that list is the first place to look. It costs you two lines and it's what makes your report properly reproducible.
 
@@ -475,6 +467,14 @@ sessionInfo()
 ```
 ````
 `````
+
+\  
+
+13\. **Optional.** Last of all, if you have time, here's one of the nicer things about R markdown. The same file will give you a completely different kind of document without you rewriting anything.
+
+In your YAML header, change `pdf_document` to `html_document` and knit. You'll get a html file instead which you can open in your browser. This has been built from exactly the same text, code and figures. Change the header back to `pdf_document` before you finish.
+
+You don't have to edit the YAML to do this. Click the small black triangle next to the **Knit** button and you can pick a format straight from the menu, which overrides whatever your YAML header says for that one knit. It's quicker for a look, but the YAML is where you set what your document actually is.
 
 \  
 

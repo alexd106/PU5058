@@ -914,9 +914,27 @@ themselves why it is there, which is your job rather than theirs.</li>
 the <code>.Rmd</code> file is, not to your working directory. If the
 image doesn’t appear, the path is almost always the reason.</p>
 <p> </p>
-<p>12. Last of all, if you have time, here’s one of the nicer things
-about R markdown. The same file will give you a completely different
-kind of document without you rewriting anything.</p>
+<p>12. Right, one more thing to go in the report. It records what you
+did to your data, but it doesn’t record what you did it <em>with</em>. R
+gets updated, packages get updated, and code that gives you one answer
+today can give you a slightly different one in a year or two.</p>
+<p>The <code>sessionInfo()</code> function writes all of that down for
+you. It prints your R version, your operating system, and every package
+that was loaded when the document was knitted, along with its version
+number. See <a href="https://intro2r.com/proj_doc.html#proj_doc">Section
+1.10</a> of the book for more explanation. Add a heading at the very end
+of your report, <code>## Session information</code>, and a code chunk
+underneath it that calls <code>sessionInfo()</code>.</p>
+<p>Knit and have a look at what comes out. It isn’t pretty and nobody’s
+going to read it the way they read the rest of the report, but if you or
+somebody else ever reruns this and gets a different answer, that list is
+the first place to look. It costs you two lines and it’s what makes your
+report properly reproducible.</p>
+<p> </p>
+<p>13. <strong>Optional.</strong> Last of all, if you have time, here’s
+one of the nicer things about R markdown. The same file will give you a
+completely different kind of document without you rewriting
+anything.</p>
 <p>In your YAML header, change <code>pdf_document</code> to
 <code>html_document</code> and knit. You’ll get a html file instead
 which you can open in your browser. This has been built from exactly the
@@ -927,23 +945,6 @@ triangle next to the <strong>Knit</strong> button and you can pick a
 format straight from the menu, which overrides whatever your YAML header
 says for that one knit. It’s quicker for a look, but the YAML is where
 you set what your document actually is.</p>
-<p> </p>
-<p>13. One last thing. Your report records what you did to your data,
-but it doesn’t record what you did it <em>with</em>, and that matters
-more than it sounds. R gets updated, packages get updated, and code that
-gives you one answer today can give you a slightly different one in a
-year or two.</p>
-<p>The <code>sessionInfo()</code> function writes all of that down for
-you. It prints your R version, your operating system, and every package
-that was loaded when the document was knitted, along with its version
-number. Add a heading at the very end of your report,
-<code>## Session information</code>, and a code chunk underneath it that
-calls <code>sessionInfo()</code>.</p>
-<p>Knit and have a look at what comes out. It isn’t pretty and nobody’s
-going to read it the way they read the rest of the report, but if you or
-somebody else ever reruns this and gets a different answer, that list is
-the first place to look. It costs you two lines and it’s what makes your
-report properly reproducible.</p>
 <p> </p>
 <p> </p>
 <div id="two-things-we-havent-covered" class="section level3">

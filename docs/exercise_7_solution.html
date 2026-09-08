@@ -1088,31 +1088,17 @@ class="sourceCode md foldable"><code class="sourceCode markdown"><span id="cb20-
 <span id="cb20-2"><a href="#cb20-2" tabindex="-1"></a>has consistently the highest rate in Scotland over this period and Aberdeenshire one of</span>
 <span id="cb20-3"><a href="#cb20-3" tabindex="-1"></a>the lowest, with the national average falling between the two.</span></code></pre></div>
 <p> </p>
-<p>12. Last of all, if you have time, here’s one of the nicer things
-about R markdown. The same file will give you a completely different
-kind of document without you rewriting anything.</p>
-<p>In your YAML header, change <code>pdf_document</code> to
-<code>html_document</code> and knit. You’ll get a html file instead
-which you can open in your browser. This has been built from exactly the
-same text, code and figures. Change the header back to
-<code>pdf_document</code> before you finish.</p>
-<p>You don’t have to edit the YAML to do this. Click the small black
-triangle next to the <strong>Knit</strong> button and you can pick a
-format straight from the menu, which overrides whatever your YAML header
-says for that one knit. It’s quicker for a look, but the YAML is where
-you set what your document actually is.</p>
-<p> </p>
-<p>13. One last thing. Your report records what you did to your data,
-but it doesn’t record what you did it <em>with</em>, and that matters
-more than it sounds. R gets updated, packages get updated, and code that
-gives you one answer today can give you a slightly different one in a
-year or two.</p>
+<p>12. Right, one more thing to go in the report. It records what you
+did to your data, but it doesn’t record what you did it <em>with</em>. R
+gets updated, packages get updated, and code that gives you one answer
+today can give you a slightly different one in a year or two.</p>
 <p>The <code>sessionInfo()</code> function writes all of that down for
 you. It prints your R version, your operating system, and every package
 that was loaded when the document was knitted, along with its version
-number. Add a heading at the very end of your report,
-<code>## Session information</code>, and a code chunk underneath it that
-calls <code>sessionInfo()</code>.</p>
+number. See <a href="https://intro2r.com/proj_doc.html#proj_doc">Section
+1.10</a> of the book for more explanation. Add a heading at the very end
+of your report, <code>## Session information</code>, and a code chunk
+underneath it that calls <code>sessionInfo()</code>.</p>
 <p>Knit and have a look at what comes out. It isn’t pretty and nobody’s
 going to read it the way they read the rest of the report, but if you or
 somebody else ever reruns this and gets a different answer, that list is
@@ -1124,6 +1110,21 @@ class="sourceCode md foldable"><code class="sourceCode markdown"><span id="cb21-
 <span id="cb21-3"><a href="#cb21-3" tabindex="-1"></a><span class="in">```{r session-info}</span></span>
 <span id="cb21-4"><a href="#cb21-4" tabindex="-1"></a><span class="in">sessionInfo()</span></span>
 <span id="cb21-5"><a href="#cb21-5" tabindex="-1"></a><span class="in">```</span></span></code></pre></div>
+<p> </p>
+<p>13. <strong>Optional.</strong> Last of all, if you have time, here’s
+one of the nicer things about R markdown. The same file will give you a
+completely different kind of document without you rewriting
+anything.</p>
+<p>In your YAML header, change <code>pdf_document</code> to
+<code>html_document</code> and knit. You’ll get a html file instead
+which you can open in your browser. This has been built from exactly the
+same text, code and figures. Change the header back to
+<code>pdf_document</code> before you finish.</p>
+<p>You don’t have to edit the YAML to do this. Click the small black
+triangle next to the <strong>Knit</strong> button and you can pick a
+format straight from the menu, which overrides whatever your YAML header
+says for that one knit. It’s quicker for a look, but the YAML is where
+you set what your document actually is.</p>
 <p> </p>
 <div id="the-finished-report" class="section level3">
 <h3>The finished report</h3>

@@ -268,7 +268,7 @@ If the push fails with a message about authentication then your token is the pro
 
 9\. OK, let's go one more time around this workflow all the way through to GitHub without stopping. Change, stage, commit, pull, push. That sequence is what you'll be doing all the time when using Git, so it's worth doing once from end to end now that you know what each step is for.
 
-a) Open `cardiac_report.Rmd` and add a sentence of your own at the very end, under the last figure, saying what you would look at next if you had more time. It doesn't really matter what you put, just write something sensible. Now save the file.
+a) Open `cardiac_report.Rmd` and add a sentence of your own at the end of the text, under the last figure and just above the `## Session information` heading, saying what you would look at next if you had more time. It doesn't really matter what you put, just write something sensible. Now save the file.
 
 b) Click **Diff** and read the change (just to confirm), then stage the file and commit it with a message saying what you added and why.
 
@@ -276,7 +276,7 @@ c) Before you push, click **Pull**, the blue down arrow. You'll get a short mess
 
 Having said that, it's still a good habit to get into. When you're working with other people, they'll have been committing while you were, so you need to pull their changes down before you push yours up to keep the two copies in step. If you both change the same lines of the same file and neither of you pulls first, Git can't tell which version is right and asks you to sort it out. That's a merge conflict, and sorting one out is a lot more work than the quick pull you skipped. So my advice is to **Pull before you push**, even when, as today, there's nothing to pull.
 
-d) Now click **Push**, and refresh your repository page on GitHub. Click on your `cardiac_report.Rmd` file in the file list to display its contents and your sentence should be there at the bottom of the report.
+d) Now click **Push**, and refresh your repository page on GitHub. Click on your `cardiac_report.Rmd` file in the file list to display its contents and your sentence should be there, just above the `## Session information` heading.
 
 \  
 
@@ -328,7 +328,7 @@ Git can do a great deal more than this. **Branches** let you work on something r
 
 When you want to go further, the standard reference for R users is [Happy Git and GitHub for the useR](https://happygitwithr.com), which is free online. [Section 9.6.4](https://intro2r.com/use_git.html) of the Introduction to R book gives an overview of how collaboration works.
 
-One last thing. The website you're reading this on is built from a public GitHub repository, using exactly the tools in this exercise. The **Source code** link in the menu at the top of this page will take you to it.
+One more thing before you go. The website you're reading this on is built from a public GitHub repository, using exactly the tools in this exercise. The **Source code** link in the menu at the top of this page will take you to it.
 
 \  
 

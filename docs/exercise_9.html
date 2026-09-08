@@ -608,7 +608,7 @@ about.</p>
 for Exercises 1 to 7. That’s deliberate, so you’re not putting the whole
 course under version control today.</p>
 <p> </p>
-<p>3. Before you touch anything, get your bearings. Find the
+<p>3. Before you touch anything, let’s get our bearings. Find the
 <strong>Git</strong> tab in RStudio, which unless you’ve moved your
 panes around will be in the top right one alongside Environment and
 History. It only appears in a Project that’s under version control,
@@ -642,13 +642,15 @@ through the next few questions. Here is the full set:</p>
 alt="The Git status icons and what each one means" /></p>
 <p> </p>
 <p> </p>
-<p>4. Time to make your first commit, slowly. First you’ll need
-something worth saving, and rather than invent something you’ll use the
-report you built in Exercise 7.</p>
+<p>4. Time to make your first commit and we’ll work through this slowly
+to begin with. First we’ll need something worth saving. Rather than
+inventing something we’ll use the R markdown report you built in
+Exercise 7.</p>
 <ol style="list-style-type: lower-alpha">
-<li>That report needs two folders alongside it to knit, so using your
-computer’s file manager (Finder on a Mac, File Explorer on Windows) copy
-all three of these into your new Project folder:</li>
+<li>Remember, the report needs two folders alongside it to knit
+properly, so using your computer’s file manager (Finder on a Mac, File
+Explorer on Windows) copy all three of these into your new Project
+folder:</li>
 </ol>
 <ul>
 <li><code>cardiac_report.Rmd</code> itself</li>
@@ -657,7 +659,7 @@ all three of these into your new Project folder:</li>
 <li>an <code>output</code> folder containing
 <code>ex6_admissions.png</code></li>
 </ul>
-<p>The paths written inside the report are relative to the
+<p>The file paths written inside the report are relative to the
 <code>.Rmd</code> file, so those two folders have to keep their names
 and sit right next to it. You’re copying rather than moving because this
 is a different Project from the one you’ve been working in. If you
@@ -665,24 +667,26 @@ haven’t got a working report of your own, download the finished one from
 the <a href="exercise_7_solution.html" target="_blank">Exercise 7
 solutions</a>.</p>
 <ol start="2" style="list-style-type: lower-alpha">
-<li><p>Open <code>cardiac_report.Rmd</code> in RStudio and knit it. Do
-this before you go anywhere near Git, so that you know it works in its
-new home. Knitting also produces <code>cardiac_report.pdf</code>, which
-you’ll come back to in Q7.</p></li>
+<li><p>Next, open the <code>cardiac_report.Rmd</code> in RStudio and
+knit it (hit the <strong>Knit</strong> button, remember?). Do this
+before you go anywhere near Git, so that you know the report renders
+correctly. Knitting also produces your <code>cardiac_report.pdf</code>,
+which you’ll come back to in Q7.</p></li>
 <li><p>Now look at the Git pane. Several things have appeared, all with
 a yellow <code>?</code>, because Git can see them but isn’t keeping
 track of any of them yet. Tick the <strong>Staged</strong> box next to
-<code>cardiac_report.Rmd</code> and that one only. Its icon changes to a
-green <code>A</code>, for ‘added’. Leaving the others alone is the point
-here: you choose what goes into a commit rather than sweeping up
-everything that happens to be lying around.</p></li>
-<li><p>Click <strong>Commit</strong>. A window opens showing the file
-you staged and, underneath, every line you’re about to record. Type a
-message in the box on the right. Make it say why you made the change
-rather than just what you changed. ‘add cardiac report from Exercise 7’
-is a useful message, ‘update’ is not, and in six months you’ll be
-grateful. Click the <strong>Commit</strong> button, read the
-confirmation, and close it.</p></li>
+<code>cardiac_report.Rmd</code> (only that one at the moment). Its icon
+changes to a green <code>A</code>, for ‘added’. We’ll deal with the
+other files in a bit as we need to make some decisions about which files
+we want Git to track.</p></li>
+<li><p>Click the <strong>Commit</strong> button in the Git pane. A
+window opens showing the file you staged and, underneath, every line
+you’re about to record. Type a message in the ‘Commit message’ box on
+the right. Make it say why you made the change rather than just what you
+changed. I suggest something like ‘add cardiac report from Exercise 7’.
+A message like ‘update’ isn’t very useful, and in six months you’ll be
+grateful you wrote a proper one. Click the <strong>Commit</strong>
+button in that window, read the confirmation, and close it.</p></li>
 </ol>
 <p> </p>
 <p><img src="images/ex9_commit.png"
@@ -690,23 +694,23 @@ alt="The commit window with one file staged, a message typed and the diff below"
 <p> </p>
 <p>Your report is now recorded in the history, and notice that it all
 happened on your own computer. Nothing has gone anywhere near GitHub
-yet, and nothing needs to until Q8.</p>
+yet. We’ll get to that in Q8.</p>
 <p>A line has also appeared at the top of the Git pane saying that your
 branch is ahead of ‘origin/main’ by 1 commit. <code>origin/main</code>
 is Git’s name for GitHub’s copy of your work, and that line is Git
 telling you the two copies have drifted apart. The number will go up
-each time you commit, and it goes back to nothing when you push in
-Q8.</p>
+each time you commit, and it goes back to nothing when you push commits
+to GitHub (Q8).</p>
 <p> </p>
-<p>5. Now do it again, because the loop only becomes useful once it’s
-automatic. Open <code>cardiac_report.Rmd</code>, find the sentence in
-your data description that begins ‘These data come from a cohort study’,
-and reword it to say that the study is unpublished. Save the file. It
-reappears in the Git pane, this time with a blue <code>M</code> for
-‘modified’.</p>
+<p>5. Now let’s do this process again to reinforce it. Open the
+<code>cardiac_report.Rmd</code> again, find the sentence in your data
+description that begins ‘These data come from a cohort study’, and
+reword it to say that the study is unpublished. Save the file. Notice
+that it now reappears in the Git pane, this time with a blue
+<code>M</code> for ‘modified’.</p>
 <ol style="list-style-type: lower-alpha">
-<li>Before you commit, select the file and click
-<strong>Diff</strong>.</li>
+<li>Before you commit, select the file and click the
+<strong>Diff</strong> button in the Git pane.</li>
 </ol>
 <p> </p>
 <p><img src="images/ex9_diff.png"
@@ -717,21 +721,22 @@ and the unchanged lines around them are there for context. Notice that
 Git has recorded your reworded sentence as one line removed and one line
 added, because Git works a line at a time and has no idea that the two
 are almost the same. Getting into the habit of looking at the diff
-before committing catches an enormous number of mistakes.</p>
+before committing can help catch mistakes later on.</p>
 <p>Notice too that the diff is of your <code>.Rmd</code> file rather
 than the PDF. Git is designed for plain text, which is exactly what an R
-markdown file is, and it is one of the reasons for writing a report this
+markdown file is and it is one of the reasons for writing a report this
 way rather than in Word.</p>
 <ol start="2" style="list-style-type: lower-alpha">
-<li><p>Stage it and commit it with a sensible message, again without
-pushing.</p></li>
-<li><p>Now click <strong>History</strong>, the clock icon. You’ll see
-your two commits at the top, most recent first, with the
-<code>Initial commit</code> that GitHub made for you sitting underneath
-them. Click on the top one and the panel below fills in with the details
-of just that commit, including the changes it contained and its
-<strong>SHA</strong>, the long string of letters and numbers that is the
-commit’s name. You’ll come back to that panel in Q10.</p></li>
+<li><p>Stage it and commit it with a sensible message (‘add publication
+status to data description’), again without pushing. Close the commit
+dialogue window.</p></li>
+<li><p>Now click <strong>History</strong>, the clock icon in the Git
+pane. You’ll see your two commits at the top, most recent first, with
+the <code>Initial commit</code> that GitHub made for you sitting
+underneath them. Click on the top one and the panel below fills in with
+the details of just that commit, including the changes it contained and
+its <strong>SHA</strong>, the long string of letters and numbers that is
+the commit’s name. You’ll come back to that panel in Q10.</p></li>
 </ol>
 <p> </p>
 <p><img src="images/ex9_history.png"
@@ -739,15 +744,17 @@ alt="The History window showing three commits, with the details of the selected 
 <p> </p>
 <p>This history is the part that makes version control worth the
 trouble. The backup is useful, but being able to look back at what you
-did, and why you did it, is more useful still.</p>
+did, and why you did it, is even more useful.</p>
 <p> </p>
-<p>6. Everyone makes changes they wish they hadn’t. Git gives you a way
-back.</p>
+<p>6. OK, so everyone makes changes they wish they hadn’t and the great
+thing about Git is that it gives you a way back. So let’s make an
+intentional mistake in our <code>cardiac_report.Rmd</code> file and then
+recover.</p>
 <ol style="list-style-type: lower-alpha">
-<li>Open your report, delete the whole <code>chol-plot</code> chunk that
-draws the boxplot, and save it. Do <strong>not</strong> commit. Now
-click on <code>cardiac_report.Rmd</code> in the Git pane to select it,
-click the blue gear icon along the top of the pane and choose
+<li>Open your report, delete the whole <code>chol-plot</code> code chunk
+that draws the boxplot, and save it. Do <strong>not</strong> commit. Now
+click on <code>cardiac_report.Rmd</code> in the Git pane to highlight
+it, click the blue gear icon along the top of the pane and choose
 <strong>Revert…</strong>. Say yes to the warning, then look at your
 report again and the deleted chunk is back.</li>
 </ol>
@@ -760,47 +767,53 @@ alt="The gear menu in the Git pane, open, showing Revert and Ignore" /></p>
 last thing you did, and there’s no way back. Commit often and you’ll
 rarely need it.</p>
 <ol start="2" style="list-style-type: lower-alpha">
-<li>Now a subtler one, and this time do exactly as follows so that you
-can see what changes.</li>
+<li>Now a subtler one. This time, do the following so that you can see
+what changes.</li>
 </ol>
-<p>In your report, find the <code>## Results</code> heading and change
-it to something more useful, say
+<p>In your R markdown report, find the <code>## Results</code> heading
+and change it to something more useful, say
 <code>## HDL cholesterol and smoking status</code>. Save the file, stage
 it, and commit it with the message
 <code>change Results heading</code>.</p>
-<p>Now realise you meant to do more than that. Underneath that heading,
-add a sentence saying what the figure below it shows. Save the file and
-stage it again, but this time, before you click <strong>Commit</strong>,
-tick <strong>Amend previous commit</strong>. Notice that RStudio fills
-the message box back in with <code>change Results heading</code> for
-you. Commit.</p>
+<p>Now let’s say you’ve just realised you meant to do a bit more than
+that. Underneath that heading, add a sentence saying what the figure
+below it shows (something like ‘This figure shows HDL cholesterol in
+patients by smoking status.’). Save the file and stage it again, but
+this time, before you click <strong>Commit</strong>, tick <strong>Amend
+previous commit</strong>. Notice that RStudio fills the message box back
+in with <code>change Results heading</code> for you. Then go ahead and
+<strong>Commit</strong> as usual.</p>
 <p> </p>
 <p><img src="images/ex9_amend.png"
 alt="The commit window with the Amend previous commit box ticked" /></p>
 <p> </p>
-<p>Click <strong>History</strong> and count. You made two separate
-changes and clicked Commit twice, but there is only one new commit,
-holding both of them. That is what amending does: rather than adding a
-commit, it replaces the previous one.</p>
-<p>You are safe doing this here because you haven’t pushed anything yet.
-Once a commit is on GitHub other people may already have it, and
-rewriting one at that point causes them problems, so treat <strong>Amend
-previous commit</strong> as something you only ever use on work that is
-still on your own machine.</p>
+<p>Click the <strong>History</strong> icon. You made two separate
+changes and clicked <strong>Commit</strong> twice, but there is only one
+new commit, holding both of them. That is what amending does: rather
+than adding a commit, it replaces the previous one.</p>
+<p>You’re safe doing this here because you haven’t pushed anything to
+GitHub yet. Once a commit is on GitHub other people may already have it,
+and rewriting one at that point causes them problems, so treat
+<strong>Amend previous commit</strong> as something you only ever use on
+work that is still on your own machine.</p>
 <p> </p>
-<p>7. Before you send any of this to GitHub, decide what should be
-going. Open the <code>.gitignore</code> file in your Project. This is
-the list of things Git deliberately ignores, and GitHub gave you a
-sensible starting one when you chose the R template in Q2.</p>
+<p>7. Before we send any of this to GitHub, we need to decide what’s
+worth sending. Open the <code>.gitignore</code> file in your Project
+(you’ll see it in your ‘Files’ pane). This is the list of things Git
+deliberately ignores. When we set up our GitHub repository back in Q2,
+we chose the R template, which gave us a sensible starting point.</p>
 <ol style="list-style-type: lower-alpha">
-<li><p>Read through it. You should recognise <code>.Rhistory</code> and
-<code>.RData</code>.</p></li>
+<li><p>Read through it. You might recognise <code>.Rhistory</code> and
+<code>.RData</code> among others.</p></li>
 <li><p>Look back at the Git pane. <code>cardiac_report.pdf</code> is
 still sitting there with a yellow <code>?</code> from Q4, and it will
-reappear every time you knit. It doesn’t need a history, because anybody
-with your <code>.Rmd</code> file and the data can produce it again in
-one click. Add a line to <code>.gitignore</code> that ignores it and
-watch it disappear from the pane.</p></li>
+reappear every time you knit. We don’t need to track this file as
+anybody with our <code>.Rmd</code> file and the data can produce it
+again in one click. To stop Git tracking it we just need to add the file
+name to the end of our <code>.gitignore</code> file. Once you save it,
+<code>cardiac_report.pdf</code> will disappear from the Git pane and
+<code>.gitignore</code> will appear in its place, because we’ve changed
+it and it is tracked.</p></li>
 </ol>
 <p> </p>
 <p><img src="images/ex9_gitignore_edit.png"
@@ -809,29 +822,27 @@ alt="The Git pane after the gitignore edit, with the PDF gone and gitignore now 
 <p>If you’re on a Mac you may also see a file called
 <code>.DS_Store</code> in the pane, which Finder writes into every
 folder you open and which has nothing to do with your work. Add that to
-<code>.gitignore</code> too.</p>
+<code>.gitignore</code> too if it bothers you.</p>
 <ol start="3" style="list-style-type: lower-alpha">
 <li><p>Notice that the gear menu you used in Q6 also has an
 <strong>Ignore…</strong> option, which adds the selected file to
-<code>.gitignore</code> for you rather than making you type it.</p></li>
-<li><p>Now a judgement call, because ‘ignore anything you generated’ is
-too blunt a rule. Your <code>output</code> folder holds
+<code>.gitignore</code> for you rather than making you type it. It’s up
+to you which one you prefer (you don’t need to do both!).</p></li>
+<li><p>Now think about your <code>output</code> folder. It holds
 <code>ex6_admissions.png</code>, and your report can’t knit without it.
 If you ignored that folder, anybody who cloned your repository would get
-a report that fails on the last figure. The question to ask is not ‘did
-I generate this?’ but ‘could somebody rebuild it from what is already in
-the repository?’. The PDF, yes. The png, no, because you made it in a
-different Project from data that isn’t here.</p></li>
+a report that fails on the last figure. So we will need to track this
+folder (we’ll do this in just a sec).</p></li>
 <li><p>Last of all, think about your data. <code>cardiacdata.txt</code>
 is small, unchanging and not confidential, so committing it is
 reasonable and makes the project self-contained. Real patient data would
 be a different matter entirely. <strong>Never put confidential data or
 passwords in a repository</strong>, and be especially careful with
-public ones, because deleting a file doesn’t remove it from the
+public repositories as deleting a file doesn’t remove it from the
 history.</p></li>
-<li><p>So put that into practice. <code>data/</code>,
-<code>output/</code> and <code>pu5058-practical.Rproj</code> have been
-sitting there untracked since Q4, and all three belong in the
+<li><p>So let’s put that into practice. The folders <code>data/</code>,
+<code>output/</code> and the file <code>pu5058-practical.Rproj</code>
+have been sitting there untracked since Q4, and all three belong in the
 repository. The first two because the report needs them, and the third
 because it is what makes the folder an RStudio Project for anybody who
 clones it.</p></li>
@@ -843,19 +854,20 @@ in the history and everything you didn’t is being ignored, which is
 exactly the state you want a project to be in before you send it
 anywhere.</p>
 <p> </p>
-<p>8. Stop for a moment before you click anything. <strong>Everything
-you have done up until now has been local.</strong> Every commit you
-made in Q4 to Q7 went into a hidden folder inside
-<code>pu5058-practical</code> on your own computer, and GitHub has no
-idea that any of it happened. Refresh your repository page in the
-browser and you’ll still see nothing but the README and the
-<code>.gitignore</code> you made back in Q2.</p>
-<p>That’s worth noticing, because it’s the difference between the two
-halves of this exercise. Git gave you the history. GitHub is about to
-give you the backup, and everything from here on is about keeping the
-two in step.</p>
-<p>Click the green <strong>Push</strong> arrow, the up arrow in the Git
-pane. A window opens showing you what Git did.</p>
+<p>8. OK, let’s stop for a moment before we do anything else. Everything
+you have done up until now has been <strong>local</strong>. Every commit
+you made in Q4 to Q7 went into a hidden folder inside the
+<code>pu5058-practical</code> directory on your own computer and GitHub
+has no idea that any of it happened. Go back to your repository page in
+your browser and refresh it. All you should see is the README and the
+<code>.gitignore</code> files that were created when we first set this
+repository up back in Q2.</p>
+<p>Git gives you the version control (the history) and GitHub is about
+to give you the backup (and a way to collaborate with others).
+Everything from here is about keeping the two in step. So let’s ‘push’
+all our changes to GitHub.</p>
+<p>Click on the green <strong>Push</strong> arrow, the up arrow in the
+Git pane. A window opens showing you a summary of what Git did.</p>
 <p> </p>
 <p><img src="images/ex9_push_output.png"
 alt="The Git Push window reporting a successful push to the repository on GitHub" /></p>
@@ -866,86 +878,91 @@ GitHub in your browser and refresh.</p>
 <p><img src="images/ex9_github_repo.png"
 alt="The GitHub repository page after pushing, showing the report, the data and output folders and the commit count" /></p>
 <p> </p>
-<p>Your report is there, and so are the data, the figure and the
-<code>.Rproj</code> file, which means somebody could clone this
-repository and knit your report themselves. So is every commit you made
-along the way, not just the last one. Push sends everything Git has that
-GitHub hasn’t. Click on the commit count near the top of the file list
-and you will see them all, with the messages you typed. Back in RStudio,
-the line telling you that your branch was ahead of
-<code>origin/main</code> has gone, because the two copies now match.</p>
+<p>With any luck, your R markdown report is there, and so are the data,
+the figure and the <code>.Rproj</code> file, which means somebody could
+clone this repository and knit your report themselves. So is every
+commit you made along the way, not just the last one. Push sends
+everything Git has that GitHub hasn’t. Click on the commit count button
+near the top of the file list on the right and you’ll see them all, with
+the messages you typed. Back in RStudio, the line telling you that your
+branch was ahead of <code>origin/main</code> in the Git pane has also
+gone, because the two copies now match.</p>
 <p>If the push fails with a message about authentication then your token
-is the problem rather than anything you’ve done here, and see the last
-section of the <a href="git_setup.html" target="_blank">setup page</a>.
-Everything you have committed is safe on your computer either way, which
-is rather the point of keeping the two separate.</p>
+is the problem rather than anything you’ve done here (see the last
+section of the <a href="git_setup.html" target="_blank">setup page</a>).
+Everything you have committed is safe on your computer either way so
+don’t panic!</p>
 <p> </p>
-<p>9. Once more round the loop, and this time all the way through to
-GitHub without stopping. Change, look, stage, commit, push. That
-sequence is what you’ll be doing every day, so it’s worth doing once
-from end to end now that you know what each step is for.</p>
+<p>9. OK, let’s go one more time around this workflow all the way
+through to GitHub without stopping. Change, stage, commit, pull, push.
+That sequence is what you’ll be doing all the time when using Git, so
+it’s worth doing once from end to end now that you know what each step
+is for.</p>
 <ol style="list-style-type: lower-alpha">
 <li><p>Open <code>cardiac_report.Rmd</code> and add a sentence of your
 own at the very end, under the last figure, saying what you would look
-at next if you had more time. Save the file.</p></li>
-<li><p>Click <strong>Diff</strong> and read the change, then stage the
-file and commit it with a message saying what you added and
-why.</p></li>
+at next if you had more time. It doesn’t really matter what you put,
+just write something sensible. Now save the file.</p></li>
+<li><p>Click <strong>Diff</strong> and read the change (just to
+confirm), then stage the file and commit it with a message saying what
+you added and why.</p></li>
 <li><p>Before you push, click <strong>Pull</strong>, the blue down
 arrow. You’ll get a short message telling you that everything is already
 up to date, which is exactly what you’d expect. You’re the only person
 working on this repository, and the only things on GitHub are the things
-you put there yourself.</p></li>
+you put there.</p></li>
 </ol>
-<p>It’s still the habit to get into. When you’re working with other
-people, they’ll have been committing while you were, and pulling their
-work down before you send yours up is what keeps the two copies in step.
-If you both change the same lines of the same file and neither of you
-pulls first, Git can’t tell which version is right and asks you to sort
-it out. That’s a merge conflict, and sorting one out is a lot more work
-than the click you skipped. <strong>Pull before you push</strong>, even
-when, as today, there’s nothing to pull.</p>
+<p>Having said that, it’s still a good habit to get into. When you’re
+working with other people, they’ll have been committing while you were,
+so you need to pull their changes down before you push yours up to keep
+the two copies in step. If you both change the same lines of the same
+file and neither of you pulls first, Git can’t tell which version is
+right and asks you to sort it out. That’s a merge conflict, and sorting
+one out is a lot more work than the quick pull you skipped. So my advice
+is to <strong>Pull before you push</strong>, even when, as today,
+there’s nothing to pull.</p>
 <ol start="4" style="list-style-type: lower-alpha">
 <li>Now click <strong>Push</strong>, and refresh your repository page on
-GitHub. One more commit, and your sentence is there at the bottom of the
-report.</li>
+GitHub. Click on your <code>cardiac_report.Rmd</code> file in the file
+list to display its contents and your sentence should be there at the
+bottom of the report.</li>
 </ol>
 <p> </p>
 <p>10. Last of all, the question everybody gets to sooner or later.
 You’ve pushed something, and then realised it shouldn’t have gone.</p>
-<p>You’ve already met two ways of undoing things and neither of them
+<p>You’ve already met two ways of undoing things but neither of them
 will do here. <strong>Revert…</strong> in the gear menu, from Q6a,
 throws away changes you haven’t committed yet, and this one is
 committed. <strong>Amend previous commit</strong>, from Q6b, rewrites
 your last commit, which is only safe while it’s still on your own
 computer, and this one is on GitHub. What you need is something that
-undoes the change without pretending it never happened.</p>
+rolls back the change without pretending it never happened.</p>
 <p>That something is <code>git revert</code>, which adds a <em>new</em>
 commit that is the exact opposite of an old one. The original stays in
 the history, the new one cancels it out, and anybody who already has
 your work simply gets one more commit. Be careful with the name, because
 RStudio’s <strong>Revert…</strong> button and the
-<code>git revert</code> command do quite different jobs and only share a
-word. There’s no button for <code>git revert</code> in RStudio, so this
-is the one place in this exercise where you type a Git command
-yourself.</p>
+<code>git revert</code> command do quite different jobs. Unfortunately
+there’s no button for <code>git revert</code> in RStudio, so this is the
+one place in this exercise where you type a Git command yourself.</p>
 <ol style="list-style-type: lower-alpha">
 <li><p>First, look at the Git pane and make sure it’s empty.
 <code>git revert</code> won’t run if you have uncommitted changes lying
 around. If you have any, commit them.</p></li>
-<li><p>Now find the commit you want to undo, which is the one you made
-in Q9. Click <strong>History</strong>, the clock icon, and click on that
-commit. Its full <strong>SHA</strong> appears in the panel underneath, a
-long string of letters and numbers that is the commit’s name. You only
-need the first seven or eight characters, so copy those, or just write
-them down.</p></li>
-<li><p>Open the Terminal. It’s the tab next to the Console in the bottom
-left pane, and if it isn’t there, use <code>Tools</code> -&gt;
-<code>Terminal</code> -&gt; <code>New Terminal</code>, or Shift+Alt+R
-(Option+Shift+R on a Mac). The Terminal isn’t the R console. It talks to
-your computer directly rather than to R, so R commands won’t work in
-it.</p></li>
-<li><p>Type this, with your own SHA in place of the one below, and press
+<li><p>Now we need to find the commit you want to undo, which is the one
+you made in Q9. Click <strong>History</strong> (the clock icon), and
+click on that commit. Its full <strong>SHA</strong> appears in the panel
+underneath, which is a long string of letters and numbers. This is the
+commit’s name. You only need the first seven or eight characters, so
+copy those, or just write them down.</p></li>
+<li><p>Open the Terminal in RStudio. It’s the tab next to the Console in
+the bottom left pane. If it isn’t there for some reason, go to the
+<code>Tools</code> -&gt; <code>Terminal</code> -&gt;
+<code>New Terminal</code> menu, or use Shift+Alt+R (Option+Shift+R on a
+Mac). The Terminal isn’t the R console. It talks to your computer
+directly rather than to R, so R commands won’t work in it.</p></li>
+<li><p>In the Terminal type the following line, with your own SHA (the
+one you just copied above) in place of the one below, and press
 enter:</p></li>
 </ol>
 <pre><code>git revert --no-edit 1b0f779</code></pre>
@@ -954,26 +971,33 @@ enter:</p></li>
 alt="The RStudio Terminal tab with the git revert command typed in" /></p>
 <p> </p>
 <p>The <code>--no-edit</code> part matters. Without it Git opens a text
-editor so that you can write a commit message, and the editor it opens
-is one that’s genuinely hard to get out of if you’ve never met it. With
-it, Git writes a sensible message for you. Since the commit you’re
-undoing is the most recent one, you could also have written
+editor so that you can write a commit message, and whilst that can be
+useful, the editor it opens is one that’s genuinely hard to get out of
+if you’ve never met it. With <code>--no-edit</code>, Git writes a
+sensible message for you. Since the commit you’re undoing is the most
+recent one, you could also have written
 <code>git revert --no-edit HEAD</code>, because <code>HEAD</code> is
-Git’s name for wherever you are now.</p>
+Git’s special name for wherever you are now.</p>
 <ol start="5" style="list-style-type: lower-alpha">
 <li><p>Look at your report. The sentence you added in Q9 has gone. Look
 at the Git pane and you’re one commit ahead of GitHub again, although
 you may have to click the refresh icon, the circular arrow on the right
-of the pane, before RStudio notices what you did behind its back. Click
+of the pane, before RStudio notices what you did behind its back! Click
 <strong>History</strong> and you’ll see both commits, the one that made
 the change and the one that undid it, so the record of what happened is
 complete.</p></li>
-<li><p>Push, and refresh GitHub. The report is back to how it was before
-Q9, and the history says why.</p></li>
+<li><p>Now <strong>Push</strong> as usual, and refresh your GitHub page
+in your browser. The report is back to how it was before Q9, and your
+Git history says why.</p></li>
 </ol>
-<p>This is the general answer for anything that’s already public. Once a
+<p>You can use <code>git revert</code> on any commit in your history,
+not just the most recent one, by giving it that commit’s SHA. Be clear
+about what it does though. It undoes the changes that one commit made,
+it doesn’t wind your whole project back to how it looked at that point.
+That’s the general answer for anything that’s already public. Once a
 commit has been pushed, you undo it by adding another commit rather than
-by taking one away.</p>
+by taking one away. There are many other Git commands to learn and I’ve
+given you some links to additional resources below.</p>
 <p> </p>
 <div id="where-to-go-next" class="section level3">
 <h3>Where to go next</h3>

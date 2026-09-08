@@ -1,0 +1,16 @@
+/* Screenshots.
+
+   The captures are retina, so at their natural size they crowd the text and run
+   the full width of the page. This sizes them down to three quarters of the
+   column, centres them, and holds them off the paragraphs above and below.
+
+   Loaded from the `css:` line in the YAML header of any page that uses
+   screenshots, rather than site wide, so that pages carrying knitr figures are
+   left alone. */
+
+.main-container p > img {
+  display: block;
+  margin: 1em auto;
+  max-width: 75%;
+  height: auto;
+}

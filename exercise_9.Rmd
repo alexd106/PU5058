@@ -4,6 +4,7 @@ output:
   html_document:
     toc: false
     code_folding: hide
+    css: screenshots.css
 ---
 
 
@@ -55,6 +56,8 @@ a) Go to [github.com](https://github.com) and log in. Click the **+** in the top
 
 b) Name it `pu5058-practical`. Leave the visibility as **Public**. Switch **Add README** on. Then, in the **Add .gitignore** dropdown just below it, choose the **R** template. That last one is easy to miss and it saves you a job later, so check your form looks like this before you click **Create repository**.
 
+\  
+
 ![](images/ex9_repo_form.png){alt="The GitHub new repository form, filled in, with the gitignore dropdown set to R"}
 
 \  
@@ -63,11 +66,15 @@ c) On the page that appears, click the green **Code** button, make sure **HTTPS*
 
 d) In RStudio, go to `File` -> `New Project...`. The window that opens gives you three ways to make a Project, and you want the third one.
 
+\  
+
 ![](images/ex9_new_project.png){alt="The New Project Wizard showing New Directory, Existing Directory and Version Control"}
 
 \  
 
 Choose **Version Control**, then **Git**. Paste the address into the 'Repository URL' box. The 'Project directory name' box fills in on its own. Under 'Create project as a subdirectory of', browse to wherever you keep your work for this course, then click **Create Project**.
+
+\  
 
 ![](images/ex9_clone_dialog.png){alt="The Clone Git Repository dialogue with the repository URL and project directory name filled in"}
 
@@ -93,11 +100,15 @@ Find each of these, without clicking yet:
 - the **Pull** and **Push** buttons, the down and up arrows
 - the **History** button, the little clock
 
+\  
+
 ![](images/ex9_git_pane.png){alt="The RStudio Git pane just after cloning, showing one untracked file"}
 
 \  
 
 The coloured icon beside a file tells you what Git currently makes of it. A yellow `?` means Git can see the file but isn't keeping track of it, which is the case for `pu5058-practical.Rproj` right now. You'll meet a blue `M` for a file that's been modified and a green `A` for one you've staged as you work through the next few questions. Here is the full set:
+
+\  
 
 ![](images/rstudio_git_cols.png){alt="The Git status icons and what each one means"}
 
@@ -121,6 +132,8 @@ c) Now look at the Git pane. Several things have appeared, all with a yellow `?`
 
 d) Click **Commit**. A window opens showing the file you staged and, underneath, every line you're about to record. Type a message in the box on the right. Make it say why you made the change rather than just what you changed. 'add cardiac report from Exercise 7' is a useful message, 'update' is not, and in six months you'll be grateful. Click the **Commit** button, read the confirmation, and close it.
 
+\  
+
 ![](images/ex9_commit.png){alt="The commit window with one file staged, a message typed and the diff below"}
 
 \  
@@ -135,6 +148,8 @@ A line has also appeared at the top of the Git pane saying that your branch is a
 
 a) Before you commit, select the file and click **Diff**.
 
+\  
+
 ![](images/ex9_diff.png){alt="The Review Changes window showing one removed line in red and one added line in green"}
 
 \  
@@ -146,6 +161,8 @@ Notice too that the diff is of your `.Rmd` file rather than the PDF. Git is desi
 b) Stage it and commit it with a sensible message, again without pushing.
 
 c) Now click **History**, the clock icon. You'll see your two commits at the top, most recent first, with the `Initial commit` that GitHub made for you sitting underneath them. Click on the top one and the panel below fills in with the details of just that commit, including the changes it contained and its **SHA**, the long string of letters and numbers that is the commit's name. You'll come back to that panel in Q10.
+
+\  
 
 ![](images/ex9_history.png){alt="The History window showing three commits, with the details of the selected one in the panel below"}
 
@@ -159,6 +176,8 @@ This history is the part that makes version control worth the trouble. The backu
 
 a) Open your report, delete the whole `chol-plot` chunk that draws the boxplot, and save it. Do **not** commit. Now click on `cardiac_report.Rmd` in the Git pane to select it, click the blue gear icon along the top of the pane and choose **Revert...**. Say yes to the warning, then look at your report again and the deleted chunk is back.
 
+\  
+
 ![](images/ex9_revert_menu.png){alt="The gear menu in the Git pane, open, showing Revert and Ignore"}
 
 \  
@@ -170,6 +189,8 @@ b) Now a subtler one, and this time do exactly as follows so that you can see wh
 In your report, find the `## Results` heading and change it to something more useful, say `## HDL cholesterol and smoking status`. Save the file, stage it, and commit it with the message `change Results heading`.
 
 Now realise you meant to do more than that. Underneath that heading, add a sentence saying what the figure below it shows. Save the file and stage it again, but this time, before you click **Commit**, tick **Amend previous commit**. Notice that RStudio fills the message box back in with `change Results heading` for you. Commit.
+
+\  
 
 ![](images/ex9_amend.png){alt="The commit window with the Amend previous commit box ticked"}
 
@@ -199,6 +220,8 @@ Or, to catch every PDF the Project ever produces:
 ````
 `````
 
+\  
+
 ![](images/ex9_gitignore_edit.png){alt="The Git pane after the gitignore edit, with the PDF gone and gitignore now showing M"}
 
 \  
@@ -223,11 +246,15 @@ That's worth noticing, because it's the difference between the two halves of thi
 
 Click the green **Push** arrow, the up arrow in the Git pane. A window opens showing you what Git did.
 
+\  
+
 ![](images/ex9_push_output.png){alt="The Git Push window reporting a successful push to the repository on GitHub"}
 
 \  
 
 Wait for it to finish, close it, then go to your repository page on GitHub in your browser and refresh.
+
+\  
 
 ![](images/ex9_github_repo.png){alt="The GitHub repository page after pushing, showing the report, the data and output folders and the commit count"}
 
@@ -270,6 +297,8 @@ d) Type this, with your own SHA in place of the one below, and press enter:
 ```
 git revert --no-edit 1b0f779
 ```
+
+\  
 
 ![](images/ex9_terminal_revert.png){alt="The RStudio Terminal tab with the git revert command typed in"}
 

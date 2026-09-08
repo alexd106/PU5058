@@ -160,6 +160,7 @@ code span.wa { color: #8f5902; font-weight: bold; font-style: italic; } /* Warni
 
 
 
+<link rel="stylesheet" href="screenshots.css" type="text/css" />
 
 
 
@@ -568,6 +569,7 @@ the <strong>Add .gitignore</strong> dropdown just below it, choose the
 you a job later, so check your form looks like this before you click
 <strong>Create repository</strong>.</p></li>
 </ol>
+<p> </p>
 <p><img src="images/ex9_repo_form.png"
 alt="The GitHub new repository form, filled in, with the gitignore dropdown set to R" /></p>
 <p> </p>
@@ -579,6 +581,7 @@ and copy the web address. It will end in <code>.git</code>.</p></li>
 <code>New Project...</code>. The window that opens gives you three ways
 to make a Project, and you want the third one.</p></li>
 </ol>
+<p> </p>
 <p><img src="images/ex9_new_project.png"
 alt="The New Project Wizard showing New Directory, Existing Directory and Version Control" /></p>
 <p> </p>
@@ -587,6 +590,7 @@ Paste the address into the ‘Repository URL’ box. The ‘Project directory
 name’ box fills in on its own. Under ‘Create project as a subdirectory
 of’, browse to wherever you keep your work for this course, then click
 <strong>Create Project</strong>.</p>
+<p> </p>
 <p><img src="images/ex9_clone_dialog.png"
 alt="The Clone Git Repository dialogue with the repository URL and project directory name filled in" /></p>
 <p> </p>
@@ -623,6 +627,7 @@ it.</p>
 down and up arrows</li>
 <li>the <strong>History</strong> button, the little clock</li>
 </ul>
+<p> </p>
 <p><img src="images/ex9_git_pane.png"
 alt="The RStudio Git pane just after cloning, showing one untracked file" /></p>
 <p> </p>
@@ -632,6 +637,7 @@ track of it, which is the case for <code>pu5058-practical.Rproj</code>
 right now. You’ll meet a blue <code>M</code> for a file that’s been
 modified and a green <code>A</code> for one you’ve staged as you work
 through the next few questions. Here is the full set:</p>
+<p> </p>
 <p><img src="images/rstudio_git_cols.png"
 alt="The Git status icons and what each one means" /></p>
 <p> </p>
@@ -678,6 +684,7 @@ is a useful message, ‘update’ is not, and in six months you’ll be
 grateful. Click the <strong>Commit</strong> button, read the
 confirmation, and close it.</p></li>
 </ol>
+<p> </p>
 <p><img src="images/ex9_commit.png"
 alt="The commit window with one file staged, a message typed and the diff below" /></p>
 <p> </p>
@@ -701,6 +708,7 @@ reappears in the Git pane, this time with a blue <code>M</code> for
 <li>Before you commit, select the file and click
 <strong>Diff</strong>.</li>
 </ol>
+<p> </p>
 <p><img src="images/ex9_diff.png"
 alt="The Review Changes window showing one removed line in red and one added line in green" /></p>
 <p> </p>
@@ -725,6 +733,7 @@ of just that commit, including the changes it contained and its
 <strong>SHA</strong>, the long string of letters and numbers that is the
 commit’s name. You’ll come back to that panel in Q10.</p></li>
 </ol>
+<p> </p>
 <p><img src="images/ex9_history.png"
 alt="The History window showing three commits, with the details of the selected one in the panel below" /></p>
 <p> </p>
@@ -742,6 +751,7 @@ click the blue gear icon along the top of the pane and choose
 <strong>Revert…</strong>. Say yes to the warning, then look at your
 report again and the deleted chunk is back.</li>
 </ol>
+<p> </p>
 <p><img src="images/ex9_revert_menu.png"
 alt="The gear menu in the Git pane, open, showing Revert and Ignore" /></p>
 <p> </p>
@@ -764,6 +774,7 @@ stage it again, but this time, before you click <strong>Commit</strong>,
 tick <strong>Amend previous commit</strong>. Notice that RStudio fills
 the message box back in with <code>change Results heading</code> for
 you. Commit.</p>
+<p> </p>
 <p><img src="images/ex9_amend.png"
 alt="The commit window with the Amend previous commit box ticked" /></p>
 <p> </p>
@@ -791,6 +802,7 @@ with your <code>.Rmd</code> file and the data can produce it again in
 one click. Add a line to <code>.gitignore</code> that ignores it and
 watch it disappear from the pane.</p></li>
 </ol>
+<p> </p>
 <p><img src="images/ex9_gitignore_edit.png"
 alt="The Git pane after the gitignore edit, with the PDF gone and gitignore now showing M" /></p>
 <p> </p>
@@ -844,11 +856,13 @@ give you the backup, and everything from here on is about keeping the
 two in step.</p>
 <p>Click the green <strong>Push</strong> arrow, the up arrow in the Git
 pane. A window opens showing you what Git did.</p>
+<p> </p>
 <p><img src="images/ex9_push_output.png"
 alt="The Git Push window reporting a successful push to the repository on GitHub" /></p>
 <p> </p>
 <p>Wait for it to finish, close it, then go to your repository page on
 GitHub in your browser and refresh.</p>
+<p> </p>
 <p><img src="images/ex9_github_repo.png"
 alt="The GitHub repository page after pushing, showing the report, the data and output folders and the commit count" /></p>
 <p> </p>
@@ -935,6 +949,7 @@ it.</p></li>
 enter:</p></li>
 </ol>
 <pre><code>git revert --no-edit 1b0f779</code></pre>
+<p> </p>
 <p><img src="images/ex9_terminal_revert.png"
 alt="The RStudio Terminal tab with the git revert command typed in" /></p>
 <p> </p>

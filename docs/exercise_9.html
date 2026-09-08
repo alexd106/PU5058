@@ -979,16 +979,24 @@ recent one, you could also have written
 <code>git revert --no-edit HEAD</code>, because <code>HEAD</code> is
 Git’s special name for wherever you are now.</p>
 <ol start="5" style="list-style-type: lower-alpha">
-<li><p>Look at your report. The sentence you added in Q9 has gone. Look
-at the Git pane and you’re one commit ahead of GitHub again, although
-you may have to click the refresh icon, the circular arrow on the right
-of the pane, before RStudio notices what you did behind its back! Click
+<li>Look at your report. The sentence you added in Q9 has gone. Look at
+the Git pane and you’re one commit ahead of GitHub again, although you
+may have to click the refresh icon, the circular arrow on the right of
+the pane, before RStudio notices what you did behind its back! Click
 <strong>History</strong> and you’ll see both commits, the one that made
 the change and the one that undid it, so the record of what happened is
-complete.</p></li>
-<li><p>Now <strong>Push</strong> as usual, and refresh your GitHub page
-in your browser. The report is back to how it was before Q9, and your
-Git history says why.</p></li>
+complete. Click on the new one and the panel below shows you the message
+Git wrote for you. It names the commit it has just undone, and that SHA
+should look familiar because it’s the one you copied back in Q10b.</li>
+</ol>
+<p> </p>
+<p><img src="images/ex9_revert_commit.png"
+alt="The History detail panel for the revert commit, showing the message Git wrote and the SHA of the commit it undid" /></p>
+<p> </p>
+<ol start="6" style="list-style-type: lower-alpha">
+<li>Now <strong>Push</strong> as usual, and refresh your GitHub page in
+your browser. The report is back to how it was before Q9, and your Git
+history says why.</li>
 </ol>
 <p>You can use <code>git revert</code> on any commit in your history,
 not just the most recent one, by giving it that commit’s SHA. Be clear

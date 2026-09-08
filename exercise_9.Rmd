@@ -306,7 +306,13 @@ git revert --no-edit 1b0f779
 
 The `--no-edit` part matters. Without it Git opens a text editor so that you can write a commit message, and whilst that can be useful, the editor it opens is one that's genuinely hard to get out of if you've never met it. With `--no-edit`, Git writes a sensible message for you. Since the commit you're undoing is the most recent one, you could also have written `git revert --no-edit HEAD`, because `HEAD` is Git's special name for wherever you are now.
 
-e) Look at your report. The sentence you added in Q9 has gone. Look at the Git pane and you're one commit ahead of GitHub again, although you may have to click the refresh icon, the circular arrow on the right of the pane, before RStudio notices what you did behind its back! Click **History** and you'll see both commits, the one that made the change and the one that undid it, so the record of what happened is complete.
+e) Look at your report. The sentence you added in Q9 has gone. Look at the Git pane and you're one commit ahead of GitHub again, although you may have to click the refresh icon, the circular arrow on the right of the pane, before RStudio notices what you did behind its back! Click **History** and you'll see both commits, the one that made the change and the one that undid it, so the record of what happened is complete. Click on the new one and the panel below shows you the message Git wrote for you. It names the commit it has just undone, and that SHA should look familiar because it's the one you copied back in Q10b.
+
+\  
+
+![](images/ex9_revert_commit.png){alt="The History detail panel for the revert commit, showing the message Git wrote and the SHA of the commit it undid"}
+
+\  
 
 f) Now **Push** as usual, and refresh your GitHub page in your browser. The report is back to how it was before Q9, and your Git history says why.
 

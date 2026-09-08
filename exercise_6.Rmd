@@ -149,7 +149,7 @@ ggplot(data = three_areas, aes(x = year, y = measure, colour = area_name)) +
 
 \  
 
-7\. Now, let's think about those colours. ggplot's defaults are perfectly pleasant, but they're not chosen with anybody's eyesight in mind. Roughly 1 in 12 men has some form of colour vision deficiency, most commonly difficulty telling red from green, and red and blue aren't a safe pairing either. Posters also get photocopied, printed in black and white, and viewed on projectors that wash the colour out.
+7\. Now, let's think about those colours. ggplot's defaults are not too bad, but they're not chosen with anybody's eyesight in mind. Roughly 1 in 12 men has some form of colour vision deficiency, most commonly difficulty telling red from green, and red and blue aren't a safe pairing either. 
 
 a) Let's redraw the plot with a colour-blind friendly palette. Base R has one built in, and `palette.colors(3, palette = "Okabe-Ito")` will give you three colours from it. Assign these to `cols`, then hand them over to ggplot by adding a `scale_colour_manual(values = cols)` layer onto the end of your plot. A scale layer is how you overrule any of the decisions ggplot has made for you (see Section [5.2.4](https://intro2r.com/the-start-of-the-end.html#make-it-your-own) for more).
 
@@ -191,9 +191,9 @@ ggplot(data = three_areas,
 
 \  
 
-8\. Next, let's sort out the words. Every plot that leaves your computer needs axis labels a non-specialist can read with units on them, a title that says what the reader is looking at, and a note saying where the data came from. Write the labels for someone who has never heard the phrase 'age-sex standardised'. Your reader is a public health colleague or a member of the public, not a statistician. Keep this version of your code safe, as you'll need it again in Q9.
+8\. Next, let's sort out the text. Every plot needs axis labels a non-specialist can read with units on them, a title that says what the reader is looking at, and a note saying where the data came from. Write the labels for someone who has never heard the phrase 'age-sex standardised'. Your reader is a public health colleague or a member of the public, not a data scientist. We'll revisit this again in Q9.
 
-In ggplot all of the words live in a single `labs()` layer, which takes `x`, `y`, `title` and `caption` (see Section [5.2.6](https://intro2r.com/the-start-of-the-end.html#prettification)). The caption is where the source note goes. While you're in there, adding `colour = NULL` and `linetype = NULL` to the same `labs()` will get rid of the 'area_name' heading above the legend, which is another column name your reader doesn't need to see.
+In ggplot all of the words live in a single `labs()` layer, which takes `x`, `y`, `title` and `caption` arguments(see Section [5.2.6](https://intro2r.com/the-start-of-the-end.html#prettification)). The caption is where the source note goes. While you're there, adding `colour = NULL` and `linetype = NULL` to the same `labs()` will get rid of the 'area_name' heading above the legend, which is another column name your reader doesn't need to see.
 
 There are three more things to sort out, and each one is another layer.
 
@@ -201,7 +201,7 @@ a) The x axis is still labelled with half years, which is a bit odd. Add `scale_
 
 b) Now have a think about the y axis. Should it start at zero? There's no single right answer here, but you should be able to justify whichever you go for. If you decide it should, `scale_y_continuous(limits = c(0, 1600))` will do it (see Section [5.3.2](https://intro2r.com/tips.html#axis-limits-and-zooms)).
 
-c) Finally, the look of the thing. ggplot's grey panel is fine on screen but can come out a bit muddy in print. A **theme** controls everything about the plot that isn't your data, and there are several ready-made ones to choose from (see Section [5.2.5](https://intro2r.com/the-start-of-the-end.html#setting-the-theme)). Add `theme_minimal()` and see what you think. If you'd rather the legend sat underneath the plot than beside it, `theme(legend.position = "bottom")` will move it. Just add it after `theme_minimal()`, otherwise it gets overwritten.
+c) Finally, the overall look of the plot. ggplot's grey panel is fine on screen but can come out a bit muddy in print. A **theme** controls everything about the plot that isn't your data, and there are several ready-made ones to choose from (see Section [5.2.5](https://intro2r.com/the-start-of-the-end.html#setting-the-theme)). Add `theme_minimal()` and see what you think. If you'd rather the legend sat underneath the plot than beside it, `theme(legend.position = "bottom")` will move it. Just add it after `theme_minimal()`, otherwise it gets overwritten.
 
 ```{r Q8, echo=SOLUTIONS}
 ggplot(data = three_areas,
@@ -234,11 +234,11 @@ ggplot(data = three_areas,
 
 \  
 
-9\. Last of all, let's get the plot out of R at a size and resolution that's fit for a poster. The screen defaults aren't much use here, and a plot that looks fine in the RStudio plot pane will be a blurry mess blown up to A1.
+9\. Last of all, let's get the plot out of R at a size and resolution that's fit for a poster. The screen defaults aren't much use here, and a plot that looks fine in the RStudio plot pane might be a blurry mess blown up to A1.
 
-This is a bit easier if you give the plot a name first. Assign the whole thing from Q8 to an object called `admissions_plot`, exactly as you would assign anything else in R. Don't worry when nothing appears, that's normal. You've stored the plot rather than drawn it, so type `admissions_plot` on a line of its own to see it.
+This is a bit easier if you give the plot a name first. Assign the whole thing from Q8 to an object called `admissions_plot`, exactly as you would assign anything else in R. Don't worry when nothing appears, that's normal. You've stored the plot rather than drawn it, so type `admissions_plot` in the console to see it.
 
-Now save it with `ggsave()`, which is ggplot's version of the three step business you met in Exercise 5, Q12. There's no device to close this time, because `ggsave()` opens and closes it for you, and it works out which format you want from the file extension you give it (see Section [5.2.6](https://intro2r.com/the-start-of-the-end.html#prettification)).
+Now save it with `ggsave()`, which is ggplot's version of the three step business you met in Exercise 5, Q12. There's no device to close this time, because `ggsave()` opens and closes it for you, and it works out which format you want from the file extension you give it (see the end of Section [5.2.6](https://intro2r.com/the-start-of-the-end.html#prettification)).
 
 Save your plot twice into the `output` directory you created in Exercise 1, once as `ex6_admissions.pdf` and once as `ex6_admissions.png`. Use `width = 10` and `height = 5.625`, which gives you a 16:9 shape and is what most poster and slide templates expect, and for the png also set `dpi = 300`, which is the usual minimum for print. Open both files and have a look at them at full size before you believe them.
 

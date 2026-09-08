@@ -703,12 +703,11 @@ didn’t?</li>
 <span id="cb5-13"><a href="#cb5-13" tabindex="-1"></a><span class="co"># roughly half of it. In 2019 the rates were 1169, 673 and 314 admissions per</span></span>
 <span id="cb5-14"><a href="#cb5-14" tabindex="-1"></a><span class="co"># 100,000. The national line, on its own, describes almost nobody.</span></span></code></pre></div>
 <p> </p>
-<p>7. Now, let’s think about those colours. ggplot’s defaults are
-perfectly pleasant, but they’re not chosen with anybody’s eyesight in
-mind. Roughly 1 in 12 men has some form of colour vision deficiency,
-most commonly difficulty telling red from green, and red and blue aren’t
-a safe pairing either. Posters also get photocopied, printed in black
-and white, and viewed on projectors that wash the colour out.</p>
+<p>7. Now, let’s think about those colours. ggplot’s defaults are not
+too bad, but they’re not chosen with anybody’s eyesight in mind. Roughly
+1 in 12 men has some form of colour vision deficiency, most commonly
+difficulty telling red from green, and red and blue aren’t a safe
+pairing either.</p>
 <ol style="list-style-type: lower-alpha">
 <li><p>Let’s redraw the plot with a colour-blind friendly palette. Base
 R has one built in, and
@@ -763,18 +762,17 @@ legend rather than two.</p></li>
 <span id="cb6-28"><a href="#cb6-28" tabindex="-1"></a><span class="co"># legend showing both, which is what you want. Try it with greys instead of</span></span>
 <span id="cb6-29"><a href="#cb6-29" tabindex="-1"></a><span class="co"># cols and you&#39;ll find the plot still reads perfectly well.</span></span></code></pre></div>
 <p> </p>
-<p>8. Next, let’s sort out the words. Every plot that leaves your
-computer needs axis labels a non-specialist can read with units on them,
-a title that says what the reader is looking at, and a note saying where
-the data came from. Write the labels for someone who has never heard the
-phrase ‘age-sex standardised’. Your reader is a public health colleague
-or a member of the public, not a statistician. Keep this version of your
-code safe, as you’ll need it again in Q9.</p>
+<p>8. Next, let’s sort out the text. Every plot needs axis labels a
+non-specialist can read with units on them, a title that says what the
+reader is looking at, and a note saying where the data came from. Write
+the labels for someone who has never heard the phrase ‘age-sex
+standardised’. Your reader is a public health colleague or a member of
+the public, not a data scientist. We’ll revisit this again in Q9.</p>
 <p>In ggplot all of the words live in a single <code>labs()</code>
 layer, which takes <code>x</code>, <code>y</code>, <code>title</code>
-and <code>caption</code> (see Section <a
+and <code>caption</code> arguments(see Section <a
 href="https://intro2r.com/the-start-of-the-end.html#prettification">5.2.6</a>).
-The caption is where the source note goes. While you’re in there, adding
+The caption is where the source note goes. While you’re there, adding
 <code>colour = NULL</code> and <code>linetype = NULL</code> to the same
 <code>labs()</code> will get rid of the ‘area_name’ heading above the
 legend, which is another column name your reader doesn’t need to
@@ -791,10 +789,11 @@ whichever you go for. If you decide it should,
 <code>scale_y_continuous(limits = c(0, 1600))</code> will do it (see
 Section <a
 href="https://intro2r.com/tips.html#axis-limits-and-zooms">5.3.2</a>).</p></li>
-<li><p>Finally, the look of the thing. ggplot’s grey panel is fine on
-screen but can come out a bit muddy in print. A <strong>theme</strong>
-controls everything about the plot that isn’t your data, and there are
-several ready-made ones to choose from (see Section <a
+<li><p>Finally, the overall look of the plot. ggplot’s grey panel is
+fine on screen but can come out a bit muddy in print. A
+<strong>theme</strong> controls everything about the plot that isn’t
+your data, and there are several ready-made ones to choose from (see
+Section <a
 href="https://intro2r.com/the-start-of-the-end.html#setting-the-theme">5.2.5</a>).
 Add <code>theme_minimal()</code> and see what you think. If you’d rather
 the legend sat underneath the plot than beside it,
@@ -831,18 +830,18 @@ overwritten.</p></li>
 <p> </p>
 <p>9. Last of all, let’s get the plot out of R at a size and resolution
 that’s fit for a poster. The screen defaults aren’t much use here, and a
-plot that looks fine in the RStudio plot pane will be a blurry mess
+plot that looks fine in the RStudio plot pane might be a blurry mess
 blown up to A1.</p>
 <p>This is a bit easier if you give the plot a name first. Assign the
 whole thing from Q8 to an object called <code>admissions_plot</code>,
 exactly as you would assign anything else in R. Don’t worry when nothing
 appears, that’s normal. You’ve stored the plot rather than drawn it, so
-type <code>admissions_plot</code> on a line of its own to see it.</p>
+type <code>admissions_plot</code> in the console to see it.</p>
 <p>Now save it with <code>ggsave()</code>, which is ggplot’s version of
 the three step business you met in Exercise 5, Q12. There’s no device to
 close this time, because <code>ggsave()</code> opens and closes it for
 you, and it works out which format you want from the file extension you
-give it (see Section <a
+give it (see the end of Section <a
 href="https://intro2r.com/the-start-of-the-end.html#prettification">5.2.6</a>).</p>
 <p>Save your plot twice into the <code>output</code> directory you
 created in Exercise 1, once as <code>ex6_admissions.pdf</code> and once

@@ -106,7 +106,7 @@ kable(smoke_summary, digits = 1,
 
 ## An externally produced figure
 
-```{r admissions-figure, out.width = "80%", fig.cap = 'Alcohol-related hospital admissions by council area.'}
+```{r admissions-figure, out.width = "100%", fig.cap = 'Alcohol-related hospital admissions by council area.'}
 include_graphics("output/ex6_admissions.png")
 ```
 

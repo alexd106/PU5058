@@ -172,13 +172,15 @@
 ## ![Alcohol-related hospital admissions by council area.](output/ex6_admissions.png)
 ## ````
 ## 
-## And the same figure in a chunk, with a caption and set to 80% of the page width:
+## And the same figure in a chunk, with a caption and set to the full width of the page:
 ## 
 ## ````{.md .foldable}
-## ```{r admissions-figure, out.width = "80%", fig.cap = 'Alcohol-related hospital admissions by council area.'}
+## ```{r admissions-figure, out.width = "100%", fig.cap = 'Alcohol-related hospital admissions by council area.'}
 ## include_graphics("output/ex6_admissions.png")
 ## ```
 ## ````
+## 
+## This one is a wide figure, so it's worth giving it the whole width of the page. Something narrower, a portrait shaped figure especially, usually sits better at 60 or 70%.
 ## 
 ## With a few sentences to go under it:
 ## 

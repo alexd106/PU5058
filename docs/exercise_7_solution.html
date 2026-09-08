@@ -1046,12 +1046,15 @@ image doesn’t appear, the path is almost always the reason.</p>
 <p>Typed straight into your text:</p>
 <div class="sourceCode" id="cb18"><pre
 class="sourceCode md foldable"><code class="sourceCode markdown"><span id="cb18-1"><a href="#cb18-1" tabindex="-1"></a><span class="al">![Alcohol-related hospital admissions by council area.](output/ex6_admissions.png)</span></span></code></pre></div>
-<p>And the same figure in a chunk, with a caption and set to 80% of the
-page width:</p>
+<p>And the same figure in a chunk, with a caption and set to the full
+width of the page:</p>
 <div class="sourceCode" id="cb19"><pre
-class="sourceCode md foldable"><code class="sourceCode markdown"><span id="cb19-1"><a href="#cb19-1" tabindex="-1"></a><span class="in">```{r admissions-figure, out.width = &quot;80%&quot;, fig.cap = &#39;Alcohol-related hospital admissions by council area.&#39;}</span></span>
+class="sourceCode md foldable"><code class="sourceCode markdown"><span id="cb19-1"><a href="#cb19-1" tabindex="-1"></a><span class="in">```{r admissions-figure, out.width = &quot;100%&quot;, fig.cap = &#39;Alcohol-related hospital admissions by council area.&#39;}</span></span>
 <span id="cb19-2"><a href="#cb19-2" tabindex="-1"></a><span class="in">include_graphics(&quot;output/ex6_admissions.png&quot;)</span></span>
 <span id="cb19-3"><a href="#cb19-3" tabindex="-1"></a><span class="in">```</span></span></code></pre></div>
+<p>This one is a wide figure, so it’s worth giving it the whole width of
+the page. Something narrower, a portrait shaped figure especially,
+usually sits better at 60 or 70%.</p>
 <p>With a few sentences to go under it:</p>
 <div class="sourceCode" id="cb20"><pre
 class="sourceCode md foldable"><code class="sourceCode markdown"><span id="cb20-1"><a href="#cb20-1" tabindex="-1"></a>Alcohol-related hospital admissions vary enormously between council areas. Glasgow City</span>

@@ -160,6 +160,7 @@ code span.wa { color: #8f5902; font-weight: bold; font-style: italic; } /* Warni
 
 
 
+<link rel="stylesheet" href="screenshots.css" type="text/css" />
 
 
 
@@ -566,11 +567,27 @@ Author box, choose <strong>PDF</strong> as the default output format,
 and click OK. RStudio opens a new document that’s already full of
 example content about cars. That’s normal, and we’ll delete it in a
 moment.</p>
+<p>Watch the output format, because HTML is selected for you and we want
+PDF.</p>
+<p> </p>
+<p><img src="images/ex7_new_rmd_dialog.png"
+alt="The New R Markdown dialogue with the Title and Author filled in and PDF circled under Default Output Format" /></p>
+<p> </p>
 <p>Before you change anything at all, save the file into your Project
 directory as <code>cardiac_report.Rmd</code> (<code>File</code> -&gt;
 <code>Save As...</code>), then click the <strong>Knit</strong> button at
 the top of the editor. You can also press Ctrl+Shift+K, or Cmd+Shift+K
 on a Mac.</p>
+<p>The <strong>Knit</strong> button is the ball of wool. The menu
+hanging below it in the picture comes from the small black triangle
+beside the button, and you don’t need it now, because you chose PDF in
+the dialogue box a moment ago and clicking <strong>Knit</strong> will
+give you one anyway. It’s worth knowing it’s there, and we come back to
+it in Q13.</p>
+<p> </p>
+<p><img src="images/ex7_knit_menu.png"
+alt="The Knit button at the top of the editor with its dropdown menu open, the button and Knit to PDF both circled" /></p>
+<p> </p>
 <p>Do this before you understand any of it. If a PDF appears then your
 setup is working, and you can be confident that anything which goes
 wrong later is something you can fix.</p>
@@ -589,6 +606,14 @@ markdown</li>
 <div class="sourceCode" id="cb1"><pre class="sourceCode md"><code class="sourceCode markdown"><span id="cb1-1"><a href="#cb1-1" tabindex="-1"></a><span class="in">```{r}</span></span>
 <span id="cb1-2"><a href="#cb1-2" tabindex="-1"></a><span class="in">mean(cardiac$age)</span></span>
 <span id="cb1-3"><a href="#cb1-3" tabindex="-1"></a><span class="in">```</span></span></code></pre></div>
+<p>Here they are in the document RStudio has just made for you. The two
+code chunks show that a document alternates between text and code as
+often as it needs to, and that only the YAML header is in one piece at
+the top.</p>
+<p> </p>
+<p><img src="images/ex7_rmd_anatomy.png"
+alt="An R markdown file open in the editor with the YAML header, the text and the two code chunks each boxed and labelled" /></p>
+<p> </p>
 <p>Find one of each in <code>cardiac_report.Rmd</code>, the file you are
 editing rather than the PDF it produced, so that you can recognise them
 when we start changing them. Then delete everything in
@@ -942,9 +967,10 @@ same text, code and figures. Change the header back to
 <code>pdf_document</code> before you finish.</p>
 <p>You don’t have to edit the YAML to do this. Click the small black
 triangle next to the <strong>Knit</strong> button and you can pick a
-format straight from the menu, which overrides whatever your YAML header
-says for that one knit. It’s quicker for a look, but the YAML is where
-you set what your document actually is.</p>
+format straight from the menu, the one in the picture back in Q1, which
+overrides whatever your YAML header says for that one knit. It’s quicker
+for a look, but the YAML is where you set what your document actually
+is.</p>
 <p> </p>
 <p> </p>
 <div id="two-things-we-havent-covered" class="section level3">

@@ -4,6 +4,7 @@ output:
   html_document:
     toc: false
     code_folding: hide
+    css: screenshots.css
 ---
 
 
@@ -45,7 +46,23 @@ The first time you do this, RStudio might tell you it needs to install some pack
 
 In the dialogue box that appears, type `Cardiac study report` in the Title box, put your name in the Author box, choose **PDF** as the default output format, and click OK. RStudio opens a new document that's already full of example content about cars. That's normal, and we'll delete it in a moment.
 
+Watch the output format, because HTML is selected for you and we want PDF.
+
+\  
+
+![](images/ex7_new_rmd_dialog.png){alt="The New R Markdown dialogue with the Title and Author filled in and PDF circled under Default Output Format"}
+
+\  
+
 Before you change anything at all, save the file into your Project directory as `cardiac_report.Rmd` (`File` -> `Save As...`), then click the **Knit** button at the top of the editor. You can also press Ctrl+Shift+K, or Cmd+Shift+K on a Mac.
+
+The **Knit** button is the ball of wool. The menu hanging below it in the picture comes from the small black triangle beside the button, and you don't need it now, because you chose PDF in the dialogue box a moment ago and clicking **Knit** will give you one anyway. It's worth knowing it's there, and we come back to it in Q13.
+
+\  
+
+![](images/ex7_knit_menu.png){alt="The Knit button at the top of the editor with its dropdown menu open, the button and Knit to PDF both circled"}
+
+\  
 
 Do this before you understand any of it. If a PDF appears then your setup is working, and you can be confident that anything which goes wrong later is something you can fix.
 
@@ -62,6 +79,14 @@ Do this before you understand any of it. If a PDF appears then your setup is wor
 mean(cardiac$age)
 ```
 ````
+
+Here they are in the document RStudio has just made for you. The two code chunks show that a document alternates between text and code as often as it needs to, and that only the YAML header is in one piece at the top.
+
+\  
+
+![](images/ex7_rmd_anatomy.png){alt="An R markdown file open in the editor with the YAML header, the text and the two code chunks each boxed and labelled"}
+
+\  
 
 Find one of each in `cardiac_report.Rmd`, the file you are editing rather than the PDF it produced, so that you can recognise them when we start changing them. Then delete everything in `cardiac_report.Rmd` below the first code chunk, the one called `setup`, leaving the YAML header and that chunk in place. Knit again to check you have an empty but working document. This is your starting point.
 
@@ -474,7 +499,7 @@ sessionInfo()
 
 In your YAML header, change `pdf_document` to `html_document` and knit. You'll get a html file instead which you can open in your browser. This has been built from exactly the same text, code and figures. Change the header back to `pdf_document` before you finish.
 
-You don't have to edit the YAML to do this. Click the small black triangle next to the **Knit** button and you can pick a format straight from the menu, which overrides whatever your YAML header says for that one knit. It's quicker for a look, but the YAML is where you set what your document actually is.
+You don't have to edit the YAML to do this. Click the small black triangle next to the **Knit** button and you can pick a format straight from the menu, the one in the picture back in Q1, which overrides whatever your YAML header says for that one knit. It's quicker for a look, but the YAML is where you set what your document actually is.
 
 \  
 

@@ -931,13 +931,13 @@ above the <code>## Session information</code> heading.</li>
 <p> </p>
 <p>10. Last of all, the question everybody gets to sooner or later.
 You’ve pushed something, and then realised it shouldn’t have gone.</p>
-<p>You’ve already met two ways of undoing things but neither of them
-will do here. <strong>Revert…</strong> in the gear menu, from Q6a,
-throws away changes you haven’t committed yet, and this one is
-committed. <strong>Amend previous commit</strong>, from Q6b, rewrites
-your last commit, which is only safe while it’s still on your own
-computer, and this one is on GitHub. What you need is something that
-rolls back the change without pretending it never happened.</p>
+<p>Both of the ways of undoing things you’ve met so far were for work
+that was still on your own computer. <strong>Revert…</strong> in the
+gear menu, from Q6a, throws away changes you haven’t committed yet, and
+you’ve committed this one. <strong>Amend previous commit</strong>, from
+Q6b, replaces your last commit, and as we said at the time it’s only
+safe before you push. So neither of them will do here. What you need is
+a way of undoing the change that leaves the history alone.</p>
 <p>That something is <code>git revert</code>, which adds a <em>new</em>
 commit that is the exact opposite of an old one. The original stays in
 the history, the new one cancels it out, and anybody who already has

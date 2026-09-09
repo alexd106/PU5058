@@ -282,7 +282,7 @@ d) Now click **Push**, and refresh your repository page on GitHub. Click on your
 
 10\. Last of all, the question everybody gets to sooner or later. You've pushed something, and then realised it shouldn't have gone.
 
-You've already met two ways of undoing things but neither of them will do here. **Revert...** in the gear menu, from Q6a, throws away changes you haven't committed yet, and this one is committed. **Amend previous commit**, from Q6b, rewrites your last commit, which is only safe while it's still on your own computer, and this one is on GitHub. What you need is something that rolls back the change without pretending it never happened.
+Both of the ways of undoing things you've met so far were for work that was still on your own computer. **Revert...** in the gear menu, from Q6a, throws away changes you haven't committed yet, and you've committed this one. **Amend previous commit**, from Q6b, replaces your last commit, and as we said at the time it's only safe before you push. So neither of them will do here. What you need is a way of undoing the change that leaves the history alone.
 
 That something is `git revert`, which adds a *new* commit that is the exact opposite of an old one. The original stays in the history, the new one cancels it out, and anybody who already has your work simply gets one more commit. Be careful with the name, because RStudio's **Revert...** button and the `git revert` command do quite different jobs. Unfortunately there's no button for `git revert` in RStudio, so this is the one place in this exercise where you type a Git command yourself.
 

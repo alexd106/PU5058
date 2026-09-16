@@ -1,7 +1,7 @@
 name: "PU5058"
 output_dir: "docs"
 navbar:
-  title: "PU5058"
+  title: "PU5058/63/73"
   icon: fa-home
   left:
     - text: "Home"

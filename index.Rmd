@@ -11,7 +11,7 @@ output:
 
 \  
 
-Hello and welcome to PU5058/PU5063/PU5073 Introduction to Health Data Science. This website compliments the MyAberdeen course site and is mainly used to host exercises and associated exercise solutions, data files and short howto videos covering some important R related topics. You can find all other material for PU5058 on the [MyAberdeen course website](https://abdn.blackboard.com/ultra/).   
+Hello and welcome to PU5058/PU5063/PU5073 Introduction to Health Data Science. This website compliments the MyAberdeen course site and is mainly used to host exercises and associated exercise solutions, data files and short howto videos covering some important R related topics. You can find all other material for your course on the [MyAberdeen course website](https://abdn.blackboard.com/ultra/).   
 
 \  
 

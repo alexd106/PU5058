@@ -556,41 +556,47 @@ patient record or guessing what the value should have been?</p>
 <span id="cb2-9"><a href="#cb2-9" tabindex="-1"></a></span>
 <span id="cb2-10"><a href="#cb2-10" tabindex="-1"></a><span class="co"># which patient has the impossible bmi?</span></span>
 <span id="cb2-11"><a href="#cb2-11" tabindex="-1"></a>cardiac[cardiac<span class="sc">$</span>bmi <span class="sc">&gt;</span> <span class="dv">100</span>, ]     <span class="co"># patient 1630L</span></span>
-<span id="cb2-12"><a href="#cb2-12" tabindex="-1"></a>cardiac<span class="sc">$</span>triglyceride[cardiac<span class="sc">$</span>triglyceride <span class="sc">==</span> <span class="dv">0</span>]</span>
-<span id="cb2-13"><a href="#cb2-13" tabindex="-1"></a>cardiac<span class="sc">$</span>hdlchol[cardiac<span class="sc">$</span>hdlchol <span class="sc">==</span> <span class="dv">0</span>]</span>
-<span id="cb2-14"><a href="#cb2-14" tabindex="-1"></a></span>
-<span id="cb2-15"><a href="#cb2-15" tabindex="-1"></a><span class="co"># set the impossible values to NA. Putting the condition inside [ ] on the left</span></span>
-<span id="cb2-16"><a href="#cb2-16" tabindex="-1"></a><span class="co"># of the arrow means &#39;the elements that match this condition become NA&#39;, and</span></span>
-<span id="cb2-17"><a href="#cb2-17" tabindex="-1"></a><span class="co"># every other value is left alone.</span></span>
-<span id="cb2-18"><a href="#cb2-18" tabindex="-1"></a>cardiac<span class="sc">$</span>bmi[cardiac<span class="sc">$</span>bmi <span class="sc">&gt;</span> <span class="dv">100</span>] <span class="ot">&lt;-</span> <span class="cn">NA</span>                  <span class="co"># 1 patient</span></span>
-<span id="cb2-19"><a href="#cb2-19" tabindex="-1"></a>cardiac<span class="sc">$</span>triglyceride[cardiac<span class="sc">$</span>triglyceride <span class="sc">==</span> <span class="dv">0</span>] <span class="ot">&lt;-</span> <span class="cn">NA</span> <span class="co"># 1 patient</span></span>
-<span id="cb2-20"><a href="#cb2-20" tabindex="-1"></a>cardiac<span class="sc">$</span>hdlchol[cardiac<span class="sc">$</span>hdlchol <span class="sc">==</span> <span class="dv">0</span>] <span class="ot">&lt;-</span> <span class="cn">NA</span>           <span class="co"># 2 patients</span></span>
-<span id="cb2-21"><a href="#cb2-21" tabindex="-1"></a></span>
-<span id="cb2-22"><a href="#cb2-22" tabindex="-1"></a><span class="fu">summary</span>(cardiac)   <span class="co"># check: the minima and maximum are now sensible</span></span>
-<span id="cb2-23"><a href="#cb2-23" tabindex="-1"></a></span>
-<span id="cb2-24"><a href="#cb2-24" tabindex="-1"></a><span class="co">#      tchol           hdlchol       triglyceride        bmi       </span></span>
-<span id="cb2-25"><a href="#cb2-25" tabindex="-1"></a><span class="co">#  Min.   : 4.120   Min.   :0.720   Min.   :0.520   Min.   :17.57  </span></span>
-<span id="cb2-26"><a href="#cb2-26" tabindex="-1"></a><span class="co">#  Median : 6.830   Median :1.360   Median :1.380   Median :25.20  </span></span>
-<span id="cb2-27"><a href="#cb2-27" tabindex="-1"></a><span class="co">#  Mean   : 6.978   Mean   :1.421   Mean   :1.556   Mean   :25.72  </span></span>
-<span id="cb2-28"><a href="#cb2-28" tabindex="-1"></a><span class="co">#  Max.   :11.660   Max.   :3.000   Max.   :4.670   Max.   :44.44  </span></span>
-<span id="cb2-29"><a href="#cb2-29" tabindex="-1"></a><span class="co">#  NA&#39;s   :2        NA&#39;s   :4       NA&#39;s   :3       NA&#39;s   :1      </span></span>
-<span id="cb2-30"><a href="#cb2-30" tabindex="-1"></a></span>
-<span id="cb2-31"><a href="#cb2-31" tabindex="-1"></a><span class="co"># Notice what that one bmi value was doing to the mean: 28.72 before, 25.72</span></span>
-<span id="cb2-32"><a href="#cb2-32" tabindex="-1"></a><span class="co"># after. The median barely moved. </span></span>
-<span id="cb2-33"><a href="#cb2-33" tabindex="-1"></a></span>
-<span id="cb2-34"><a href="#cb2-34" tabindex="-1"></a><span class="co"># Why NA and not something else? Deleting the whole record throws away all the</span></span>
-<span id="cb2-35"><a href="#cb2-35" tabindex="-1"></a><span class="co"># other measurements for that patient, which are potentially perfectly good.</span></span>
-<span id="cb2-36"><a href="#cb2-36" tabindex="-1"></a><span class="co"># Guessing the value - even a very reasonable guess like 51.46 - means</span></span>
-<span id="cb2-37"><a href="#cb2-37" tabindex="-1"></a><span class="co"># inventing data, and</span></span>
-<span id="cb2-38"><a href="#cb2-38" tabindex="-1"></a><span class="co"># nobody reading your results afterwards could tell which numbers you measured</span></span>
-<span id="cb2-39"><a href="#cb2-39" tabindex="-1"></a><span class="co"># and which you made up. NA says exactly what you know: there should be a value</span></span>
-<span id="cb2-40"><a href="#cb2-40" tabindex="-1"></a><span class="co"># here, and it isn&#39;t usable. Every R function has an na.rm</span></span>
-<span id="cb2-41"><a href="#cb2-41" tabindex="-1"></a><span class="co"># argument to cope with it.</span></span>
-<span id="cb2-42"><a href="#cb2-42" tabindex="-1"></a></span>
-<span id="cb2-43"><a href="#cb2-43" tabindex="-1"></a><span class="co"># Note that you have changed the dataframe in your R session, not the file on</span></span>
-<span id="cb2-44"><a href="#cb2-44" tabindex="-1"></a><span class="co"># disk. data/cardiacdata.txt still contains the original values, which is</span></span>
-<span id="cb2-45"><a href="#cb2-45" tabindex="-1"></a><span class="co"># exactly as it should be: your raw data stays raw, and your script is the</span></span>
-<span id="cb2-46"><a href="#cb2-46" tabindex="-1"></a><span class="co"># record of what you changed.</span></span></code></pre></div>
+<span id="cb2-12"><a href="#cb2-12" tabindex="-1"></a></span>
+<span id="cb2-13"><a href="#cb2-13" tabindex="-1"></a><span class="co"># the two blood fats. Each of these prints the NA values already in the</span></span>
+<span id="cb2-14"><a href="#cb2-14" tabindex="-1"></a><span class="co"># variable alongside the zeros you are looking for, for the same reason as</span></span>
+<span id="cb2-15"><a href="#cb2-15" tabindex="-1"></a><span class="co"># Exercise 3, Q11. hdlchol and triglyceride have 2 missing values each and R</span></span>
+<span id="cb2-16"><a href="#cb2-16" tabindex="-1"></a><span class="co"># won&#39;t guess whether a missing value is a zero, so read the 0s and ignore the</span></span>
+<span id="cb2-17"><a href="#cb2-17" tabindex="-1"></a><span class="co"># NAs.</span></span>
+<span id="cb2-18"><a href="#cb2-18" tabindex="-1"></a>cardiac<span class="sc">$</span>triglyceride[cardiac<span class="sc">$</span>triglyceride <span class="sc">==</span> <span class="dv">0</span>]   <span class="co"># one 0, and 2 NAs</span></span>
+<span id="cb2-19"><a href="#cb2-19" tabindex="-1"></a>cardiac<span class="sc">$</span>hdlchol[cardiac<span class="sc">$</span>hdlchol <span class="sc">==</span> <span class="dv">0</span>]             <span class="co"># two 0s, and 2 NAs</span></span>
+<span id="cb2-20"><a href="#cb2-20" tabindex="-1"></a></span>
+<span id="cb2-21"><a href="#cb2-21" tabindex="-1"></a><span class="co"># set the impossible values to NA. Putting the condition inside [ ] on the left</span></span>
+<span id="cb2-22"><a href="#cb2-22" tabindex="-1"></a><span class="co"># of the arrow means &#39;the elements that match this condition become NA&#39;, and</span></span>
+<span id="cb2-23"><a href="#cb2-23" tabindex="-1"></a><span class="co"># every other value is left alone.</span></span>
+<span id="cb2-24"><a href="#cb2-24" tabindex="-1"></a>cardiac<span class="sc">$</span>bmi[cardiac<span class="sc">$</span>bmi <span class="sc">&gt;</span> <span class="dv">100</span>] <span class="ot">&lt;-</span> <span class="cn">NA</span>                  <span class="co"># 1 patient</span></span>
+<span id="cb2-25"><a href="#cb2-25" tabindex="-1"></a>cardiac<span class="sc">$</span>triglyceride[cardiac<span class="sc">$</span>triglyceride <span class="sc">==</span> <span class="dv">0</span>] <span class="ot">&lt;-</span> <span class="cn">NA</span> <span class="co"># 1 patient</span></span>
+<span id="cb2-26"><a href="#cb2-26" tabindex="-1"></a>cardiac<span class="sc">$</span>hdlchol[cardiac<span class="sc">$</span>hdlchol <span class="sc">==</span> <span class="dv">0</span>] <span class="ot">&lt;-</span> <span class="cn">NA</span>           <span class="co"># 2 patients</span></span>
+<span id="cb2-27"><a href="#cb2-27" tabindex="-1"></a></span>
+<span id="cb2-28"><a href="#cb2-28" tabindex="-1"></a><span class="fu">summary</span>(cardiac)   <span class="co"># check: the minima and maximum are now sensible</span></span>
+<span id="cb2-29"><a href="#cb2-29" tabindex="-1"></a></span>
+<span id="cb2-30"><a href="#cb2-30" tabindex="-1"></a><span class="co">#      tchol           hdlchol       triglyceride        bmi       </span></span>
+<span id="cb2-31"><a href="#cb2-31" tabindex="-1"></a><span class="co">#  Min.   : 4.120   Min.   :0.720   Min.   :0.520   Min.   :17.57  </span></span>
+<span id="cb2-32"><a href="#cb2-32" tabindex="-1"></a><span class="co">#  Median : 6.830   Median :1.360   Median :1.380   Median :25.20  </span></span>
+<span id="cb2-33"><a href="#cb2-33" tabindex="-1"></a><span class="co">#  Mean   : 6.978   Mean   :1.421   Mean   :1.556   Mean   :25.72  </span></span>
+<span id="cb2-34"><a href="#cb2-34" tabindex="-1"></a><span class="co">#  Max.   :11.660   Max.   :3.000   Max.   :4.670   Max.   :44.44  </span></span>
+<span id="cb2-35"><a href="#cb2-35" tabindex="-1"></a><span class="co">#  NA&#39;s   :2        NA&#39;s   :4       NA&#39;s   :3       NA&#39;s   :1      </span></span>
+<span id="cb2-36"><a href="#cb2-36" tabindex="-1"></a></span>
+<span id="cb2-37"><a href="#cb2-37" tabindex="-1"></a><span class="co"># Notice what that one bmi value was doing to the mean: 28.72 before, 25.72</span></span>
+<span id="cb2-38"><a href="#cb2-38" tabindex="-1"></a><span class="co"># after. The median barely moved. </span></span>
+<span id="cb2-39"><a href="#cb2-39" tabindex="-1"></a></span>
+<span id="cb2-40"><a href="#cb2-40" tabindex="-1"></a><span class="co"># Why NA and not something else? Deleting the whole record throws away all the</span></span>
+<span id="cb2-41"><a href="#cb2-41" tabindex="-1"></a><span class="co"># other measurements for that patient, which are potentially perfectly good.</span></span>
+<span id="cb2-42"><a href="#cb2-42" tabindex="-1"></a><span class="co"># Guessing the value - even a very reasonable guess like 51.46 - means</span></span>
+<span id="cb2-43"><a href="#cb2-43" tabindex="-1"></a><span class="co"># inventing data, and</span></span>
+<span id="cb2-44"><a href="#cb2-44" tabindex="-1"></a><span class="co"># nobody reading your results afterwards could tell which numbers you measured</span></span>
+<span id="cb2-45"><a href="#cb2-45" tabindex="-1"></a><span class="co"># and which you made up. NA says exactly what you know: there should be a value</span></span>
+<span id="cb2-46"><a href="#cb2-46" tabindex="-1"></a><span class="co"># here, and it isn&#39;t usable. Every R function has an na.rm</span></span>
+<span id="cb2-47"><a href="#cb2-47" tabindex="-1"></a><span class="co"># argument to cope with it.</span></span>
+<span id="cb2-48"><a href="#cb2-48" tabindex="-1"></a></span>
+<span id="cb2-49"><a href="#cb2-49" tabindex="-1"></a><span class="co"># Note that you have changed the dataframe in your R session, not the file on</span></span>
+<span id="cb2-50"><a href="#cb2-50" tabindex="-1"></a><span class="co"># disk. data/cardiacdata.txt still contains the original values, which is</span></span>
+<span id="cb2-51"><a href="#cb2-51" tabindex="-1"></a><span class="co"># exactly as it should be: your raw data stays raw, and your script is the</span></span>
+<span id="cb2-52"><a href="#cb2-52" tabindex="-1"></a><span class="co"># record of what you changed.</span></span></code></pre></div>
 <p> </p>
 <p>2. Another useful way to manipulate your dataframes is to sort the
 rows based on the value of a variable, or on a combination of variables.
@@ -659,9 +665,9 @@ wrong. What, and why?</p>
 <p> </p>
 <p>4. Now fix it. <code>aggregate()</code> hands any extra arguments
 straight on to the function you asked it to use, so the
-<code>na.rm</code> argument you met in <strong>Exercise 3, Q11</strong>
-works here too. Add it and check that all three cholesterol means
-appear.</p>
+<code>na.rm</code> argument you first met in <strong>Exercise 2,
+Q13</strong> and used again in <strong>Exercise 3, Q11</strong> works
+here too. Add it and check that all three cholesterol means appear.</p>
 <p>Then calculate the same means for each combination of smoking
 category and sex. Two grouping variables go inside the same
 <code>list()</code>, and again use the factor versions,

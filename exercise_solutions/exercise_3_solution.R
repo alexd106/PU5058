@@ -118,10 +118,16 @@ cardiac_last <- cardiac[-c(1:10), -c(ncol(cardiac))]
 
 
 ## ----Q10, echo=SOLUTIONS, tidy = TRUE-----------------------------------------
-cardiac_sys160 <- cardiac[cardiac$systolic > 160, ]
+cardiac_sys160 <- cardiac[cardiac$systolic > 160, ]     # 25 patients
 
+# this one gives you 13 rows, but 4 of them are filled with NAs. They are 4 of
+# the 7 patients from Q7 with no smoking code. Q11 explains why they turn up
+# like this.
 cardiac_subset <- cardiac[cardiac$Fsex == "Male" & cardiac$Fsmoking == "Never" & cardiac$diastolic > 76, ]
 
+# and this one gives you 111 rows, 7 of them NA rows, one for each patient with
+# no smoking code. Notice that we don't know whether those 7 were ex-smokers,
+# so R neither keeps them nor leaves them out.
 cardiac_notex <- cardiac[cardiac$Fsmoking != "Ex", ]
 
 
@@ -129,7 +135,22 @@ cardiac_notex <- cardiac[cardiac$Fsmoking != "Ex", ]
 # This results in a dataframe filled with NAs. Why?
 cardiac_new <- cardiac[cardiac$systolic > 160 & cardiac$tchol > mean(cardiac$tchol), ]
 
-# the variable tchol contains 2 NA values. By default the mean function will return an NA.
+# two things are happening here, one after the other.
+
+# first, the variable tchol contains 2 NA values, so mean(cardiac$tchol)
+# returns an NA, just like mean(mydata) did in Exercise 2, Q13. The threshold
+# we are comparing against is unknown.
+
+# second, comparing a value against an unknown threshold gives you an NA rather
+# than a TRUE or a FALSE. When a condition inside [ ] comes out as NA, R
+# doesn't know whether to keep that row or leave it out, so it gives you a row
+# of NAs instead. That is why you get 25 rows here. The 25 patients with a
+# systolic above 160 all come back as NA rows, and everyone else is left out
+# because FALSE & NA is still FALSE.
+
+# the NA rows back in Q10 were the same thing on a smaller scale, caused by the
+# 7 patients with no smoking code rather than by an unknown threshold.
+
 # use the na.rm argument to ignore NAs
-cardiac_new <- cardiac[cardiac$systolic > 160 & cardiac$tchol > mean(cardiac$tchol, na.rm = TRUE), ]  
+cardiac_new <- cardiac[cardiac$systolic > 160 & cardiac$tchol > mean(cardiac$tchol, na.rm = TRUE), ]  # 8 patients
 

@@ -798,12 +798,21 @@ what:</p>
 greater than the median diastolic pressure (76 mmHg)</li>
 <li>all patients who are not ex-smokers</li>
 </ul>
-<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" tabindex="-1"></a>cardiac_sys160 <span class="ot">&lt;-</span> cardiac[cardiac<span class="sc">$</span>systolic <span class="sc">&gt;</span> <span class="dv">160</span>, ]</span>
+<p>Now, you might notice that a couple of your answers contain some odd
+rows filled with <code>NA</code>s. Don’t worry, this is normal and we’ll
+come back to why in Q11.</p>
+<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" tabindex="-1"></a>cardiac_sys160 <span class="ot">&lt;-</span> cardiac[cardiac<span class="sc">$</span>systolic <span class="sc">&gt;</span> <span class="dv">160</span>, ]  <span class="co"># 25 patients</span></span>
 <span id="cb6-2"><a href="#cb6-2" tabindex="-1"></a></span>
-<span id="cb6-3"><a href="#cb6-3" tabindex="-1"></a>cardiac_subset <span class="ot">&lt;-</span> cardiac[cardiac<span class="sc">$</span>Fsex <span class="sc">==</span> <span class="st">&quot;Male&quot;</span> <span class="sc">&amp;</span> cardiac<span class="sc">$</span>Fsmoking <span class="sc">==</span> <span class="st">&quot;Never&quot;</span> <span class="sc">&amp;</span></span>
-<span id="cb6-4"><a href="#cb6-4" tabindex="-1"></a>    cardiac<span class="sc">$</span>diastolic <span class="sc">&gt;</span> <span class="dv">76</span>, ]</span>
-<span id="cb6-5"><a href="#cb6-5" tabindex="-1"></a></span>
-<span id="cb6-6"><a href="#cb6-6" tabindex="-1"></a>cardiac_notex <span class="ot">&lt;-</span> cardiac[cardiac<span class="sc">$</span>Fsmoking <span class="sc">!=</span> <span class="st">&quot;Ex&quot;</span>, ]</span></code></pre></div>
+<span id="cb6-3"><a href="#cb6-3" tabindex="-1"></a><span class="co"># this one gives you 13 rows, but 4 of them are filled with NAs. They are 4 of</span></span>
+<span id="cb6-4"><a href="#cb6-4" tabindex="-1"></a><span class="co"># the 7 patients from Q7 with no smoking code. Q11 explains why they turn up</span></span>
+<span id="cb6-5"><a href="#cb6-5" tabindex="-1"></a><span class="co"># like this.</span></span>
+<span id="cb6-6"><a href="#cb6-6" tabindex="-1"></a>cardiac_subset <span class="ot">&lt;-</span> cardiac[cardiac<span class="sc">$</span>Fsex <span class="sc">==</span> <span class="st">&quot;Male&quot;</span> <span class="sc">&amp;</span> cardiac<span class="sc">$</span>Fsmoking <span class="sc">==</span> <span class="st">&quot;Never&quot;</span> <span class="sc">&amp;</span></span>
+<span id="cb6-7"><a href="#cb6-7" tabindex="-1"></a>    cardiac<span class="sc">$</span>diastolic <span class="sc">&gt;</span> <span class="dv">76</span>, ]</span>
+<span id="cb6-8"><a href="#cb6-8" tabindex="-1"></a></span>
+<span id="cb6-9"><a href="#cb6-9" tabindex="-1"></a><span class="co"># and this one gives you 111 rows, 7 of them NA rows, one for each patient with</span></span>
+<span id="cb6-10"><a href="#cb6-10" tabindex="-1"></a><span class="co"># no smoking code. Notice that we don&#39;t know whether those 7 were ex-smokers,</span></span>
+<span id="cb6-11"><a href="#cb6-11" tabindex="-1"></a><span class="co"># so R neither keeps them nor leaves them out.</span></span>
+<span id="cb6-12"><a href="#cb6-12" tabindex="-1"></a>cardiac_notex <span class="ot">&lt;-</span> cardiac[cardiac<span class="sc">$</span>Fsmoking <span class="sc">!=</span> <span class="st">&quot;Ex&quot;</span>, ]</span></code></pre></div>
 <p> </p>
 <p>11. A really neat feature of conditional statements is that you can
 put R functions inside them, so the threshold is worked out from the
@@ -821,15 +830,31 @@ function inside your conditional statement). Now look carefully at what
 comes back. Can you see a problem with it? Have a look at <a
 href="https://intro2r.com/vectors.html#na_vals">Section 2.4.5</a> of the
 Introduction to R book, discuss the cause of this problem with an
-instructor and explore possible solutions.</p>
+instructor and explore possible solutions. This will also explain the
+odd <code>NA</code> rows you got back in Q10.</p>
 <div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" tabindex="-1"></a><span class="co"># This results in a dataframe filled with NAs. Why?</span></span>
 <span id="cb7-2"><a href="#cb7-2" tabindex="-1"></a>cardiac_new <span class="ot">&lt;-</span> cardiac[cardiac<span class="sc">$</span>systolic <span class="sc">&gt;</span> <span class="dv">160</span> <span class="sc">&amp;</span> cardiac<span class="sc">$</span>tchol <span class="sc">&gt;</span> <span class="fu">mean</span>(cardiac<span class="sc">$</span>tchol),</span>
 <span id="cb7-3"><a href="#cb7-3" tabindex="-1"></a>    ]</span>
 <span id="cb7-4"><a href="#cb7-4" tabindex="-1"></a></span>
-<span id="cb7-5"><a href="#cb7-5" tabindex="-1"></a><span class="co"># the variable tchol contains 2 NA values. By default the mean function will</span></span>
-<span id="cb7-6"><a href="#cb7-6" tabindex="-1"></a><span class="co"># return an NA.  use the na.rm argument to ignore NAs</span></span>
-<span id="cb7-7"><a href="#cb7-7" tabindex="-1"></a>cardiac_new <span class="ot">&lt;-</span> cardiac[cardiac<span class="sc">$</span>systolic <span class="sc">&gt;</span> <span class="dv">160</span> <span class="sc">&amp;</span> cardiac<span class="sc">$</span>tchol <span class="sc">&gt;</span> <span class="fu">mean</span>(cardiac<span class="sc">$</span>tchol,</span>
-<span id="cb7-8"><a href="#cb7-8" tabindex="-1"></a>    <span class="at">na.rm =</span> <span class="cn">TRUE</span>), ]</span></code></pre></div>
+<span id="cb7-5"><a href="#cb7-5" tabindex="-1"></a><span class="co"># two things are happening here, one after the other.</span></span>
+<span id="cb7-6"><a href="#cb7-6" tabindex="-1"></a></span>
+<span id="cb7-7"><a href="#cb7-7" tabindex="-1"></a><span class="co"># first, the variable tchol contains 2 NA values, so mean(cardiac$tchol)</span></span>
+<span id="cb7-8"><a href="#cb7-8" tabindex="-1"></a><span class="co"># returns an NA, just like mean(mydata) did in Exercise 2, Q13. The threshold</span></span>
+<span id="cb7-9"><a href="#cb7-9" tabindex="-1"></a><span class="co"># we are comparing against is unknown.</span></span>
+<span id="cb7-10"><a href="#cb7-10" tabindex="-1"></a></span>
+<span id="cb7-11"><a href="#cb7-11" tabindex="-1"></a><span class="co"># second, comparing a value against an unknown threshold gives you an NA rather</span></span>
+<span id="cb7-12"><a href="#cb7-12" tabindex="-1"></a><span class="co"># than a TRUE or a FALSE. When a condition inside [ ] comes out as NA, R</span></span>
+<span id="cb7-13"><a href="#cb7-13" tabindex="-1"></a><span class="co"># doesn&#39;t know whether to keep that row or leave it out, so it gives you a row</span></span>
+<span id="cb7-14"><a href="#cb7-14" tabindex="-1"></a><span class="co"># of NAs instead. That is why you get 25 rows here. The 25 patients with a</span></span>
+<span id="cb7-15"><a href="#cb7-15" tabindex="-1"></a><span class="co"># systolic above 160 all come back as NA rows, and everyone else is left out</span></span>
+<span id="cb7-16"><a href="#cb7-16" tabindex="-1"></a><span class="co"># because FALSE &amp; NA is still FALSE.</span></span>
+<span id="cb7-17"><a href="#cb7-17" tabindex="-1"></a></span>
+<span id="cb7-18"><a href="#cb7-18" tabindex="-1"></a><span class="co"># the NA rows back in Q10 were the same thing on a smaller scale, caused by the</span></span>
+<span id="cb7-19"><a href="#cb7-19" tabindex="-1"></a><span class="co"># 7 patients with no smoking code rather than by an unknown threshold.</span></span>
+<span id="cb7-20"><a href="#cb7-20" tabindex="-1"></a></span>
+<span id="cb7-21"><a href="#cb7-21" tabindex="-1"></a><span class="co"># use the na.rm argument to ignore NAs</span></span>
+<span id="cb7-22"><a href="#cb7-22" tabindex="-1"></a>cardiac_new <span class="ot">&lt;-</span> cardiac[cardiac<span class="sc">$</span>systolic <span class="sc">&gt;</span> <span class="dv">160</span> <span class="sc">&amp;</span> cardiac<span class="sc">$</span>tchol <span class="sc">&gt;</span> <span class="fu">mean</span>(cardiac<span class="sc">$</span>tchol,</span>
+<span id="cb7-23"><a href="#cb7-23" tabindex="-1"></a>    <span class="at">na.rm =</span> <span class="cn">TRUE</span>), ]  <span class="co"># 8 patients</span></span></code></pre></div>
 <p> </p>
 <p>End of Exercise 3</p>
 </div>

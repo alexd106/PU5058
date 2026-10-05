@@ -20,8 +20,14 @@ summary(cardiac)
 
 # which patient has the impossible bmi?
 cardiac[cardiac$bmi > 100, ]     # patient 1630L
-cardiac$triglyceride[cardiac$triglyceride == 0]
-cardiac$hdlchol[cardiac$hdlchol == 0]
+
+# the two blood fats. Each of these prints the NA values already in the
+# variable alongside the zeros you are looking for, for the same reason as
+# Exercise 3, Q11. hdlchol and triglyceride have 2 missing values each and R
+# won't guess whether a missing value is a zero, so read the 0s and ignore the
+# NAs.
+cardiac$triglyceride[cardiac$triglyceride == 0]   # one 0, and 2 NAs
+cardiac$hdlchol[cardiac$hdlchol == 0]             # two 0s, and 2 NAs
 
 # set the impossible values to NA. Putting the condition inside [ ] on the left
 # of the arrow means 'the elements that match this condition become NA', and

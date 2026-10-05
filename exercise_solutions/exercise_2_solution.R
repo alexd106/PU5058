@@ -1,14 +1,14 @@
 ## ----Q2, echo=SOLUTIONS-------------------------------------------------------
-log(12.43)              # natural log
-log10(12.43)            # log to base 10
-log2(12.43)             # log to base 2
-log(12.43, base = 2)    # alternative log to base 2
-sqrt(12.43)             # square root
-exp(12.43)              # exponent
+log(12.43)              # natural log, 2.520113
+log10(12.43)            # log to base 10, 1.094471
+log2(12.43)             # log to base 2, 3.635754
+log(12.43, base = 2)    # alternative log to base 2, same again 3.635754
+sqrt(12.43)             # square root, 3.525621
+exp(12.43)              # exponent, 250196
 
 
 ## ----Q3, echo=SOLUTIONS-------------------------------------------------------
-area_circle <- pi * (20/2)^2
+area_circle <- pi * (20/2)^2    # 314.1593
 
 
 ## ----Q4, echo=SOLUTIONS-------------------------------------------------------
@@ -16,13 +16,14 @@ weight <- c(69, 62, 57, 59, 59, 64, 56, 66, 67, 66)
 
 
 ## ----Q5, echo=SOLUTIONS-------------------------------------------------------
-mean(weight)                                # calculate mean 
-var(weight)                                 # calculate variance
-sd(weight)                                  # calculate standard deviation
-range(weight)                               # range of weight values
-length(weight)                              # number of observations
+mean(weight)                                # calculate mean, 62.5
+var(weight)                                 # calculate variance, 20.72222
+sd(weight)                                  # calculate standard deviation, 4.552167
+range(weight)                               # range of weight values, 56 and 69
+length(weight)                              # number of observations, 10
 
 first_five <- weight[1:5]                  # extract first 5 weight values
+# 69 62 57 59 59
 first_five <- weight[c(1, 2, 3, 4, 5)]     # alternative method
 
 
@@ -31,9 +32,14 @@ height <- c(112, 102, 83, 84, 99, 90, 77, 112, 133, 112)
 
 summary(height)   # summary statistics of height variable
 
+ #    Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
+ #    77.0    85.5   100.5   100.4   112.0   133.0 
+
 some_child <- height[c(2, 3, 9, 10)]      # extract the 2nd, 3rd, 9th, 10th height
+# 102  83 133 112
 
 shorter_child <- height[height <= 99]     # extract all heights less than or equal to 99
+# 83 84 99 90 77
 
 
 ## ----Q7,echo=SOLUTIONS--------------------------------------------------------

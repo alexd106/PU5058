@@ -19,7 +19,7 @@ summary(cardiac)
 # the wrong place, although we have no way of confirming that.
 
 # which patient has the impossible bmi?
-cardiac[cardiac$bmi > 100, ]     # patient 1630L
+cardiac[cardiac$bmi > 60, ]     # patient 1630L
 
 # the two blood fats. Each of these prints the NA values already in the
 # variable alongside the zeros you are looking for, for the same reason as

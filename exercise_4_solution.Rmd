@@ -63,7 +63,7 @@ cardiac$hdlchol[cardiac$hdlchol == 0]             # two 0s, and 2 NAs
 # set the impossible values to NA. Putting the condition inside [ ] on the left
 # of the arrow means 'the elements that match this condition become NA', and
 # every other value is left alone.
-cardiac$bmi[cardiac$bmi > 100] <- NA                  # 1 patient
+cardiac$bmi[cardiac$bmi > 60] <- NA                  # 1 patient
 cardiac$triglyceride[cardiac$triglyceride == 0] <- NA # 1 patient
 cardiac$hdlchol[cardiac$hdlchol == 0] <- NA           # 2 patients
 

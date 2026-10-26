@@ -7,7 +7,8 @@ output:
 ---
 
 
-```{r setup, echo=FALSE, purl = FALSE}
+```{r setup, echo=FALSE, purl = FALSE, message = FALSE, warning = FALSE}
+library(ggplot2)
 knitr::opts_chunk$set(echo=TRUE, message = FALSE, warning = FALSE, eval = FALSE, cache = FALSE,
                       results = 'hold', fig.show = 'hold')
 options(width = 80)
@@ -68,7 +69,7 @@ scotpho <- read.table('data/scotpho_alcohol_admissions.txt', header = TRUE, sep 
 
 \  
 
-3\. These data are an extract from the ScotPHO online profiles tool. The indicator is *alcohol-related hospital admissions*, and the `measure` column is an age-sex standardised rate per 100,000 population: in other words, how many people per 100,000 were admitted to hospital for a reason related to alcohol, adjusted so that areas with different age and sex profiles can be compared fairly. The extract covers each of the 32 Scottish council areas plus Scotland as a whole (`area_name`, `area_code`, `area_type`), for each year from 2010 to 2019 (`year`). Because the rate is an estimate rather than a count, it comes with a confidence interval (`lower_confidence_interval`, `upper_confidence_interval`), which gives you a sense of how precise the estimate is.
+3\. These data are an extract from the ScotPHO online profiles tool. The indicator is *alcohol-related hospital admissions*, and the `measure` column is an age-sex standardised rate per 100,000 population: in other words, how many people per 100,000 were admitted to hospital for a reason related to alcohol, adjusted so that areas with different age and sex profiles can be compared fairly. The extract covers each of the 32 Scottish council areas plus Scotland as a whole (`area_name`, `area_code`, `area_type`), for each year from 2010 to 2019 (`year`). Because the rate is an estimate rather than a count, it comes with a 95% confidence interval (`lower_confidence_interval`, `upper_confidence_interval`), which gives you a sense of how precise the estimate is.
 
 \  
 
@@ -304,6 +305,59 @@ ggsave('output/ex6_admissions.png', plot = admissions_plot,
 # If you leave out plot = admissions_plot, ggsave() saves the last plot you
 # drew. That's usually the one you wanted, but not always, so naming it is
 # safer.
+```
+
+\  
+
+10\. (Optional) This last one is for those of you who have a bit of time left, or who are just curious. Each value on your plot is a point estimate, a single best guess at the admission rate for that area in that year. On its own it doesn't tell your reader anything about how precise that guess is. Remember back in Q3 there were two extra columns in the data, `lower_confidence_interval` and `upper_confidence_interval`? Let's use them to show that uncertainty on the plot.
+
+Start with the code for your plot from Q9 and add two layers to it. A `geom_point()` layer puts a point on each year, and a `geom_errorbar()` layer draws the confidence interval around it. `geom_errorbar()` needs to know where each bar starts and finishes, so give it its own `aes()` with `ymin` set to the lower confidence interval column and `ymax` set to the upper one. Add `width = 0.2` as well, otherwise the caps on the ends of each bar are almost a year wide, and `linetype = "solid"`, otherwise the bars pick up the dashed and dotted lines from the main `aes()`. ggplot draws the layers in the order you add them, so put `geom_point()` after `geom_errorbar()` to get the points on top of the bars. And don't forget to update your caption so the reader knows what the bars are.
+
+Keep an eye on your y axis limits from Q8b. The upper confidence interval is always a bit higher than the rate itself, and if a bar doesn't fit inside your limits ggplot just leaves off the part that doesn't fit, usually without any warning, so it's easy to miss. `max(three_areas$upper_confidence_interval)` will tell you how high your upper limit needs to go.
+
+Once you've got it working, have a look at how wide the bars are. Why do you think the bars for Scotland are so much narrower than the ones for Glasgow City and Aberdeenshire?
+
+If you'd like to keep this version, save it in the same way as Q9. Assign it to an object called `admissions_ci_plot` and save it with `ggsave()` as `ex6_admissions_ci.png` in your `output` directory. Make sure you give it this new name, otherwise you'll overwrite your `ex6_admissions.png`, and you'll need that one in Exercise 7.
+
+```{r Q10, echo=SOLUTIONS, eval=SOLUTIONS, results='hide', fig.width=9, fig.height=5}
+# check the y axis limits still fit the intervals
+max(three_areas$upper_confidence_interval)
+# 1551.45   Glasgow City in 2010, so limits = c(0, 1600) is still fine
+
+admissions_ci_plot <- ggplot(data = three_areas,
+       aes(x = year, y = measure, colour = area_name, linetype = area_name)) +
+  geom_line(linewidth = 1) +
+  geom_errorbar(aes(ymin = lower_confidence_interval,
+                    ymax = upper_confidence_interval),
+                width = 0.2, linetype = "solid") +
+  geom_point(size = 2) +
+  scale_colour_manual(values = cols) +
+  scale_x_continuous(breaks = seq(2010, 2019, by = 2)) +
+  scale_y_continuous(limits = c(0, 1600)) +
+  labs(x = "Year",
+       y = "Hospital admissions per 100,000 people",
+       title = "Alcohol-related hospital admissions, 2010 to 2019",
+       caption = "Source: Scottish Public Health Observatory. Rates are age-sex standardised. Bars show 95% confidence intervals.",
+       colour = NULL, linetype = NULL) +
+  theme_minimal() +
+  theme(legend.position = "bottom", plot.caption = element_text(hjust = 0))
+
+admissions_ci_plot     # draw it in the plot pane
+
+# optional. A new file name, so ex6_admissions.png is left alone for Exercise 7
+ggsave('output/ex6_admissions_ci.png', plot = admissions_ci_plot,
+       width = 10, height = 5.625, units = "in", dpi = 300)
+
+# linetype = "solid" goes outside aes() because it's a fixed value rather than
+# something that depends on the data. Without it, the bars for Glasgow City and
+# Scotland pick up the dotted and dashed lines from the main aes().
+
+# The Scotland rate is based on the admissions for the whole country, so it's
+# estimated much more precisely than the rate for a single council area. Its
+# interval is only about 15 admissions per 100,000 wide, compared with roughly
+# 45 for Aberdeenshire and 60 for Glasgow City. On a y axis that starts at zero
+# all of the intervals look fairly small, which tells you the differences
+# between the three areas are much bigger than the uncertainty in any of them.
 ```
 
 \  

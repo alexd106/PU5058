@@ -453,7 +453,7 @@ covers each of the 32 Scottish council areas plus Scotland as a whole
 (<code>area_name</code>, <code>area_code</code>,
 <code>area_type</code>), for each year from 2010 to 2019
 (<code>year</code>). Because the rate is an estimate rather than a
-count, it comes with a confidence interval
+count, it comes with a 95% confidence interval
 (<code>lower_confidence_interval</code>,
 <code>upper_confidence_interval</code>), which gives you a sense of how
 precise the estimate is.</p>
@@ -640,6 +640,44 @@ files and have a look at them at full size before you believe them.</p>
 <p><strong>Hang on to that png.</strong> You’ll put it into a report in
 Exercise 7 and then into a repository in Exercise 9, so it needs to
 still be there in a fortnight.</p>
+<p> </p>
+<p>10. (Optional) This last one is for those of you who have a bit of
+time left, or who are just curious. Each value on your plot is a point
+estimate, a single best guess at the admission rate for that area in
+that year. On its own it doesn’t tell your reader anything about how
+precise that guess is. Remember back in Q3 there were two extra columns
+in the data, <code>lower_confidence_interval</code> and
+<code>upper_confidence_interval</code>? Let’s use them to show that
+uncertainty on the plot.</p>
+<p>Start with the code for your plot from Q9 and add two layers to it. A
+<code>geom_point()</code> layer puts a point on each year, and a
+<code>geom_errorbar()</code> layer draws the confidence interval around
+it. <code>geom_errorbar()</code> needs to know where each bar starts and
+finishes, so give it its own <code>aes()</code> with <code>ymin</code>
+set to the lower confidence interval column and <code>ymax</code> set to
+the upper one. Add <code>width = 0.2</code> as well, otherwise the caps
+on the ends of each bar are almost a year wide, and
+<code>linetype = "solid"</code>, otherwise the bars pick up the dashed
+and dotted lines from the main <code>aes()</code>. ggplot draws the
+layers in the order you add them, so put <code>geom_point()</code> after
+<code>geom_errorbar()</code> to get the points on top of the bars. And
+don’t forget to update your caption so the reader knows what the bars
+are.</p>
+<p>Keep an eye on your y axis limits from Q8b. The upper confidence
+interval is always a bit higher than the rate itself, and if a bar
+doesn’t fit inside your limits ggplot just leaves off the part that
+doesn’t fit, usually without any warning, so it’s easy to miss.
+<code>max(three_areas$upper_confidence_interval)</code> will tell you
+how high your upper limit needs to go.</p>
+<p>Once you’ve got it working, have a look at how wide the bars are. Why
+do you think the bars for Scotland are so much narrower than the ones
+for Glasgow City and Aberdeenshire?</p>
+<p>If you’d like to keep this version, save it in the same way as Q9.
+Assign it to an object called <code>admissions_ci_plot</code> and save
+it with <code>ggsave()</code> as <code>ex6_admissions_ci.png</code> in
+your <code>output</code> directory. Make sure you give it this new name,
+otherwise you’ll overwrite your <code>ex6_admissions.png</code>, and
+you’ll need that one in Exercise 7.</p>
 <p> </p>
 <p>End of Exercise 6</p>
 </div>

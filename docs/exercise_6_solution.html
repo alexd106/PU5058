@@ -567,7 +567,7 @@ covers each of the 32 Scottish council areas plus Scotland as a whole
 (<code>area_name</code>, <code>area_code</code>,
 <code>area_type</code>), for each year from 2010 to 2019
 (<code>year</code>). Because the rate is an estimate rather than a
-count, it comes with a confidence interval
+count, it comes with a 95% confidence interval
 (<code>lower_confidence_interval</code>,
 <code>upper_confidence_interval</code>), which gives you a sense of how
 precise the estimate is.</p>
@@ -897,6 +897,83 @@ still be there in a fortnight.</p>
 <span id="cb10-34"><a href="#cb10-34" tabindex="-1"></a><span class="co"># drew. That&#39;s usually the one you wanted, but not always, so naming it is</span></span>
 <span id="cb10-35"><a href="#cb10-35" tabindex="-1"></a><span class="co"># safer.</span></span></code></pre></div>
 <p><img src="exercise_6_solution_files/figure-html/Q9-1.png" alt="" width="864" /></p>
+<p> </p>
+<p>10. (Optional) This last one is for those of you who have a bit of
+time left, or who are just curious. Each value on your plot is a point
+estimate, a single best guess at the admission rate for that area in
+that year. On its own it doesn’t tell your reader anything about how
+precise that guess is. Remember back in Q3 there were two extra columns
+in the data, <code>lower_confidence_interval</code> and
+<code>upper_confidence_interval</code>? Let’s use them to show that
+uncertainty on the plot.</p>
+<p>Start with the code for your plot from Q9 and add two layers to it. A
+<code>geom_point()</code> layer puts a point on each year, and a
+<code>geom_errorbar()</code> layer draws the confidence interval around
+it. <code>geom_errorbar()</code> needs to know where each bar starts and
+finishes, so give it its own <code>aes()</code> with <code>ymin</code>
+set to the lower confidence interval column and <code>ymax</code> set to
+the upper one. Add <code>width = 0.2</code> as well, otherwise the caps
+on the ends of each bar are almost a year wide, and
+<code>linetype = "solid"</code>, otherwise the bars pick up the dashed
+and dotted lines from the main <code>aes()</code>. ggplot draws the
+layers in the order you add them, so put <code>geom_point()</code> after
+<code>geom_errorbar()</code> to get the points on top of the bars. And
+don’t forget to update your caption so the reader knows what the bars
+are.</p>
+<p>Keep an eye on your y axis limits from Q8b. The upper confidence
+interval is always a bit higher than the rate itself, and if a bar
+doesn’t fit inside your limits ggplot just leaves off the part that
+doesn’t fit, usually without any warning, so it’s easy to miss.
+<code>max(three_areas$upper_confidence_interval)</code> will tell you
+how high your upper limit needs to go.</p>
+<p>Once you’ve got it working, have a look at how wide the bars are. Why
+do you think the bars for Scotland are so much narrower than the ones
+for Glasgow City and Aberdeenshire?</p>
+<p>If you’d like to keep this version, save it in the same way as Q9.
+Assign it to an object called <code>admissions_ci_plot</code> and save
+it with <code>ggsave()</code> as <code>ex6_admissions_ci.png</code> in
+your <code>output</code> directory. Make sure you give it this new name,
+otherwise you’ll overwrite your <code>ex6_admissions.png</code>, and
+you’ll need that one in Exercise 7.</p>
+<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" tabindex="-1"></a><span class="co"># check the y axis limits still fit the intervals</span></span>
+<span id="cb11-2"><a href="#cb11-2" tabindex="-1"></a><span class="fu">max</span>(three_areas<span class="sc">$</span>upper_confidence_interval)</span>
+<span id="cb11-3"><a href="#cb11-3" tabindex="-1"></a><span class="co"># 1551.45   Glasgow City in 2010, so limits = c(0, 1600) is still fine</span></span>
+<span id="cb11-4"><a href="#cb11-4" tabindex="-1"></a></span>
+<span id="cb11-5"><a href="#cb11-5" tabindex="-1"></a>admissions_ci_plot <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(<span class="at">data =</span> three_areas,</span>
+<span id="cb11-6"><a href="#cb11-6" tabindex="-1"></a>       <span class="fu">aes</span>(<span class="at">x =</span> year, <span class="at">y =</span> measure, <span class="at">colour =</span> area_name, <span class="at">linetype =</span> area_name)) <span class="sc">+</span></span>
+<span id="cb11-7"><a href="#cb11-7" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="at">linewidth =</span> <span class="dv">1</span>) <span class="sc">+</span></span>
+<span id="cb11-8"><a href="#cb11-8" tabindex="-1"></a>  <span class="fu">geom_errorbar</span>(<span class="fu">aes</span>(<span class="at">ymin =</span> lower_confidence_interval,</span>
+<span id="cb11-9"><a href="#cb11-9" tabindex="-1"></a>                    <span class="at">ymax =</span> upper_confidence_interval),</span>
+<span id="cb11-10"><a href="#cb11-10" tabindex="-1"></a>                <span class="at">width =</span> <span class="fl">0.2</span>, <span class="at">linetype =</span> <span class="st">&quot;solid&quot;</span>) <span class="sc">+</span></span>
+<span id="cb11-11"><a href="#cb11-11" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">size =</span> <span class="dv">2</span>) <span class="sc">+</span></span>
+<span id="cb11-12"><a href="#cb11-12" tabindex="-1"></a>  <span class="fu">scale_colour_manual</span>(<span class="at">values =</span> cols) <span class="sc">+</span></span>
+<span id="cb11-13"><a href="#cb11-13" tabindex="-1"></a>  <span class="fu">scale_x_continuous</span>(<span class="at">breaks =</span> <span class="fu">seq</span>(<span class="dv">2010</span>, <span class="dv">2019</span>, <span class="at">by =</span> <span class="dv">2</span>)) <span class="sc">+</span></span>
+<span id="cb11-14"><a href="#cb11-14" tabindex="-1"></a>  <span class="fu">scale_y_continuous</span>(<span class="at">limits =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">1600</span>)) <span class="sc">+</span></span>
+<span id="cb11-15"><a href="#cb11-15" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">&quot;Year&quot;</span>,</span>
+<span id="cb11-16"><a href="#cb11-16" tabindex="-1"></a>       <span class="at">y =</span> <span class="st">&quot;Hospital admissions per 100,000 people&quot;</span>,</span>
+<span id="cb11-17"><a href="#cb11-17" tabindex="-1"></a>       <span class="at">title =</span> <span class="st">&quot;Alcohol-related hospital admissions, 2010 to 2019&quot;</span>,</span>
+<span id="cb11-18"><a href="#cb11-18" tabindex="-1"></a>       <span class="at">caption =</span> <span class="st">&quot;Source: Scottish Public Health Observatory. Rates are age-sex standardised. Bars show 95% confidence intervals.&quot;</span>,</span>
+<span id="cb11-19"><a href="#cb11-19" tabindex="-1"></a>       <span class="at">colour =</span> <span class="cn">NULL</span>, <span class="at">linetype =</span> <span class="cn">NULL</span>) <span class="sc">+</span></span>
+<span id="cb11-20"><a href="#cb11-20" tabindex="-1"></a>  <span class="fu">theme_minimal</span>() <span class="sc">+</span></span>
+<span id="cb11-21"><a href="#cb11-21" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">legend.position =</span> <span class="st">&quot;bottom&quot;</span>, <span class="at">plot.caption =</span> <span class="fu">element_text</span>(<span class="at">hjust =</span> <span class="dv">0</span>))</span>
+<span id="cb11-22"><a href="#cb11-22" tabindex="-1"></a></span>
+<span id="cb11-23"><a href="#cb11-23" tabindex="-1"></a>admissions_ci_plot     <span class="co"># draw it in the plot pane</span></span>
+<span id="cb11-24"><a href="#cb11-24" tabindex="-1"></a></span>
+<span id="cb11-25"><a href="#cb11-25" tabindex="-1"></a><span class="co"># optional. A new file name, so ex6_admissions.png is left alone for Exercise 7</span></span>
+<span id="cb11-26"><a href="#cb11-26" tabindex="-1"></a><span class="fu">ggsave</span>(<span class="st">&#39;output/ex6_admissions_ci.png&#39;</span>, <span class="at">plot =</span> admissions_ci_plot,</span>
+<span id="cb11-27"><a href="#cb11-27" tabindex="-1"></a>       <span class="at">width =</span> <span class="dv">10</span>, <span class="at">height =</span> <span class="fl">5.625</span>, <span class="at">units =</span> <span class="st">&quot;in&quot;</span>, <span class="at">dpi =</span> <span class="dv">300</span>)</span>
+<span id="cb11-28"><a href="#cb11-28" tabindex="-1"></a></span>
+<span id="cb11-29"><a href="#cb11-29" tabindex="-1"></a><span class="co"># linetype = &quot;solid&quot; goes outside aes() because it&#39;s a fixed value rather than</span></span>
+<span id="cb11-30"><a href="#cb11-30" tabindex="-1"></a><span class="co"># something that depends on the data. Without it, the bars for Glasgow City and</span></span>
+<span id="cb11-31"><a href="#cb11-31" tabindex="-1"></a><span class="co"># Scotland pick up the dotted and dashed lines from the main aes().</span></span>
+<span id="cb11-32"><a href="#cb11-32" tabindex="-1"></a></span>
+<span id="cb11-33"><a href="#cb11-33" tabindex="-1"></a><span class="co"># The Scotland rate is based on the admissions for the whole country, so it&#39;s</span></span>
+<span id="cb11-34"><a href="#cb11-34" tabindex="-1"></a><span class="co"># estimated much more precisely than the rate for a single council area. Its</span></span>
+<span id="cb11-35"><a href="#cb11-35" tabindex="-1"></a><span class="co"># interval is only about 15 admissions per 100,000 wide, compared with roughly</span></span>
+<span id="cb11-36"><a href="#cb11-36" tabindex="-1"></a><span class="co"># 45 for Aberdeenshire and 60 for Glasgow City. On a y axis that starts at zero</span></span>
+<span id="cb11-37"><a href="#cb11-37" tabindex="-1"></a><span class="co"># all of the intervals look fairly small, which tells you the differences</span></span>
+<span id="cb11-38"><a href="#cb11-38" tabindex="-1"></a><span class="co"># between the three areas are much bigger than the uncertainty in any of them.</span></span></code></pre></div>
+<p><img src="exercise_6_solution_files/figure-html/Q10-1.png" alt="" width="864" /></p>
 <p> </p>
 <p>End of Exercise 6</p>
 </div>

@@ -163,3 +163,44 @@ ggsave('output/ex6_admissions.png', plot = admissions_plot,
 # drew. That's usually the one you wanted, but not always, so naming it is
 # safer.
 
+
+## ----Q10, echo=SOLUTIONS, eval=SOLUTIONS, results='hide', fig.width=9, fig.height=5----
+# check the y axis limits still fit the intervals
+max(three_areas$upper_confidence_interval)
+# 1551.45   Glasgow City in 2010, so limits = c(0, 1600) is still fine
+
+admissions_ci_plot <- ggplot(data = three_areas,
+       aes(x = year, y = measure, colour = area_name, linetype = area_name)) +
+  geom_line(linewidth = 1) +
+  geom_errorbar(aes(ymin = lower_confidence_interval,
+                    ymax = upper_confidence_interval),
+                width = 0.2, linetype = "solid") +
+  geom_point(size = 2) +
+  scale_colour_manual(values = cols) +
+  scale_x_continuous(breaks = seq(2010, 2019, by = 2)) +
+  scale_y_continuous(limits = c(0, 1600)) +
+  labs(x = "Year",
+       y = "Hospital admissions per 100,000 people",
+       title = "Alcohol-related hospital admissions, 2010 to 2019",
+       caption = "Source: Scottish Public Health Observatory. Rates are age-sex standardised. Bars show 95% confidence intervals.",
+       colour = NULL, linetype = NULL) +
+  theme_minimal() +
+  theme(legend.position = "bottom", plot.caption = element_text(hjust = 0))
+
+admissions_ci_plot     # draw it in the plot pane
+
+# optional. A new file name, so ex6_admissions.png is left alone for Exercise 7
+ggsave('output/ex6_admissions_ci.png', plot = admissions_ci_plot,
+       width = 10, height = 5.625, units = "in", dpi = 300)
+
+# linetype = "solid" goes outside aes() because it's a fixed value rather than
+# something that depends on the data. Without it, the bars for Glasgow City and
+# Scotland pick up the dotted and dashed lines from the main aes().
+
+# The Scotland rate is based on the admissions for the whole country, so it's
+# estimated much more precisely than the rate for a single council area. Its
+# interval is only about 15 admissions per 100,000 wide, compared with roughly
+# 45 for Aberdeenshire and 60 for Glasgow City. On a y axis that starts at zero
+# all of the intervals look fairly small, which tells you the differences
+# between the three areas are much bigger than the uncertainty in any of them.
+

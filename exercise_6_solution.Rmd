@@ -169,7 +169,7 @@ ggplot(data = three_areas, aes(x = year, y = measure, colour = area_name)) +
 
 \  
 
-7\. Now, let's think about those colours. ggplot's defaults are not too bad, but they're not chosen with anybody's eyesight in mind. Roughly 1 in 12 men has some form of colour vision deficiency, most commonly difficulty telling red from green, and red and blue aren't a safe pairing either.
+7\. Now, let's think about those colours. ggplot's defaults are not too bad, but they're not chosen with anybody's eyesight in mind. Roughly 1 in 12 men and 1 in 200 women have some form of colour vision deficiency, most commonly difficulty telling red from green, and red and blue aren't a safe pairing either.
 
 a) Let's redraw the plot with a colour-blind friendly palette. Base R has one built in, and `palette.colors(3, palette = "Okabe-Ito")` will give you three colours from it. Assign these to `cols`, then hand them over to ggplot by adding a `scale_colour_manual(values = cols)` layer onto the end of your plot. A scale layer is how you overrule any of the decisions ggplot has made for you (see [Section 5.2.4](https://intro2r.com/the-start-of-the-end.html#make-it-your-own) for more).
 

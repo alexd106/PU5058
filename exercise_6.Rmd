@@ -59,7 +59,7 @@ We will also take this as an opportunity to switch datasets (just in case you ar
 
 \  
 
-2\. Download the data file *'scotpho_alcohol_admissions.txt'* from the **[<i class="fa fa-download"></i> Data](data.html)** link and save it to your `data` directory. This one is already a tab delimited text file, so there is no need to convert it. Import it with `read.table()`, remembering to write out your `header`, `sep` and `stringsAsFactors` arguments, and assign it to a variable called `scotpho`. Then make `ggplot2` available for the rest of the session with `library(ggplot2)`.
+2\. Download the data file *'scotpho_alcohol_admissions.txt'* from the **[<i class="fa fa-download"></i> Data](data.html)** link and save it to your `data` directory. This one is already a tab delimited text file, so there is no need to convert it. Import it with `read.table()` (just as you did in **Exercise 3, Q5**), remembering to write out your `header`, `sep` and `stringsAsFactors` arguments, and assign it to a variable called `scotpho`. Then make `ggplot2` available for the rest of the session with `library(ggplot2)`.
 
 ```{r Q2, echo=SOLUTIONS, eval=SOLUTIONS}
 library(ggplot2)
@@ -69,11 +69,11 @@ scotpho <- read.table('data/scotpho_alcohol_admissions.txt', header = TRUE, sep 
 
 \  
 
-3\. These data are an extract from the ScotPHO online profiles tool. The indicator is *alcohol-related hospital admissions*, and the `measure` column is an age-sex standardised rate per 100,000 population: in other words, how many people per 100,000 were admitted to hospital for a reason related to alcohol, adjusted so that areas with different age and sex profiles can be compared fairly. The extract covers each of the 32 Scottish council areas plus Scotland as a whole (`area_name`, `area_code`, `area_type`), for each year from 2010 to 2019 (`year`). Because the rate is an estimate rather than a count, it comes with a 95% confidence interval (`lower_confidence_interval`, `upper_confidence_interval`), which gives you a sense of how precise the estimate is.
+3\. These data are an extract from the ScotPHO online profiles tool. The indicator is *alcohol-related hospital admissions*, and the `measure` column is an age-sex standardised rate per 100,000 population: in other words, how many people per 100,000 were admitted to hospital for a reason related to alcohol, adjusted so that areas with different age and sex profiles can be compared fairly. The extract covers each of the 32 Scottish council areas plus Scotland as a whole (`area_name`, `area_code`, `area_type`), for each year from 2010 to 2019 (`year`). Because the rate is an estimate rather than a count, it comes with a 95% confidence interval (`lower_confidence_interval`, `upper_confidence_interval`), which gives you a sense of how precise the estimate is (we'll come back to these in Q10 if you have time).
 
 \  
 
-4\. Before plotting anything, get your bearings, exactly as you did in Exercise 3. Use `str()` and `summary()` on `scotpho`. How many rows are there? Use `table()` on `area_type` to see how the rows split between council areas and Scotland. Then check something that might matter before you draw a line through points: does every area have a value for every year? (hint: `table()` on `area_name` will tell you how many rows each area has).
+4\. Before plotting anything, get your bearings, exactly as you did in **Exercise 3, Q6 and Q8**. Use `str()` and `summary()` on `scotpho`. How many rows are there? Use `table()` (you met this in **Exercise 4, Q5**) on `area_type` to see how the rows split between council areas and Scotland. Then check something that might matter before you draw a line through points: does every area have a value for every year? (hint: `table()` on `area_name` will tell you how many rows each area has).
 
 ```{r Q4, echo=SOLUTIONS, eval=SOLUTIONS, results='hide'}
 str(scotpho)
@@ -98,7 +98,7 @@ range(scotpho$year)      # 2010 2019
 
 \  
 
-5\. Right, let's plot something. Start with the simplest possible communication plot: how have alcohol-related admissions across Scotland as a whole changed over the ten years? Extract just the rows where `area_name` is "Scotland", using the square bracket notation from Exercise 3, and put them in a dataframe called `scot`.
+5\. Right, let's plot something. Start with the simplest possible communication plot: how have alcohol-related admissions across Scotland as a whole changed over the ten years? Extract just the rows where `area_name` is "Scotland", using the square bracket notation from **Exercise 3, Q10**, and put them in a dataframe called `scot`.
 
 Now for your first ggplot. Every ggplot is built out of the same three pieces ([Section 5.2.1](https://intro2r.com/the-start-of-the-end.html#the-purest-of-ggplots) of the book walks through them slowly):
 
@@ -148,7 +148,7 @@ a) First we need to get those three areas into a single dataframe. You could do 
 
 So `scotpho$area_name %in% areas` gives you 330 `TRUE`s and `FALSE`s, one per row of `scotpho`. Make a vector called `areas` holding the three area names, use it to extract those rows into a dataframe called `three_areas`, and check with `nrow()` that you have the 30 rows you expect. The nice thing about writing it this way is that it doesn't get any longer if you decide you want six areas instead of three. Don't worry if you don't get this the first time round, take a peek at the solutions which will hopefully make it a bit clearer!
 
-b) Now let's plot it, with the same three pieces as Q5 and one addition. Inside `aes()`, alongside your `x` and `y`, add `colour = area_name`. That single argument is what tells ggplot the rows belong to three different areas, and it does the rest for you, a line each and a legend down the side. What do the three lines tell you that the Scotland line on its own didn't?
+b) Now let's plot it, with the same three pieces as Q5 and one addition. Inside `aes()`, alongside your `x` and `y`, add `colour = area_name`. That single argument is what tells ggplot the rows belong to three different areas, and it does the rest for you, a line each and a legend down the side (see [Section 5.2.4](https://intro2r.com/the-start-of-the-end.html#make-it-your-own) for more on linking colour to a variable). What do the three lines tell you that the Scotland line on its own didn't?
 
 ```{r Q6, echo=SOLUTIONS, eval=SOLUTIONS, results='hide', fig.width=8, fig.height=4.5}
 # a) the three areas in one dataframe
@@ -222,11 +222,11 @@ In ggplot all of the words live in a single `labs()` layer, which takes `x`, `y`
 
 There are three more things to sort out, and each one is another layer.
 
-a) The x axis is still labelled with half years, which is a bit odd. Add `scale_x_continuous(breaks = seq(2010, 2019, by = 2))` to put the breaks on whole years instead.
+a) The x axis is still labelled with half years, which is a bit odd. Add `scale_x_continuous(breaks = seq(2010, 2019, by = 2))` to put the breaks on whole years instead (see [Section 5.3.10](https://intro2r.com/tips.html#axes-tick-marks-and-tick-labels)).
 
 b) Now have a think about the y axis. Should it start at zero? There's no single right answer here, but you should be able to justify whichever you go for. If you decide it should, `scale_y_continuous(limits = c(0, 1600))` will do it (see [Section 5.3.2](https://intro2r.com/tips.html#axis-limits-and-zooms)).
 
-c) Finally, the overall look of the plot. ggplot's grey panel is fine on screen but can come out a bit muddy in print. A **theme** controls everything about the plot that isn't your data, and there are several ready-made ones to choose from (see [Section 5.2.5](https://intro2r.com/the-start-of-the-end.html#setting-the-theme)). Add `theme_minimal()` and see what you think. If you'd rather the legend sat underneath the plot than beside it, `theme(legend.position = "bottom")` will move it. Just add it after `theme_minimal()`, otherwise it gets overwritten.
+c) Finally, the overall look of the plot. ggplot's grey panel is fine on screen but can come out a bit muddy in print. A **theme** controls everything about the plot that isn't your data, and there are several ready-made ones to choose from (see [Section 5.2.5](https://intro2r.com/the-start-of-the-end.html#setting-the-theme)). Add `theme_minimal()` and see what you think. If you'd rather the legend sat underneath the plot than beside it, `theme(legend.position = "bottom")` will move it (see [Section 5.3.6](https://intro2r.com/tips.html#moving-the-legend)). Just add it after `theme_minimal()`, otherwise it gets overwritten.
 
 ```{r Q8, echo=SOLUTIONS, eval=SOLUTIONS, fig.width=9, fig.height=5}
 ggplot(data = three_areas,
@@ -261,7 +261,7 @@ ggplot(data = three_areas,
 
 9\. Last of all, let's get the plot out of R at a size and resolution that's fit for a poster. The screen defaults aren't much use here, and a plot that looks fine in the RStudio plot pane might be a blurry mess blown up to A1.
 
-This is a bit easier if you give the plot a name first. Assign the whole thing from Q8 to an object called `admissions_plot`, exactly as you would assign anything else in R. Don't worry when nothing appears, that's normal. You've stored the plot rather than drawn it, so type `admissions_plot` in the console to see it.
+This is a bit easier if you give the plot a name first. Assign the whole thing from Q8 to an object called `admissions_plot`, exactly as you would assign anything else in R (there's an example of this in [Section 5.2.3](https://intro2r.com/the-start-of-the-end.html#plotting-multiple-ggplots)). Don't worry when nothing appears, that's normal. You've stored the plot rather than drawn it, so type `admissions_plot` in the console to see it.
 
 Now save it with `ggsave()`, which is ggplot's version of the three step business you met in **Exercise 5, Q12**. There's no device to close this time, because `ggsave()` opens and closes it for you, and it works out which format you want from the file extension you give it (see the end of [Section 5.2.6](https://intro2r.com/the-start-of-the-end.html#prettification)).
 
@@ -309,11 +309,11 @@ ggsave('output/ex6_admissions.png', plot = admissions_plot,
 
 \  
 
-10\. (Optional) This last one is for those of you who have a bit of time left, or who are just curious. Each value on your plot is a point estimate, a single best guess at the admission rate for that area in that year. On its own it doesn't tell your reader anything about how precise that guess is. Remember back in Q3 there were two extra columns in the data, `lower_confidence_interval` and `upper_confidence_interval`? Let's use them to show that uncertainty on the plot.
+10\. (Optional) This last one is for those of you who have a bit of time left, or who are just curious. Each value on your plot is a point estimate, a single best 'representation' of the admission rate for that area in that year. On its own it doesn't tell your reader anything about how precise it is. Remember back in Q3 there were two extra columns in the data, `lower_confidence_interval` and `upper_confidence_interval`? Let's use them to show that uncertainty on the plot.
 
-Start with the code for your plot from Q9 and add two layers to it. A `geom_point()` layer puts a point on each year, and a `geom_errorbar()` layer draws the confidence interval around it. `geom_errorbar()` needs to know where each bar starts and finishes, so give it its own `aes()` with `ymin` set to the lower confidence interval column and `ymax` set to the upper one. Add `width = 0.2` as well, otherwise the caps on the ends of each bar are almost a year wide, and `linetype = "solid"`, otherwise the bars pick up the dashed and dotted lines from the main `aes()`. ggplot draws the layers in the order you add them, so put `geom_point()` after `geom_errorbar()` to get the points on top of the bars. And don't forget to update your caption so the reader knows what the bars are.
+Start with the code for your plot from Q9 and add two layers to it. A `geom_point()` layer puts a point on each year (you used this back in Q5), and a `geom_errorbar()` layer draws the confidence interval around it. `geom_errorbar()` needs to know where each bar starts and finishes, so give it its own `aes()` with `ymin` set to the lower confidence interval column and `ymax` set to the upper one. Add `width = 0.2` as well, otherwise the caps on the ends of each bar are almost a year wide, and `linetype = "solid"`, otherwise the bars pick up the dashed and dotted lines from the main `aes()`. Notice that these two go outside the `aes()`, because they're fixed values rather than columns in your data ([Section 5.2.1](https://intro2r.com/the-start-of-the-end.html#the-purest-of-ggplots) explains the difference, and why an `aes()` inside a geom only applies to that geom). ggplot draws the layers in the order you add them, so put `geom_point()` after `geom_errorbar()` to get the points on top of the bars (see [Section 5.3.3](https://intro2r.com/tips.html#layering-layers)). And don't forget to update your caption so the reader knows what the bars are. If you get stuck, type `?geom_errorbar` in the console to open the help page (the examples right at the bottom are the most useful bit).
 
-Keep an eye on your y axis limits from Q8b. The upper confidence interval is always a bit higher than the rate itself, and if a bar doesn't fit inside your limits ggplot just leaves off the part that doesn't fit, usually without any warning, so it's easy to miss. `max(three_areas$upper_confidence_interval)` will tell you how high your upper limit needs to go.
+Keep an eye on your y axis limits from Q8b. The upper confidence interval is always a bit higher than the rate itself, and if a bar doesn't fit inside your limits ggplot just leaves off the part that doesn't fit, usually without any warning, so it's easy to miss ([Section 5.3.2](https://intro2r.com/tips.html#axis-limits-and-zooms) has more on what happens to data outside your axis limits). `max(three_areas$upper_confidence_interval)` will tell you how high your upper limit needs to go.
 
 Once you've got it working, have a look at how wide the bars are. Why do you think the bars for Scotland are so much narrower than the ones for Glasgow City and Aberdeenshire?
 

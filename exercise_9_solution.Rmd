@@ -16,7 +16,7 @@ SOLUTIONS <- TRUE
 
 \  
 
-## Exercise 9: (Optional) Version control with Git and GitHub
+## Exercise 9: (optional) Version control with Git and GitHub
 
 \  
 

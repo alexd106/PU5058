@@ -22,7 +22,7 @@ ex_text <- c(": Getting to know R and RStudio", ": Basic R operations",
              ": Graphics for communication",
              ": Reproducible reports with R markdown",
              ": Data analysis using R",
-             ": (Optional) Version control with Git and GitHub")
+             ": (optional) Version control with Git and GitHub")
 
 sol_links <- function(n) {
   paste0("- [Exercise ", n, " solutions", ex_text[n], "](exercise_", n,

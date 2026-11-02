@@ -42,7 +42,7 @@ ex_text <- c(": Getting to know R and RStudio", ": Basic R operations",
              ": Graphics for communication",
              ": Reproducible reports with R markdown",
              ": Data analysis using R",
-             ": Version control with Git and GitHub")
+             ": (Optional) Version control with Git and GitHub")
 
 file_name <- paste0("exercise_", 1:9, ".html")
 
